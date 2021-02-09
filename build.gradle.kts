@@ -6,7 +6,8 @@ val parentProjectDir = projectDir
 plugins {
     id(Plugins.kotlin) version PluginVers.kotlin apply false
     id(Plugins.detekt) version PluginVers.detekt
-    id("com.github.ben-manes.versions") version "0.36.0"
+    id(Plugins.update_dependencies) version PluginVers.update_dependencies
+    id(Plugins.owasp_dependencies) version PluginVers.owasp_dependencies
 }
 
 /**
@@ -23,14 +24,30 @@ fun envConfig() = object : ReadOnlyProperty<Any?, String?> {
 
 
 
+
 subprojects {
-    group = "com.stringconcat.app"
+
+    group = "com.stringconcat"
+
+    configurations.all {
+        resolutionStrategy {
+            eachDependency {
+                requested.version?.contains("snapshot", true)?.let {
+                    if(it){
+                        throw GradleException("Snapshot found: ${requested.name} ${requested.version}")
+                    }
+                }
+            }
+        }
+    }
+
 
     apply {
         plugin("java")
         plugin(Plugins.detekt)
         plugin("jacoco")
-        plugin("com.github.ben-manes.versions")
+        plugin(Plugins.update_dependencies)
+        plugin(Plugins.owasp_dependencies)
 
     }
 
@@ -57,15 +74,26 @@ subprojects {
 
     tasks {
 
-
-
         val check = named<DefaultTask>("check")
 
         val jacocoTestReport = named<JacocoReport>("jacocoTestReport")
         val jacocoTestCoverageVerification = named<JacocoCoverageVerification>("jacocoTestCoverageVerification")
+        val dependencyUpdate =
+            named<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask>("dependencyUpdates")
+
+
+        dependencyUpdate {
+            revision = "release"
+            outputFormatter = "txt"
+            checkForGradleUpdate = true
+            outputDir = "${buildDir}/reports/dependencies"
+            reportfileName = "updates"
+        }
+
 
         check {
             finalizedBy(jacocoTestReport)
+            finalizedBy(dependencyUpdate)
         }
 
         jacocoTestReport {
@@ -88,8 +116,6 @@ subprojects {
             }
 
         }
-
-
 
         withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
             kotlinOptions {

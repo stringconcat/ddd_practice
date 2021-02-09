@@ -43,6 +43,8 @@ object PluginVers {
     const val detekt_formatting = detekt
     const val spring_dependency_management = "1.0.11.RELEASE"
     const val spring_kotlin = Global.kotlin
+    const val update_dependencies = "0.36.0"
+    const val owasp_dependencies = "6.1.0"
 }
 
 object Plugins {
@@ -52,5 +54,7 @@ object Plugins {
     const val detekt_formatting = "io.gitlab.arturbosch.detekt:detekt-formatting"
     const val spring_dependency_management = "io.spring.dependency-management"
     const val spring_kotlin = "org.jetbrains.kotlin.plugin.spring"
+    const val update_dependencies = "com.github.ben-manes.versions"
+    const val owasp_dependencies = "org.owasp.dependencycheck"
 
 }
