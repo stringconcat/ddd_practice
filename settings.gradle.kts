@@ -1,6 +1,6 @@
 rootProject.name = "ddd_practice"
 
-include(":application")
-include(":order")
-include(":kitchen")
-include(":delivery")
+include(":application:web")
+include(":domain:order")
+include(":domain:kitchen")
+include(":domain:delivery")
