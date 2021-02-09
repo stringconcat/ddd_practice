@@ -1,1 +1,1 @@
-# ddd_practice
+Практика по DDD

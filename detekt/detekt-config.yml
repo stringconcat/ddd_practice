@@ -1,0 +1,7 @@
+style:
+  NewLineAtEndOfFile:
+    active: false
+
+performance:
+  SpreadOperator:
+    active: false
