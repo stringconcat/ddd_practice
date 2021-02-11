@@ -48,7 +48,6 @@ subprojects {
         plugin("jacoco")
         plugin(Plugins.update_dependencies)
         plugin(Plugins.owasp_dependencies)
-
     }
 
     repositories {
@@ -105,12 +104,13 @@ subprojects {
             dependsOn(jacocoTestReport)
 
             violationRules {
-                rule {
 
+                rule {
                     element = "CLASS"
-                    excludes = listOf("com.stringconcat.dev.course.app.MainKt")
+                    excludes = listOf("com.stringconcat.dev.course.app.MainKt",
+                                    "com.stringconcat.ddd.common.types.base.AggregateRoot")
                     limit {
-                        minimum = BigDecimal(1)
+                        minimum = BigDecimal("1")
                     }
                 }
             }
@@ -135,7 +135,6 @@ subprojects {
         withType<Test> {
             useJUnitPlatform()
 
-            maxParallelForks = 10
 
             testLogging {
                 events(

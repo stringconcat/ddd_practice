@@ -1,4 +1,4 @@
-package com.stringconcat.ddd.common.domain.supertype
+package com.stringconcat.ddd.common.types.base
 
 import io.kotlintest.shouldNotBe
 import org.junit.jupiter.api.Test

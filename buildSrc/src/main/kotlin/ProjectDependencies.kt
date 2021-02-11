@@ -5,6 +5,7 @@ object LibVers {
     const val sl4j = "1.7.25"
     const val kotlintest = "3.4.2"
     const val jackson = "2.9.9"
+    const val arrow = "0.11.0"
 
 }
 
@@ -14,6 +15,7 @@ object Libs {
     const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Global.kotlin}"
     const val kotlin_jdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Global.kotlin}"
     const val kotlin_reflect = "org.jetbrains.kotlin:kotlin-reflect:${Global.kotlin}"
+    const val arrow = "io.arrow-kt:arrow-core:${LibVers.arrow}"
 
 
     //Jackson

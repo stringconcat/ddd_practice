@@ -1,7 +1,12 @@
 style:
   NewLineAtEndOfFile:
     active: false
+    
+formatting:
+  FinalNewline:
+    active: false
 
 performance:
   SpreadOperator:
     active: false
+

@@ -1,8 +1,7 @@
 rootProject.name = "ddd_practice"
 
 include(":application:web")
-include(":common:domain")
-
+include(":common:types")
 include(":order:domain")
 include(":order:usecase")
 include(":order:persistence")
