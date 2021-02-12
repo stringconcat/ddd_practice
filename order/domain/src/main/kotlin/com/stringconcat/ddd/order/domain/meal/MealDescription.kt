@@ -3,13 +3,13 @@ package com.stringconcat.ddd.order.domain.meal
 import arrow.core.Either
 import com.stringconcat.ddd.common.types.base.ValueObject
 
-data class Description internal constructor(val value: String) : ValueObject {
+data class MealDescription internal constructor(val value: String) : ValueObject {
 
     companion object {
 
-        fun from(description: String): Either<CreateDescriptionError, Description> {
+        fun from(description: String): Either<CreateDescriptionError, MealDescription> {
             return if (description.isNotBlank()) {
-                Either.right(Description(description))
+                Either.right(MealDescription(description))
             } else {
                 Either.left(CreateDescriptionError.EmptyString)
             }

@@ -9,13 +9,14 @@ data class MealId(val value: Long)
 
 class Meal internal constructor(
     id: MealId,
-    val name: Name,
-    val description: Description,
+    val name: MealName,
+    val description: MealDescription,
     val address: Address,
+    val price: Price,
     version: Version
 ) : AggregateRoot<MealId>(id, version) {
 
-    var removed: Boolean = true
+    var removed: Boolean = false
         private set
 
     fun remove() {
@@ -23,14 +24,19 @@ class Meal internal constructor(
         addEvent(MealRemoved(id))
     }
 
+    fun visible(): Boolean {
+        return !removed
+    }
+
     companion object {
 
         fun addMeal(
             id: () -> MealId,
-            mealExists: (name: Name) -> Boolean,
-            name: Name,
-            description: Description,
-            address: Address
+            mealExists: (name: MealName) -> Boolean,
+            name: MealName,
+            description: MealDescription,
+            address: Address,
+            price: Price
         ): Either<AddMealError, Meal> {
 
             return if (mealExists(name)) {
@@ -41,9 +47,10 @@ class Meal internal constructor(
                     name = name,
                     description = description,
                     address = address,
-                    version = Version.generate()
+                    price = price,
+                    version = Version.generate(),
                 ).apply {
-                    addEvent(MealCreated(this.id))
+                    addEvent(MealAdded(this.id))
                 }
                 Either.right(meal)
             }

@@ -9,23 +9,23 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 
-internal class DescriptionTest {
+internal class MealNameTest {
 
     @Test
-    fun `create description - success`() {
-        val description = "Some string"
-        val result = Description.from(description)
+    fun `create name - success`() {
+        val name = "Some string"
+        val result = MealName.from(name)
 
-        result.shouldBeInstanceOf<Either.Right<Description>>()
+        result.shouldBeInstanceOf<Either.Right<MealName>>()
         result shouldBeRight {
-            it.value shouldBe description
+            it.value shouldBe name
         }
     }
 
     @ParameterizedTest
     @ValueSource(strings = ["", " "])
-    fun `create description - empty string`(input: String) {
-        val result = Description.from(input)
-        result shouldBeLeft CreateDescriptionError.EmptyString
+    fun `create name - empty string`(input: String) {
+        val result = MealName.from(input)
+        result shouldBeLeft CreateNameError.EmptyString
     }
 }
