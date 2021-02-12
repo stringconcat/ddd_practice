@@ -1,6 +1,6 @@
 package com.stringconcat.ddd.common.types.base
 
-import io.kotlintest.shouldNotBe
+import io.kotest.matchers.shouldNotBe
 import org.junit.jupiter.api.Test
 
 internal class EventIdTest {

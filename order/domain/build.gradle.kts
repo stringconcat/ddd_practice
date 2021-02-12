@@ -1,10 +1,8 @@
-
 buildscript {
     repositories {
         jcenter()
         mavenCentral()
         mavenLocal()
-
     }
     dependencies {
         classpath(Libs.kotlin_stdlib)
@@ -25,11 +23,8 @@ plugins {
     jacoco
 }
 
-
 dependencies {
-
-
-    //project
+    // project
     implementation(project(":common:types"))
 
     // kotlin
@@ -38,10 +33,13 @@ dependencies {
     implementation(Libs.kotlin_stdlib)
     implementation(Libs.arrow)
 
+    // test
+    testImplementation(Libs.kotest_junit)
+    testImplementation(Libs.kotest_arrow)
+    testImplementation(Libs.junit_engine)
+    testImplementation(Libs.junit_params)
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
 }
-
-

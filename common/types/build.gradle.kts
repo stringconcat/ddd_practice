@@ -1,10 +1,8 @@
-
 buildscript {
     repositories {
         jcenter()
         mavenCentral()
         mavenLocal()
-
     }
     dependencies {
         classpath(Libs.kotlin_stdlib)
@@ -24,18 +22,16 @@ plugins {
     id(Plugins.kotlin)
 }
 
-
 dependencies {
-
     // kotlin
     implementation(Libs.kotlin_jdk8)
     implementation(Libs.kotlin_reflect)
     implementation(Libs.kotlin_stdlib)
 
-    //test
-    testImplementation(Libs.kotlintest)
-    testImplementation(Libs.kotlintest)
+    // test
+    testImplementation(Libs.kotest_junit)
+    testImplementation(Libs.kotest_arrow)
     testImplementation(Libs.junit_engine)
-
+    testImplementation(Libs.junit_params)
 
 }

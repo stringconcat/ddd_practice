@@ -1,9 +1,9 @@
 package com.stringconcat.ddd.common.types.base
 
-import io.kotlintest.shouldNotBe
+import io.kotest.matchers.shouldNotBe
 import org.junit.jupiter.api.Test
 
-internal class VersionTest{
+internal class VersionTest {
 
     @Test
     fun `generate id - check version is unique`() {
@@ -11,5 +11,4 @@ internal class VersionTest{
         val secondVersion = Version.generate()
         firstVersion.value shouldNotBe secondVersion.value
     }
-
 }

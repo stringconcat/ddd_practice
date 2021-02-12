@@ -3,25 +3,23 @@ object LibVers {
     const val spring_boot = "2.4.2"
     const val junit = "5.2.0"
     const val sl4j = "1.7.25"
-    const val kotlintest = "3.4.2"
+    const val kotest = "4.4.1"
     const val jackson = "2.9.9"
     const val arrow = "0.11.0"
-
 }
 
 object Libs {
 
-    //Kotlin
+    // Kotlin
     const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Global.kotlin}"
     const val kotlin_jdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Global.kotlin}"
     const val kotlin_reflect = "org.jetbrains.kotlin:kotlin-reflect:${Global.kotlin}"
     const val arrow = "io.arrow-kt:arrow-core:${LibVers.arrow}"
 
-
-    //Jackson
+    // Jackson
     const val jackson_kotlin = "com.fasterxml.jackson.module:jackson-module-kotlin:${LibVers.jackson}"
 
-    //Spring
+    // Spring
     const val spring_boot_starter_web = "org.springframework.boot:spring-boot-starter-web:${LibVers.spring_boot}"
     const val spring_boot_starter_test = "org.springframework.boot:spring-boot-starter-test:${LibVers.spring_boot}"
 
@@ -34,8 +32,8 @@ object Libs {
     const val junit_api = "org.junit.jupiter:junit-jupiter-api:${LibVers.junit}"
     const val junit_params = "org.junit.jupiter:junit-jupiter-params:${LibVers.junit}"
     const val junit_engine = "org.junit.jupiter:junit-jupiter-engine:${LibVers.junit}"
-    const val kotlintest = "io.kotlintest:kotlintest-runner-junit5:${LibVers.kotlintest}"
-
+    const val kotest_junit = "io.kotest:kotest-runner-junit5:${LibVers.kotest}"
+    const val kotest_arrow = "io.kotest:kotest-assertions-arrow:${LibVers.kotest}"
 }
 
 object PluginVers {
@@ -58,5 +56,4 @@ object Plugins {
     const val spring_kotlin = "org.jetbrains.kotlin.plugin.spring"
     const val update_dependencies = "com.github.ben-manes.versions"
     const val owasp_dependencies = "org.owasp.dependencycheck"
-
 }
