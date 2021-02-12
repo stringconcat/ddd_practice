@@ -7,7 +7,7 @@ data class Description internal constructor(val value: String) : ValueObject {
 
     companion object {
 
-        fun fromString(description: String): Either<CreateDescriptionError, Description> {
+        fun from(description: String): Either<CreateDescriptionError, Description> {
             return if (description.isNotBlank()) {
                 Either.right(Description(description))
             } else {

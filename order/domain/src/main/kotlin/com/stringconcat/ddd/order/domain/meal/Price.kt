@@ -4,13 +4,13 @@ import arrow.core.Either
 import com.stringconcat.ddd.common.types.base.ValueObject
 import java.math.BigDecimal
 
-data class Price(val value: BigDecimal) : ValueObject {
+data class Price internal constructor(val value: BigDecimal) : ValueObject {
 
     companion object {
 
         private const val SCALE = 2
 
-        fun fromBigDecimal(price: BigDecimal): Either<CreatePriceError, Price> {
+        fun from(price: BigDecimal): Either<CreatePriceError, Price> {
 
             return when {
                 price.scale() > SCALE ->

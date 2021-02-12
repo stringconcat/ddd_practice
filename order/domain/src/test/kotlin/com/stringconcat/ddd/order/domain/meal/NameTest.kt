@@ -14,7 +14,7 @@ internal class NameTest {
     @Test
     fun `create name - success`() {
         val name = "Some string"
-        val result = Name.fromString(name)
+        val result = Name.from(name)
 
         result.shouldBeInstanceOf<Either.Right<Name>>()
         result shouldBeRight {
@@ -25,7 +25,7 @@ internal class NameTest {
     @ParameterizedTest
     @ValueSource(strings = ["", " "])
     fun `create name - empty string`(input: String) {
-        val result = Name.fromString(input)
+        val result = Name.from(input)
         result shouldBeLeft CreateNameError.EmptyString
     }
 }

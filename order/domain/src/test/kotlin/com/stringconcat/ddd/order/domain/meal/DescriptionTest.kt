@@ -14,7 +14,7 @@ internal class DescriptionTest {
     @Test
     fun `create description - success`() {
         val description = "Some string"
-        val result = Description.fromString(description)
+        val result = Description.from(description)
 
         result.shouldBeInstanceOf<Either.Right<Description>>()
         result shouldBeRight {
@@ -25,7 +25,7 @@ internal class DescriptionTest {
     @ParameterizedTest
     @ValueSource(strings = ["", " "])
     fun `create description - empty string`(input: String) {
-        val result = Description.fromString(input)
+        val result = Description.from(input)
         result shouldBeLeft CreateDescriptionError.EmptyString
     }
 }
