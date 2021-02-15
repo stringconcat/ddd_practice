@@ -1,4 +1,4 @@
-package com.stringconcat.ddd.order.domain.meal
+package com.stringconcat.ddd.order.domain.menu
 
 import arrow.core.Either
 import com.stringconcat.ddd.common.types.base.ValueObject

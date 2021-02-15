@@ -1,4 +1,4 @@
-package com.stringconcat.ddd.order.domain.meal
+package com.stringconcat.ddd.order.domain.menu
 
 import arrow.core.Either
 import io.kotest.assertions.arrow.either.shouldBeLeft

@@ -1,4 +1,4 @@
-package com.stringconcat.ddd.order.domain.meal
+package com.stringconcat.ddd.order.domain.menu
 
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe

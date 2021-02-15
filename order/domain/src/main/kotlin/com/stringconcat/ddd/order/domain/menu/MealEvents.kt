@@ -1,4 +1,4 @@
-package com.stringconcat.ddd.order.domain.meal
+package com.stringconcat.ddd.order.domain.menu
 
 import com.stringconcat.ddd.common.types.base.DomainEvent
 
