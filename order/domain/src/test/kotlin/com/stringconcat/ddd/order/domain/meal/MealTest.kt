@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 internal class MealTest {
 
     @Test
-    fun `create meal - success`() {
+    fun `add meal - success`() {
 
         val mealId = mealId()
         val price = price()
@@ -17,7 +17,7 @@ internal class MealTest {
         val description = mealDescription()
         val address = address()
 
-        val result = Meal.addMeal(
+        val result = Meal.addMealToMenu(
             id = { mealId },
             mealExists = { false },
             name = name,
@@ -33,12 +33,12 @@ internal class MealTest {
             it.description shouldBe description
             it.price shouldBe price
             it.visible() shouldBe true
-            it.popEvents() shouldContainExactly listOf(MealAdded(mealId))
+            it.popEvents() shouldContainExactly listOf(MealAddedToMenu(mealId))
         }
     }
 
     @Test
-    fun `create meal - already exists with the same name`() {
+    fun `add meal to menu - already exists with the same name`() {
 
         val mealId = mealId()
         val price = price()
@@ -46,7 +46,7 @@ internal class MealTest {
         val description = mealDescription()
         val address = address()
 
-        val result = Meal.addMeal(
+        val result = Meal.addMealToMenu(
             id = { mealId },
             mealExists = { true },
             name = name,
@@ -55,6 +55,26 @@ internal class MealTest {
             price = price
         )
 
-        result shouldBeLeft AddMealError.AlreadyExistsWithSameName
+        result shouldBeLeft AddMealToMenuError.AlreadyExistsWithSameName
+    }
+
+    @Test
+    fun `remove meal from menu - success`() {
+        val meal = meal(removed = false)
+        meal.removeMealFromMenu()
+
+        meal.removed shouldBe true
+        meal.visible() shouldBe false
+        meal.popEvents() shouldContainExactly listOf(MealRemovedFromMenu(meal.id))
+    }
+
+    @Test
+    fun `remove meal from menu - already removed`() {
+        val meal = meal(removed = true)
+        meal.removeMealFromMenu()
+
+        meal.removed shouldBe true
+        meal.visible() shouldBe false
+        meal.popEvents() shouldContainExactly emptyList()
     }
 }

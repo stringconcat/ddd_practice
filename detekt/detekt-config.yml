@@ -1,6 +1,14 @@
 style:
   NewLineAtEndOfFile:
     active: false
+
+
+complexity:
+  LongParameterList:
+    functionThreshold: 12
+    constructorThreshold: 12
+    ignoreDefaultParameters: true
+
     
 formatting:
   FinalNewline:

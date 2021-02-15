@@ -1,6 +1,7 @@
 package com.stringconcat.ddd.order.domain.meal
 
 import arrow.core.Either
+import com.stringconcat.ddd.common.types.base.Version
 import com.stringconcat.ddd.common.types.common.Address
 import java.math.BigDecimal
 import kotlin.math.absoluteValue
@@ -23,7 +24,6 @@ fun mealName(): MealName {
     return result.b
 }
 
-
 fun mealDescription(): MealDescription {
     val result = MealDescription.from("Description ${Random.nextInt()}")
     check(result is Either.Right<MealDescription>)
@@ -36,4 +36,25 @@ fun price(): Price {
     return result.b
 }
 
+fun version() = Version.generate()
+
 fun mealId() = MealId(Random.nextLong())
+
+fun meal(removed: Boolean = false): Meal {
+    val mealId = mealId()
+    val price = price()
+    val name = mealName()
+    val description = mealDescription()
+    val address = address()
+    val version = version()
+
+    return MealRestorer.restoreMeal(
+        id = mealId,
+        name = name,
+        removed = removed,
+        description = description,
+        address = address,
+        price = price,
+        version = version
+    )
+}

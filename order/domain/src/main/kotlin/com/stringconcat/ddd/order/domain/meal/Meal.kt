@@ -17,11 +17,13 @@ class Meal internal constructor(
 ) : AggregateRoot<MealId>(id, version) {
 
     var removed: Boolean = false
-        private set
+        internal set
 
-    fun remove() {
-        removed = false
-        addEvent(MealRemoved(id))
+    fun removeMealFromMenu() {
+        if (!removed) {
+            removed = true
+            addEvent(MealRemovedFromMenu(id))
+        }
     }
 
     fun visible(): Boolean {
@@ -30,17 +32,17 @@ class Meal internal constructor(
 
     companion object {
 
-        fun addMeal(
+        fun addMealToMenu(
             id: () -> MealId,
             mealExists: (name: MealName) -> Boolean,
             name: MealName,
             description: MealDescription,
             address: Address,
             price: Price
-        ): Either<AddMealError, Meal> {
+        ): Either<AddMealToMenuError, Meal> {
 
             return if (mealExists(name)) {
-                Either.left(AddMealError.AlreadyExistsWithSameName)
+                Either.left(AddMealToMenuError.AlreadyExistsWithSameName)
             } else {
                 val meal = Meal(
                     id = id(),
@@ -50,7 +52,7 @@ class Meal internal constructor(
                     price = price,
                     version = Version.generate(),
                 ).apply {
-                    addEvent(MealAdded(this.id))
+                    addEvent(MealAddedToMenu(this.id))
                 }
                 Either.right(meal)
             }
@@ -58,11 +60,28 @@ class Meal internal constructor(
     }
 }
 
-sealed class AddMealError {
-    object AlreadyExistsWithSameName : AddMealError()
+object MealRestorer {
+
+    fun restoreMeal(
+        id: MealId,
+        name: MealName,
+        removed: Boolean,
+        description: MealDescription,
+        address: Address,
+        price: Price,
+        version: Version
+    ): Meal {
+        return Meal(
+            id = id,
+            name = name,
+            description = description,
+            address = address,
+            price = price,
+            version = version
+        ).apply { this.removed = removed }
+    }
 }
 
-
-
-
-
+sealed class AddMealToMenuError {
+    object AlreadyExistsWithSameName : AddMealToMenuError()
+}
