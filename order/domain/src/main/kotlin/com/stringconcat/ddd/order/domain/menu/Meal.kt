@@ -22,7 +22,7 @@ class Meal internal constructor(
     fun removeMealFromMenu() {
         if (!removed) {
             removed = true
-            addEvent(MealRemovedFromMenu(id))
+            addEvent(MealHasBeenRemovedFromMenu(id))
         }
     }
 
@@ -52,33 +52,11 @@ class Meal internal constructor(
                     price = price,
                     version = Version.generate(),
                 ).apply {
-                    addEvent(MealAddedToMenu(this.id))
+                    addEvent(MealHasBeenAddedToMenu(this.id))
                 }
                 Either.right(meal)
             }
         }
-    }
-}
-
-object MealRestorer {
-
-    fun restoreMeal(
-        id: MealId,
-        name: MealName,
-        removed: Boolean,
-        description: MealDescription,
-        address: Address,
-        price: Price,
-        version: Version
-    ): Meal {
-        return Meal(
-            id = id,
-            name = name,
-            description = description,
-            address = address,
-            price = price,
-            version = version
-        ).apply { this.removed = removed }
     }
 }
 

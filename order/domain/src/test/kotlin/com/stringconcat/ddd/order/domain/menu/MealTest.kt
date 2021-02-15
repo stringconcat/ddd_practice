@@ -1,5 +1,11 @@
 package com.stringconcat.ddd.order.domain.menu
 
+import com.stringconcat.ddd.order.domain.mealDescription
+import com.stringconcat.ddd.order.domain.mealId
+import com.stringconcat.ddd.order.domain.mealName
+import com.stringconcat.ddd.order.domain.price
+import com.stringconcat.ddd.order.domain.address
+import com.stringconcat.ddd.order.domain.meal
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight
 import io.kotest.matchers.collections.shouldContainExactly
@@ -33,7 +39,7 @@ internal class MealTest {
             it.description shouldBe description
             it.price shouldBe price
             it.visible() shouldBe true
-            it.popEvents() shouldContainExactly listOf(MealAddedToMenu(mealId))
+            it.popEvents() shouldContainExactly listOf(MealHasBeenAddedToMenu(mealId))
         }
     }
 
@@ -65,7 +71,7 @@ internal class MealTest {
 
         meal.removed shouldBe true
         meal.visible() shouldBe false
-        meal.popEvents() shouldContainExactly listOf(MealRemovedFromMenu(meal.id))
+        meal.popEvents() shouldContainExactly listOf(MealHasBeenRemovedFromMenu(meal.id))
     }
 
     @Test

@@ -1,9 +1,22 @@
-package com.stringconcat.ddd.order.domain.menu
+package com.stringconcat.ddd.order.domain
 
 import arrow.core.Either
 import com.stringconcat.ddd.common.types.base.Version
 import com.stringconcat.ddd.common.types.common.Address
+import com.stringconcat.ddd.common.types.common.Count
+import com.stringconcat.ddd.order.domain.cart.Cart
+import com.stringconcat.ddd.order.domain.cart.CartId
+import com.stringconcat.ddd.order.domain.cart.CartRestorer
+import com.stringconcat.ddd.order.domain.cart.CustomerId
+import com.stringconcat.ddd.order.domain.menu.MealDescription
+import com.stringconcat.ddd.order.domain.menu.MealId
+import com.stringconcat.ddd.order.domain.menu.MealName
+import com.stringconcat.ddd.order.domain.menu.Price
+import com.stringconcat.ddd.order.domain.menu.MealRestorer
+import com.stringconcat.ddd.order.domain.menu.Meal
 import java.math.BigDecimal
+import java.time.OffsetDateTime
+import java.util.UUID
 import kotlin.math.absoluteValue
 import kotlin.random.Random
 
@@ -55,6 +68,31 @@ fun meal(removed: Boolean = false): Meal {
         description = description,
         address = address,
         price = price,
+        version = version
+    )
+}
+
+fun guestId() = CustomerId(UUID.randomUUID().toString())
+
+fun cartId() = CartId(Random.nextLong())
+
+
+fun count(value: Int = Random.nextInt(20, 5000)): Count {
+    val result = Count.from(value)
+    check(result is Either.Right<Count>)
+    return result.b
+}
+
+fun cart(meals: Map<MealId, Count> = emptyMap()): Cart {
+    val cartId = cartId()
+    val guestId = guestId()
+    val version = version()
+    val created = OffsetDateTime.now()
+    return CartRestorer.restoreCart(
+        id = cartId,
+        customerId = guestId,
+        created = created,
+        meals = meals,
         version = version
     )
 }

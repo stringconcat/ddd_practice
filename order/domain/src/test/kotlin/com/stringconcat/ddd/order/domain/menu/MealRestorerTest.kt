@@ -1,5 +1,11 @@
 package com.stringconcat.ddd.order.domain.menu
 
+import com.stringconcat.ddd.order.domain.mealDescription
+import com.stringconcat.ddd.order.domain.mealId
+import com.stringconcat.ddd.order.domain.mealName
+import com.stringconcat.ddd.order.domain.price
+import com.stringconcat.ddd.order.domain.address
+import com.stringconcat.ddd.order.domain.version
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
@@ -7,7 +13,7 @@ import org.junit.jupiter.api.Test
 internal class MealRestorerTest {
 
     @Test
-    fun `restore meal`() {
+    fun `restore meal - success`() {
 
         val mealId = mealId()
         val price = price()
