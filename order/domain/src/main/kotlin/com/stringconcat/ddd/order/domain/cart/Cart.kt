@@ -7,10 +7,9 @@ import com.stringconcat.ddd.common.types.base.AggregateRoot
 import com.stringconcat.ddd.common.types.base.DomainEvent
 import com.stringconcat.ddd.common.types.base.Version
 import com.stringconcat.ddd.common.types.common.Count
-import com.stringconcat.ddd.common.types.common.IncrementError
 import com.stringconcat.ddd.order.domain.menu.Meal
 import com.stringconcat.ddd.order.domain.menu.MealId
-import com.stringconcat.ddd.order.domain.rules.HasActiveOrderForCustomerRule
+import com.stringconcat.ddd.order.domain.rules.CustomerHasActiveOrderRule
 import java.time.OffsetDateTime
 
 class Cart internal constructor(
@@ -31,7 +30,7 @@ class Cart internal constructor(
 
     fun addMeal(
         meal: Meal,
-        activeOrder: HasActiveOrderForCustomerRule
+        activeOrder: CustomerHasActiveOrderRule
     ): Either<AddMealToCartError, Unit> {
 
         if (activeOrder.hasActiveOrder(customerId)) {
@@ -52,10 +51,7 @@ class Cart internal constructor(
         val result = count.increment()
         return result.fold(
             ifLeft = {
-                when (it) {
-                    is IncrementError.MaxValueReached ->
-                        AddMealToCartError.LimitReached.left()
-                }
+                AddMealToCartError.LimitReached.left()
             },
             ifRight = {
                 meals[mealId] = it

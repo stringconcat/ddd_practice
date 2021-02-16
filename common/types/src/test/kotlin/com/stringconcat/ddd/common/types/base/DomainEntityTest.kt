@@ -1,21 +1,10 @@
 package com.stringconcat.ddd.common.types.base
 
 import io.kotest.matchers.ints.shouldBeExactly
-import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import org.junit.jupiter.api.Test
 
 internal class DomainEntityTest {
-
-    @Test
-    fun `create entity - success (jacoco workaround)`() {
-
-        val version = Version.generate()
-        val entity = TestEntity(1L, version)
-
-        entity.id shouldBe 1L
-        entity.version shouldBe version
-    }
 
     @Test
     fun `produce event - event stack is clean`() {

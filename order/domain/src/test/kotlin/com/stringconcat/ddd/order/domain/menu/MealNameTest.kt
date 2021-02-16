@@ -26,6 +26,6 @@ internal class MealNameTest {
     @ValueSource(strings = ["", " "])
     fun `create name - empty string`(input: String) {
         val result = MealName.from(input)
-        result shouldBeLeft CreateNameError.EmptyString
+        result shouldBeLeft EmptyMealNameError
     }
 }

@@ -1,6 +1,6 @@
 package com.stringconcat.ddd.order.domain.order
 
-import com.stringconcat.ddd.order.domain.TestHasActiveOrderForCustomerRule
+import com.stringconcat.ddd.order.domain.TestCustomerHasActiveOrderRule
 import com.stringconcat.ddd.order.domain.TestMealPriceProvider
 import com.stringconcat.ddd.order.domain.cart
 import com.stringconcat.ddd.order.domain.count
@@ -26,7 +26,7 @@ class CustomerOrderTest {
         override fun generate() = id
     }
 
-    private val activeOrderRule = TestHasActiveOrderForCustomerRule(false)
+    private val activeOrderRule = TestCustomerHasActiveOrderRule(false)
 
     private val mealPriceProvider = TestMealPriceProvider()
 
@@ -62,7 +62,7 @@ class CustomerOrderTest {
         mealPriceProvider[mealId] = price
         val cart = cart(mapOf(mealId to count))
 
-        val activeOrderRule = TestHasActiveOrderForCustomerRule(true)
+        val activeOrderRule = TestCustomerHasActiveOrderRule(true)
 
         val result = CustomerOrder.checkout(
             cart = cart,

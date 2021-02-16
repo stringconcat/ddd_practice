@@ -8,9 +8,9 @@ import com.stringconcat.ddd.common.types.base.ValueObject
 data class Count(val value: Int) : ValueObject {
 
     companion object {
-        fun from(count: Int): Either<CreateCountError, Count> {
+        fun from(count: Int): Either<NegativeValueError, Count> {
             return if (count < 0) {
-                CreateCountError.NegativeValue.left()
+                NegativeValueError.left()
             } else {
                 Count(count).right()
             }
@@ -21,21 +21,21 @@ data class Count(val value: Int) : ValueObject {
         }
     }
 
-    fun increment(): Either<IncrementError, Count> {
+    fun increment(): Either<MaxValueReachedError, Count> {
         val res = value + 1
         return if (res > value) {
             Count(res).right()
         } else {
-            IncrementError.MaxValueReached.left()
+            MaxValueReachedError.left()
         }
     }
 
-    fun decrement(): Either<DecrementError, Count> {
+    fun decrement(): Either<MinValueReachedError, Count> {
         val res = value - 1
         return if (res >= 0) {
             Count(res).right()
         } else {
-            DecrementError.MinValueReached.left()
+            MinValueReachedError.left()
         }
     }
 
@@ -44,14 +44,8 @@ data class Count(val value: Int) : ValueObject {
     fun isMax() = value == Int.MAX_VALUE
 }
 
-sealed class CreateCountError {
-    object NegativeValue : CreateCountError()
-}
+object NegativeValueError
 
-sealed class IncrementError {
-    object MaxValueReached : IncrementError()
-}
+object MaxValueReachedError
 
-sealed class DecrementError {
-    object MinValueReached : DecrementError()
-}
+object MinValueReachedError

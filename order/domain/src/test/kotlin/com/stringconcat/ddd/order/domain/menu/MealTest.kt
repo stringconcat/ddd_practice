@@ -1,11 +1,12 @@
 package com.stringconcat.ddd.order.domain.menu
 
+import com.stringconcat.ddd.order.domain.TestMealAlreadyExistsRule
+import com.stringconcat.ddd.order.domain.address
+import com.stringconcat.ddd.order.domain.meal
 import com.stringconcat.ddd.order.domain.mealDescription
 import com.stringconcat.ddd.order.domain.mealId
 import com.stringconcat.ddd.order.domain.mealName
 import com.stringconcat.ddd.order.domain.price
-import com.stringconcat.ddd.order.domain.address
-import com.stringconcat.ddd.order.domain.meal
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight
 import io.kotest.matchers.collections.shouldContainExactly
@@ -14,18 +15,24 @@ import org.junit.jupiter.api.Test
 
 internal class MealTest {
 
+    val mealId = mealId()
+
+    private val idGenerator = object : MealIdGenerator {
+        override fun generateId() = mealId
+    }
+
     @Test
     fun `add meal - success`() {
 
-        val mealId = mealId()
         val price = price()
         val name = mealName()
         val description = mealDescription()
         val address = address()
+        val mealExistsRule = TestMealAlreadyExistsRule(false)
 
         val result = Meal.addMealToMenu(
-            id = { mealId },
-            mealExists = { false },
+            idGenerator,
+            mealExistsRule = mealExistsRule,
             name = name,
             description = description,
             address = address,
@@ -46,22 +53,22 @@ internal class MealTest {
     @Test
     fun `add meal to menu - already exists with the same name`() {
 
-        val mealId = mealId()
+        val mealExistsRule = TestMealAlreadyExistsRule(true)
         val price = price()
         val name = mealName()
         val description = mealDescription()
         val address = address()
 
         val result = Meal.addMealToMenu(
-            id = { mealId },
-            mealExists = { true },
+            idGenerator,
+            mealExistsRule = mealExistsRule,
             name = name,
             description = description,
             address = address,
             price = price
         )
 
-        result shouldBeLeft AddMealToMenuError.AlreadyExistsWithSameName
+        result shouldBeLeft AlreadyExistsWithSameNameError
     }
 
     @Test

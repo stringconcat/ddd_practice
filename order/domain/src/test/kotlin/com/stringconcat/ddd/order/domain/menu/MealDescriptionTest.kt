@@ -26,6 +26,6 @@ internal class MealDescriptionTest {
     @ValueSource(strings = ["", " "])
     fun `create description - empty string`(input: String) {
         val result = MealDescription.from(input)
-        result shouldBeLeft CreateDescriptionError.EmptyString
+        result shouldBeLeft EmptyDescriptionError
     }
 }

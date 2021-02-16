@@ -9,7 +9,7 @@ import com.stringconcat.ddd.common.types.base.Version
 import com.stringconcat.ddd.common.types.common.Count
 import com.stringconcat.ddd.order.domain.cart.Cart
 import com.stringconcat.ddd.order.domain.cart.CustomerId
-import com.stringconcat.ddd.order.domain.rules.HasActiveOrderForCustomerRule
+import com.stringconcat.ddd.order.domain.rules.CustomerHasActiveOrderRule
 import com.stringconcat.ddd.order.domain.menu.MealId
 import com.stringconcat.ddd.order.domain.menu.Price
 import com.stringconcat.ddd.order.domain.providers.MealPriceProvider
@@ -30,7 +30,7 @@ class CustomerOrder internal constructor(
         fun checkout(
             cart: Cart,
             idGenerator: OrderIdGenerator,
-            activeOrder: HasActiveOrderForCustomerRule,
+            activeOrder: CustomerHasActiveOrderRule,
             priceProvider: MealPriceProvider
         ): Either<CheckoutError, CustomerOrder> {
 

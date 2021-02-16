@@ -6,8 +6,7 @@ import arrow.core.right
 import com.stringconcat.ddd.common.types.base.AggregateRoot
 import com.stringconcat.ddd.common.types.base.Version
 import com.stringconcat.ddd.common.types.common.Address
-
-data class MealId(val value: Long)
+import com.stringconcat.ddd.order.domain.rules.MealAlreadyExistsRule
 
 class Meal internal constructor(
     id: MealId,
@@ -35,19 +34,19 @@ class Meal internal constructor(
     companion object {
 
         fun addMealToMenu(
-            id: () -> MealId,
-            mealExists: (name: MealName) -> Boolean,
+            idGenerator: MealIdGenerator,
+            mealExistsRule: MealAlreadyExistsRule,
             name: MealName,
             description: MealDescription,
             address: Address,
             price: Price
-        ): Either<AddMealToMenuError, Meal> {
+        ): Either<AlreadyExistsWithSameNameError, Meal> {
 
-            return if (mealExists(name)) {
-                AddMealToMenuError.AlreadyExistsWithSameName.left()
+            return if (mealExistsRule.exists(name)) {
+                AlreadyExistsWithSameNameError.left()
             } else {
                 val meal = Meal(
-                    id = id(),
+                    id = idGenerator.generateId(),
                     name = name,
                     description = description,
                     address = address,
@@ -62,6 +61,4 @@ class Meal internal constructor(
     }
 }
 
-sealed class AddMealToMenuError {
-    object AlreadyExistsWithSameName : AddMealToMenuError()
-}
+object AlreadyExistsWithSameNameError

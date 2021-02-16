@@ -1,6 +1,6 @@
 package com.stringconcat.ddd.order.domain.cart
 
-import com.stringconcat.ddd.order.domain.TestHasActiveOrderForCustomerRule
+import com.stringconcat.ddd.order.domain.TestCustomerHasActiveOrderRule
 import com.stringconcat.ddd.order.domain.cart
 import com.stringconcat.ddd.order.domain.count
 import com.stringconcat.ddd.order.domain.meal
@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test
 
 internal class CartTest {
 
-    private val activeOrderForCustomer = TestHasActiveOrderForCustomerRule(false)
+    private val activeOrderForCustomer = TestCustomerHasActiveOrderRule(false)
 
     @Test
     fun `add meal - no meal in cart (success)`() {
@@ -46,7 +46,7 @@ internal class CartTest {
         val cart = cart()
         val meal = meal()
 
-        val activeOrderForCustomer = TestHasActiveOrderForCustomerRule(true)
+        val activeOrderForCustomer = TestCustomerHasActiveOrderRule(true)
         val result = cart.addMeal(meal, activeOrderForCustomer)
         result shouldBeLeft AddMealToCartError.HasActiveOrder
         cart.popEvents() shouldContainExactly emptyList()

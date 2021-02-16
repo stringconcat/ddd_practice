@@ -28,7 +28,7 @@ internal class CountTest {
     @Test
     fun `create count - negative value`() {
         val result = Count.from(-1)
-        result shouldBeLeft CreateCountError.NegativeValue
+        result shouldBeLeft NegativeValueError
     }
 
     @Test
@@ -42,7 +42,7 @@ internal class CountTest {
     fun `increment - max value reached`() {
         val count = count(Int.MAX_VALUE)
         val result = count.increment()
-        result shouldBeLeft IncrementError.MaxValueReached
+        result shouldBeLeft MaxValueReachedError
     }
 
     @ParameterizedTest
@@ -57,7 +57,7 @@ internal class CountTest {
     fun `decrement - min value reached`() {
         val count = count(0)
         val result = count.decrement()
-        result shouldBeLeft DecrementError.MinValueReached
+        result shouldBeLeft MinValueReachedError
     }
 
     @Test
