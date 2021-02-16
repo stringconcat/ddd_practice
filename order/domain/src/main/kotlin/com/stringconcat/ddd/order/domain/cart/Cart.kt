@@ -1,6 +1,8 @@
 package com.stringconcat.ddd.order.domain.cart
 
 import arrow.core.Either
+import arrow.core.left
+import arrow.core.right
 import com.stringconcat.ddd.common.types.base.AggregateRoot
 import com.stringconcat.ddd.common.types.base.DomainEvent
 import com.stringconcat.ddd.common.types.base.Version
@@ -33,7 +35,7 @@ class Cart internal constructor(
     ): Either<AddMealToCartError, Unit> {
 
         if (activeOrder.hasActiveOrder(customerId)) {
-            return Either.left(AddMealToCartError.HasActiveOrder)
+            return AddMealToCartError.HasActiveOrder.left()
         }
 
         val mealId = meal.id
@@ -52,13 +54,13 @@ class Cart internal constructor(
             ifLeft = {
                 when (it) {
                     is IncrementError.MaxValueReached ->
-                        Either.left(AddMealToCartError.LimitReached)
+                        AddMealToCartError.LimitReached.left()
                 }
             },
             ifRight = {
                 meals[mealId] = it
                 addEvent(MealHasBeenAddedToCart(id, mealId))
-                Either.right(Unit)
+                Unit.right()
             }
         )
     }
@@ -66,7 +68,7 @@ class Cart internal constructor(
     private fun createNewMeal(mealId: MealId): Either<AddMealToCartError, Unit> {
         meals[mealId] = Count.one()
         addEvent(MealHasBeenAddedToCart(id, mealId))
-        return Either.right(Unit)
+        return Unit.right()
     }
 
     fun removeMeals(mealId: MealId) {

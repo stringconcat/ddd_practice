@@ -1,6 +1,8 @@
 package com.stringconcat.ddd.order.domain.menu
 
 import arrow.core.Either
+import arrow.core.left
+import arrow.core.right
 import com.stringconcat.ddd.common.types.base.ValueObject
 import com.stringconcat.ddd.common.types.common.Count
 import java.math.BigDecimal
@@ -16,12 +18,12 @@ data class Price internal constructor(val value: BigDecimal) : ValueObject {
         fun from(price: BigDecimal): Either<CreatePriceError, Price> {
             return when {
                 price.scale() > SCALE ->
-                    Either.left(CreatePriceError.InvalidScale)
+                    CreatePriceError.InvalidScale.left()
 
                 price < BigDecimal.ZERO ->
-                    Either.left(CreatePriceError.NegativeValue)
+                    CreatePriceError.NegativeValue.left()
 
-                else -> Either.right(Price(price.setScale(SCALE)))
+                else -> Price(price.setScale(SCALE)).right()
             }
         }
     }

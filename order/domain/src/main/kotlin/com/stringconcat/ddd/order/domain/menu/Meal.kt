@@ -1,6 +1,8 @@
 package com.stringconcat.ddd.order.domain.menu
 
 import arrow.core.Either
+import arrow.core.left
+import arrow.core.right
 import com.stringconcat.ddd.common.types.base.AggregateRoot
 import com.stringconcat.ddd.common.types.base.Version
 import com.stringconcat.ddd.common.types.common.Address
@@ -42,7 +44,7 @@ class Meal internal constructor(
         ): Either<AddMealToMenuError, Meal> {
 
             return if (mealExists(name)) {
-                Either.left(AddMealToMenuError.AlreadyExistsWithSameName)
+                AddMealToMenuError.AlreadyExistsWithSameName.left()
             } else {
                 val meal = Meal(
                     id = id(),
@@ -54,7 +56,7 @@ class Meal internal constructor(
                 ).apply {
                     addEvent(MealHasBeenAddedToMenu(this.id))
                 }
-                Either.right(meal)
+                meal.right()
             }
         }
     }

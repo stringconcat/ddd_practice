@@ -75,15 +75,15 @@ class CustomerOrder internal constructor(
 
         return when {
 
-            state == newState -> Either.right(Unit)
+            state == newState -> Unit.right()
 
             state.canChangeTo(newState) -> {
                 state = newState
                 addEvent(event)
-                Either.right(Unit)
+                Unit.right()
             }
 
-            else -> Either.left(InvalidState)
+            else -> InvalidState.left()
         }
     }
 

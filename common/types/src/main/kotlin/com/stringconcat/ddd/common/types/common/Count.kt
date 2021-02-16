@@ -1,6 +1,8 @@
 package com.stringconcat.ddd.common.types.common
 
 import arrow.core.Either
+import arrow.core.left
+import arrow.core.right
 import com.stringconcat.ddd.common.types.base.ValueObject
 
 data class Count(val value: Int) : ValueObject {
@@ -8,9 +10,9 @@ data class Count(val value: Int) : ValueObject {
     companion object {
         fun from(count: Int): Either<CreateCountError, Count> {
             return if (count < 0) {
-                Either.left(CreateCountError.NegativeValue)
+                CreateCountError.NegativeValue.left()
             } else {
-                Either.right(Count(count))
+                Count(count).right()
             }
         }
 
@@ -22,18 +24,18 @@ data class Count(val value: Int) : ValueObject {
     fun increment(): Either<IncrementError, Count> {
         val res = value + 1
         return if (res > value) {
-            Either.right(Count(res))
+            Count(res).right()
         } else {
-            Either.left(IncrementError.MaxValueReached)
+            IncrementError.MaxValueReached.left()
         }
     }
 
     fun decrement(): Either<DecrementError, Count> {
         val res = value - 1
         return if (res >= 0) {
-            Either.right(Count(res))
+            Count(res).right()
         } else {
-            Either.left(DecrementError.MinValueReached)
+            DecrementError.MinValueReached.left()
         }
     }
 
