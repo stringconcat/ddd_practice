@@ -15,7 +15,7 @@ import com.stringconcat.ddd.order.domain.menu.Price
 import com.stringconcat.ddd.order.domain.providers.MealPriceProvider
 import java.time.OffsetDateTime
 
-class Order internal constructor(
+class CustomerOrder internal constructor(
     id: OrderId,
     val created: OffsetDateTime,
     val customerId: CustomerId,
@@ -26,17 +26,17 @@ class Order internal constructor(
     internal var state: OrderState = OrderState.WAITING_FOR_PAYMENT
 
     companion object {
-        fun from(
+
+        fun checkout(
             cart: Cart,
             idGenerator: OrderIdGenerator,
             activeOrder: HasActiveOrderForCustomerRule,
             priceProvider: MealPriceProvider
-        ): Either<CreateOrderFromCartError, Order> {
+        ): Either<CheckoutError, CustomerOrder> {
 
             if (activeOrder.hasActiveOrder(cart.customerId)) {
-                return CreateOrderFromCartError.AlreadyHasActiveOrder.left()
+                return CheckoutError.AlreadyHasActiveOrder.left()
             }
-
 
             val meals = cart.meals()
 
@@ -50,16 +50,15 @@ class Order internal constructor(
                 }.toSet()
 
                 val id = idGenerator.generate()
-                Order(
+                CustomerOrder(
                     id = id,
                     created = OffsetDateTime.now(),
                     customerId = cart.customerId,
                     orderItems = items,
                     version = Version.generate()
                 ).apply { addEvent(OrderHasBeenCreatedEvent(id)) }.right()
-
             } else {
-                CreateOrderFromCartError.EmptyCart.left()
+                CheckoutError.EmptyCart.left()
             }
         }
     }
@@ -72,36 +71,34 @@ class Order internal constructor(
 
     fun cancel() = changeState(OrderState.CANCELLED, OrderHasBeenCancelledEvent(id))
 
-
     private fun changeState(newState: OrderState, event: DomainEvent): Either<InvalidState, Unit> {
-        return if (state.canChangeTo(newState)) {
-            state = newState
-            addEvent(event)
-            Either.right(Unit)
-        } else {
-            Either.left(InvalidState)
+
+        return when {
+
+            state == newState -> Either.right(Unit)
+
+            state.canChangeTo(newState) -> {
+                state = newState
+                addEvent(event)
+                Either.right(Unit)
+            }
+
+            else -> Either.left(InvalidState)
         }
     }
 
     fun totalPrice(): Price {
-
+        return orderItems
+            .map { it.price.multiple(it.count) }
+            .fold(Price.zero(), { acc, it -> acc.add(it) })
     }
 
     fun isActive(): Boolean {
         return state.active
     }
-
-    fun isCompleted(): Boolean {
-        return state == OrderState.COMPLETED
-    }
-
-    fun isCancelled(): Boolean {
-        return state == OrderState.CANCELLED
-    }
 }
 
-
-class OrderItem(
+class OrderItem internal constructor(
     val mealId: MealId,
     val price: Price,
     val count: Count
@@ -123,7 +120,6 @@ class OrderItem(
     }
 }
 
-
 enum class OrderState(
     val active: Boolean,
     private val nextStates: Set<OrderState> = emptySet()
@@ -138,10 +134,9 @@ enum class OrderState(
     fun canChangeTo(state: OrderState) = nextStates.contains(state)
 }
 
-sealed class CreateOrderFromCartError {
-    object EmptyCart : CreateOrderFromCartError()
-    object AlreadyHasActiveOrder : CreateOrderFromCartError()
+sealed class CheckoutError {
+    object EmptyCart : CheckoutError()
+    object AlreadyHasActiveOrder : CheckoutError()
 }
-
 
 object InvalidState

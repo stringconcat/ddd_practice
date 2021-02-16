@@ -8,12 +8,19 @@ import com.stringconcat.ddd.order.domain.cart.Cart
 import com.stringconcat.ddd.order.domain.cart.CartId
 import com.stringconcat.ddd.order.domain.cart.CartRestorer
 import com.stringconcat.ddd.order.domain.cart.CustomerId
+import com.stringconcat.ddd.order.domain.menu.Meal
 import com.stringconcat.ddd.order.domain.menu.MealDescription
 import com.stringconcat.ddd.order.domain.menu.MealId
 import com.stringconcat.ddd.order.domain.menu.MealName
-import com.stringconcat.ddd.order.domain.menu.Price
 import com.stringconcat.ddd.order.domain.menu.MealRestorer
-import com.stringconcat.ddd.order.domain.menu.Meal
+import com.stringconcat.ddd.order.domain.menu.Price
+import com.stringconcat.ddd.order.domain.order.CustomerOrder
+import com.stringconcat.ddd.order.domain.order.OrderId
+import com.stringconcat.ddd.order.domain.order.OrderItem
+import com.stringconcat.ddd.order.domain.order.CustomerOrderRestorer
+import com.stringconcat.ddd.order.domain.order.OrderState
+import com.stringconcat.ddd.order.domain.providers.MealPriceProvider
+import com.stringconcat.ddd.order.domain.rules.HasActiveOrderForCustomerRule
 import java.math.BigDecimal
 import java.time.OffsetDateTime
 import java.util.UUID
@@ -43,8 +50,8 @@ fun mealDescription(): MealDescription {
     return result.b
 }
 
-fun price(): Price {
-    val result = Price.from(BigDecimal(Random.nextInt(1, 500000)))
+fun price(value: BigDecimal = BigDecimal(Random.nextInt(1, 500000))): Price {
+    val result = Price.from(value)
     check(result is Either.Right<Price>)
     return result.b
 }
@@ -54,28 +61,21 @@ fun version() = Version.generate()
 fun mealId() = MealId(Random.nextLong())
 
 fun meal(removed: Boolean = false): Meal {
-    val mealId = mealId()
-    val price = price()
-    val name = mealName()
-    val description = mealDescription()
-    val address = address()
-    val version = version()
 
     return MealRestorer.restoreMeal(
-        id = mealId,
-        name = name,
+        id = mealId(),
+        name = mealName(),
         removed = removed,
-        description = description,
-        address = address,
-        price = price,
-        version = version
+        description = mealDescription(),
+        address = address(),
+        price = price(),
+        version = version()
     )
 }
 
-fun guestId() = CustomerId(UUID.randomUUID().toString())
+fun customerId() = CustomerId(UUID.randomUUID().toString())
 
 fun cartId() = CartId(Random.nextLong())
-
 
 fun count(value: Int = Random.nextInt(20, 5000)): Count {
     val result = Count.from(value)
@@ -84,15 +84,52 @@ fun count(value: Int = Random.nextInt(20, 5000)): Count {
 }
 
 fun cart(meals: Map<MealId, Count> = emptyMap()): Cart {
-    val cartId = cartId()
-    val guestId = guestId()
-    val version = version()
-    val created = OffsetDateTime.now()
     return CartRestorer.restoreCart(
-        id = cartId,
-        customerId = guestId,
-        created = created,
+        id = cartId(),
+        customerId = customerId(),
+        created = OffsetDateTime.now(),
         meals = meals,
-        version = version
+        version = version()
     )
+}
+
+fun orderId() = OrderId(Random.nextLong())
+
+fun orderItem(
+    price: Price = price(),
+    count: Count = count()
+): OrderItem {
+    return OrderItem(
+        mealId = mealId(),
+        price = price,
+        count = count
+    )
+}
+
+fun order(
+    state: OrderState = OrderState.COMPLETED,
+    orderItems: Set<OrderItem> = setOf(orderItem()),
+): CustomerOrder {
+    return CustomerOrderRestorer.restoreOrder(
+        id = orderId(),
+        created = OffsetDateTime.now(),
+        customerId = customerId(),
+        orderItems = orderItems,
+        state = state,
+        version = version()
+    )
+}
+
+class TestHasActiveOrderForCustomerRule(val hasActive: Boolean) : HasActiveOrderForCustomerRule {
+    override fun hasActiveOrder(customerId: CustomerId): Boolean {
+        return hasActive
+    }
+}
+
+class TestMealPriceProvider : MealPriceProvider, HashMap<MealId, Price>() {
+    override fun price(mealId: MealId): Price {
+        return requireNotNull(this[mealId]) {
+            "MealId #$mealId not found"
+        }
+    }
 }

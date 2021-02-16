@@ -1,7 +1,7 @@
 package com.stringconcat.ddd.order.domain.cart
 
 import com.stringconcat.ddd.order.domain.cart
-import com.stringconcat.ddd.order.domain.guestId
+import com.stringconcat.ddd.order.domain.customerId
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.date.shouldBeBefore
 import io.kotest.matchers.maps.shouldContainExactly
@@ -23,7 +23,7 @@ internal class CartFactoryTest {
     fun `create cart - cart doesn't exist`() {
         val getCartByGuestId = HashMapGetCartByGuestId()
         val factory = CartFactory(idGenerator, getCartByGuestId)
-        val guestId = guestId()
+        val guestId = customerId()
         val cart = factory.createOrGetCartForGuest(guestId)
 
         cart.id shouldBe id

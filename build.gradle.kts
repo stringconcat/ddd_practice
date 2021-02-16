@@ -106,15 +106,13 @@ subprojects {
             violationRules {
 
                 rule {
-                    element = "CLASS"
-                    excludes = listOf("com.stringconcat.dev.course.app.MainKt",
-                                    "com.stringconcat.ddd.common.types.base.AggregateRoot")
+                    excludes = listOf("web")
+
                     limit {
-                        minimum = BigDecimal("1")
+                        minimum = BigDecimal("0.9")
                     }
                 }
             }
-
         }
 
         withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {

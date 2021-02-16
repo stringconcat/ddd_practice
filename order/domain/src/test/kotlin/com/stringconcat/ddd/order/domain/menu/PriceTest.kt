@@ -1,5 +1,7 @@
 package com.stringconcat.ddd.order.domain.menu
 
+import com.stringconcat.ddd.order.domain.count
+import com.stringconcat.ddd.order.domain.price
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight
 import io.kotest.matchers.shouldBe
@@ -10,13 +12,14 @@ import java.math.BigDecimal
 
 internal class PriceTest {
 
-    @Test
-    fun `create price - success`() {
-        val price = BigDecimal("1.40")
+    @ParameterizedTest
+    @ValueSource(ints = [0, 1])
+    fun `create price - success`(value: Int) {
+        val price = BigDecimal(value)
         val result = Price.from(price)
 
         result shouldBeRight {
-            it.value shouldBe price
+            it.value shouldBe price.setScale(2)
         }
     }
 
@@ -38,13 +41,29 @@ internal class PriceTest {
         result shouldBeLeft CreatePriceError.InvalidScale
     }
 
-    @ParameterizedTest
-    @ValueSource(ints = [0, -1, -10000])
-    fun `create price - non positive value`(value: Int) {
+    @Test
+    fun `create price - negative value`() {
 
-        val price = BigDecimal(value)
+        val price = BigDecimal(-1)
         val result = Price.from(price)
 
-        result shouldBeLeft CreatePriceError.NonPositiveValue
+        result shouldBeLeft CreatePriceError.NegativeValue
+    }
+
+    @Test
+    fun `add price`() {
+        val price1 = price(BigDecimal("1.44"))
+        val price2 = price(BigDecimal("1.45"))
+
+        val result = price1.add(price2)
+        result.value shouldBe BigDecimal("2.89")
+    }
+
+    @Test
+    fun `multiple to count`() {
+        val price = price(BigDecimal("1.5"))
+        val count = count(3)
+        val result = price.multiple(count)
+        result.value shouldBe BigDecimal("4.50")
     }
 }

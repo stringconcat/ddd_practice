@@ -2,7 +2,7 @@ package com.stringconcat.ddd.order.domain.cart
 
 import com.stringconcat.ddd.order.domain.cartId
 import com.stringconcat.ddd.order.domain.count
-import com.stringconcat.ddd.order.domain.guestId
+import com.stringconcat.ddd.order.domain.customerId
 import com.stringconcat.ddd.order.domain.mealId
 import com.stringconcat.ddd.order.domain.version
 import io.kotest.matchers.maps.shouldContainExactly
@@ -15,7 +15,7 @@ class CartRestorerTest {
     @Test
     fun `restore cart - success`() {
         val cartId = cartId()
-        val guestId = guestId()
+        val guestId = customerId()
         val version = version()
         val meals = mapOf(mealId() to count())
         val created = OffsetDateTime.now()

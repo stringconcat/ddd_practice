@@ -1,9 +1,9 @@
 package com.stringconcat.ddd.order.domain.cart
 
+import com.stringconcat.ddd.order.domain.TestHasActiveOrderForCustomerRule
 import com.stringconcat.ddd.order.domain.cart
 import com.stringconcat.ddd.order.domain.count
 import com.stringconcat.ddd.order.domain.meal
-import com.stringconcat.ddd.order.domain.rules.HasActiveOrderForCustomerRule
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight
 import io.kotest.matchers.collections.shouldContainExactly
@@ -99,11 +99,5 @@ internal class CartTest {
         cart.removeMeals(mealForRemoving.id)
         cart.popEvents() shouldContainExactly listOf(MealHasBeenRemovedFromCart(cart.id, mealForRemoving.id))
         cart.meals() shouldContainExactly mapOf(meal.id to count)
-    }
-
-    private class TestHasActiveOrderForCustomerRule(val hasActive: Boolean) : HasActiveOrderForCustomerRule {
-        override fun hasActiveOrder(customerId: CustomerId): Boolean {
-            return hasActive
-        }
     }
 }
