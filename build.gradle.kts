@@ -27,8 +27,6 @@ fun envConfig() = object : ReadOnlyProperty<Any?, String?> {
 
 subprojects {
 
-    group = "com.stringconcat.ddd"
-
     configurations.all {
         resolutionStrategy {
             eachDependency {

@@ -1,4 +1,4 @@
-package com.stringconcat.ddd.order.domain.menu
+package com.stringconcat.ddd.kitchen.domain.order
 
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight
@@ -7,12 +7,12 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 
-internal class MealNameTest {
+internal class MealTest {
 
     @Test
-    fun `create name - success`() {
+    fun `create meal - success`() {
         val name = "Some string"
-        val result = MealName.from(name)
+        val result = Meal.from(name)
 
         result shouldBeRight {
             it.value shouldBe name
@@ -21,8 +21,8 @@ internal class MealNameTest {
 
     @ParameterizedTest
     @ValueSource(strings = ["", " "])
-    fun `create name - empty string`(input: String) {
-        val result = MealName.from(input)
+    fun `create meal - empty string`(input: String) {
+        val result = Meal.from(input)
         result shouldBeLeft EmptyMealNameError
     }
 }
