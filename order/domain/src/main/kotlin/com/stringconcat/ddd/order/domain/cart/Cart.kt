@@ -8,6 +8,7 @@ import com.stringconcat.ddd.common.types.common.Count
 import com.stringconcat.ddd.common.types.common.IncrementError
 import com.stringconcat.ddd.order.domain.menu.Meal
 import com.stringconcat.ddd.order.domain.menu.MealId
+import com.stringconcat.ddd.order.domain.rules.HasActiveOrderForCustomerRule
 import java.time.OffsetDateTime
 
 class Cart internal constructor(
@@ -28,7 +29,7 @@ class Cart internal constructor(
 
     fun addMeal(
         meal: Meal,
-        activeOrder: HasActiveOrderForCustomer
+        activeOrder: HasActiveOrderForCustomerRule
     ): Either<AddMealToCartError, Unit> {
 
         if (activeOrder.hasActiveOrder(customerId)) {

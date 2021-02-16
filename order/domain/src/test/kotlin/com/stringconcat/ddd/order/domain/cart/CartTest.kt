@@ -3,6 +3,7 @@ package com.stringconcat.ddd.order.domain.cart
 import com.stringconcat.ddd.order.domain.cart
 import com.stringconcat.ddd.order.domain.count
 import com.stringconcat.ddd.order.domain.meal
+import com.stringconcat.ddd.order.domain.rules.HasActiveOrderForCustomerRule
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight
 import io.kotest.matchers.collections.shouldContainExactly
@@ -11,7 +12,7 @@ import org.junit.jupiter.api.Test
 
 internal class CartTest {
 
-    private val activeOrderForCustomer = TestHasActiveOrderForCustomer(false)
+    private val activeOrderForCustomer = TestHasActiveOrderForCustomerRule(false)
 
     @Test
     fun `add meal - no meal in cart (success)`() {
@@ -45,7 +46,7 @@ internal class CartTest {
         val cart = cart()
         val meal = meal()
 
-        val activeOrderForCustomer = TestHasActiveOrderForCustomer(true)
+        val activeOrderForCustomer = TestHasActiveOrderForCustomerRule(true)
         val result = cart.addMeal(meal, activeOrderForCustomer)
         result shouldBeLeft AddMealToCartError.HasActiveOrder
         cart.popEvents() shouldContainExactly emptyList()
@@ -100,7 +101,7 @@ internal class CartTest {
         cart.meals() shouldContainExactly mapOf(meal.id to count)
     }
 
-    private class TestHasActiveOrderForCustomer(val hasActive: Boolean) : HasActiveOrderForCustomer {
+    private class TestHasActiveOrderForCustomerRule(val hasActive: Boolean) : HasActiveOrderForCustomerRule {
         override fun hasActiveOrder(customerId: CustomerId): Boolean {
             return hasActive
         }
