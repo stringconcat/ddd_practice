@@ -16,12 +16,12 @@ import com.stringconcat.ddd.order.domain.providers.MealPriceProvider
 import java.time.OffsetDateTime
 
 class CustomerOrder internal constructor(
-    id: OrderId,
+    id: CustomerOrderId,
     val created: OffsetDateTime,
     val customerId: CustomerId,
     val orderItems: Set<OrderItem>,
     version: Version
-) : AggregateRoot<OrderId>(id, version) {
+) : AggregateRoot<CustomerOrderId>(id, version) {
 
     internal var state: OrderState = OrderState.WAITING_FOR_PAYMENT
 
@@ -29,7 +29,7 @@ class CustomerOrder internal constructor(
 
         fun checkout(
             cart: Cart,
-            idGenerator: OrderIdGenerator,
+            idGenerator: CustomerOrderIdGenerator,
             activeOrder: CustomerHasActiveOrderRule,
             priceProvider: MealPriceProvider
         ): Either<CheckoutError, CustomerOrder> {
@@ -56,20 +56,20 @@ class CustomerOrder internal constructor(
                     customerId = cart.customerId,
                     orderItems = items,
                     version = Version.generate()
-                ).apply { addEvent(OrderHasBeenCreatedEvent(id)) }.right()
+                ).apply { addEvent(CustomerOrderHasBeenCreatedEvent(id)) }.right()
             } else {
                 CheckoutError.EmptyCart.left()
             }
         }
     }
 
-    fun confirm() = changeState(OrderState.CONFIRMED, OrderHasBeenConfirmedEvent(id))
+    fun confirm() = changeState(OrderState.CONFIRMED, CustomerOrderHasBeenConfirmedEvent(id))
 
-    fun pay() = changeState(OrderState.PAID, OrderHasBeenPaidEvent(id))
+    fun pay() = changeState(OrderState.PAID, CustomerOrderHasBeenPaidEvent(id))
 
-    fun complete() = changeState(OrderState.COMPLETED, OrderHasBeenCompletedEvent(id))
+    fun complete() = changeState(OrderState.COMPLETED, CustomerOrderHasBeenCompletedEvent(id))
 
-    fun cancel() = changeState(OrderState.CANCELLED, OrderHasBeenCancelledEvent(id))
+    fun cancel() = changeState(OrderState.CANCELLED, CustomerOrderHasBeenCancelledEvent(id))
 
     private fun changeState(newState: OrderState, event: DomainEvent): Either<InvalidState, Unit> {
 

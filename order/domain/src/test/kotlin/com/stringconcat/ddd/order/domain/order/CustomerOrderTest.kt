@@ -22,7 +22,7 @@ class CustomerOrderTest {
 
     val id = orderId()
 
-    private val idGenerator = object : OrderIdGenerator {
+    private val idGenerator = object : CustomerOrderIdGenerator {
         override fun generate() = id
     }
 
@@ -50,7 +50,7 @@ class CustomerOrderTest {
             it.orderItems shouldContainExactly listOf(OrderItem(mealId, price, count))
             it.id shouldBe id
             it.state shouldBe OrderState.WAITING_FOR_PAYMENT
-            it.popEvents() shouldContainExactly listOf(OrderHasBeenCreatedEvent(id))
+            it.popEvents() shouldContainExactly listOf(CustomerOrderHasBeenCreatedEvent(id))
         }
     }
 
@@ -105,7 +105,7 @@ class CustomerOrderTest {
         val order = order(state = OrderState.CONFIRMED)
         order.complete() shouldBeRight Unit
         order.state shouldBe OrderState.COMPLETED
-        order.popEvents() shouldContainExactly listOf(OrderHasBeenCompletedEvent(order.id))
+        order.popEvents() shouldContainExactly listOf(CustomerOrderHasBeenCompletedEvent(order.id))
     }
 
     @Test
@@ -130,7 +130,7 @@ class CustomerOrderTest {
         val order = order(state = OrderState.WAITING_FOR_PAYMENT)
         order.pay() shouldBeRight Unit
         order.state shouldBe OrderState.PAID
-        order.popEvents() shouldContainExactly listOf(OrderHasBeenPaidEvent(order.id))
+        order.popEvents() shouldContainExactly listOf(CustomerOrderHasBeenPaidEvent(order.id))
     }
 
     @Test
@@ -155,7 +155,7 @@ class CustomerOrderTest {
         val order = order(state = OrderState.PAID)
         order.cancel() shouldBeRight Unit
         order.state shouldBe OrderState.CANCELLED
-        order.popEvents() shouldContainExactly listOf(OrderHasBeenCancelledEvent(order.id))
+        order.popEvents() shouldContainExactly listOf(CustomerOrderHasBeenCancelledEvent(order.id))
     }
 
     @Test
@@ -180,7 +180,7 @@ class CustomerOrderTest {
         val order = order(state = OrderState.PAID)
         order.confirm() shouldBeRight Unit
         order.state shouldBe OrderState.CONFIRMED
-        order.popEvents() shouldContainExactly listOf(OrderHasBeenConfirmedEvent(order.id))
+        order.popEvents() shouldContainExactly listOf(CustomerOrderHasBeenConfirmedEvent(order.id))
     }
 
     @Test

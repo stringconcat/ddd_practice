@@ -7,7 +7,7 @@ import java.time.OffsetDateTime
 object CustomerOrderRestorer {
 
     fun restoreOrder(
-        id: OrderId,
+        id: CustomerOrderId,
         created: OffsetDateTime,
         customerId: CustomerId,
         orderItems: Set<OrderItem>,

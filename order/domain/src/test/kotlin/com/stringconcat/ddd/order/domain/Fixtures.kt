@@ -15,7 +15,7 @@ import com.stringconcat.ddd.order.domain.menu.MealName
 import com.stringconcat.ddd.order.domain.menu.MealRestorer
 import com.stringconcat.ddd.order.domain.menu.Price
 import com.stringconcat.ddd.order.domain.order.CustomerOrder
-import com.stringconcat.ddd.order.domain.order.OrderId
+import com.stringconcat.ddd.order.domain.order.CustomerOrderId
 import com.stringconcat.ddd.order.domain.order.OrderItem
 import com.stringconcat.ddd.order.domain.order.CustomerOrderRestorer
 import com.stringconcat.ddd.order.domain.order.OrderState
@@ -94,7 +94,7 @@ fun cart(meals: Map<MealId, Count> = emptyMap()): Cart {
     )
 }
 
-fun orderId() = OrderId(Random.nextLong())
+fun orderId() = CustomerOrderId(Random.nextLong())
 
 fun orderItem(
     price: Price = price(),
