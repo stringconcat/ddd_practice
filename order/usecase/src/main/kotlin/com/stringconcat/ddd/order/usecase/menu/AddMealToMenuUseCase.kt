@@ -1,8 +1,7 @@
 package com.stringconcat.ddd.order.usecase.menu
 
 import arrow.core.Either
-import arrow.core.left
-import arrow.core.right
+import arrow.core.flatMap
 import com.stringconcat.ddd.order.domain.menu.AlreadyExistsWithSameNameError
 import com.stringconcat.ddd.order.domain.menu.CreatePriceError
 import com.stringconcat.ddd.order.domain.menu.EmptyDescriptionError
@@ -25,35 +24,37 @@ class AddMealToMenuUseCase(
     @Suppress("ReturnCount")
     fun addMealToMenu(request: AddMealToMenuRequest): Either<AddMealToMenuUseCaseError, MealId> {
 
-        val name = MealName.from(request.name)
-            .fold(
-                ifLeft = { return@addMealToMenu it.toError().left() },
-                ifRight = { it })
+        val mealParts = MealParts()
 
-        val description = MealDescription.from(request.description)
-            .fold(
-                ifLeft = { return@addMealToMenu it.toError().left() },
-                ifRight = { it })
-
-        val price = Price.from(request.price)
-            .fold(
-                ifLeft = { return@addMealToMenu it.toError().left() },
-                ifRight = { it })
-
-        return Meal.addMealToMenu(
-            idGenerator = idGenerator,
-            mealExistsRule = mealExistsRule,
-            name = name,
-            description = description,
-            price = price
-        ).fold(
-            ifLeft = { it.toError().left() },
-            ifRight = {
+        return MealName.from(request.name)
+            .map { mealParts.name = it }
+            .flatMap { MealDescription.from(request.description) }
+            .map { mealParts.description = it }
+            .flatMap { Price.from(request.price) }
+            .map { mealParts.price = it }
+            .flatMap { Meal.addMealToMenu(
+                idGenerator = idGenerator,
+                mealExistsRule = mealExistsRule,
+                name = mealParts.name!!,
+                description = mealParts.description!!,
+                price = mealParts.price!!
+            ) }
+            .map {
                 mealPersister.save(it)
-                it.id.right()
-            })
+                it.id
+            }
+            .mapLeft {
+                // need to convert
+                AddMealToMenuUseCaseError.InvalidName("Empty name")
+            }
     }
 }
+
+class MealParts(
+    var name: MealName? = null,
+    var description: MealDescription? = null,
+    var price: Price? = null
+)
 
 data class AddMealToMenuRequest(val name: String, val description: String, val price: BigDecimal)
 
