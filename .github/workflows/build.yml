@@ -18,9 +18,11 @@ jobs:
         run: ./gradlew clean build
 
       - name: Publish Unit Test Results
+        if: failure()
         uses: EnricoMi/publish-unit-test-result-action@v1.9
 
       - uses: actions/upload-artifact@v2
+        if: failure()
         with:
           name: Gather reports
           path: ./**/**/build/reports
