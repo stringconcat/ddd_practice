@@ -36,10 +36,10 @@ class AddMealToMenuUseCase(
                 price = it.c
             )
         }.map {
-            mealPersister.save(it);
+            mealPersister.save(it)
             it.id
         }.mapLeft {
-            it.toError();
+            it.toError()
         }
 }
 
