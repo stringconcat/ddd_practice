@@ -3,6 +3,7 @@ package com.stringconcat.ddd.order.usecase.menu
 import arrow.core.Either
 import arrow.core.extensions.either.apply.tupled
 import arrow.core.flatMap
+import com.stringconcat.ddd.common.types.error.BusinessError
 import com.stringconcat.ddd.order.domain.menu.AlreadyExistsWithSameNameError
 import com.stringconcat.ddd.order.domain.menu.CreatePriceError
 import com.stringconcat.ddd.order.domain.menu.EmptyDescriptionError
@@ -45,15 +46,17 @@ class AddMealToMenuUseCase(
 
 data class AddMealToMenuRequest(val name: String, val description: String, val price: BigDecimal)
 
-fun BusinessError.toError() = AddMealToMenuUseCaseError.SOmethingWentWrong("whoops")
+
 fun EmptyMealNameError.toError() = AddMealToMenuUseCaseError.InvalidName("Empty name")
 fun EmptyDescriptionError.toError() = AddMealToMenuUseCaseError.InvalidDescription("Empty description")
 fun AlreadyExistsWithSameNameError.toError() = AddMealToMenuUseCaseError.AlreadyExists
 fun CreatePriceError.InvalidScale.toError() = AddMealToMenuUseCaseError.InvalidPrice("Invalid scale")
 fun CreatePriceError.NegativeValue.toError() = AddMealToMenuUseCaseError.InvalidPrice("Negative value")
+fun BusinessError.toError() = AddMealToMenuUseCaseError.SomethingWentWrong
 
 // передавать сообщения из юзкейса не очень хорошо, лучше завести enum, но для примера нам сойдет
 sealed class AddMealToMenuUseCaseError(val message: String) {
+    object SomethingWentWrong: AddMealToMenuUseCaseError("whoops")
     class InvalidName(message: String) : AddMealToMenuUseCaseError(message)
     class InvalidDescription(message: String) : AddMealToMenuUseCaseError(message)
     class InvalidPrice(message: String) : AddMealToMenuUseCaseError(message)

@@ -5,6 +5,7 @@ import arrow.core.left
 import arrow.core.right
 import com.stringconcat.ddd.common.types.base.ValueObject
 import com.stringconcat.ddd.common.types.common.Count
+import com.stringconcat.ddd.common.types.error.BusinessError
 import java.math.BigDecimal
 
 data class Price internal constructor(
@@ -37,7 +38,7 @@ data class Price internal constructor(
         Price(this.value.multiply(BigDecimal(multiplicator.value)))
 }
 
-sealed class CreatePriceError {
+sealed class CreatePriceError: BusinessError {
     object InvalidScale : CreatePriceError()
     object NegativeValue : CreatePriceError()
 }

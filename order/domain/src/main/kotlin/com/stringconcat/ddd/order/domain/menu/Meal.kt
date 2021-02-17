@@ -5,6 +5,7 @@ import arrow.core.left
 import arrow.core.right
 import com.stringconcat.ddd.common.types.base.AggregateRoot
 import com.stringconcat.ddd.common.types.base.Version
+import com.stringconcat.ddd.common.types.error.BusinessError
 import com.stringconcat.ddd.order.domain.rules.MealAlreadyExistsRule
 
 class Meal internal constructor(
@@ -55,4 +56,4 @@ class Meal internal constructor(
     }
 }
 
-object AlreadyExistsWithSameNameError
+object AlreadyExistsWithSameNameError: BusinessError
