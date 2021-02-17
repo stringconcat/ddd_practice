@@ -10,10 +10,10 @@ import com.stringconcat.ddd.common.types.common.Address
 import com.stringconcat.ddd.common.types.common.Count
 import com.stringconcat.ddd.order.domain.cart.Cart
 import com.stringconcat.ddd.order.domain.cart.CustomerId
-import com.stringconcat.ddd.order.domain.rules.CustomerHasActiveOrderRule
 import com.stringconcat.ddd.order.domain.menu.MealId
 import com.stringconcat.ddd.order.domain.menu.Price
 import com.stringconcat.ddd.order.domain.providers.MealPriceProvider
+import com.stringconcat.ddd.order.domain.rules.CustomerHasActiveOrderRule
 import java.time.OffsetDateTime
 
 class CustomerOrder internal constructor(
@@ -52,9 +52,8 @@ class CustomerOrder internal constructor(
                     OrderItem(mealId, price, count)
                 }.toSet()
 
-                val id = idGenerator.generate()
                 CustomerOrder(
-                    id = id,
+                    id = idGenerator.generate(),
                     created = OffsetDateTime.now(),
                     customerId = cart.customerId,
                     orderItems = items,
@@ -76,17 +75,13 @@ class CustomerOrder internal constructor(
     fun cancel() = changeState(OrderState.CANCELLED, CustomerOrderHasBeenCancelledEvent(id))
 
     private fun changeState(newState: OrderState, event: DomainEvent): Either<InvalidState, Unit> {
-
         return when {
-
             state == newState -> Unit.right()
-
             state.canChangeTo(newState) -> {
                 state = newState
                 addEvent(event)
                 Unit.right()
             }
-
             else -> InvalidState.left()
         }
     }
@@ -97,9 +92,8 @@ class CustomerOrder internal constructor(
             .fold(Price.zero(), { acc, it -> acc.add(it) })
     }
 
-    fun isActive(): Boolean {
-        return state.active
-    }
+    fun isActive(): Boolean = state.active
+
 }
 
 class OrderItem internal constructor(
