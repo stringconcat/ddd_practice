@@ -1,6 +1,7 @@
 package com.stringconcat.ddd.order.usecase.menu
 
 import arrow.core.Either
+import arrow.core.extensions.either.apply.tupled
 import arrow.core.flatMap
 import com.stringconcat.ddd.order.domain.menu.AlreadyExistsWithSameNameError
 import com.stringconcat.ddd.order.domain.menu.CreatePriceError
@@ -22,32 +23,26 @@ class AddMealToMenuUseCase(
 ) {
 
     @Suppress("ReturnCount")
-    fun addMealToMenu(request: AddMealToMenuRequest): Either<AddMealToMenuUseCaseError, MealId> {
-
-        val mealParts = MealParts()
-
-        return MealName.from(request.name)
-            .map { mealParts.name = it }
-            .flatMap { MealDescription.from(request.description) }
-            .map { mealParts.description = it }
-            .flatMap { Price.from(request.price) }
-            .map { mealParts.price = it }
-            .flatMap { Meal.addMealToMenu(
+    fun addMealToMenu(request: AddMealToMenuRequest): Either<AddMealToMenuUseCaseError, MealId> =
+        tupled(
+            MealName.from(request.name),
+            MealDescription.from(request.description),
+            Price.from(request.price)
+        ).flatMap {
+            Meal.addMealToMenu(
                 idGenerator = idGenerator,
                 mealExistsRule = mealExistsRule,
-                name = mealParts.name!!,
-                description = mealParts.description!!,
-                price = mealParts.price!!
-            ) }
-            .map {
-                mealPersister.save(it)
-                it.id
-            }
-            .mapLeft {
-                // need to convert
-                AddMealToMenuUseCaseError.InvalidName("Empty name")
-            }
-    }
+                name = it.a,
+                description = it.b,
+                price = it.c
+            )
+        }.map {
+            mealPersister.save(it);
+            it.id
+        }.mapLeft {
+            // need to convert
+            AddMealToMenuUseCaseError.InvalidName("Empty name")
+        }
 }
 
 class MealParts(
