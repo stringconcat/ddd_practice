@@ -20,10 +20,13 @@ jobs:
       - name: Publish Unit Test Results
         if: always()
         uses: EnricoMi/publish-unit-test-result-action@v1.9
+        with:
+          files: test-results/**/*.xml
+          report_individual_runs: true
 
       - name: Gather reports
         uses: actions/upload-artifact@v2
         if: always()
         with:
           name: reports
-          path: ./**/**/build/reports
+          path: build/reports
