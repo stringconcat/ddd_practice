@@ -47,19 +47,14 @@ class Cart internal constructor(
         }
     }
 
-    private fun updateExistingMeal(mealId: MealId, count: Count): Either<AddMealToCartError, Unit> {
-        val result = count.increment()
-        return result.fold(
-            ifLeft = {
-                AddMealToCartError.LimitReached.left()
-            },
-            ifRight = {
+    private fun updateExistingMeal(mealId: MealId, count: Count): Either<AddMealToCartError, Unit> =
+        count.increment()
+            .map {
                 meals[mealId] = it
                 addEvent(MealHasBeenAddedToCart(id, mealId))
-                Unit.right()
+            }.mapLeft {
+                AddMealToCartError.LimitReached
             }
-        )
-    }
 
     private fun createNewMeal(mealId: MealId): Either<AddMealToCartError, Unit> {
         meals[mealId] = Count.one()
