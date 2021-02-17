@@ -22,7 +22,6 @@ class AddMealToMenuUseCase(
     private val mealExistsRule: MealAlreadyExistsRule
 ) {
 
-    @Suppress("ReturnCount")
     fun addMealToMenu(request: AddMealToMenuRequest): Either<AddMealToMenuUseCaseError, MealId> =
         tupled(
             MealName.from(request.name),
@@ -44,12 +43,6 @@ class AddMealToMenuUseCase(
             AddMealToMenuUseCaseError.InvalidName("Empty name")
         }
 }
-
-class MealParts(
-    var name: MealName? = null,
-    var description: MealDescription? = null,
-    var price: Price? = null
-)
 
 data class AddMealToMenuRequest(val name: String, val description: String, val price: BigDecimal)
 
