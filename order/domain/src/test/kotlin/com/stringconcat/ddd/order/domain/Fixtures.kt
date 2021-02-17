@@ -68,7 +68,6 @@ fun meal(removed: Boolean = false): Meal {
         name = mealName(),
         removed = removed,
         description = mealDescription(),
-        address = address(),
         price = price(),
         version = version()
     )
@@ -116,6 +115,7 @@ fun order(
         created = OffsetDateTime.now(),
         customerId = customerId(),
         orderItems = orderItems,
+        address = address(),
         state = state,
         version = version()
     )

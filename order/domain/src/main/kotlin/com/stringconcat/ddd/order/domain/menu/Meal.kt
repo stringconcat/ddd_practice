@@ -5,14 +5,12 @@ import arrow.core.left
 import arrow.core.right
 import com.stringconcat.ddd.common.types.base.AggregateRoot
 import com.stringconcat.ddd.common.types.base.Version
-import com.stringconcat.ddd.common.types.common.Address
 import com.stringconcat.ddd.order.domain.rules.MealAlreadyExistsRule
 
 class Meal internal constructor(
     id: MealId,
     val name: MealName,
     val description: MealDescription,
-    val address: Address,
     val price: Price,
     version: Version
 ) : AggregateRoot<MealId>(id, version) {
@@ -38,7 +36,7 @@ class Meal internal constructor(
             mealExistsRule: MealAlreadyExistsRule,
             name: MealName,
             description: MealDescription,
-            address: Address,
+
             price: Price
         ): Either<AlreadyExistsWithSameNameError, Meal> {
 
@@ -49,7 +47,6 @@ class Meal internal constructor(
                     id = idGenerator.generateId(),
                     name = name,
                     description = description,
-                    address = address,
                     price = price,
                     version = Version.generate(),
                 ).apply {

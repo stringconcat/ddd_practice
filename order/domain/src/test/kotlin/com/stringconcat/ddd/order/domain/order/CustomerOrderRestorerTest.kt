@@ -1,5 +1,6 @@
 package com.stringconcat.ddd.order.domain.order
 
+import com.stringconcat.ddd.order.domain.address
 import com.stringconcat.ddd.order.domain.customerId
 import com.stringconcat.ddd.order.domain.orderId
 import com.stringconcat.ddd.order.domain.orderItem
@@ -20,11 +21,13 @@ internal class CustomerOrderRestorerTest {
         val items = setOf(item)
         val state = OrderState.COMPLETED
         val version = version()
+        val address = address()
 
         val order = CustomerOrderRestorer.restoreOrder(
             id = id,
             created = created,
             customerId = customerId,
+            address = address,
             orderItems = items,
             state = state,
             version = version
@@ -33,6 +36,7 @@ internal class CustomerOrderRestorerTest {
         order.id shouldBe id
         order.created shouldBe created
         order.customerId shouldBe customerId
+        order.address shouldBe address
         order.orderItems.size shouldBe 1
         val orderItem = order.orderItems.first()
         orderItem.price shouldBe item.price

@@ -5,7 +5,7 @@ include(":common:types")
 
 include(":order:domain")
 include(":order:usecase")
-include(":order:persistence")
+//include(":order:persistence")
 
 
 include(":kitchen:domain")

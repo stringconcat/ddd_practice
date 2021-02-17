@@ -6,6 +6,7 @@ import arrow.core.right
 import com.stringconcat.ddd.common.types.base.AggregateRoot
 import com.stringconcat.ddd.common.types.base.DomainEvent
 import com.stringconcat.ddd.common.types.base.Version
+import com.stringconcat.ddd.common.types.common.Address
 import com.stringconcat.ddd.common.types.common.Count
 import com.stringconcat.ddd.order.domain.cart.Cart
 import com.stringconcat.ddd.order.domain.cart.CustomerId
@@ -19,6 +20,7 @@ class CustomerOrder internal constructor(
     id: CustomerOrderId,
     val created: OffsetDateTime,
     val customerId: CustomerId,
+    val address: Address,
     val orderItems: Set<OrderItem>,
     version: Version
 ) : AggregateRoot<CustomerOrderId>(id, version) {
@@ -31,6 +33,7 @@ class CustomerOrder internal constructor(
             cart: Cart,
             idGenerator: CustomerOrderIdGenerator,
             activeOrder: CustomerHasActiveOrderRule,
+            address: Address,
             priceProvider: MealPriceProvider
         ): Either<CheckoutError, CustomerOrder> {
 
@@ -55,6 +58,7 @@ class CustomerOrder internal constructor(
                     created = OffsetDateTime.now(),
                     customerId = cart.customerId,
                     orderItems = items,
+                    address = address,
                     version = Version.generate()
                 ).apply { addEvent(CustomerOrderHasBeenCreatedEvent(id)) }.right()
             } else {

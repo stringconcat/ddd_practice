@@ -2,6 +2,7 @@ package com.stringconcat.ddd.order.domain.order
 
 import com.stringconcat.ddd.order.domain.TestCustomerHasActiveOrderRule
 import com.stringconcat.ddd.order.domain.TestMealPriceProvider
+import com.stringconcat.ddd.order.domain.address
 import com.stringconcat.ddd.order.domain.cart
 import com.stringconcat.ddd.order.domain.count
 import com.stringconcat.ddd.order.domain.mealId
@@ -35,6 +36,7 @@ class CustomerOrderTest {
         val mealId = mealId()
         val count = count()
         val price = price()
+        val address = address()
         mealPriceProvider[mealId] = price
         val cart = cart(mapOf(mealId to count))
 
@@ -42,13 +44,15 @@ class CustomerOrderTest {
             cart = cart,
             idGenerator = idGenerator,
             activeOrder = activeOrderRule,
-            priceProvider = mealPriceProvider
+            priceProvider = mealPriceProvider,
+            address = address()
         )
 
         result shouldBeRight {
             it.customerId shouldBe cart.customerId
             it.orderItems shouldContainExactly listOf(OrderItem(mealId, price, count))
             it.id shouldBe id
+            it.address shouldBe address
             it.state shouldBe OrderState.WAITING_FOR_PAYMENT
             it.popEvents() shouldContainExactly listOf(CustomerOrderHasBeenCreatedEvent(id))
         }
@@ -59,6 +63,7 @@ class CustomerOrderTest {
         val mealId = mealId()
         val count = count()
         val price = price()
+        val address = address()
         mealPriceProvider[mealId] = price
         val cart = cart(mapOf(mealId to count))
 
@@ -68,7 +73,8 @@ class CustomerOrderTest {
             cart = cart,
             idGenerator = idGenerator,
             activeOrder = activeOrderRule,
-            priceProvider = mealPriceProvider
+            priceProvider = mealPriceProvider,
+            address = address()
         )
 
         result shouldBeLeft CheckoutError.AlreadyHasActiveOrder
@@ -81,7 +87,8 @@ class CustomerOrderTest {
             cart = cart,
             idGenerator = idGenerator,
             activeOrder = activeOrderRule,
-            priceProvider = mealPriceProvider
+            priceProvider = mealPriceProvider,
+            address = address()
         )
         result shouldBeLeft CheckoutError.EmptyCart
     }

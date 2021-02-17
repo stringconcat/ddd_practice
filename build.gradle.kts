@@ -106,9 +106,9 @@ subprojects {
                 rule {
                     excludes = listOf("web")
 
-                    limit {
-                        minimum = BigDecimal("0.9")
-                    }
+//                    limit {
+//                        minimum = BigDecimal("0.9")
+//                    }
                 }
             }
         }
