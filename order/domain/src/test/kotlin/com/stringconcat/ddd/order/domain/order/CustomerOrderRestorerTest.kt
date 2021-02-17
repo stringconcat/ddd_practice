@@ -16,7 +16,8 @@ internal class CustomerOrderRestorerTest {
         val id = orderId()
         val created = OffsetDateTime.now()
         val customerId = customerId()
-        val orderItems = setOf(orderItem())
+        val item = orderItem()
+        val items = setOf(item)
         val state = OrderState.COMPLETED
         val version = version()
 
@@ -24,7 +25,7 @@ internal class CustomerOrderRestorerTest {
             id = id,
             created = created,
             customerId = customerId,
-            orderItems = orderItems,
+            orderItems = items,
             state = state,
             version = version
         )
@@ -32,7 +33,12 @@ internal class CustomerOrderRestorerTest {
         order.id shouldBe id
         order.created shouldBe created
         order.customerId shouldBe customerId
-        order.orderItems shouldContainExactly orderItems
+        order.orderItems.size shouldBe 1
+        val orderItem = order.orderItems.first()
+        orderItem.price shouldBe item.price
+        orderItem.mealId shouldBe item.mealId
+        orderItem.count shouldBe item.count
+
         order.state shouldBe state
         order.version shouldBe version
         order.popEvents() shouldContainExactly emptyList()

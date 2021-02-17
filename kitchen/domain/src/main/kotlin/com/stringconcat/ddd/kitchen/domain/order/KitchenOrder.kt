@@ -1,6 +1,7 @@
 package com.stringconcat.ddd.kitchen.domain.order
 
 import com.stringconcat.ddd.common.types.base.AggregateRoot
+import com.stringconcat.ddd.common.types.base.ValueObject
 import com.stringconcat.ddd.common.types.base.Version
 import com.stringconcat.ddd.common.types.common.Count
 
@@ -13,6 +14,7 @@ class KitchenOrder internal constructor(
 ) : AggregateRoot<KitchenOrderId>(id, version) {
 
     var cooked = false
+        internal set
 
     fun cooked() {
         if (!cooked) {
@@ -34,7 +36,7 @@ class KitchenOrder internal constructor(
     }
 }
 
-data class OrderItem(val meal: String, val count: Count) {
+data class OrderItem(val meal: Meal, val count: Count) : ValueObject {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
