@@ -36,11 +36,9 @@ class Meal internal constructor(
             mealExistsRule: MealAlreadyExistsRule,
             name: MealName,
             description: MealDescription,
-
             price: Price
-        ): Either<AlreadyExistsWithSameNameError, Meal> {
-
-            return if (mealExistsRule.exists(name)) {
+        ): Either<AlreadyExistsWithSameNameError, Meal> =
+            if (mealExistsRule.exists(name)) {
                 AlreadyExistsWithSameNameError.left()
             } else {
                 val meal = Meal(
@@ -54,7 +52,6 @@ class Meal internal constructor(
                 }
                 meal.right()
             }
-        }
     }
 }
 

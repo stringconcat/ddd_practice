@@ -9,13 +9,12 @@ data class MealName internal constructor(val value: String) : ValueObject {
 
     companion object {
 
-        fun from(name: String): Either<EmptyMealNameError, MealName> {
-            return if (name.isNotBlank()) {
+        fun from(name: String): Either<EmptyMealNameError, MealName> =
+            if (name.isNotBlank()) {
                 MealName(name).right()
             } else {
                 EmptyMealNameError.left()
             }
-        }
     }
 }
 

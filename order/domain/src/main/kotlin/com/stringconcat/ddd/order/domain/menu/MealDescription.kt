@@ -9,13 +9,12 @@ data class MealDescription internal constructor(val value: String) : ValueObject
 
     companion object {
 
-        fun from(description: String): Either<EmptyDescriptionError, MealDescription> {
-            return if (description.isNotBlank()) {
+        fun from(description: String): Either<EmptyDescriptionError, MealDescription> =
+            if (description.isNotBlank()) {
                 MealDescription(description).right()
             } else {
                 EmptyDescriptionError.left()
             }
-        }
     }
 }
 
