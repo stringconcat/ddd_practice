@@ -39,22 +39,18 @@ class AddMealToMenuUseCase(
             mealPersister.save(it);
             it.id
         }.mapLeft {
-            // need to convert
-            AddMealToMenuUseCaseError.InvalidName("Empty name")
+            it.toError();
         }
 }
 
 data class AddMealToMenuRequest(val name: String, val description: String, val price: BigDecimal)
 
+fun BusinessError.toError() = AddMealToMenuUseCaseError.SOmethingWentWrong("whoops")
 fun EmptyMealNameError.toError() = AddMealToMenuUseCaseError.InvalidName("Empty name")
 fun EmptyDescriptionError.toError() = AddMealToMenuUseCaseError.InvalidDescription("Empty description")
 fun AlreadyExistsWithSameNameError.toError() = AddMealToMenuUseCaseError.AlreadyExists
-fun CreatePriceError.toError(): AddMealToMenuUseCaseError {
-    return when (this) {
-        is CreatePriceError.InvalidScale -> AddMealToMenuUseCaseError.InvalidPrice("Invalid scale")
-        is CreatePriceError.NegativeValue -> AddMealToMenuUseCaseError.InvalidPrice("Negative value")
-    }
-}
+fun CreatePriceError.InvalidScale.toError() = AddMealToMenuUseCaseError.InvalidPrice("Invalid scale")
+fun CreatePriceError.NegativeValue.toError() = AddMealToMenuUseCaseError.InvalidPrice("Negative value")
 
 // передавать сообщения из юзкейса не очень хорошо, лучше завести enum, но для примера нам сойдет
 sealed class AddMealToMenuUseCaseError(val message: String) {
