@@ -4,7 +4,6 @@ import com.stringconcat.ddd.order.domain.mealDescription
 import com.stringconcat.ddd.order.domain.mealId
 import com.stringconcat.ddd.order.domain.mealName
 import com.stringconcat.ddd.order.domain.price
-import com.stringconcat.ddd.order.domain.address
 import com.stringconcat.ddd.order.domain.version
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
@@ -19,7 +18,6 @@ internal class MealRestorerTest {
         val price = price()
         val name = mealName()
         val description = mealDescription()
-        val address = address()
         val removed = true
         val version = version()
 
@@ -28,12 +26,10 @@ internal class MealRestorerTest {
             name = name,
             removed = removed,
             description = description,
-            address = address,
             price = price,
             version = version
         )
 
-        meal.address shouldBe address
         meal.id shouldBe mealId
         meal.name shouldBe name
         meal.description shouldBe description

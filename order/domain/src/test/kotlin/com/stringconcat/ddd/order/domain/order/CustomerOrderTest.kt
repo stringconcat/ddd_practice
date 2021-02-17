@@ -45,7 +45,7 @@ class CustomerOrderTest {
             idGenerator = idGenerator,
             activeOrder = activeOrderRule,
             priceProvider = mealPriceProvider,
-            address = address()
+            address = address
         )
 
         result shouldBeRight {
@@ -74,7 +74,7 @@ class CustomerOrderTest {
             idGenerator = idGenerator,
             activeOrder = activeOrderRule,
             priceProvider = mealPriceProvider,
-            address = address()
+            address = address
         )
 
         result shouldBeLeft CheckoutError.AlreadyHasActiveOrder

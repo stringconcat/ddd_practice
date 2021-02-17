@@ -1,7 +1,6 @@
 package com.stringconcat.ddd.order.domain.menu
 
 import com.stringconcat.ddd.order.domain.TestMealAlreadyExistsRule
-import com.stringconcat.ddd.order.domain.address
 import com.stringconcat.ddd.order.domain.meal
 import com.stringconcat.ddd.order.domain.mealDescription
 import com.stringconcat.ddd.order.domain.mealId
@@ -27,7 +26,6 @@ internal class MealTest {
         val price = price()
         val name = mealName()
         val description = mealDescription()
-        val address = address()
         val mealExistsRule = TestMealAlreadyExistsRule(false)
 
         val result = Meal.addMealToMenu(
@@ -35,12 +33,10 @@ internal class MealTest {
             mealExistsRule = mealExistsRule,
             name = name,
             description = description,
-            address = address,
             price = price
         )
 
         result shouldBeRight {
-            it.address shouldBe address
             it.id shouldBe mealId
             it.name shouldBe name
             it.description shouldBe description
@@ -57,14 +53,12 @@ internal class MealTest {
         val price = price()
         val name = mealName()
         val description = mealDescription()
-        val address = address()
 
         val result = Meal.addMealToMenu(
             idGenerator,
             mealExistsRule = mealExistsRule,
             name = name,
             description = description,
-            address = address,
             price = price
         )
 
