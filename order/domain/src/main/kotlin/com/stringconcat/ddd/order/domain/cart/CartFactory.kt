@@ -8,17 +8,15 @@ class CartFactory(
     private val customerCartExtractor: CustomerCartExtractor
 ) {
 
-    fun createOrGetCart(customerId: CustomerId): Cart {
-
-        return customerCartExtractor.getCartByCustomerId(customerId)
+    fun createOrGetCart(forCustomer: CustomerId): Cart =
+        customerCartExtractor.getCartByCustomerId(forCustomer)
             ?: Cart(
                 id = idGenerator.generate(),
-                customerId = customerId,
+                customerId = forCustomer,
                 created = OffsetDateTime.now(),
                 version = Version.generate(),
                 meals = emptyMap()
             ).apply {
                 addCartEvent(CartHasBeenCreatedEvent(cartId = this.id))
             }
-    }
 }

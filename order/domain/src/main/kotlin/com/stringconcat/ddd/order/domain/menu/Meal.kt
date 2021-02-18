@@ -42,7 +42,7 @@ class Meal internal constructor(
             if (mealExistsRule.exists(name)) {
                 AlreadyExistsWithSameNameError.left()
             } else {
-                val meal = Meal(
+                Meal(
                     id = idGenerator.generateId(),
                     name = name,
                     description = description,
@@ -50,8 +50,7 @@ class Meal internal constructor(
                     version = Version.generate(),
                 ).apply {
                     addEvent(MealHasBeenAddedToMenu(this.id))
-                }
-                meal.right()
+                }.right()
             }
     }
 }

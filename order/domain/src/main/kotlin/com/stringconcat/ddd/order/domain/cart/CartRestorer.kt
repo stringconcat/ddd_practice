@@ -14,6 +14,12 @@ object CartRestorer {
         meals: Map<MealId, Count>,
         version: Version
     ): Cart {
-        return Cart(id, customerId, created, meals, version)
+        return Cart(
+            id = id,
+            customerId = customerId,
+            created = created,
+            meals = meals,
+            version = version
+        )
     }
 }

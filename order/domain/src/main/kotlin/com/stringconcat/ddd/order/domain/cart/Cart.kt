@@ -20,13 +20,13 @@ class Cart internal constructor(
     version: Version
 ) : AggregateRoot<CartId>(id, version) {
 
+    private val meals = HashMap<MealId, Count>(meals)
+
     internal fun addCartEvent(event: DomainEvent) {
         super.addEvent(event)
     }
 
-    private val meals = HashMap<MealId, Count>(meals)
-
-    fun meals() = HashMap(meals)
+    fun meals():Map<MealId, Count> = HashMap(meals)
 
     fun addMeal(
         meal: Meal,
@@ -47,7 +47,10 @@ class Cart internal constructor(
         }
     }
 
-    private fun updateExistingMeal(mealId: MealId, count: Count): Either<AddMealToCartError, Unit> =
+    private fun updateExistingMeal(
+        mealId: MealId,
+        count: Count
+    ): Either<AddMealToCartError, Unit> =
         count.increment()
             .map {
                 meals[mealId] = it
@@ -56,7 +59,9 @@ class Cart internal constructor(
                 AddMealToCartError.LimitReached
             }
 
-    private fun createNewMeal(mealId: MealId): Either<AddMealToCartError, Unit> {
+    private fun createNewMeal(
+        mealId: MealId
+    ): Either<AddMealToCartError, Unit> {
         meals[mealId] = Count.one()
         addEvent(MealHasBeenAddedToCart(id, mealId))
         return Unit.right()

@@ -24,19 +24,24 @@ class KitchenOrder internal constructor(
     }
 
     companion object {
-        fun create(id: KitchenOrderId, orderItems: Set<OrderItem>): KitchenOrder {
-            return KitchenOrder(
+        fun create(
+            id: KitchenOrderId,
+            orderItems: Set<OrderItem>
+        )=
+            KitchenOrder(
                 id = id,
                 orderItems = orderItems,
                 version = Version.generate()
             ).apply {
                 addEvent(KitchenOrderHasBeenCreatedEvent(id))
             }
-        }
     }
 }
 
-data class OrderItem(val meal: Meal, val count: Count) : ValueObject {
+data class OrderItem(
+    val meal: Meal,
+    val count: Count
+    ) : ValueObject {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

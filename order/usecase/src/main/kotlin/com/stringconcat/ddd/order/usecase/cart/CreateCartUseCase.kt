@@ -9,7 +9,7 @@ class CreateCartUseCase(
     private val cartPersister: CartPersister
 ) {
     fun createOrGetCart(customerId: String): CartId {
-        val cart = cartFactory.createOrGetCart(CustomerId(customerId))
+        val cart = cartFactory.createOrGetCart(forCustomer = CustomerId(customerId))
         cartPersister.save(cart)
         return cart.id
     }

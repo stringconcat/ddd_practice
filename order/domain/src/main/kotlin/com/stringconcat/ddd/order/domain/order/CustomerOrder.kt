@@ -59,7 +59,9 @@ class CustomerOrder internal constructor(
                     orderItems = items,
                     address = address,
                     version = Version.generate()
-                ).apply { addEvent(CustomerOrderHasBeenCreatedEvent(id)) }.right()
+                ).apply {
+                    addEvent(CustomerOrderHasBeenCreatedEvent(id))
+                }.right()
             } else {
                 CheckoutError.EmptyCart.left()
             }
@@ -122,11 +124,11 @@ enum class OrderState(
     private val nextStates: Set<OrderState> = emptySet()
 ) {
 
-    CANCELLED(false),
-    COMPLETED(false),
-    CONFIRMED(true, setOf(COMPLETED)),
-    PAID(true, setOf(CONFIRMED, CANCELLED)),
-    WAITING_FOR_PAYMENT(active = true, setOf(PAID));
+    CANCELLED(active = false),
+    COMPLETED(active = false),
+    CONFIRMED(active = true, nextStates = setOf(COMPLETED)),
+    PAID(active = true, nextStates = setOf(CONFIRMED, CANCELLED)),
+    WAITING_FOR_PAYMENT(active = true, nextStates = setOf(PAID));
 
     fun canChangeTo(state: OrderState) = nextStates.contains(state)
 }
