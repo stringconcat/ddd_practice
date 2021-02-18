@@ -22,6 +22,7 @@ import com.stringconcat.ddd.order.domain.order.CustomerOrderRestorer
 import com.stringconcat.ddd.order.domain.order.OrderState
 import com.stringconcat.ddd.order.domain.rules.CustomerHasActiveOrderRule
 import com.stringconcat.ddd.order.usecase.cart.CartPersister
+import com.stringconcat.ddd.order.usecase.order.CustomerOrderExtractor
 import com.stringconcat.ddd.order.usecase.order.CustomerOrderPersister
 import java.math.BigDecimal
 import java.time.OffsetDateTime
@@ -144,4 +145,8 @@ class TestCustomerOrderPersister : CustomerOrderPersister, HashMap<CustomerOrder
     override fun save(order: CustomerOrder) {
         this[order.id] = order
     }
+}
+
+class TestCustomerOrderExtractor : CustomerOrderExtractor, HashMap<CustomerOrderId, CustomerOrder>() {
+    override fun getById(orderId: CustomerOrderId) = this[orderId]
 }

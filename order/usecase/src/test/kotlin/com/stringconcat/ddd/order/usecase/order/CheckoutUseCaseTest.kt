@@ -39,7 +39,7 @@ internal class CheckoutUseCaseTest {
 
         val useCase = CheckoutUseCase(
             idGenerator = TestCustomerOrderIdGenerator,
-            customerCartExtractor = cartExtractor,
+            cartExtractor = cartExtractor,
             activeOrderRule = activeOrderRule,
             priceProvider = TestMealPriceProvider,
             customerOrderPersister = orderPersister
@@ -68,7 +68,7 @@ internal class CheckoutUseCaseTest {
         cartExtractor.clear()
         val useCase = CheckoutUseCase(
             idGenerator = TestCustomerOrderIdGenerator,
-            customerCartExtractor = cartExtractor,
+            cartExtractor = cartExtractor,
             activeOrderRule = activeOrderRule,
             priceProvider = TestMealPriceProvider,
             customerOrderPersister = orderPersister
@@ -86,7 +86,7 @@ internal class CheckoutUseCaseTest {
         cartExtractor[customerId] = cart
         val useCase = CheckoutUseCase(
             idGenerator = TestCustomerOrderIdGenerator,
-            customerCartExtractor = cartExtractor,
+            cartExtractor = cartExtractor,
             activeOrderRule = activeOrderRule,
             priceProvider = TestMealPriceProvider,
             customerOrderPersister = orderPersister
@@ -102,7 +102,7 @@ internal class CheckoutUseCaseTest {
 
         val useCase = CheckoutUseCase(
             idGenerator = TestCustomerOrderIdGenerator,
-            customerCartExtractor = cartExtractor,
+            cartExtractor = cartExtractor,
             activeOrderRule = activeOrderRule,
             priceProvider = TestMealPriceProvider,
             customerOrderPersister = orderPersister
@@ -119,7 +119,7 @@ internal class CheckoutUseCaseTest {
     fun `invalid address - invalid building`() {
         val useCase = CheckoutUseCase(
             idGenerator = TestCustomerOrderIdGenerator,
-            customerCartExtractor = cartExtractor,
+            cartExtractor = cartExtractor,
             activeOrderRule = activeOrderRule,
             priceProvider = TestMealPriceProvider,
             customerOrderPersister = orderPersister
@@ -139,7 +139,7 @@ internal class CheckoutUseCaseTest {
 
         val useCase = CheckoutUseCase(
             idGenerator = TestCustomerOrderIdGenerator,
-            customerCartExtractor = cartExtractor,
+            cartExtractor = cartExtractor,
             activeOrderRule = activeOrderRule,
             priceProvider = TestMealPriceProvider,
             customerOrderPersister = orderPersister
