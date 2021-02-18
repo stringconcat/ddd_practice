@@ -10,7 +10,7 @@ import java.math.BigDecimal
 
 data class Price internal constructor(
     val value: BigDecimal
-    ) : ValueObject {
+) : ValueObject {
 
     companion object {
 
@@ -38,7 +38,7 @@ data class Price internal constructor(
         Price(this.value.multiply(BigDecimal(multiplicator.value)))
 }
 
-sealed class CreatePriceError: BusinessError {
+sealed class CreatePriceError : BusinessError {
     object InvalidScale : CreatePriceError()
     object NegativeValue : CreatePriceError()
 }

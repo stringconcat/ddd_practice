@@ -56,4 +56,4 @@ class Meal internal constructor(
     }
 }
 
-object AlreadyExistsWithSameNameError: BusinessError
+object AlreadyExistsWithSameNameError : BusinessError

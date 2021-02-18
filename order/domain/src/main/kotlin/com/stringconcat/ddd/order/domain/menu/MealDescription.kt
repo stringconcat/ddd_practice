@@ -19,4 +19,4 @@ data class MealDescription internal constructor(val value: String) : ValueObject
     }
 }
 
-object EmptyDescriptionError: BusinessError
+object EmptyDescriptionError : BusinessError

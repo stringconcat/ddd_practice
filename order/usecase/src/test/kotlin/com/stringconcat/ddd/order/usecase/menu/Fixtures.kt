@@ -19,9 +19,6 @@ import com.stringconcat.ddd.order.domain.order.CustomerOrderId
 import com.stringconcat.ddd.order.domain.order.OrderItem
 import com.stringconcat.ddd.order.domain.order.CustomerOrderRestorer
 import com.stringconcat.ddd.order.domain.order.OrderState
-import com.stringconcat.ddd.order.domain.providers.MealPriceProvider
-import com.stringconcat.ddd.order.domain.rules.CustomerHasActiveOrderRule
-import com.stringconcat.ddd.order.domain.rules.MealAlreadyExistsRule
 import java.math.BigDecimal
 import java.time.OffsetDateTime
 import java.util.UUID

@@ -19,4 +19,4 @@ data class MealName internal constructor(val value: String) : ValueObject {
     }
 }
 
-object EmptyMealNameError: BusinessError
+object EmptyMealNameError : BusinessError

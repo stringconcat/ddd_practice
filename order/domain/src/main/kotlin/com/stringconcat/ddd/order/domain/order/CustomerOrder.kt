@@ -93,7 +93,6 @@ class CustomerOrder internal constructor(
     }
 
     fun isActive(): Boolean = state.active
-
 }
 
 class OrderItem internal constructor(
