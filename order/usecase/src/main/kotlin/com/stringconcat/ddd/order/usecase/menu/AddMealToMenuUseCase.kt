@@ -38,8 +38,6 @@ class AddMealToMenuUseCase(
         }.map { meal ->
             mealPersister.save(meal)
             meal.id
-        }.mapLeft {
-            it
         }
 }
 

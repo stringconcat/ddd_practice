@@ -22,6 +22,7 @@ import com.stringconcat.ddd.order.domain.order.CustomerOrderRestorer
 import com.stringconcat.ddd.order.domain.order.OrderState
 import com.stringconcat.ddd.order.domain.rules.CustomerHasActiveOrderRule
 import com.stringconcat.ddd.order.usecase.cart.CartPersister
+import com.stringconcat.ddd.order.usecase.order.CustomerOrderPersister
 import java.math.BigDecimal
 import java.time.OffsetDateTime
 import java.util.UUID
@@ -83,10 +84,13 @@ fun count(value: Int = Random.nextInt(20, 5000)): Count {
     return result.b
 }
 
-fun cart(meals: Map<MealId, Count> = emptyMap()): Cart {
+fun cart(
+    meals: Map<MealId, Count> = emptyMap(),
+    customerId: CustomerId = customerId()
+): Cart {
     return CartRestorer.restoreCart(
         id = cartId(),
-        customerId = customerId(),
+        customerId = customerId,
         created = OffsetDateTime.now(),
         meals = meals,
         version = version()
@@ -110,7 +114,6 @@ fun order(
     )
 }
 
-
 class TestMealPersister : HashMap<MealId, Meal>(), MealPersister {
     override fun save(meal: Meal) {
         this[meal.id] = meal
@@ -127,7 +130,6 @@ class TestMealExtractor : HashMap<MealId, Meal>(), MealExtractor {
     override fun getById(id: MealId) = this[id]
 }
 
-
 class TestCustomerHasActiveOrderRule(val hasActive: Boolean) : CustomerHasActiveOrderRule {
     override fun hasActiveOrder(customerId: CustomerId): Boolean {
         return hasActive
@@ -136,4 +138,10 @@ class TestCustomerHasActiveOrderRule(val hasActive: Boolean) : CustomerHasActive
 
 class TestCartExtractor : HashMap<CustomerId, Cart>(), CustomerCartExtractor {
     override fun getCart(forCustomer: CustomerId): Cart? = this[forCustomer]
+}
+
+class TestCustomerOrderPersister : CustomerOrderPersister, HashMap<CustomerOrderId, CustomerOrder>() {
+    override fun save(order: CustomerOrder) {
+        this[order.id] = order
+    }
 }
