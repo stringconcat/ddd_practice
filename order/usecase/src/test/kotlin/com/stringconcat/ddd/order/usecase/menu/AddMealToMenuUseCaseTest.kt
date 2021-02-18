@@ -15,6 +15,8 @@ import java.math.BigDecimal
 
 internal class AddMealToMenuUseCaseTest {
 
+    val persister = TestMealPersister()
+
     @Test
     fun `successfully added`() {
 
@@ -23,7 +25,7 @@ internal class AddMealToMenuUseCaseTest {
         val price = price()
 
         val result = AddMealToMenuUseCase(
-            TestMealPersister,
+            persister,
             TestMealIdGenerator,
             MealNotExist
         ).addMealToMenu(
@@ -40,7 +42,7 @@ internal class AddMealToMenuUseCaseTest {
             it shouldBe id
         }
 
-        val meal = TestMealPersister[id]
+        val meal = persister[id]
         meal.shouldNotBeNull()
 
         meal.id shouldBe id
@@ -57,7 +59,7 @@ internal class AddMealToMenuUseCaseTest {
         val price = price()
 
         val result = AddMealToMenuUseCase(
-            TestMealPersister,
+            persister,
             TestMealIdGenerator,
             MealExist
         ).addMealToMenu(
@@ -69,7 +71,7 @@ internal class AddMealToMenuUseCaseTest {
         )
 
         result shouldBeLeft AddMealToMenuUseCaseError.AlreadyExists
-        TestMealPersister shouldContainExactly emptyMap()
+        persister shouldContainExactly emptyMap()
     }
 
     @Test
@@ -80,7 +82,7 @@ internal class AddMealToMenuUseCaseTest {
         val price = price()
 
         val result = AddMealToMenuUseCase(
-            TestMealPersister,
+            persister,
             TestMealIdGenerator,
             MealExist
         ).addMealToMenu(
@@ -92,7 +94,7 @@ internal class AddMealToMenuUseCaseTest {
         )
 
         result shouldBeLeft AddMealToMenuUseCaseError.InvalidName("Empty name")
-        TestMealPersister shouldContainExactly emptyMap()
+        persister shouldContainExactly emptyMap()
     }
 
     @Test
@@ -102,7 +104,7 @@ internal class AddMealToMenuUseCaseTest {
         val price = price()
 
         val result = AddMealToMenuUseCase(
-            TestMealPersister,
+            persister,
             TestMealIdGenerator,
             MealExist
         ).addMealToMenu(
@@ -114,7 +116,7 @@ internal class AddMealToMenuUseCaseTest {
         )
 
         result shouldBeLeft AddMealToMenuUseCaseError.InvalidDescription("Empty description")
-        TestMealPersister shouldContainExactly emptyMap()
+        persister shouldContainExactly emptyMap()
     }
 
     @Test
@@ -124,7 +126,7 @@ internal class AddMealToMenuUseCaseTest {
         val price = BigDecimal("-1")
 
         val result = AddMealToMenuUseCase(
-            TestMealPersister,
+            persister,
             TestMealIdGenerator,
             MealExist
         ).addMealToMenu(
@@ -136,7 +138,7 @@ internal class AddMealToMenuUseCaseTest {
         )
 
         result shouldBeLeft AddMealToMenuUseCaseError.InvalidPrice("Negative value")
-        TestMealPersister shouldContainExactly emptyMap()
+        persister shouldContainExactly emptyMap()
     }
 
     @Test
@@ -146,7 +148,7 @@ internal class AddMealToMenuUseCaseTest {
         val price = BigDecimal("1").setScale(10)
 
         val result = AddMealToMenuUseCase(
-            TestMealPersister,
+            persister,
             TestMealIdGenerator,
             MealExist
         ).addMealToMenu(
@@ -158,14 +160,9 @@ internal class AddMealToMenuUseCaseTest {
         )
 
         result shouldBeLeft AddMealToMenuUseCaseError.InvalidPrice("Invalid scale")
-        TestMealPersister shouldContainExactly emptyMap()
+        persister shouldContainExactly emptyMap()
     }
 
-    object TestMealPersister : HashMap<MealId, Meal>(), MealPersister {
-        override fun save(meal: Meal) {
-            this[meal.id] = meal
-        }
-    }
 
     object TestMealIdGenerator : MealIdGenerator {
         val id = mealId()

@@ -106,3 +106,15 @@ fun order(
         version = version()
     )
 }
+
+
+class TestMealPersister : HashMap<MealId, Meal>(), MealPersister {
+    override fun save(meal: Meal) {
+        this[meal.id] = meal
+    }
+}
+
+
+class TestMealExtractor : HashMap<MealId, Meal>(), MealExtractor {
+    override fun getById(id: MealId) = this[id]
+}
