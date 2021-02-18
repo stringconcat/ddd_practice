@@ -1,15 +1,17 @@
 package com.stringconcat.ddd.order.domain.order
 
 import com.stringconcat.ddd.order.domain.TestCustomerHasActiveOrderRule
-import com.stringconcat.ddd.order.domain.TestMealPriceProvider
 import com.stringconcat.ddd.order.domain.address
 import com.stringconcat.ddd.order.domain.cart
 import com.stringconcat.ddd.order.domain.count
 import com.stringconcat.ddd.order.domain.mealId
+import com.stringconcat.ddd.order.domain.menu.MealId
+import com.stringconcat.ddd.order.domain.menu.Price
 import com.stringconcat.ddd.order.domain.order
 import com.stringconcat.ddd.order.domain.orderId
 import com.stringconcat.ddd.order.domain.orderItem
 import com.stringconcat.ddd.order.domain.price
+import com.stringconcat.ddd.order.domain.providers.MealPriceProvider
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight
 import io.kotest.matchers.collections.shouldContainExactly
@@ -29,15 +31,13 @@ class CustomerOrderTest {
 
     private val activeOrderRule = TestCustomerHasActiveOrderRule(false)
 
-    private val mealPriceProvider = TestMealPriceProvider()
-
     @Test
     fun `checkout - success`() {
         val mealId = mealId()
         val count = count()
         val price = price()
         val address = address()
-        mealPriceProvider[mealId] = price
+        val mealPriceProvider = TestMealPriceProvider.apply { this[mealId] = price }
         val cart = cart(mapOf(mealId to count))
 
         val result = CustomerOrder.checkout(
@@ -64,7 +64,7 @@ class CustomerOrderTest {
         val count = count()
         val price = price()
         val address = address()
-        mealPriceProvider[mealId] = price
+        val mealPriceProvider = TestMealPriceProvider.apply { this[mealId] = price }
         val cart = cart(mapOf(mealId to count))
 
         val activeOrderRule = TestCustomerHasActiveOrderRule(true)
@@ -87,7 +87,7 @@ class CustomerOrderTest {
             cart = cart,
             idGenerator = idGenerator,
             activeOrder = activeOrderRule,
-            priceProvider = mealPriceProvider,
+            priceProvider = TestMealPriceProvider,
             address = address()
         )
         result shouldBeLeft CheckoutError.EmptyCart
@@ -214,5 +214,13 @@ class CustomerOrderTest {
 
         val order = order(orderItems = setOf(orderItem1, orderItem2))
         order.totalPrice() shouldBe price(BigDecimal("367.38"))
+    }
+
+    object TestMealPriceProvider : MealPriceProvider, HashMap<MealId, Price>() {
+        override fun price(mealId: MealId): Price {
+            return requireNotNull(this[mealId]) {
+                "MealId #$mealId not found"
+            }
+        }
     }
 }

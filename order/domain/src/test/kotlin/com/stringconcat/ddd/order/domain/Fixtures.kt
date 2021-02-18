@@ -19,9 +19,7 @@ import com.stringconcat.ddd.order.domain.order.CustomerOrderId
 import com.stringconcat.ddd.order.domain.order.OrderItem
 import com.stringconcat.ddd.order.domain.order.CustomerOrderRestorer
 import com.stringconcat.ddd.order.domain.order.OrderState
-import com.stringconcat.ddd.order.domain.providers.MealPriceProvider
 import com.stringconcat.ddd.order.domain.rules.CustomerHasActiveOrderRule
-import com.stringconcat.ddd.order.domain.rules.MealAlreadyExistsRule
 import java.math.BigDecimal
 import java.time.OffsetDateTime
 import java.util.UUID
@@ -125,16 +123,4 @@ class TestCustomerHasActiveOrderRule(val hasActive: Boolean) : CustomerHasActive
     override fun hasActiveOrder(customerId: CustomerId): Boolean {
         return hasActive
     }
-}
-
-class TestMealPriceProvider : MealPriceProvider, HashMap<MealId, Price>() {
-    override fun price(mealId: MealId): Price {
-        return requireNotNull(this[mealId]) {
-            "MealId #$mealId not found"
-        }
-    }
-}
-
-class TestMealAlreadyExistsRule(val exists: Boolean) : MealAlreadyExistsRule {
-    override fun exists(name: MealName) = exists
 }
