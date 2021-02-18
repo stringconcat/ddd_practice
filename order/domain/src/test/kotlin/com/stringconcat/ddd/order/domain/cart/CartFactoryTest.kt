@@ -21,10 +21,10 @@ internal class CartFactoryTest {
 
     @Test
     fun `create cart - cart doesn't exist`() {
-        val getCartByGuestId = HashMapGetCartByGuestId()
+        val getCartByGuestId = TestCustomerCartExtractor()
         val factory = CartFactory(idGenerator, getCartByGuestId)
         val guestId = customerId()
-        val cart = factory.createOrGetCartForGuest(guestId)
+        val cart = factory.createOrGetCart(guestId)
 
         cart.id shouldBe id
         cart.meals() shouldContainExactly emptyMap()
@@ -34,18 +34,18 @@ internal class CartFactoryTest {
 
     @Test
     fun `create cart - cart exists`() {
-        val getCartByGuestId = HashMapGetCartByGuestId()
+        val getCartByGuestId = TestCustomerCartExtractor()
         val cart = cart()
         getCartByGuestId[cart.customerId] = cart
 
         val factory = CartFactory(idGenerator, getCartByGuestId)
-        val result = factory.createOrGetCartForGuest(cart.customerId)
+        val result = factory.createOrGetCart(cart.customerId)
         result shouldBeSameInstanceAs cart
         result.popEvents() shouldContainExactly emptyList()
     }
 
-    private class HashMapGetCartByGuestId : GetCartByGuestId, HashMap<CustomerId, Cart>() {
-        override fun getCartByGuestId(customerId: CustomerId): Cart? {
+    private class TestCustomerCartExtractor : CustomerCartExtractor, HashMap<CustomerId, Cart>() {
+        override fun getCartByCustomerId(customerId: CustomerId): Cart? {
             return this[customerId]
         }
     }

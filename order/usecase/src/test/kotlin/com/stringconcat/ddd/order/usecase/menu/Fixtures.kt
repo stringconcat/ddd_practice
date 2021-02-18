@@ -19,6 +19,7 @@ import com.stringconcat.ddd.order.domain.order.CustomerOrderId
 import com.stringconcat.ddd.order.domain.order.OrderItem
 import com.stringconcat.ddd.order.domain.order.CustomerOrderRestorer
 import com.stringconcat.ddd.order.domain.order.OrderState
+import com.stringconcat.ddd.order.usecase.cart.CartPersister
 import java.math.BigDecimal
 import java.time.OffsetDateTime
 import java.util.UUID
@@ -114,6 +115,11 @@ class TestMealPersister : HashMap<MealId, Meal>(), MealPersister {
     }
 }
 
+class TestCartPersister : HashMap<CartId, Cart>(), CartPersister {
+    override fun save(cart: Cart) {
+        this[cart.id] = cart
+    }
+}
 
 class TestMealExtractor : HashMap<MealId, Meal>(), MealExtractor {
     override fun getById(id: MealId) = this[id]
