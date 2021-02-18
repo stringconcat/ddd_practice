@@ -6,7 +6,7 @@ import arrow.core.flatMap
 import arrow.core.rightIfNotNull
 import com.stringconcat.ddd.common.types.common.Address
 import com.stringconcat.ddd.common.types.common.CreateAddressError
-import com.stringconcat.ddd.order.domain.cart.CustomerCartExtractor
+import com.stringconcat.ddd.order.domain.cart.CartExtractor
 import com.stringconcat.ddd.order.domain.cart.CustomerId
 import com.stringconcat.ddd.order.domain.order.CheckoutError
 import com.stringconcat.ddd.order.domain.order.CustomerOrder
@@ -17,7 +17,7 @@ import com.stringconcat.ddd.order.domain.rules.CustomerHasActiveOrderRule
 
 class CheckoutUseCase(
     private val idGenerator: CustomerOrderIdGenerator,
-    private val customerCartExtractor: CustomerCartExtractor,
+    private val cartExtractor: CartExtractor,
     private val activeOrderRule: CustomerHasActiveOrderRule,
     private val priceProvider: MealPriceProvider,
     private val customerOrderPersister: CustomerOrderPersister
@@ -33,7 +33,7 @@ class CheckoutUseCase(
                 building = request.address.building
             ).mapLeft { it.toError() },
 
-            customerCartExtractor.getCart(forCustomer = CustomerId(request.customerId))
+            cartExtractor.getCart(forCustomer = CustomerId(request.customerId))
                 .rightIfNotNull { CheckoutUseCaseError.CartNotFound }
 
         ).flatMap {

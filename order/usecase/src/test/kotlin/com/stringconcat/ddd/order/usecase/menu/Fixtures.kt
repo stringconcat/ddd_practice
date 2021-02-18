@@ -7,7 +7,7 @@ import com.stringconcat.ddd.common.types.common.Count
 import com.stringconcat.ddd.order.domain.cart.Cart
 import com.stringconcat.ddd.order.domain.cart.CartId
 import com.stringconcat.ddd.order.domain.cart.CartRestorer
-import com.stringconcat.ddd.order.domain.cart.CustomerCartExtractor
+import com.stringconcat.ddd.order.domain.cart.CartExtractor
 import com.stringconcat.ddd.order.domain.cart.CustomerId
 import com.stringconcat.ddd.order.domain.menu.Meal
 import com.stringconcat.ddd.order.domain.menu.MealDescription
@@ -136,7 +136,7 @@ class TestCustomerHasActiveOrderRule(val hasActive: Boolean) : CustomerHasActive
     }
 }
 
-class TestCartExtractor : HashMap<CustomerId, Cart>(), CustomerCartExtractor {
+class TestCartExtractor : HashMap<CustomerId, Cart>(), CartExtractor {
     override fun getCart(forCustomer: CustomerId): Cart? = this[forCustomer]
 }
 

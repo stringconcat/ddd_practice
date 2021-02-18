@@ -21,7 +21,7 @@ internal class CartFactoryTest {
 
     @Test
     fun `create cart - cart doesn't exist`() {
-        val getCartByGuestId = TestCustomerCartExtractor()
+        val getCartByGuestId = TestCartExtractor()
         val factory = CartFactory(idGenerator, getCartByGuestId)
         val guestId = customerId()
         val cart = factory.createOrGetCart(guestId)
@@ -34,7 +34,7 @@ internal class CartFactoryTest {
 
     @Test
     fun `create cart - cart exists`() {
-        val getCartByGuestId = TestCustomerCartExtractor()
+        val getCartByGuestId = TestCartExtractor()
         val cart = cart()
         getCartByGuestId[cart.customerId] = cart
 
@@ -44,7 +44,7 @@ internal class CartFactoryTest {
         result.popEvents() shouldContainExactly emptyList()
     }
 
-    private class TestCustomerCartExtractor : CustomerCartExtractor, HashMap<CustomerId, Cart>() {
+    private class TestCartExtractor : CartExtractor, HashMap<CustomerId, Cart>() {
         override fun getCart(forCustomer: CustomerId): Cart? {
             return this[forCustomer]
         }

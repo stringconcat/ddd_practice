@@ -5,11 +5,11 @@ import java.time.OffsetDateTime
 
 class CartFactory(
     private val idGenerator: CartIdGenerator,
-    private val customerCartExtractor: CustomerCartExtractor
+    private val cartExtractor: CartExtractor
 ) {
 
     fun createOrGetCart(forCustomer: CustomerId): Cart =
-        customerCartExtractor.getCart(forCustomer)
+        cartExtractor.getCart(forCustomer)
             ?: Cart(
                 id = idGenerator.generate(),
                 customerId = forCustomer,

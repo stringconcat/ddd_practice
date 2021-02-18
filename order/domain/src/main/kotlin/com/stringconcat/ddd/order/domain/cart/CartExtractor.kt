@@ -1,5 +1,5 @@
 package com.stringconcat.ddd.order.domain.cart
 
-interface CustomerCartExtractor {
+interface CartExtractor {
     fun getCart(forCustomer: CustomerId): Cart?
 }
