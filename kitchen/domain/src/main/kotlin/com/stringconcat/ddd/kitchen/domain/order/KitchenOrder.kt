@@ -27,7 +27,7 @@ class KitchenOrder internal constructor(
         fun create(
             id: KitchenOrderId,
             orderItems: Set<OrderItem>
-        )=
+        ) =
             KitchenOrder(
                 id = id,
                 orderItems = orderItems,
@@ -41,7 +41,7 @@ class KitchenOrder internal constructor(
 data class OrderItem(
     val meal: Meal,
     val count: Count
-    ) : ValueObject {
+) : ValueObject {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

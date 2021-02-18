@@ -19,6 +19,7 @@ import com.stringconcat.ddd.order.domain.order.CustomerOrderId
 import com.stringconcat.ddd.order.domain.order.OrderItem
 import com.stringconcat.ddd.order.domain.order.CustomerOrderRestorer
 import com.stringconcat.ddd.order.domain.order.OrderState
+import com.stringconcat.ddd.order.domain.rules.CustomerHasActiveOrderRule
 import com.stringconcat.ddd.order.usecase.cart.CartPersister
 import java.math.BigDecimal
 import java.time.OffsetDateTime
@@ -123,4 +124,11 @@ class TestCartPersister : HashMap<CartId, Cart>(), CartPersister {
 
 class TestMealExtractor : HashMap<MealId, Meal>(), MealExtractor {
     override fun getById(id: MealId) = this[id]
+}
+
+
+class TestCustomerHasActiveOrderRule(val hasActive: Boolean) : CustomerHasActiveOrderRule {
+    override fun hasActiveOrder(customerId: CustomerId): Boolean {
+        return hasActive
+    }
 }
