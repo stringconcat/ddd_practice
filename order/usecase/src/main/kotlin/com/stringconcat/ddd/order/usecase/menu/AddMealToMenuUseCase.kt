@@ -3,7 +3,6 @@ package com.stringconcat.ddd.order.usecase.menu
 import arrow.core.Either
 import arrow.core.extensions.either.apply.tupled
 import arrow.core.flatMap
-import com.stringconcat.ddd.common.types.error.BusinessError
 import com.stringconcat.ddd.order.domain.menu.AlreadyExistsWithSameNameError
 import com.stringconcat.ddd.order.domain.menu.CreatePriceError
 import com.stringconcat.ddd.order.domain.menu.EmptyDescriptionError
@@ -25,40 +24,42 @@ class AddMealToMenuUseCase(
 
     fun addMealToMenu(request: AddMealToMenuRequest): Either<AddMealToMenuUseCaseError, MealId> =
         tupled(
-            MealName.from(request.name),
-            MealDescription.from(request.description),
-            Price.from(request.price)
-        ).flatMap {
+            MealName.from(request.name).mapLeft { it.toError() },
+            MealDescription.from(request.description).mapLeft { it.toError() },
+            Price.from(request.price).mapLeft { it.toError() }
+        ).flatMap { params ->
             Meal.addMealToMenu(
                 idGenerator = idGenerator,
                 mealExistsRule = mealExistsRule,
-                name = it.a,
-                description = it.b,
-                price = it.c
-            )
-        }.map {
-            mealPersister.save(it)
-            it.id
+                name = params.a,
+                description = params.b,
+                price = params.c
+            ).mapLeft { e -> e.toError() }
+        }.map { meal ->
+            mealPersister.save(meal)
+            meal.id
         }.mapLeft {
-            it.toError()
+            it
         }
 }
 
 data class AddMealToMenuRequest(val name: String, val description: String, val price: BigDecimal)
 
-
 fun EmptyMealNameError.toError() = AddMealToMenuUseCaseError.InvalidName("Empty name")
 fun EmptyDescriptionError.toError() = AddMealToMenuUseCaseError.InvalidDescription("Empty description")
 fun AlreadyExistsWithSameNameError.toError() = AddMealToMenuUseCaseError.AlreadyExists
-fun CreatePriceError.InvalidScale.toError() = AddMealToMenuUseCaseError.InvalidPrice("Invalid scale")
-fun CreatePriceError.NegativeValue.toError() = AddMealToMenuUseCaseError.InvalidPrice("Negative value")
-fun BusinessError.toError() = AddMealToMenuUseCaseError.SomethingWentWrong
+
+fun CreatePriceError.toError(): AddMealToMenuUseCaseError {
+    return when (this) {
+        is CreatePriceError.InvalidScale -> AddMealToMenuUseCaseError.InvalidPrice("Invalid scale")
+        is CreatePriceError.NegativeValue -> AddMealToMenuUseCaseError.InvalidPrice("Negative value")
+    }
+}
 
 // передавать сообщения из юзкейса не очень хорошо, лучше завести enum, но для примера нам сойдет
-sealed class AddMealToMenuUseCaseError(val message: String) {
-    object SomethingWentWrong: AddMealToMenuUseCaseError("whoops")
-    class InvalidName(message: String) : AddMealToMenuUseCaseError(message)
-    class InvalidDescription(message: String) : AddMealToMenuUseCaseError(message)
-    class InvalidPrice(message: String) : AddMealToMenuUseCaseError(message)
-    object AlreadyExists : AddMealToMenuUseCaseError("Already exists")
+sealed class AddMealToMenuUseCaseError {
+    data class InvalidName(val message: String) : AddMealToMenuUseCaseError()
+    data class InvalidDescription(val message: String) : AddMealToMenuUseCaseError()
+    data class InvalidPrice(val message: String) : AddMealToMenuUseCaseError()
+    object AlreadyExists : AddMealToMenuUseCaseError()
 }

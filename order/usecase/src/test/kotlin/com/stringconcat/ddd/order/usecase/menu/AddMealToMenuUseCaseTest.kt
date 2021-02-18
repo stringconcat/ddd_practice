@@ -1,50 +1,182 @@
 package com.stringconcat.ddd.order.usecase.menu
 
-import arrow.core.Either
 import com.stringconcat.ddd.order.domain.menu.Meal
 import com.stringconcat.ddd.order.domain.menu.MealId
 import com.stringconcat.ddd.order.domain.menu.MealIdGenerator
 import com.stringconcat.ddd.order.domain.menu.MealName
 import com.stringconcat.ddd.order.domain.rules.MealAlreadyExistsRule
-import org.junit.jupiter.api.Assertions.assertTrue
+import io.kotest.assertions.arrow.either.shouldBeLeft
+import io.kotest.assertions.arrow.either.shouldBeRight
+import io.kotest.matchers.maps.shouldContainExactly
+import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
 
 internal class AddMealToMenuUseCaseTest {
 
     @Test
-    fun test() {
+    fun `successfully added`() {
+
+        val name = mealName()
+        val description = mealDescription()
+        val price = price()
+
         val result = AddMealToMenuUseCase(
-            FakeMealPersister,
-            FakeMealIdGenerator,
-            MealExist
+            TestMealPersister,
+            TestMealIdGenerator,
+            MealNotExist
         ).addMealToMenu(
             AddMealToMenuRequest(
-                "cacke",
-                "my favorite cakce",
-                BigDecimal.ONE
+                name.value,
+                description.value,
+                price.value
             )
         )
 
-        assertTrue(result is Either.Left)
+        val id = TestMealIdGenerator.id
 
-        result as Either.Left
-        println(result)
-        assertTrue(result.a is AddMealToMenuUseCaseError.AlreadyExists)
+        result shouldBeRight {
+            it shouldBe id
+        }
 
+        val meal = TestMealPersister[id]
+        meal.shouldNotBeNull()
 
+        meal.id shouldBe id
+        meal.name shouldBe name
+        meal.description shouldBe description
+        meal.price shouldBe price
     }
-}
 
-object FakeMealPersister: MealPersister {
-    override fun save(meal: Meal) {}
-}
+    @Test
+    fun `meal already exists`() {
 
-object FakeMealIdGenerator: MealIdGenerator {
-    override fun generateId(): MealId = MealId(42)
-}
+        val name = mealName()
+        val description = mealDescription()
+        val price = price()
 
-object MealExist: MealAlreadyExistsRule {
-    override fun exists(name: MealName) = true
+        val result = AddMealToMenuUseCase(
+            TestMealPersister,
+            TestMealIdGenerator,
+            MealExist
+        ).addMealToMenu(
+            AddMealToMenuRequest(
+                name.value,
+                description.value,
+                price.value
+            )
+        )
 
+        result shouldBeLeft AddMealToMenuUseCaseError.AlreadyExists
+        TestMealPersister shouldContainExactly emptyMap()
+    }
+
+    @Test
+    fun `invalid name`() {
+
+        val name = ""
+        val description = mealDescription()
+        val price = price()
+
+        val result = AddMealToMenuUseCase(
+            TestMealPersister,
+            TestMealIdGenerator,
+            MealExist
+        ).addMealToMenu(
+            AddMealToMenuRequest(
+                name,
+                description.value,
+                price.value
+            )
+        )
+
+        result shouldBeLeft AddMealToMenuUseCaseError.InvalidName("Empty name")
+        TestMealPersister shouldContainExactly emptyMap()
+    }
+
+    @Test
+    fun `invalid description`() {
+        val name = mealName()
+        val description = ""
+        val price = price()
+
+        val result = AddMealToMenuUseCase(
+            TestMealPersister,
+            TestMealIdGenerator,
+            MealExist
+        ).addMealToMenu(
+            AddMealToMenuRequest(
+                name.value,
+                description,
+                price.value
+            )
+        )
+
+        result shouldBeLeft AddMealToMenuUseCaseError.InvalidDescription("Empty description")
+        TestMealPersister shouldContainExactly emptyMap()
+    }
+
+    @Test
+    fun `invalid price - negative value`() {
+        val name = mealName()
+        val description = mealDescription()
+        val price = BigDecimal("-1")
+
+        val result = AddMealToMenuUseCase(
+            TestMealPersister,
+            TestMealIdGenerator,
+            MealExist
+        ).addMealToMenu(
+            AddMealToMenuRequest(
+                name.value,
+                description.value,
+                price
+            )
+        )
+
+        result shouldBeLeft AddMealToMenuUseCaseError.InvalidPrice("Negative value")
+        TestMealPersister shouldContainExactly emptyMap()
+    }
+
+    @Test
+    fun `invalid price - invalid scale`() {
+        val name = mealName()
+        val description = mealDescription()
+        val price = BigDecimal("1").setScale(10)
+
+        val result = AddMealToMenuUseCase(
+            TestMealPersister,
+            TestMealIdGenerator,
+            MealExist
+        ).addMealToMenu(
+            AddMealToMenuRequest(
+                name.value,
+                description.value,
+                price
+            )
+        )
+
+        result shouldBeLeft AddMealToMenuUseCaseError.InvalidPrice("Invalid scale")
+        TestMealPersister shouldContainExactly emptyMap()
+    }
+
+    object TestMealPersister : HashMap<MealId, Meal>(), MealPersister {
+        override fun save(meal: Meal) {
+            this[meal.id] = meal
+        }
+    }
+
+    object TestMealIdGenerator : MealIdGenerator {
+        val id = mealId()
+        override fun generateId() = id
+    }
+
+    object MealExist : MealAlreadyExistsRule {
+        override fun exists(name: MealName) = true
+    }
+
+    object MealNotExist : MealAlreadyExistsRule {
+        override fun exists(name: MealName) = false
+    }
 }
