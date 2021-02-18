@@ -9,7 +9,7 @@ class CartFactory(
 ) {
 
     fun createOrGetCart(forCustomer: CustomerId): Cart =
-        customerCartExtractor.getCartByCustomerId(forCustomer)
+        customerCartExtractor.getCart(forCustomer)
             ?: Cart(
                 id = idGenerator.generate(),
                 customerId = forCustomer,

@@ -1,25 +1,27 @@
 package com.stringconcat.ddd.order.usecase.cart
 
-import com.stringconcat.ddd.order.domain.cart.Cart
 import com.stringconcat.ddd.order.domain.cart.CartFactory
 import com.stringconcat.ddd.order.domain.cart.CartIdGenerator
-import com.stringconcat.ddd.order.domain.cart.CustomerCartExtractor
-import com.stringconcat.ddd.order.domain.cart.CustomerId
+import com.stringconcat.ddd.order.usecase.menu.TestCartExtractor
 import com.stringconcat.ddd.order.usecase.menu.TestCartPersister
 import com.stringconcat.ddd.order.usecase.menu.TestMealExtractor
 import com.stringconcat.ddd.order.usecase.menu.cartId
+import com.stringconcat.ddd.order.usecase.menu.customerId
 import com.stringconcat.ddd.order.usecase.menu.meal
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight
+import io.kotest.matchers.maps.shouldBeEmpty
+import io.kotest.matchers.maps.shouldContainKey
 import org.junit.jupiter.api.Test
 import java.util.UUID
 
 internal class AddMealToCartUseCaseTest {
 
-    val meal = meal()
-    val cartPersister = TestCartPersister()
-    val cartFactory = CartFactory(TestCartIdGenerator, TestCartExtractor)
-    val mealExtractor = TestMealExtractor().apply {
+    private val meal = meal()
+    private val cartPersister = TestCartPersister()
+    private val cartExtractor = TestCartExtractor()
+    private val cartFactory = CartFactory(TestCartIdGenerator, cartExtractor)
+    private val mealExtractor = TestMealExtractor().apply {
         this[meal.id] = meal
     }
 
@@ -32,8 +34,11 @@ internal class AddMealToCartUseCaseTest {
             cartPersister = cartPersister
         )
 
-        val result = useCase.addMealToCart(UUID.randomUUID().toString(), meal.id.value)
+        val customerId = customerId()
+        val result = useCase.addMealToCart(customerId.value, meal.id.value)
         result.shouldBeRight()
+        cartPersister shouldContainKey customerId
+        cartPersister[customerId]
     }
 
     @Test
@@ -48,13 +53,10 @@ internal class AddMealToCartUseCaseTest {
 
         val result = useCase.addMealToCart(UUID.randomUUID().toString(), meal.id.value)
         result shouldBeLeft AddMealToCartUseCaseError.MealNotFound
+        cartPersister.shouldBeEmpty()
     }
 
     object TestCartIdGenerator : CartIdGenerator {
         override fun generate() = cartId()
-    }
-
-    object TestCartExtractor : CustomerCartExtractor {
-        override fun getCartByCustomerId(customerId: CustomerId): Cart? = null
     }
 }

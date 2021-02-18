@@ -163,7 +163,6 @@ internal class AddMealToMenuUseCaseTest {
         persister shouldContainExactly emptyMap()
     }
 
-
     object TestMealIdGenerator : MealIdGenerator {
         val id = mealId()
         override fun generateId() = id

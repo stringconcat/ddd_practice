@@ -7,6 +7,7 @@ import com.stringconcat.ddd.common.types.common.Count
 import com.stringconcat.ddd.order.domain.cart.Cart
 import com.stringconcat.ddd.order.domain.cart.CartId
 import com.stringconcat.ddd.order.domain.cart.CartRestorer
+import com.stringconcat.ddd.order.domain.cart.CustomerCartExtractor
 import com.stringconcat.ddd.order.domain.cart.CustomerId
 import com.stringconcat.ddd.order.domain.menu.Meal
 import com.stringconcat.ddd.order.domain.menu.MealDescription
@@ -116,9 +117,9 @@ class TestMealPersister : HashMap<MealId, Meal>(), MealPersister {
     }
 }
 
-class TestCartPersister : HashMap<CartId, Cart>(), CartPersister {
+class TestCartPersister : HashMap<CustomerId, Cart>(), CartPersister {
     override fun save(cart: Cart) {
-        this[cart.id] = cart
+        this[cart.customerId] = cart
     }
 }
 
@@ -131,4 +132,8 @@ class TestCustomerHasActiveOrderRule(val hasActive: Boolean) : CustomerHasActive
     override fun hasActiveOrder(customerId: CustomerId): Boolean {
         return hasActive
     }
+}
+
+class TestCartExtractor : HashMap<CustomerId, Cart>(), CustomerCartExtractor {
+    override fun getCart(forCustomer: CustomerId): Cart? = this[forCustomer]
 }

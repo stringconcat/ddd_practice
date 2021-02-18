@@ -45,8 +45,8 @@ internal class CartFactoryTest {
     }
 
     private class TestCustomerCartExtractor : CustomerCartExtractor, HashMap<CustomerId, Cart>() {
-        override fun getCartByCustomerId(customerId: CustomerId): Cart? {
-            return this[customerId]
+        override fun getCart(forCustomer: CustomerId): Cart? {
+            return this[forCustomer]
         }
     }
 }
