@@ -104,6 +104,10 @@ fun orderReadyForConfirm() = order(state = OrderState.PAID)
 
 fun orderNotReadyForConfirm() = order(state = OrderState.WAITING_FOR_PAYMENT)
 
+fun orderReadyForComplete() = order(state = OrderState.CONFIRMED)
+
+fun orderNotReadyForComplete() = order(state = OrderState.CANCELLED)
+
 fun order(
     state: OrderState = OrderState.COMPLETED,
     orderItems: Set<OrderItem> = emptySet(),
