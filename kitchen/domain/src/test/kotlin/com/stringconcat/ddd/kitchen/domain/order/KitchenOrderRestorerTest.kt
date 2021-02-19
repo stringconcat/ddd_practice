@@ -10,7 +10,7 @@ class KitchenOrderRestorerTest {
     fun `restore order - success`() {
         val id = orderId()
         val item = orderItem()
-        val items = setOf(item)
+        val items = listOf(item)
         val cooked = true
         val version = version()
 

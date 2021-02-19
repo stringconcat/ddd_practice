@@ -31,7 +31,7 @@ fun orderItem(): OrderItem {
 fun order(cooked: Boolean = true): KitchenOrder {
     return KitchenOrderRestorer.restoreOrder(
         id = orderId(),
-        orderItems = setOf(orderItem()),
+        orderItems = listOf(orderItem()),
         cooked = cooked,
         version = version()
     )

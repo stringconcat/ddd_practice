@@ -43,7 +43,6 @@ class CreateOrderUseCase(
     private fun transform(mealName: String): Either<CreateOrderUseCaseError, Meal> {
         return Meal.from(mealName).mapLeft { it.toError() }
     }
-
 }
 
 data class CreateOrderRequest(val id: Long, val items: List<OrderItemData>) {

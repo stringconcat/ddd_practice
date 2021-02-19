@@ -20,7 +20,7 @@ class KitchenOrder internal constructor(
     var cooked = false
         internal set
 
-    fun cooked() {
+    fun cook() {
         if (!cooked) {
             cooked = true
             addEvent(KitchenOrderHasBeenCookedEvent(id))

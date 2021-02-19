@@ -38,7 +38,7 @@ internal class KitchenOrderTest {
     @Test
     fun `order cooked - success`() {
         val order = order(cooked = false)
-        order.cooked()
+        order.cook()
         order.cooked shouldBe true
         order.popEvents() shouldContainExactly listOf(KitchenOrderHasBeenCookedEvent(order.id))
     }
@@ -46,7 +46,7 @@ internal class KitchenOrderTest {
     @Test
     fun `order cooked - already cooked`() {
         val order = order(cooked = true)
-        order.cooked()
+        order.cook()
         order.cooked shouldBe true
         order.popEvents() shouldContainExactly emptyList()
     }

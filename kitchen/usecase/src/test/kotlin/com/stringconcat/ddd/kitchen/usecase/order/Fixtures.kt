@@ -46,5 +46,8 @@ class TestKitchenOrderPersister : KitchenOrderPersister, HashMap<KitchenOrderId,
     override fun save(order: KitchenOrder) {
         this[order.id] = order
     }
+}
 
+class TestKitchenOrderExtractor : KitchenOrderExtractor, HashMap<KitchenOrderId, KitchenOrder>() {
+    override fun getById(orderId: KitchenOrderId) = this[orderId]
 }
