@@ -9,3 +9,4 @@ include(":order:usecase")
 
 
 include(":kitchen:domain")
+include(":kitchen:usecase")

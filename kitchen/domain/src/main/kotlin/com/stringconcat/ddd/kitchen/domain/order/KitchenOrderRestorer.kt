@@ -6,7 +6,7 @@ object KitchenOrderRestorer {
 
     fun restoreOrder(
         id: KitchenOrderId,
-        orderItems: Set<OrderItem>,
+        orderItems: List<OrderItem>,
         cooked: Boolean,
         version: Version
     ): KitchenOrder {

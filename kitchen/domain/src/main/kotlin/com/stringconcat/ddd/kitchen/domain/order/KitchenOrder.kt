@@ -1,15 +1,19 @@
 package com.stringconcat.ddd.kitchen.domain.order
 
+import arrow.core.Either
+import arrow.core.left
+import arrow.core.right
 import com.stringconcat.ddd.common.types.base.AggregateRoot
 import com.stringconcat.ddd.common.types.base.ValueObject
 import com.stringconcat.ddd.common.types.base.Version
 import com.stringconcat.ddd.common.types.common.Count
+import com.stringconcat.ddd.common.types.error.BusinessError
 
 data class KitchenOrderId(val value: Long)
 
 class KitchenOrder internal constructor(
     id: KitchenOrderId,
-    val orderItems: Set<OrderItem>,
+    val orderItems: List<OrderItem>,
     version: Version
 ) : AggregateRoot<KitchenOrderId>(id, version) {
 
@@ -26,35 +30,27 @@ class KitchenOrder internal constructor(
     companion object {
         fun create(
             id: KitchenOrderId,
-            orderItems: Set<OrderItem>
-        ) =
-            KitchenOrder(
-                id = id,
-                orderItems = orderItems,
-                version = Version.generate()
-            ).apply {
-                addEvent(KitchenOrderHasBeenCreatedEvent(id))
+            orderItems: List<OrderItem>
+        ): Either<EmptyOrder, KitchenOrder> {
+            return if (orderItems.isNotEmpty()) {
+
+                KitchenOrder(
+                    id = id,
+                    orderItems = orderItems,
+                    version = Version.generate()
+                ).apply {
+                    addEvent(KitchenOrderHasBeenCreatedEvent(id))
+                }.right()
+            } else {
+                EmptyOrder.left()
             }
+        }
     }
 }
+
+object EmptyOrder : BusinessError
 
 data class OrderItem(
     val meal: Meal,
     val count: Count
-) : ValueObject {
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as OrderItem
-
-        if (meal != other.meal) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        return meal.hashCode()
-    }
-}
+) : ValueObject
