@@ -100,6 +100,10 @@ fun cart(
 
 fun orderId() = CustomerOrderId(Random.nextLong())
 
+fun orderReadyForPay() = order(state = OrderState.WAITING_FOR_PAYMENT)
+
+fun orderNotReadyForPay() = order(state = OrderState.COMPLETED)
+
 fun orderReadyForCancel() = order(state = OrderState.PAID)
 
 fun orderNotReadyForCancel() = order(state = OrderState.COMPLETED)

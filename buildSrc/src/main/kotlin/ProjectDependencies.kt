@@ -1,7 +1,7 @@
 object LibVers {
 
     const val spring_boot = "2.4.2"
-    const val junit = "5.2.0"
+    const val junit = "5.7.1"
     const val sl4j = "1.7.25"
     const val kotest = "4.4.1"
     const val jackson = "2.9.9"
@@ -11,9 +11,9 @@ object LibVers {
 object Libs {
 
     // Kotlin
-    const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Global.kotlin}"
-    const val kotlin_jdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Global.kotlin}"
-    const val kotlin_reflect = "org.jetbrains.kotlin:kotlin-reflect:${Global.kotlin}"
+    const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Global.kotlin_version}"
+    const val kotlin_jdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Global.kotlin_version}"
+    const val kotlin_reflect = "org.jetbrains.kotlin:kotlin-reflect:${Global.kotlin_version}"
     const val arrow = "io.arrow-kt:arrow-core:${LibVers.arrow}"
 
     // Jackson
@@ -37,12 +37,12 @@ object Libs {
 }
 
 object PluginVers {
-    const val kotlin = Global.kotlin
+    const val kotlin = Global.kotlin_version
     const val spring_boot = LibVers.spring_boot
     const val detekt = "1.15.0"
     const val detekt_formatting = detekt
     const val spring_dependency_management = "1.0.11.RELEASE"
-    const val spring_kotlin = Global.kotlin
+    const val spring_kotlin = Global.kotlin_version
     const val update_dependencies = "0.36.0"
     const val owasp_dependencies = "6.1.0"
 }
