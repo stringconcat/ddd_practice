@@ -5,23 +5,23 @@ import arrow.core.flatMap
 import arrow.core.rightIfNotNull
 import com.stringconcat.ddd.order.domain.order.CustomerOrderId
 
-class CompleteOrderHandler(
+class CancelOrderUseCase(
     private val customerOrderExtractor: CustomerOrderExtractor,
     private val customerOrderPersister: CustomerOrderPersister
 ) {
 
-    fun completeOrder(orderId: Long): Either<CompleteOrderHandlerError, Unit> {
+    fun cancelOrder(orderId: Long): Either<CancelOrderUseCaseError, Unit> {
         return customerOrderExtractor.getById(CustomerOrderId(orderId))
-            .rightIfNotNull { CompleteOrderHandlerError.OrderNotFound }
+            .rightIfNotNull { CancelOrderUseCaseError.OrderNotFound }
             .flatMap { order ->
-                order.complete().map {
+                order.cancel().map {
                     customerOrderPersister.save(order)
-                }.mapLeft { CompleteOrderHandlerError.InvalidOrderState }
+                }.mapLeft { CancelOrderUseCaseError.InvalidOrderState }
             }
     }
 }
 
-sealed class CompleteOrderHandlerError {
-    object OrderNotFound : CompleteOrderHandlerError()
-    object InvalidOrderState : CompleteOrderHandlerError()
+sealed class CancelOrderUseCaseError {
+    object OrderNotFound : CancelOrderUseCaseError()
+    object InvalidOrderState : CancelOrderUseCaseError()
 }

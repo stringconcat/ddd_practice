@@ -11,7 +11,7 @@ import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.nulls.shouldNotBeNull
 import org.junit.jupiter.api.Test
 
-internal class CompleteOrderHandlerTest {
+internal class CompleteOrderUseCaseTest {
 
     private val order = orderReadyForComplete()
     private val extractor = TestCustomerOrderExtractor().apply {
@@ -21,7 +21,7 @@ internal class CompleteOrderHandlerTest {
 
     @Test
     fun `successfully completed`() {
-        val useCase = CompleteOrderHandler(extractor, persister)
+        val useCase = CompleteOrderUseCase(extractor, persister)
         val result = useCase.completeOrder(orderId = order.id.value)
 
         result.shouldBeRight()
@@ -37,16 +37,16 @@ internal class CompleteOrderHandlerTest {
         val order = orderNotReadyForComplete()
         extractor[order.id] = order
 
-        val useCase = CompleteOrderHandler(extractor, persister)
+        val useCase = CompleteOrderUseCase(extractor, persister)
         val result = useCase.completeOrder(orderId = order.id.value)
-        result shouldBeLeft CompleteOrderHandlerError.InvalidOrderState
+        result shouldBeLeft CompleteOrderUseCaseError.InvalidOrderState
     }
 
     @Test
     fun `order not found`() {
         extractor.clear()
-        val useCase = CompleteOrderHandler(extractor, persister)
+        val useCase = CompleteOrderUseCase(extractor, persister)
         val result = useCase.completeOrder(orderId = order.id.value)
-        result shouldBeLeft CompleteOrderHandlerError.OrderNotFound
+        result shouldBeLeft CompleteOrderUseCaseError.OrderNotFound
     }
 }
