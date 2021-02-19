@@ -100,6 +100,10 @@ fun cart(
 
 fun orderId() = CustomerOrderId(Random.nextLong())
 
+fun orderReadyForConfirm() = order(state = OrderState.PAID)
+
+fun orderNotReadyForConfirm() = order(state = OrderState.WAITING_FOR_PAYMENT)
+
 fun order(
     state: OrderState = OrderState.COMPLETED,
     orderItems: Set<OrderItem> = emptySet(),
