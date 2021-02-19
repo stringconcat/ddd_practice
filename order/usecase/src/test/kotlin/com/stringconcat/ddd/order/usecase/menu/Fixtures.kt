@@ -145,6 +145,10 @@ class TestCartPersister : HashMap<CustomerId, Cart>(), CartPersister {
 
 class TestMealExtractor : HashMap<MealId, Meal>(), MealExtractor {
     override fun getById(id: MealId) = this[id]
+
+    override fun getByName(name: MealName): Meal? {
+        return values.firstOrNull { it.name == name }
+    }
 }
 
 class TestCustomerHasActiveOrderRule(val hasActive: Boolean) : CustomerHasActiveOrderRule {
@@ -165,4 +169,8 @@ class TestCustomerOrderPersister : CustomerOrderPersister, HashMap<CustomerOrder
 
 class TestCustomerOrderExtractor : CustomerOrderExtractor, HashMap<CustomerOrderId, CustomerOrder>() {
     override fun getById(orderId: CustomerOrderId) = this[orderId]
+
+    override fun getActiveOrderByCustomerId(customerId: CustomerId): CustomerOrder? {
+        return this.values.firstOrNull { it.customerId == customerId }
+    }
 }
