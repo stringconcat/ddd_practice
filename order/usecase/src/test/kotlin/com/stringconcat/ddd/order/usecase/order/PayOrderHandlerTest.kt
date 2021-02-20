@@ -11,7 +11,7 @@ import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.nulls.shouldNotBeNull
 import org.junit.jupiter.api.Test
 
-internal class PayOrderUseCaseTest {
+internal class PayOrderHandlerTest {
 
     private val order = orderReadyForPay()
     private val extractor = TestCustomerOrderExtractor().apply {
@@ -21,8 +21,8 @@ internal class PayOrderUseCaseTest {
 
     @Test
     fun `successfully payed`() {
-        val useCase = PayOrderUseCase(extractor, persister)
-        val result = useCase.payOrder(orderId = order.id.value)
+        val handler = PayOrderHandler(extractor, persister)
+        val result = handler.payOrder(orderId = order.id.value)
 
         result.shouldBeRight()
 
@@ -37,16 +37,16 @@ internal class PayOrderUseCaseTest {
         val order = orderNotReadyForPay()
         extractor[order.id] = order
 
-        val useCase = PayOrderUseCase(extractor, persister)
-        val result = useCase.payOrder(orderId = order.id.value)
-        result shouldBeLeft PayOrderUseCaseError.InvalidOrderState
+        val handler = PayOrderHandler(extractor, persister)
+        val result = handler.payOrder(orderId = order.id.value)
+        result shouldBeLeft PayOrderHandlerError.InvalidOrderState
     }
 
     @Test
     fun `order not found`() {
         extractor.clear()
-        val useCase = PayOrderUseCase(extractor, persister)
-        val result = useCase.payOrder(orderId = order.id.value)
-        result shouldBeLeft PayOrderUseCaseError.OrderNotFound
+        val handler = PayOrderHandler(extractor, persister)
+        val result = handler.payOrder(orderId = order.id.value)
+        result shouldBeLeft PayOrderHandlerError.OrderNotFound
     }
 }

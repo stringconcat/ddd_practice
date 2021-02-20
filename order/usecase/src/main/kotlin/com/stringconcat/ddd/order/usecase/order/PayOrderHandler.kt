@@ -5,23 +5,23 @@ import arrow.core.flatMap
 import arrow.core.rightIfNotNull
 import com.stringconcat.ddd.order.domain.order.CustomerOrderId
 
-class PayOrderUseCase(
+class PayOrderHandler(
     private val customerOrderExtractor: CustomerOrderExtractor,
     private val customerOrderPersister: CustomerOrderPersister
 ) {
 
-    fun payOrder(orderId: Long): Either<PayOrderUseCaseError, Unit> {
+    fun payOrder(orderId: Long): Either<PayOrderHandlerError, Unit> {
         return customerOrderExtractor.getById(CustomerOrderId(orderId))
-            .rightIfNotNull { PayOrderUseCaseError.OrderNotFound }
+            .rightIfNotNull { PayOrderHandlerError.OrderNotFound }
             .flatMap { order ->
                 order.pay().map {
                     customerOrderPersister.save(order)
-                }.mapLeft { PayOrderUseCaseError.InvalidOrderState }
+                }.mapLeft { PayOrderHandlerError.InvalidOrderState }
             }
     }
 }
 
-sealed class PayOrderUseCaseError {
-    object OrderNotFound : PayOrderUseCaseError()
-    object InvalidOrderState : PayOrderUseCaseError()
+sealed class PayOrderHandlerError {
+    object OrderNotFound : PayOrderHandlerError()
+    object InvalidOrderState : PayOrderHandlerError()
 }
