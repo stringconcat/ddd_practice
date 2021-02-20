@@ -7,6 +7,7 @@ import arrow.core.rightIfNotNull
 import com.stringconcat.ddd.common.types.common.Address
 import com.stringconcat.ddd.common.types.common.CreateAddressError
 import com.stringconcat.ddd.order.domain.cart.CustomerId
+import com.stringconcat.ddd.order.domain.menu.Price
 import com.stringconcat.ddd.order.domain.order.CheckoutError
 import com.stringconcat.ddd.order.domain.order.CustomerOrder
 import com.stringconcat.ddd.order.domain.order.CustomerOrderId
@@ -14,17 +15,19 @@ import com.stringconcat.ddd.order.domain.order.CustomerOrderIdGenerator
 import com.stringconcat.ddd.order.domain.providers.MealPriceProvider
 import com.stringconcat.ddd.order.domain.rules.CustomerHasActiveOrderRule
 import com.stringconcat.ddd.order.usecase.cart.CartExtractor
+import java.net.URL
 
 class CheckoutUseCase(
     private val idGenerator: CustomerOrderIdGenerator,
     private val cartExtractor: CartExtractor,
     private val activeOrderRule: CustomerHasActiveOrderRule,
     private val priceProvider: MealPriceProvider,
+    private val paymentUrlProvider: PaymentUrlProvider,
     private val customerOrderPersister: CustomerOrderPersister
 
 ) {
 
-    fun checkout(request: CheckoutRequest): Either<CheckoutUseCaseError, CustomerOrderId> {
+    fun checkout(request: CheckoutRequest): Either<CheckoutUseCaseError, PaymentInfo> {
 
         return tupled(
 
@@ -46,11 +49,24 @@ class CheckoutUseCase(
                 cart = it.b
             ).mapLeft { err -> err.toError() }
         }.map { order ->
+
+            val url = paymentUrlProvider.provideUrl(order.id, order.totalPrice())
+            val totalPrice = order.totalPrice()
             customerOrderPersister.save(order)
-            order.id
+            PaymentInfo(
+                orderId = order.id,
+                price = totalPrice,
+                paymentURL = url
+            )
         }
     }
 }
+
+data class PaymentInfo(
+    val orderId: CustomerOrderId,
+    val price: Price,
+    val paymentURL: URL
+)
 
 data class CheckoutRequest(val customerId: String, val address: Address) {
     data class Address(val street: String, val building: Int)

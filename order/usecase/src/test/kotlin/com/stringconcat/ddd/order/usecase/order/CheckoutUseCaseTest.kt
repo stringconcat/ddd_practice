@@ -1,6 +1,8 @@
 package com.stringconcat.ddd.order.usecase.order
 
 import com.stringconcat.ddd.order.domain.menu.MealId
+import com.stringconcat.ddd.order.domain.menu.Price
+import com.stringconcat.ddd.order.domain.order.CustomerOrderId
 import com.stringconcat.ddd.order.domain.order.CustomerOrderIdGenerator
 import com.stringconcat.ddd.order.domain.providers.MealPriceProvider
 import com.stringconcat.ddd.order.usecase.menu.TestCartExtractor
@@ -19,6 +21,7 @@ import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
+import java.net.URL
 
 internal class CheckoutUseCaseTest {
 
@@ -27,12 +30,28 @@ internal class CheckoutUseCaseTest {
     private val count = count()
     private val customerId = customerId()
     private val cart = cart(meals = mapOf(meal.id to count), customerId = customerId)
+
     private val cartExtractor = TestCartExtractor().apply {
         this[cart.customerId] = cart
     }
 
     private val activeOrderRule = TestCustomerHasActiveOrderRule(false)
     private val orderPersister = TestCustomerOrderPersister()
+
+    object TestCustomerOrderIdGenerator : CustomerOrderIdGenerator {
+        val id = orderId()
+        override fun generate() = id
+    }
+
+    object TestMealPriceProvider : MealPriceProvider {
+        val price = price()
+        override fun price(mealId: MealId) = price
+    }
+
+    object TestPaymentUrlProvider : PaymentUrlProvider {
+        val paymentUrl = URL("http://localhost")
+        override fun provideUrl(orderId: CustomerOrderId, price: Price) = paymentUrl
+    }
 
     @Test
     fun `order created successfully`() {
@@ -42,6 +61,7 @@ internal class CheckoutUseCaseTest {
             cartExtractor = cartExtractor,
             activeOrderRule = activeOrderRule,
             priceProvider = TestMealPriceProvider,
+            paymentUrlProvider = TestPaymentUrlProvider,
             customerOrderPersister = orderPersister
         )
 
@@ -49,9 +69,15 @@ internal class CheckoutUseCaseTest {
         val result = useCase.checkout(checkoutRequest)
 
         val orderId = TestCustomerOrderIdGenerator.id
-        result shouldBeRight orderId
+
         val customerOrder = orderPersister[orderId]
         customerOrder.shouldNotBeNull()
+
+        result shouldBeRight {
+            it.orderId shouldBe orderId
+            it.paymentURL shouldBe TestPaymentUrlProvider.paymentUrl
+            it.price shouldBe customerOrder.totalPrice()
+        }
 
         customerOrder.id shouldBe orderId
         customerOrder.address shouldBe address
@@ -71,6 +97,7 @@ internal class CheckoutUseCaseTest {
             cartExtractor = cartExtractor,
             activeOrderRule = activeOrderRule,
             priceProvider = TestMealPriceProvider,
+            paymentUrlProvider = TestPaymentUrlProvider,
             customerOrderPersister = orderPersister
         )
 
@@ -89,6 +116,7 @@ internal class CheckoutUseCaseTest {
             cartExtractor = cartExtractor,
             activeOrderRule = activeOrderRule,
             priceProvider = TestMealPriceProvider,
+            paymentUrlProvider = TestPaymentUrlProvider,
             customerOrderPersister = orderPersister
         )
 
@@ -105,6 +133,7 @@ internal class CheckoutUseCaseTest {
             cartExtractor = cartExtractor,
             activeOrderRule = activeOrderRule,
             priceProvider = TestMealPriceProvider,
+            paymentUrlProvider = TestPaymentUrlProvider,
             customerOrderPersister = orderPersister
         )
 
@@ -122,6 +151,7 @@ internal class CheckoutUseCaseTest {
             cartExtractor = cartExtractor,
             activeOrderRule = activeOrderRule,
             priceProvider = TestMealPriceProvider,
+            paymentUrlProvider = TestPaymentUrlProvider,
             customerOrderPersister = orderPersister
         )
 
@@ -142,6 +172,7 @@ internal class CheckoutUseCaseTest {
             cartExtractor = cartExtractor,
             activeOrderRule = activeOrderRule,
             priceProvider = TestMealPriceProvider,
+            paymentUrlProvider = TestPaymentUrlProvider,
             customerOrderPersister = orderPersister
         )
 
@@ -152,15 +183,5 @@ internal class CheckoutUseCaseTest {
     private fun checkoutRequest(): CheckoutRequest {
         val address = CheckoutRequest.Address(address.street, address.building)
         return CheckoutRequest(customerId.value, address)
-    }
-
-    object TestCustomerOrderIdGenerator : CustomerOrderIdGenerator {
-        val id = orderId()
-        override fun generate() = id
-    }
-
-    object TestMealPriceProvider : MealPriceProvider {
-        val price = price()
-        override fun price(mealId: MealId) = price
     }
 }
