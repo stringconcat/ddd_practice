@@ -6,6 +6,7 @@ import com.stringconcat.ddd.order.usecase.menu.MealExtractor
 
 class MealAlreadyExistsRuleImpl(val extractor: MealExtractor) : MealAlreadyExistsRule {
     override fun exists(name: MealName): Boolean {
-        return extractor.getByName(name) != null
+        val meal = extractor.getByName(name)
+        return meal != null && !meal.removed
     }
 }

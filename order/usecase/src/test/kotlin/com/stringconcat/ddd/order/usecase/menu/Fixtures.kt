@@ -26,6 +26,7 @@ import com.stringconcat.ddd.order.usecase.order.CustomerOrderExtractor
 import com.stringconcat.ddd.order.usecase.order.CustomerOrderPersister
 import java.math.BigDecimal
 import java.time.OffsetDateTime
+import java.util.LinkedHashMap
 import java.util.UUID
 import kotlin.math.absoluteValue
 import kotlin.random.Random
@@ -75,6 +76,8 @@ fun meal(removed: Boolean = false): Meal {
     )
 }
 
+fun removedMeal() = meal(removed = true)
+
 fun customerId() = CustomerId(UUID.randomUUID().toString())
 
 fun cartId() = CartId(Random.nextLong())
@@ -115,6 +118,10 @@ fun orderNotReadyForConfirm() = order(state = OrderState.WAITING_FOR_PAYMENT)
 fun orderReadyForComplete() = order(state = OrderState.CONFIRMED)
 
 fun orderNotReadyForComplete() = order(state = OrderState.CANCELLED)
+
+fun activeOrder() = order(state = OrderState.CONFIRMED)
+
+fun nonActiveOrder() = order(state = OrderState.CANCELLED)
 
 fun order(
     state: OrderState = OrderState.COMPLETED,
@@ -167,10 +174,10 @@ class TestCustomerOrderPersister : CustomerOrderPersister, HashMap<CustomerOrder
     }
 }
 
-class TestCustomerOrderExtractor : CustomerOrderExtractor, HashMap<CustomerOrderId, CustomerOrder>() {
+class TestCustomerOrderExtractor : CustomerOrderExtractor, LinkedHashMap<CustomerOrderId, CustomerOrder>() {
     override fun getById(orderId: CustomerOrderId) = this[orderId]
 
-    override fun getActiveOrderByCustomerId(customerId: CustomerId): CustomerOrder? {
-        return this.values.firstOrNull { it.customerId == customerId }
+    override fun getLastOrder(customerId: CustomerId): CustomerOrder? {
+        return this.values.lastOrNull { it.customerId == customerId }
     }
 }
