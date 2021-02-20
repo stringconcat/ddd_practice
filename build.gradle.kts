@@ -42,6 +42,7 @@ subprojects {
 
     apply {
         plugin("java")
+        plugin(Plugins.kotlin)
         plugin(Plugins.detekt)
         plugin("jacoco")
         plugin(Plugins.update_dependencies)

@@ -1,10 +1,10 @@
 object LibVers {
 
-    const val spring_boot = "2.4.2"
+    const val spring_boot = "2.4.3"
     const val junit = "5.7.1"
     const val sl4j = "1.7.25"
     const val kotest = "4.4.1"
-    const val jackson = "2.9.9"
+    const val jackson = "2.12.1"
     const val arrow = "0.11.0"
 }
 
