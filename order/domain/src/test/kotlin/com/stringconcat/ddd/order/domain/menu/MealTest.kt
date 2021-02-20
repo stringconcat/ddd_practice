@@ -43,7 +43,7 @@ internal class MealTest {
             it.description shouldBe description
             it.price shouldBe price
             it.visible() shouldBe true
-            it.popEvents() shouldContainExactly listOf(MealHasBeenAddedToMenu(mealId))
+            it.popEvents() shouldContainExactly listOf(MealAddedToMenuDomainEvent(mealId))
         }
     }
 
@@ -68,7 +68,7 @@ internal class MealTest {
 
         meal.removed shouldBe true
         meal.visible() shouldBe false
-        meal.popEvents() shouldContainExactly listOf(MealHasBeenRemovedFromMenu(meal.id))
+        meal.popEvents() shouldContainExactly listOf(MealRemovedFromMenuDomainEvent(meal.id))
     }
 
     @Test

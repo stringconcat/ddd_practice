@@ -1,6 +1,6 @@
 package com.stringconcat.ddd.order.usecase.order
 
-import com.stringconcat.ddd.order.domain.order.CustomerOrderHasBeenPaidEvent
+import com.stringconcat.ddd.order.domain.order.CustomerOrderHasBeenDomainEvent
 import com.stringconcat.ddd.order.usecase.menu.TestCustomerOrderExtractor
 import com.stringconcat.ddd.order.usecase.menu.TestCustomerOrderPersister
 import com.stringconcat.ddd.order.usecase.menu.orderNotReadyForPay
@@ -28,7 +28,7 @@ internal class PayOrderHandlerTest {
 
         val customerOrder = persister[order.id]
         customerOrder.shouldNotBeNull()
-        customerOrder.popEvents() shouldContainExactly listOf(CustomerOrderHasBeenPaidEvent(order.id))
+        customerOrder.popEvents() shouldContainExactly listOf(CustomerOrderHasBeenDomainEvent(order.id))
     }
 
     @Test

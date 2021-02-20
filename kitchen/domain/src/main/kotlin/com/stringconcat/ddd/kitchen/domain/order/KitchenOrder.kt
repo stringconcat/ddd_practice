@@ -23,7 +23,7 @@ class KitchenOrder internal constructor(
     fun cook() {
         if (!cooked) {
             cooked = true
-            addEvent(KitchenOrderHasBeenCookedEvent(id))
+            addEvent(KitchenOrderCookedDomainEvent(id))
         }
     }
 
@@ -39,7 +39,7 @@ class KitchenOrder internal constructor(
                     orderItems = orderItems,
                     version = Version.generate()
                 ).apply {
-                    addEvent(KitchenOrderHasBeenCreatedEvent(id))
+                    addEvent(KitchenOrderCreatedDomainEvent(id))
                 }.right()
             } else {
                 EmptyOrder.left()

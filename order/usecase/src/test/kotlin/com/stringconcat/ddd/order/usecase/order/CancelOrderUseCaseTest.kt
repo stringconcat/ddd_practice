@@ -1,6 +1,6 @@
 package com.stringconcat.ddd.order.usecase.order
 
-import com.stringconcat.ddd.order.domain.order.CustomerOrderHasBeenCancelledEvent
+import com.stringconcat.ddd.order.domain.order.CustomerOrderCancelledDomainEvent
 import com.stringconcat.ddd.order.usecase.menu.TestCustomerOrderExtractor
 import com.stringconcat.ddd.order.usecase.menu.TestCustomerOrderPersister
 import com.stringconcat.ddd.order.usecase.menu.orderNotReadyForCancel
@@ -28,7 +28,7 @@ internal class CancelOrderUseCaseTest {
 
         val customerOrder = persister[order.id]
         customerOrder.shouldNotBeNull()
-        customerOrder.popEvents() shouldContainExactly listOf(CustomerOrderHasBeenCancelledEvent(order.id))
+        customerOrder.popEvents() shouldContainExactly listOf(CustomerOrderCancelledDomainEvent(order.id))
     }
 
     @Test

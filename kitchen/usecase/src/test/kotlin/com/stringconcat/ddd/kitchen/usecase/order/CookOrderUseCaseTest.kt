@@ -1,6 +1,6 @@
 package com.stringconcat.ddd.kitchen.usecase.order
 
-import com.stringconcat.ddd.kitchen.domain.order.KitchenOrderHasBeenCookedEvent
+import com.stringconcat.ddd.kitchen.domain.order.KitchenOrderCookedDomainEvent
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight
 import io.kotest.matchers.collections.shouldNotContainExactly
@@ -23,7 +23,7 @@ internal class CookOrderUseCaseTest {
 
         val savedOrder = persister[order.id]
         savedOrder shouldBe order
-        order.popEvents() shouldNotContainExactly listOf(KitchenOrderHasBeenCookedEvent(order.id))
+        order.popEvents() shouldNotContainExactly listOf(KitchenOrderCookedDomainEvent(order.id))
     }
 
     @Test

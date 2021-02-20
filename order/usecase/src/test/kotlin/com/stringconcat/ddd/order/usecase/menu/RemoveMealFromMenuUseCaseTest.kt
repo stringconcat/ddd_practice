@@ -1,6 +1,6 @@
 package com.stringconcat.ddd.order.usecase.menu
 
-import com.stringconcat.ddd.order.domain.menu.MealHasBeenRemovedFromMenu
+import com.stringconcat.ddd.order.domain.menu.MealRemovedFromMenuDomainEvent
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight
 import io.kotest.matchers.collections.shouldContainExactly
@@ -28,7 +28,7 @@ internal class RemoveMealFromMenuUseCaseTest {
 
         storedMeal.shouldNotBeNull()
         storedMeal shouldBe meal
-        storedMeal.popEvents() shouldContainExactly listOf(MealHasBeenRemovedFromMenu(meal.id))
+        storedMeal.popEvents() shouldContainExactly listOf(MealRemovedFromMenuDomainEvent(meal.id))
     }
 
     @Test

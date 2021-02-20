@@ -1,6 +1,6 @@
 package com.stringconcat.ddd.kitchen.usecase.order
 
-import com.stringconcat.ddd.kitchen.domain.order.KitchenOrderHasBeenCreatedEvent
+import com.stringconcat.ddd.kitchen.domain.order.KitchenOrderCreatedDomainEvent
 import com.stringconcat.ddd.kitchen.domain.order.OrderItem
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight
@@ -40,7 +40,7 @@ internal class CreateOrderHandlerTest {
         order.shouldNotBeNull()
         order.id shouldBe orderId
         order.orderItems shouldContainExactly listOf(OrderItem(meal, count))
-        order.popEvents() shouldContainExactly listOf(KitchenOrderHasBeenCreatedEvent(orderId))
+        order.popEvents() shouldContainExactly listOf(KitchenOrderCreatedDomainEvent(orderId))
     }
 
     @Test

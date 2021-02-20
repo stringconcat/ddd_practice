@@ -25,7 +25,7 @@ class Cart internal constructor(
                 version = Version.generate(),
                 meals = emptyMap()
             ).apply {
-                addEvent(CartHasBeenCreatedEvent(cartId = this.id))
+                addEvent(CartCreatedDomainEvent(cartId = this.id))
             }
         }
     }
@@ -54,7 +54,7 @@ class Cart internal constructor(
         count.increment()
             .map {
                 meals[mealId] = it
-                addEvent(MealHasBeenAddedToCart(id, mealId))
+                addEvent(MealAddedToCartDomainEvent(id, mealId))
             }.mapLeft {
                 error("Limit reached") // в примере не будем это обрабатывать
             }
@@ -64,12 +64,12 @@ class Cart internal constructor(
         mealId: MealId
     ) {
         meals[mealId] = Count.one()
-        addEvent(MealHasBeenAddedToCart(id, mealId))
+        addEvent(MealAddedToCartDomainEvent(id, mealId))
     }
 
     fun removeMeals(mealId: MealId) {
         meals.remove(mealId)?.let {
-            addEvent(MealHasBeenRemovedFromCart(id, mealId))
+            addEvent(MealRemovedFromCartDomainEvent(id, mealId))
         }
     }
 }

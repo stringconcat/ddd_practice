@@ -22,7 +22,7 @@ class Meal internal constructor(
     fun removeMealFromMenu() {
         if (!removed) {
             removed = true
-            addEvent(MealHasBeenRemovedFromMenu(id))
+            addEvent(MealRemovedFromMenuDomainEvent(id))
         }
     }
 
@@ -49,7 +49,7 @@ class Meal internal constructor(
                     price = price,
                     version = Version.generate(),
                 ).apply {
-                    addEvent(MealHasBeenAddedToMenu(this.id))
+                    addEvent(MealAddedToMenuDomainEvent(this.id))
                 }.right()
             }
     }

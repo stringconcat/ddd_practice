@@ -27,7 +27,7 @@ internal class CartTest {
         cart.customerId shouldBe customerId
         cart.meals().shouldBeEmpty()
         cart.created shouldBeBefore OffsetDateTime.now()
-        cart.popEvents() shouldContainExactly listOf(CartHasBeenCreatedEvent(id))
+        cart.popEvents() shouldContainExactly listOf(CartCreatedDomainEvent(id))
     }
 
     @Test
@@ -37,7 +37,7 @@ internal class CartTest {
         val meal = meal()
 
         cart.addMeal(meal)
-        cart.popEvents() shouldContainExactly listOf(MealHasBeenAddedToCart(cart.id, meal.id))
+        cart.popEvents() shouldContainExactly listOf(MealAddedToCartDomainEvent(cart.id, meal.id))
         cart.meals() shouldContainExactly mapOf(meal.id to count(1))
     }
 
@@ -49,7 +49,7 @@ internal class CartTest {
         val cart = cart(meals = mapOf(meal.id to count))
 
         cart.addMeal(meal)
-        cart.popEvents() shouldContainExactly listOf(MealHasBeenAddedToCart(cart.id, meal.id))
+        cart.popEvents() shouldContainExactly listOf(MealAddedToCartDomainEvent(cart.id, meal.id))
         cart.meals() shouldContainExactly mapOf(meal.id to count(3))
     }
 
@@ -88,7 +88,7 @@ internal class CartTest {
         val cart = cart(meals = meals)
 
         cart.removeMeals(mealForRemoving.id)
-        cart.popEvents() shouldContainExactly listOf(MealHasBeenRemovedFromCart(cart.id, mealForRemoving.id))
+        cart.popEvents() shouldContainExactly listOf(MealRemovedFromCartDomainEvent(cart.id, mealForRemoving.id))
         cart.meals() shouldContainExactly mapOf(meal.id to count)
     }
 

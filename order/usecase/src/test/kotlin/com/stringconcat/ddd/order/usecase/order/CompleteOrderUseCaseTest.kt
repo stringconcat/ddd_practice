@@ -1,6 +1,6 @@
 package com.stringconcat.ddd.order.usecase.order
 
-import com.stringconcat.ddd.order.domain.order.CustomerOrderHasBeenCompletedEvent
+import com.stringconcat.ddd.order.domain.order.CustomerOrderCompletedDomainEvent
 import com.stringconcat.ddd.order.usecase.menu.TestCustomerOrderExtractor
 import com.stringconcat.ddd.order.usecase.menu.TestCustomerOrderPersister
 import com.stringconcat.ddd.order.usecase.menu.orderNotReadyForComplete
@@ -28,7 +28,7 @@ internal class CompleteOrderUseCaseTest {
 
         val customerOrder = persister[order.id]
         customerOrder.shouldNotBeNull()
-        customerOrder.popEvents() shouldContainExactly listOf(CustomerOrderHasBeenCompletedEvent(order.id))
+        customerOrder.popEvents() shouldContainExactly listOf(CustomerOrderCompletedDomainEvent(order.id))
     }
 
     @Test

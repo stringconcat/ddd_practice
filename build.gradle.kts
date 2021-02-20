@@ -1,6 +1,3 @@
-import kotlin.properties.ReadOnlyProperty
-import kotlin.reflect.KProperty
-
 val parentProjectDir = projectDir
 
 plugins {
@@ -10,35 +7,19 @@ plugins {
     id(Plugins.owasp_dependencies) version PluginVers.owasp_dependencies
 }
 
-/**
- * Project configuration by properties and environment
- */
-fun envConfig() = object : ReadOnlyProperty<Any?, String?> {
-    override fun getValue(thisRef: Any?, property: KProperty<*>): String? =
-        if (ext.has(property.name)) {
-            ext[property.name] as? String
-        } else {
-            System.getenv(property.name)
-        }
-}
-
-
-
-
 subprojects {
 
     configurations.all {
         resolutionStrategy {
             eachDependency {
                 requested.version?.contains("snapshot", true)?.let {
-                    if(it){
+                    if (it) {
                         throw GradleException("Snapshot found: ${requested.name} ${requested.version}")
                     }
                 }
             }
         }
     }
-
 
     apply {
         plugin("java")
@@ -79,12 +60,11 @@ subprojects {
         val dependencyUpdate =
             named<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask>("dependencyUpdates")
 
-
         dependencyUpdate {
             revision = "release"
             outputFormatter = "txt"
             checkForGradleUpdate = true
-            outputDir = "${buildDir}/reports/dependencies"
+            outputDir = "$buildDir/reports/dependencies"
             reportfileName = "updates"
         }
 
@@ -100,13 +80,13 @@ subprojects {
             rejectVersionIf {
                 isNonStable(candidate.version) && !isNonStable(currentVersion)
             }
-
         }
 
         check {
             finalizedBy(jacocoTestReport)
             finalizedBy(dependencyUpdate)
         }
+
 
         jacocoTestReport {
             dependsOn(check)
@@ -120,10 +100,9 @@ subprojects {
 
                 rule {
                     excludes = listOf("web")
-
-//                    limit {
-//                        minimum = BigDecimal("0.9")
-//                    }
+                    limit {
+                        minimum = BigDecimal("0.95")
+                    }
                 }
             }
         }
@@ -137,15 +116,12 @@ subprojects {
             }
         }
 
-
         withType<JavaCompile> {
             options.compilerArgs.add("-Xlint:all")
         }
 
-
         withType<Test> {
             useJUnitPlatform()
-
 
             testLogging {
                 events(
@@ -157,7 +133,5 @@ subprojects {
                 exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
             }
         }
-
-
     }
 }

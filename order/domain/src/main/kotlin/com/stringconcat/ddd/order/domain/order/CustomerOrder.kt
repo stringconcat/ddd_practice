@@ -60,7 +60,7 @@ class CustomerOrder internal constructor(
                     address = address,
                     version = Version.generate()
                 ).apply {
-                    addEvent(CustomerOrderHasBeenCreatedEvent(id))
+                    addEvent(CustomerOrderCreatedDomainEvent(id))
                 }.right()
             } else {
                 CheckoutError.EmptyCart.left()
@@ -68,13 +68,13 @@ class CustomerOrder internal constructor(
         }
     }
 
-    fun confirm() = changeState(OrderState.CONFIRMED, CustomerOrderHasBeenConfirmedEvent(id))
+    fun confirm() = changeState(OrderState.CONFIRMED, CustomerOrderConfirmedDomainEvent(id))
 
-    fun pay() = changeState(OrderState.PAID, CustomerOrderHasBeenPaidEvent(id))
+    fun pay() = changeState(OrderState.PAID, CustomerOrderHasBeenDomainEvent(id))
 
-    fun complete() = changeState(OrderState.COMPLETED, CustomerOrderHasBeenCompletedEvent(id))
+    fun complete() = changeState(OrderState.COMPLETED, CustomerOrderCompletedDomainEvent(id))
 
-    fun cancel() = changeState(OrderState.CANCELLED, CustomerOrderHasBeenCancelledEvent(id))
+    fun cancel() = changeState(OrderState.CANCELLED, CustomerOrderCancelledDomainEvent(id))
 
     private fun changeState(newState: OrderState, event: DomainEvent): Either<InvalidState, Unit> {
         return when {

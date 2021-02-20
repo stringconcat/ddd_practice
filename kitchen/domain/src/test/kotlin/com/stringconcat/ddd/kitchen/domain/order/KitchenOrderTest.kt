@@ -26,7 +26,7 @@ internal class KitchenOrderTest {
             orderItem.meal shouldBe item.meal
             orderItem.count shouldBe item.count
 
-            order.popEvents() shouldContainExactly listOf(KitchenOrderHasBeenCreatedEvent(id))
+            order.popEvents() shouldContainExactly listOf(KitchenOrderCreatedDomainEvent(id))
         }
     }
 
@@ -41,7 +41,7 @@ internal class KitchenOrderTest {
         val order = order(cooked = false)
         order.cook()
         order.cooked shouldBe true
-        order.popEvents() shouldContainExactly listOf(KitchenOrderHasBeenCookedEvent(order.id))
+        order.popEvents() shouldContainExactly listOf(KitchenOrderCookedDomainEvent(order.id))
     }
 
     @Test
