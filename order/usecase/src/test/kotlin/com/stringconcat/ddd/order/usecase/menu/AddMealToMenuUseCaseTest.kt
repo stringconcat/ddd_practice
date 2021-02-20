@@ -1,7 +1,5 @@
 package com.stringconcat.ddd.order.usecase.menu
 
-import com.stringconcat.ddd.order.domain.menu.Meal
-import com.stringconcat.ddd.order.domain.menu.MealId
 import com.stringconcat.ddd.order.domain.menu.MealIdGenerator
 import com.stringconcat.ddd.order.domain.menu.MealName
 import com.stringconcat.ddd.order.domain.rules.MealAlreadyExistsRule

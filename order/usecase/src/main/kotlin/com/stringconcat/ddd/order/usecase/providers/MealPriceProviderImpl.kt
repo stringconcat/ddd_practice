@@ -8,8 +8,10 @@ import com.stringconcat.ddd.order.usecase.menu.MealExtractor
 // можно сделать оптимизацию и загружать в юзкейсе сразу все
 class MealPriceProviderImpl(private val extractor: MealExtractor) : MealPriceProvider {
     override fun price(mealId: MealId): Price {
-        return requireNotNull(extractor.getById(mealId)) {
+        val meal = extractor.getById(mealId)
+        check(meal != null) {
             "Meal #$mealId not found"
-        }.price
+        }
+        return meal.price
     }
 }
