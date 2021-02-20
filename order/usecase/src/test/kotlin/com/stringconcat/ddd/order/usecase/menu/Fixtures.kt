@@ -22,6 +22,7 @@ import com.stringconcat.ddd.order.domain.order.OrderState
 import com.stringconcat.ddd.order.domain.rules.CustomerHasActiveOrderRule
 import com.stringconcat.ddd.order.usecase.cart.CartExtractor
 import com.stringconcat.ddd.order.usecase.cart.CartPersister
+import com.stringconcat.ddd.order.usecase.cart.CartRemover
 import com.stringconcat.ddd.order.usecase.order.CustomerOrderExtractor
 import com.stringconcat.ddd.order.usecase.order.CustomerOrderPersister
 import java.math.BigDecimal
@@ -179,5 +180,12 @@ class TestCustomerOrderExtractor : CustomerOrderExtractor, LinkedHashMap<Custome
 
     override fun getLastOrder(customerId: CustomerId): CustomerOrder? {
         return this.values.lastOrNull { it.customerId == customerId }
+    }
+}
+
+class TestCartRemover : CartRemover {
+    internal val deleted = ArrayList<CartId>()
+    override fun deleteCart(cart: Cart) {
+        deleted.add(cart.id)
     }
 }
