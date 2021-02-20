@@ -5,7 +5,7 @@ import com.stringconcat.ddd.order.domain.menu.MealName
 import com.stringconcat.ddd.order.domain.rules.MealAlreadyExistsRule
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight
-import io.kotest.matchers.maps.shouldContainExactly
+import io.kotest.matchers.maps.shouldBeEmpty
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
@@ -69,7 +69,7 @@ internal class AddMealToMenuUseCaseTest {
         )
 
         result shouldBeLeft AddMealToMenuUseCaseError.AlreadyExists
-        persister shouldContainExactly emptyMap()
+        persister.shouldBeEmpty()
     }
 
     @Test
@@ -92,7 +92,7 @@ internal class AddMealToMenuUseCaseTest {
         )
 
         result shouldBeLeft AddMealToMenuUseCaseError.InvalidName("Empty name")
-        persister shouldContainExactly emptyMap()
+        persister.shouldBeEmpty()
     }
 
     @Test
@@ -114,7 +114,7 @@ internal class AddMealToMenuUseCaseTest {
         )
 
         result shouldBeLeft AddMealToMenuUseCaseError.InvalidDescription("Empty description")
-        persister shouldContainExactly emptyMap()
+        persister.shouldBeEmpty()
     }
 
     @Test
@@ -136,7 +136,7 @@ internal class AddMealToMenuUseCaseTest {
         )
 
         result shouldBeLeft AddMealToMenuUseCaseError.InvalidPrice("Negative value")
-        persister shouldContainExactly emptyMap()
+        persister.shouldBeEmpty()
     }
 
     @Test
@@ -158,7 +158,7 @@ internal class AddMealToMenuUseCaseTest {
         )
 
         result shouldBeLeft AddMealToMenuUseCaseError.InvalidPrice("Invalid scale")
-        persister shouldContainExactly emptyMap()
+        persister.shouldBeEmpty()
     }
 
     object TestMealIdGenerator : MealIdGenerator {

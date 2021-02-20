@@ -5,8 +5,10 @@ import com.stringconcat.ddd.order.domain.cartId
 import com.stringconcat.ddd.order.domain.count
 import com.stringconcat.ddd.order.domain.customerId
 import com.stringconcat.ddd.order.domain.meal
+import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.date.shouldBeBefore
+import io.kotest.matchers.maps.shouldBeEmpty
 import io.kotest.matchers.maps.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
@@ -23,7 +25,7 @@ internal class CartTest {
         val id = TestCartIdGenerator.id
         cart.id shouldBe id
         cart.customerId shouldBe customerId
-        cart.meals() shouldContainExactly emptyMap()
+        cart.meals().shouldBeEmpty()
         cart.created shouldBeBefore OffsetDateTime.now()
         cart.popEvents() shouldContainExactly listOf(CartHasBeenCreatedEvent(id))
     }
@@ -56,7 +58,7 @@ internal class CartTest {
         val meal = meal()
         val cart = cart()
         cart.removeMeals(meal.id)
-        cart.popEvents() shouldContainExactly emptyList()
+        cart.popEvents().shouldBeEmpty()
     }
 
     @Test
@@ -69,7 +71,7 @@ internal class CartTest {
         val cart = cart(meals = meals)
 
         cart.removeMeals(nonExistingMeal.id)
-        cart.popEvents() shouldContainExactly emptyList()
+        cart.popEvents().shouldBeEmpty()
         cart.meals() shouldContainExactly meals
     }
 

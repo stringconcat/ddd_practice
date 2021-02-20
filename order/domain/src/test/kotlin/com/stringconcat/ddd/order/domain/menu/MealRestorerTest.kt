@@ -5,7 +5,7 @@ import com.stringconcat.ddd.order.domain.mealId
 import com.stringconcat.ddd.order.domain.mealName
 import com.stringconcat.ddd.order.domain.price
 import com.stringconcat.ddd.order.domain.version
-import io.kotest.matchers.collections.shouldContainExactly
+import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 
@@ -36,6 +36,6 @@ internal class MealRestorerTest {
         meal.price shouldBe price
         meal.removed shouldBe removed
         meal.version shouldBe version
-        meal.popEvents() shouldContainExactly emptyList()
+        meal.popEvents().shouldBeEmpty()
     }
 }

@@ -2,6 +2,7 @@ package com.stringconcat.ddd.kitchen.domain.order
 
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight
+import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
@@ -48,6 +49,6 @@ internal class KitchenOrderTest {
         val order = order(cooked = true)
         order.cook()
         order.cooked shouldBe true
-        order.popEvents() shouldContainExactly emptyList()
+        order.popEvents().shouldBeEmpty()
     }
 }

@@ -4,8 +4,8 @@ import com.stringconcat.ddd.order.domain.menu.MealHasBeenRemovedFromMenu
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight
 import io.kotest.matchers.collections.shouldContainExactly
+import io.kotest.matchers.maps.shouldBeEmpty
 import io.kotest.matchers.maps.shouldContain
-import io.kotest.matchers.maps.shouldContainExactly
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
@@ -36,6 +36,6 @@ internal class RemoveMealFromMenuUseCaseTest {
         val useCase = RemoveMealFromMenuUseCase(mealExtractor, mealPersister)
         val result = useCase.removeMealFromMenu(mealId().value)
         result shouldBeLeft MealNotFound
-        mealPersister shouldContainExactly emptyMap()
+        mealPersister.shouldBeEmpty()
     }
 }

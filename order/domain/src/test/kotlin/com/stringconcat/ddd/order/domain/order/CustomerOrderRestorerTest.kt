@@ -5,7 +5,7 @@ import com.stringconcat.ddd.order.domain.customerId
 import com.stringconcat.ddd.order.domain.orderId
 import com.stringconcat.ddd.order.domain.orderItem
 import com.stringconcat.ddd.order.domain.version
-import io.kotest.matchers.collections.shouldContainExactly
+import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import java.time.OffsetDateTime
@@ -45,6 +45,6 @@ internal class CustomerOrderRestorerTest {
 
         order.state shouldBe state
         order.version shouldBe version
-        order.popEvents() shouldContainExactly emptyList()
+        order.popEvents().shouldBeEmpty()
     }
 }

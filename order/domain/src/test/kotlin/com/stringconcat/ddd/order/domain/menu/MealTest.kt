@@ -8,6 +8,7 @@ import com.stringconcat.ddd.order.domain.price
 import com.stringconcat.ddd.order.domain.rules.MealAlreadyExistsRule
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight
+import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
@@ -77,7 +78,7 @@ internal class MealTest {
 
         meal.removed shouldBe true
         meal.visible() shouldBe false
-        meal.popEvents() shouldContainExactly emptyList()
+        meal.popEvents().shouldBeEmpty()
     }
 
     private object MealExists : MealAlreadyExistsRule {

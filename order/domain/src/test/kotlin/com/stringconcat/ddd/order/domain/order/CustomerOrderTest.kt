@@ -14,6 +14,7 @@ import com.stringconcat.ddd.order.domain.price
 import com.stringconcat.ddd.order.domain.providers.MealPriceProvider
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight
+import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
@@ -120,7 +121,7 @@ class CustomerOrderTest {
         val order = order(state = OrderState.COMPLETED)
         order.complete() shouldBeRight Unit
         order.state shouldBe OrderState.COMPLETED
-        order.popEvents() shouldContainExactly emptyList()
+        order.popEvents().shouldBeEmpty()
     }
 
     @ParameterizedTest
@@ -129,7 +130,7 @@ class CustomerOrderTest {
         val order = order(state = state)
         order.complete() shouldBeLeft InvalidState
         order.state shouldBe state
-        order.popEvents() shouldContainExactly emptyList()
+        order.popEvents().shouldBeEmpty()
     }
 
     @Test
@@ -145,7 +146,7 @@ class CustomerOrderTest {
         val order = order(state = OrderState.PAID)
         order.pay() shouldBeRight Unit
         order.state shouldBe OrderState.PAID
-        order.popEvents() shouldContainExactly emptyList()
+        order.popEvents().shouldBeEmpty()
     }
 
     @ParameterizedTest
@@ -154,7 +155,7 @@ class CustomerOrderTest {
         val order = order(state = state)
         order.pay() shouldBeLeft InvalidState
         order.state shouldBe state
-        order.popEvents() shouldContainExactly emptyList()
+        order.popEvents().shouldBeEmpty()
     }
 
     @Test
@@ -170,7 +171,7 @@ class CustomerOrderTest {
         val order = order(state = OrderState.CANCELLED)
         order.cancel() shouldBeRight Unit
         order.state shouldBe OrderState.CANCELLED
-        order.popEvents() shouldContainExactly emptyList()
+        order.popEvents().shouldBeEmpty()
     }
 
     @ParameterizedTest
@@ -179,7 +180,7 @@ class CustomerOrderTest {
         val order = order(state = state)
         order.cancel() shouldBeLeft InvalidState
         order.state shouldBe state
-        order.popEvents() shouldContainExactly emptyList()
+        order.popEvents().shouldBeEmpty()
     }
 
     @Test
@@ -195,7 +196,7 @@ class CustomerOrderTest {
         val order = order(state = OrderState.CONFIRMED)
         order.confirm() shouldBeRight Unit
         order.state shouldBe OrderState.CONFIRMED
-        order.popEvents() shouldContainExactly emptyList()
+        order.popEvents().shouldBeEmpty()
     }
 
     @ParameterizedTest
@@ -204,7 +205,7 @@ class CustomerOrderTest {
         val order = order(state = state)
         order.confirm() shouldBeLeft InvalidState
         order.state shouldBe state
-        order.popEvents() shouldContainExactly emptyList()
+        order.popEvents().shouldBeEmpty()
     }
 
     @Test

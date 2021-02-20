@@ -1,6 +1,6 @@
 package com.stringconcat.ddd.kitchen.domain.order
 
-import io.kotest.matchers.collections.shouldContainExactly
+import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 
@@ -29,6 +29,6 @@ class KitchenOrderRestorerTest {
         val orderItem = order.orderItems.first()
         orderItem.count shouldBe item.count
 
-        order.popEvents() shouldContainExactly emptyList()
+        order.popEvents().shouldBeEmpty()
     }
 }

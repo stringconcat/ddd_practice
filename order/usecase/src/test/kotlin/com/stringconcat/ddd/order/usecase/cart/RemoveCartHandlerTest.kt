@@ -1,7 +1,5 @@
 package com.stringconcat.ddd.order.usecase.cart
 
-import com.stringconcat.ddd.order.domain.cart.Cart
-import com.stringconcat.ddd.order.domain.cart.CartId
 import com.stringconcat.ddd.order.usecase.menu.TestCartExtractor
 import com.stringconcat.ddd.order.usecase.menu.TestCartRemover
 import com.stringconcat.ddd.order.usecase.menu.cart
