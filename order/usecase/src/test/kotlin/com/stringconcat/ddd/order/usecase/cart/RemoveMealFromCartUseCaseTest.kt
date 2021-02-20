@@ -10,7 +10,6 @@ import io.kotest.matchers.maps.shouldBeEmpty
 import io.kotest.matchers.maps.shouldContainExactly
 import org.junit.jupiter.api.Test
 
-
 class RemoveMealFromCartUseCaseTest {
 
     private val cart = cart()
@@ -35,5 +34,4 @@ class RemoveMealFromCartUseCaseTest {
         result shouldBeLeft RemoveMealFromCartCaseError.CartNotFound
         cartPersister.shouldBeEmpty()
     }
-
 }

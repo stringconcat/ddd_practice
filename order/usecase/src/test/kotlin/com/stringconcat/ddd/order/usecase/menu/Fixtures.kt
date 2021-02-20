@@ -7,7 +7,6 @@ import com.stringconcat.ddd.common.types.common.Count
 import com.stringconcat.ddd.order.domain.cart.Cart
 import com.stringconcat.ddd.order.domain.cart.CartId
 import com.stringconcat.ddd.order.domain.cart.CartRestorer
-import com.stringconcat.ddd.order.domain.cart.CartExtractor
 import com.stringconcat.ddd.order.domain.cart.CustomerId
 import com.stringconcat.ddd.order.domain.menu.Meal
 import com.stringconcat.ddd.order.domain.menu.MealDescription
@@ -21,6 +20,7 @@ import com.stringconcat.ddd.order.domain.order.OrderItem
 import com.stringconcat.ddd.order.domain.order.CustomerOrderRestorer
 import com.stringconcat.ddd.order.domain.order.OrderState
 import com.stringconcat.ddd.order.domain.rules.CustomerHasActiveOrderRule
+import com.stringconcat.ddd.order.usecase.cart.CartExtractor
 import com.stringconcat.ddd.order.usecase.cart.CartPersister
 import com.stringconcat.ddd.order.usecase.order.CustomerOrderExtractor
 import com.stringconcat.ddd.order.usecase.order.CustomerOrderPersister

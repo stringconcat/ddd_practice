@@ -13,5 +13,5 @@ internal class EventIdTest {
         firstEvent.id.value shouldNotBe secondEvent.id.value
     }
 
-    class EmptyEvent: DomainEvent()
+    class EmptyEvent : DomainEvent()
 }

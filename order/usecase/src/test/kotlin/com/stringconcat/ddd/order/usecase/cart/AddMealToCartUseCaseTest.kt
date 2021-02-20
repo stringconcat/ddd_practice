@@ -1,10 +1,10 @@
 package com.stringconcat.ddd.order.usecase.cart
 
-import com.stringconcat.ddd.order.domain.cart.CartFactory
 import com.stringconcat.ddd.order.domain.cart.CartIdGenerator
 import com.stringconcat.ddd.order.usecase.menu.TestCartExtractor
 import com.stringconcat.ddd.order.usecase.menu.TestCartPersister
 import com.stringconcat.ddd.order.usecase.menu.TestMealExtractor
+import com.stringconcat.ddd.order.usecase.menu.cart
 import com.stringconcat.ddd.order.usecase.menu.cartId
 import com.stringconcat.ddd.order.usecase.menu.count
 import com.stringconcat.ddd.order.usecase.menu.customerId
@@ -16,6 +16,7 @@ import io.kotest.matchers.maps.shouldContainExactly
 import io.kotest.matchers.maps.shouldContainKey
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldBeSameInstanceAs
 import org.junit.jupiter.api.Test
 import java.util.UUID
 
@@ -24,18 +25,18 @@ internal class AddMealToCartUseCaseTest {
     private val meal = meal()
     private val cartPersister = TestCartPersister()
     private val cartExtractor = TestCartExtractor()
-    private val cartFactory = CartFactory(TestCartIdGenerator, cartExtractor)
     private val mealExtractor = TestMealExtractor().apply {
         this[meal.id] = meal
     }
 
     @Test
-    fun `successfully added`() {
+    fun `cart doesn't exist - successfully added`() {
 
         val useCase = AddMealToCartUseCase(
             mealExtractor = mealExtractor,
-            cartFactory = cartFactory,
-            cartPersister = cartPersister
+            cartPersister = cartPersister,
+            cartExtractor = cartExtractor,
+            idGenerator = TestCartIdGenerator
         )
 
         val customerId = customerId()
@@ -51,13 +52,41 @@ internal class AddMealToCartUseCaseTest {
     }
 
     @Test
-    fun `meal not found`() {
+    fun `cart exists - successfully added`() {
 
-        mealExtractor.clear()
+        val customerId = customerId()
+        val existingCart = cart(customerId = customerId)
+
+        val cartExtractor = TestCartExtractor().apply {
+            this[customerId] = existingCart
+        }
+
         val useCase = AddMealToCartUseCase(
             mealExtractor = mealExtractor,
-            cartFactory = cartFactory,
-            cartPersister = cartPersister
+            cartPersister = cartPersister,
+            cartExtractor = cartExtractor,
+            idGenerator = TestCartIdGenerator
+        )
+
+        val result = useCase.addMealToCart(customerId.value, meal.id.value)
+        result.shouldBeRight()
+        cartPersister shouldContainKey customerId
+        val cart = cartPersister[customerId]
+
+        cart.shouldNotBeNull()
+        cart shouldBeSameInstanceAs existingCart
+        cart.meals() shouldContainExactly mapOf(meal.id to count(1))
+    }
+
+    @Test
+    fun `meal not found`() {
+
+        val mealExtractor = TestMealExtractor()
+        val useCase = AddMealToCartUseCase(
+            mealExtractor = mealExtractor,
+            cartPersister = cartPersister,
+            cartExtractor = cartExtractor,
+            idGenerator = TestCartIdGenerator
         )
 
         val result = useCase.addMealToCart(UUID.randomUUID().toString(), meal.id.value)

@@ -6,7 +6,6 @@ import arrow.core.flatMap
 import arrow.core.rightIfNotNull
 import com.stringconcat.ddd.common.types.common.Address
 import com.stringconcat.ddd.common.types.common.CreateAddressError
-import com.stringconcat.ddd.order.domain.cart.CartExtractor
 import com.stringconcat.ddd.order.domain.cart.CustomerId
 import com.stringconcat.ddd.order.domain.order.CheckoutError
 import com.stringconcat.ddd.order.domain.order.CustomerOrder
@@ -14,6 +13,7 @@ import com.stringconcat.ddd.order.domain.order.CustomerOrderId
 import com.stringconcat.ddd.order.domain.order.CustomerOrderIdGenerator
 import com.stringconcat.ddd.order.domain.providers.MealPriceProvider
 import com.stringconcat.ddd.order.domain.rules.CustomerHasActiveOrderRule
+import com.stringconcat.ddd.order.usecase.cart.CartExtractor
 
 class CheckoutUseCase(
     private val idGenerator: CustomerOrderIdGenerator,

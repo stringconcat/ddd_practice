@@ -1,13 +1,32 @@
 package com.stringconcat.ddd.order.domain.cart
 
 import com.stringconcat.ddd.order.domain.cart
+import com.stringconcat.ddd.order.domain.cartId
 import com.stringconcat.ddd.order.domain.count
+import com.stringconcat.ddd.order.domain.customerId
 import com.stringconcat.ddd.order.domain.meal
 import io.kotest.matchers.collections.shouldContainExactly
+import io.kotest.matchers.date.shouldBeBefore
 import io.kotest.matchers.maps.shouldContainExactly
+import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
+import java.time.OffsetDateTime
 
 internal class CartTest {
+
+    @Test
+    fun `create cart - success`() {
+
+        val customerId = customerId()
+        val cart = Cart.create(TestCartIdGenerator, customerId)
+
+        val id = TestCartIdGenerator.id
+        cart.id shouldBe id
+        cart.customerId shouldBe customerId
+        cart.meals() shouldContainExactly emptyMap()
+        cart.created shouldBeBefore OffsetDateTime.now()
+        cart.popEvents() shouldContainExactly listOf(CartHasBeenCreatedEvent(id))
+    }
 
     @Test
     fun `add meal - no meal in cart (success)`() {
@@ -69,5 +88,10 @@ internal class CartTest {
         cart.removeMeals(mealForRemoving.id)
         cart.popEvents() shouldContainExactly listOf(MealHasBeenRemovedFromCart(cart.id, mealForRemoving.id))
         cart.meals() shouldContainExactly mapOf(meal.id to count)
+    }
+
+    object TestCartIdGenerator : CartIdGenerator {
+        val id = cartId()
+        override fun generate() = id
     }
 }

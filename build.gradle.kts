@@ -57,6 +57,7 @@ subprojects {
     detekt {
         config = files("$parentProjectDir/detekt/detekt-config.yml")
         buildUponDefaultConfig = true
+        input = files("src/main/kotlin", "src/test/kotlin")
 
         reports {
             html.enabled = true
@@ -66,7 +67,6 @@ subprojects {
             detektPlugins("${Plugins.detekt_formatting}:${PluginVers.detekt_formatting}")
         }
     }
-
 
 
     tasks {

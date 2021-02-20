@@ -2,7 +2,6 @@ package com.stringconcat.ddd.order.usecase.cart
 
 import arrow.core.Either
 import arrow.core.rightIfNotNull
-import com.stringconcat.ddd.order.domain.cart.CartExtractor
 import com.stringconcat.ddd.order.domain.cart.CustomerId
 import com.stringconcat.ddd.order.domain.menu.MealId
 

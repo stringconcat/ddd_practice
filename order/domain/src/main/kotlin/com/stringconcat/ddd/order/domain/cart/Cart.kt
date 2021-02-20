@@ -1,7 +1,6 @@
 package com.stringconcat.ddd.order.domain.cart
 
 import com.stringconcat.ddd.common.types.base.AggregateRoot
-import com.stringconcat.ddd.common.types.base.DomainEvent
 import com.stringconcat.ddd.common.types.base.Version
 import com.stringconcat.ddd.common.types.common.Count
 import com.stringconcat.ddd.order.domain.menu.Meal
@@ -16,11 +15,22 @@ class Cart internal constructor(
     version: Version
 ) : AggregateRoot<CartId>(id, version) {
 
-    private val meals = HashMap<MealId, Count>(meals)
+    companion object {
 
-    internal fun addCartEvent(event: DomainEvent) {
-        super.addEvent(event)
+        fun create(idGenerator: CartIdGenerator, forCustomer: CustomerId): Cart {
+            return Cart(
+                id = idGenerator.generate(),
+                customerId = forCustomer,
+                created = OffsetDateTime.now(),
+                version = Version.generate(),
+                meals = emptyMap()
+            ).apply {
+                addEvent(CartHasBeenCreatedEvent(cartId = this.id))
+            }
+        }
     }
+
+    private val meals = HashMap<MealId, Count>(meals)
 
     fun meals(): Map<MealId, Count> = HashMap(meals)
 
