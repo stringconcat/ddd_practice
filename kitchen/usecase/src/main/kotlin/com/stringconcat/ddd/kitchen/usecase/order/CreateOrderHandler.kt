@@ -3,6 +3,7 @@ package com.stringconcat.ddd.kitchen.usecase.order
 import arrow.core.Either
 import arrow.core.extensions.either.apply.tupled
 import arrow.core.left
+import arrow.core.right
 import com.stringconcat.ddd.common.types.common.Count
 import com.stringconcat.ddd.common.types.common.NegativeValueError
 import com.stringconcat.ddd.kitchen.domain.order.EmptyMealNameError
@@ -12,13 +13,22 @@ import com.stringconcat.ddd.kitchen.domain.order.KitchenOrderId
 import com.stringconcat.ddd.kitchen.domain.order.Meal
 import com.stringconcat.ddd.kitchen.domain.order.OrderItem
 
-class CreateOrderUseCase(
+class CreateOrderHandler(
+    private val extractor: KitchenOrderExtractor,
     private val persister: KitchenOrderPersister
+
 ) {
 
     fun createOrder(request: CreateOrderRequest): Either<CreateOrderUseCaseError, Unit> {
+        val order = extractor.getById(KitchenOrderId(request.id)) // выпоняем дедупликацю
+        return if (order != null) {
+            Unit.right()
+        } else {
+            createNewOrder(request)
+        }
+    }
 
-        val orderId = KitchenOrderId(request.id)
+    private fun createNewOrder(request: CreateOrderRequest): Either<CreateOrderUseCaseError, Unit> {
 
         val items = request.items.map {
             tupled(
@@ -26,10 +36,10 @@ class CreateOrderUseCase(
                 transform(it.mealName)
             ).map { sourceItem -> OrderItem(sourceItem.b, sourceItem.a) }
         }.map {
-            it.mapLeft { e -> return@createOrder e.left() }
+            it.mapLeft { e -> return@createNewOrder e.left() }
         }.mapNotNull { it.orNull() }
 
-        return KitchenOrder.create(id = orderId, orderItems = items)
+        return KitchenOrder.create(id = KitchenOrderId(request.id), orderItems = items)
             .mapLeft { it.toError() }
             .map { order ->
                 persister.save(order)
