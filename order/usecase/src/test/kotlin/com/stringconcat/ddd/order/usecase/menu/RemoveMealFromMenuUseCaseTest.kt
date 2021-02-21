@@ -1,6 +1,10 @@
 package com.stringconcat.ddd.order.usecase.menu
 
 import com.stringconcat.ddd.order.domain.menu.MealRemovedFromMenuDomainEvent
+import com.stringconcat.ddd.order.usecase.TestMealExtractor
+import com.stringconcat.ddd.order.usecase.TestMealPersister
+import com.stringconcat.ddd.order.usecase.meal
+import com.stringconcat.ddd.order.usecase.mealId
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight
 import io.kotest.matchers.collections.shouldContainExactly

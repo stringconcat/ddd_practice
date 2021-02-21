@@ -1,9 +1,9 @@
 package com.stringconcat.ddd.order.usecase.rules
 
-import com.stringconcat.ddd.order.usecase.menu.TestCustomerOrderExtractor
-import com.stringconcat.ddd.order.usecase.menu.activeOrder
-import com.stringconcat.ddd.order.usecase.menu.customerId
-import com.stringconcat.ddd.order.usecase.menu.nonActiveOrder
+import com.stringconcat.ddd.order.usecase.TestCustomerOrderExtractor
+import com.stringconcat.ddd.order.usecase.activeOrder
+import com.stringconcat.ddd.order.usecase.customerId
+import com.stringconcat.ddd.order.usecase.nonActiveOrder
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import org.junit.jupiter.api.Test

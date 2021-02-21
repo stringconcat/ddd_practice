@@ -1,10 +1,10 @@
 package com.stringconcat.ddd.order.usecase.order
 
 import com.stringconcat.ddd.order.domain.order.CustomerOrderCancelledDomainEvent
-import com.stringconcat.ddd.order.usecase.menu.TestCustomerOrderExtractor
-import com.stringconcat.ddd.order.usecase.menu.TestCustomerOrderPersister
-import com.stringconcat.ddd.order.usecase.menu.orderNotReadyForCancel
-import com.stringconcat.ddd.order.usecase.menu.orderReadyForCancel
+import com.stringconcat.ddd.order.usecase.TestCustomerOrderExtractor
+import com.stringconcat.ddd.order.usecase.TestCustomerOrderPersister
+import com.stringconcat.ddd.order.usecase.orderNotReadyForCancel
+import com.stringconcat.ddd.order.usecase.orderReadyForCancel
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight
 import io.kotest.matchers.collections.shouldContainExactly

@@ -1,14 +1,14 @@
 package com.stringconcat.ddd.order.usecase.cart
 
 import com.stringconcat.ddd.order.domain.cart.CartIdGenerator
-import com.stringconcat.ddd.order.usecase.menu.TestCartExtractor
-import com.stringconcat.ddd.order.usecase.menu.TestCartPersister
-import com.stringconcat.ddd.order.usecase.menu.TestMealExtractor
-import com.stringconcat.ddd.order.usecase.menu.cart
-import com.stringconcat.ddd.order.usecase.menu.cartId
-import com.stringconcat.ddd.order.usecase.menu.count
-import com.stringconcat.ddd.order.usecase.menu.customerId
-import com.stringconcat.ddd.order.usecase.menu.meal
+import com.stringconcat.ddd.order.usecase.TestCartExtractor
+import com.stringconcat.ddd.order.usecase.TestCartPersister
+import com.stringconcat.ddd.order.usecase.TestMealExtractor
+import com.stringconcat.ddd.order.usecase.cart
+import com.stringconcat.ddd.order.usecase.cartId
+import com.stringconcat.ddd.order.usecase.count
+import com.stringconcat.ddd.order.usecase.customerId
+import com.stringconcat.ddd.order.usecase.meal
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight
 import io.kotest.matchers.maps.shouldBeEmpty

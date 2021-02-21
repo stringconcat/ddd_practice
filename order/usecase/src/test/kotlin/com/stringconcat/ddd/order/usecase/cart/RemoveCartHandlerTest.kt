@@ -1,9 +1,9 @@
 package com.stringconcat.ddd.order.usecase.cart
 
-import com.stringconcat.ddd.order.usecase.menu.TestCartExtractor
-import com.stringconcat.ddd.order.usecase.menu.TestCartRemover
-import com.stringconcat.ddd.order.usecase.menu.cart
-import com.stringconcat.ddd.order.usecase.menu.customerId
+import com.stringconcat.ddd.order.usecase.TestCartExtractor
+import com.stringconcat.ddd.order.usecase.TestCartRemover
+import com.stringconcat.ddd.order.usecase.cart
+import com.stringconcat.ddd.order.usecase.customerId
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight
 import io.kotest.matchers.collections.shouldBeEmpty

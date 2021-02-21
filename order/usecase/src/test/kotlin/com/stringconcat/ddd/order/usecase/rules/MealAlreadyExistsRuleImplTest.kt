@@ -1,9 +1,9 @@
 package com.stringconcat.ddd.order.usecase.rules
 
-import com.stringconcat.ddd.order.usecase.menu.TestMealExtractor
-import com.stringconcat.ddd.order.usecase.menu.meal
-import com.stringconcat.ddd.order.usecase.menu.mealName
-import com.stringconcat.ddd.order.usecase.menu.removedMeal
+import com.stringconcat.ddd.order.usecase.TestMealExtractor
+import com.stringconcat.ddd.order.usecase.meal
+import com.stringconcat.ddd.order.usecase.mealName
+import com.stringconcat.ddd.order.usecase.removedMeal
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import org.junit.jupiter.api.Test

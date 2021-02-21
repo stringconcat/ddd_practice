@@ -3,6 +3,11 @@ package com.stringconcat.ddd.order.usecase.menu
 import com.stringconcat.ddd.order.domain.menu.MealIdGenerator
 import com.stringconcat.ddd.order.domain.menu.MealName
 import com.stringconcat.ddd.order.domain.rules.MealAlreadyExistsRule
+import com.stringconcat.ddd.order.usecase.TestMealPersister
+import com.stringconcat.ddd.order.usecase.mealDescription
+import com.stringconcat.ddd.order.usecase.mealId
+import com.stringconcat.ddd.order.usecase.mealName
+import com.stringconcat.ddd.order.usecase.price
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight
 import io.kotest.matchers.maps.shouldBeEmpty
