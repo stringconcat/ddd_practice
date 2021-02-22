@@ -5,8 +5,9 @@ import com.stringconcat.ddd.order.domain.cart.Cart
 import com.stringconcat.ddd.order.domain.cart.CustomerId
 import com.stringconcat.ddd.order.usecase.cart.CartExtractor
 import com.stringconcat.ddd.order.usecase.cart.CartPersister
+import com.stringconcat.ddd.order.usecase.cart.CartRemover
 
-class InMemoryCartRepository(private val eventPublisher: EventPublisher) : CartExtractor, CartPersister {
+class InMemoryCartRepository(private val eventPublisher: EventPublisher) : CartExtractor, CartPersister, CartRemover {
 
     internal val storage = HashMap<CustomerId, Cart>()
 
@@ -15,5 +16,9 @@ class InMemoryCartRepository(private val eventPublisher: EventPublisher) : CartE
     override fun save(cart: Cart) {
         eventPublisher.publish(cart.popEvents())
         storage[cart.customerId] = cart
+    }
+
+    override fun deleteCart(cart: Cart) {
+        storage.remove(cart.customerId)
     }
 }

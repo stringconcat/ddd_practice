@@ -6,6 +6,7 @@ import com.stringconcat.ddd.order.persistence.cart
 import com.stringconcat.ddd.order.persistence.cartWithEvents
 import com.stringconcat.ddd.order.persistence.customerId
 import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.maps.shouldBeEmpty
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -67,5 +68,26 @@ class InMemoryCartRepositoryTest {
         val repository = InMemoryCartRepository(eventPublisher)
         val cart = repository.getCart(customerId())
         cart.shouldBeNull()
+    }
+
+    @Test
+    fun `delete cart - cart exists`() {
+        val existingCart = cart()
+
+        val repository = InMemoryCartRepository(eventPublisher)
+        repository.storage[existingCart.customerId] = existingCart
+
+        repository.deleteCart(existingCart)
+        repository.storage.shouldBeEmpty()
+    }
+
+    @Test
+    fun `delete cart - cart doesn't exist`() {
+        val existingCart = cart()
+
+        val repository = InMemoryCartRepository(eventPublisher)
+
+        repository.deleteCart(existingCart)
+        repository.storage.shouldBeEmpty()
     }
 }

@@ -1,6 +1,6 @@
 rootProject.name = "ddd_practice"
 
-include(":application:web")
+include(":application")
 include(":common:types")
 
 include(":order:domain")
@@ -10,3 +10,5 @@ include(":order:persistence")
 include(":kitchen:domain")
 include(":kitchen:usecase")
 include(":kitchen:persistence")
+
+include(":integration:payment")
