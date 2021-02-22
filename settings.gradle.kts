@@ -7,6 +7,6 @@ include(":order:domain")
 include(":order:usecase")
 include(":order:persistence")
 
-
 include(":kitchen:domain")
 include(":kitchen:usecase")
+include(":kitchen:persistence")

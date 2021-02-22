@@ -56,6 +56,7 @@ class InMemoryCartRepositoryTest {
         val existingCart = cart(customerId = customerId)
 
         val repository = InMemoryCartRepository(eventPublisher)
+        repository.storage[customerId] = existingCart
 
         val cart = repository.getCart(customerId)
         cart shouldBeSameInstanceAs existingCart
