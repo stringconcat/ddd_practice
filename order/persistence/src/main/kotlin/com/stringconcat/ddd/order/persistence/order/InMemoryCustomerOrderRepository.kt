@@ -7,7 +7,7 @@ import com.stringconcat.ddd.order.domain.order.CustomerOrderId
 import com.stringconcat.ddd.order.usecase.order.CustomerOrderExtractor
 import com.stringconcat.ddd.order.usecase.order.CustomerOrderPersister
 
-class InMemoryOrderRepository(private val eventPublisher: EventPublisher) :
+class InMemoryCustomerOrderRepository(private val eventPublisher: EventPublisher) :
     CustomerOrderExtractor,
     CustomerOrderPersister {
 

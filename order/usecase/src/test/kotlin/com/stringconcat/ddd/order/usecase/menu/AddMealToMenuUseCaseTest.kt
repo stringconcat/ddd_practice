@@ -168,7 +168,7 @@ internal class AddMealToMenuUseCaseTest {
 
     object TestMealIdGenerator : MealIdGenerator {
         val id = mealId()
-        override fun generateId() = id
+        override fun generate() = id
     }
 
     object MealExist : MealAlreadyExistsRule {

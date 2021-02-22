@@ -43,7 +43,7 @@ class Meal internal constructor(
                 AlreadyExistsWithSameNameError.left()
             } else {
                 Meal(
-                    id = idGenerator.generateId(),
+                    id = idGenerator.generate(),
                     name = name,
                     description = description,
                     price = price,

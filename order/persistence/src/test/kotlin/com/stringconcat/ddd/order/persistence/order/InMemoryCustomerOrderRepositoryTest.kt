@@ -13,12 +13,12 @@ import io.kotest.matchers.types.shouldBeInstanceOf
 import io.kotest.matchers.types.shouldBeSameInstanceAs
 import org.junit.jupiter.api.Test
 
-internal class InMemoryOrderRepositoryTest {
+internal class InMemoryCustomerOrderRepositoryTest {
     private val eventPublisher = TestEventPublisher()
 
     @Test
     fun `saving order - order doesn't exist`() {
-        val repository = InMemoryOrderRepository(eventPublisher)
+        val repository = InMemoryCustomerOrderRepository(eventPublisher)
         val order = orderWithEvents()
 
         repository.save(order)
@@ -38,7 +38,7 @@ internal class InMemoryOrderRepositoryTest {
         val id = orderId()
         val existingOrder = order(id = id)
 
-        val repository = InMemoryOrderRepository(eventPublisher)
+        val repository = InMemoryCustomerOrderRepository(eventPublisher)
         repository.storage[existingOrder.id] = existingOrder
 
         val updatedOrder = orderWithEvents(id)
@@ -53,7 +53,7 @@ internal class InMemoryOrderRepositoryTest {
     fun `get by id - order exists`() {
         val existingOrder = order()
 
-        val repository = InMemoryOrderRepository(eventPublisher)
+        val repository = InMemoryCustomerOrderRepository(eventPublisher)
         repository.storage[existingOrder.id] = existingOrder
 
         val order = repository.getById(existingOrder.id)
@@ -62,14 +62,14 @@ internal class InMemoryOrderRepositoryTest {
 
     @Test
     fun `get by id - order doesn't exist`() {
-        val repository = InMemoryOrderRepository(eventPublisher)
+        val repository = InMemoryCustomerOrderRepository(eventPublisher)
         val order = repository.getById(orderId())
         order.shouldBeNull()
     }
 
     @Test
     fun `get last - repository is empty`() {
-        val repository = InMemoryOrderRepository(eventPublisher)
+        val repository = InMemoryCustomerOrderRepository(eventPublisher)
         val order = repository.getLastOrder(customerId())
         order.shouldBeNull()
     }
@@ -81,7 +81,7 @@ internal class InMemoryOrderRepositoryTest {
         val firstOrder = order(customerId = customerId)
         val lastOrder = order(customerId = customerId)
 
-        val repository = InMemoryOrderRepository(eventPublisher)
+        val repository = InMemoryCustomerOrderRepository(eventPublisher)
         repository.save(firstOrder)
         repository.save(lastOrder)
 

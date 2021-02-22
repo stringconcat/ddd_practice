@@ -60,16 +60,22 @@ fun version() = Version.new()
 
 fun mealId() = MealId(Random.nextLong())
 
-fun meal(removed: Boolean = false): Meal {
+fun meal(id: MealId = mealId(), removed: Boolean = false): Meal {
 
     return MealRestorer.restoreMeal(
-        id = mealId(),
+        id = id,
         name = mealName(),
         removed = removed,
         description = mealDescription(),
         price = price(),
         version = version()
     )
+}
+
+fun mealWithEvents(id: MealId = mealId()): Meal {
+    val meal = meal(id)
+    meal.removeMealFromMenu()
+    return meal
 }
 
 fun removedMeal() = meal(removed = true)

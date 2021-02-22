@@ -1,5 +1,6 @@
 object LibVers {
 
+    const val csv = "0.15.0"
     const val spring_boot = "2.4.3"
     const val junit = "5.7.1"
     const val sl4j = "1.7.25"
@@ -34,6 +35,9 @@ object Libs {
     const val junit_engine = "org.junit.jupiter:junit-jupiter-engine:${LibVers.junit}"
     const val kotest_junit = "io.kotest:kotest-runner-junit5:${LibVers.kotest}"
     const val kotest_arrow = "io.kotest:kotest-assertions-arrow:${LibVers.kotest}"
+
+    // CSV
+    const val csv = "com.github.doyaaaaaken:kotlin-csv-jvm:${LibVers.csv}"
 }
 
 object PluginVers {

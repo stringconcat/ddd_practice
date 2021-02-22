@@ -18,7 +18,7 @@ internal class MealTest {
     val mealId = mealId()
 
     private val idGenerator = object : MealIdGenerator {
-        override fun generateId() = mealId
+        override fun generate() = mealId
     }
 
     @Test
