@@ -1,6 +1,8 @@
 package com.stringconcat.ddd.order.persistence
 
 import arrow.core.Either
+import com.stringconcat.ddd.common.types.base.DomainEvent
+import com.stringconcat.ddd.common.types.base.EventPublisher
 import com.stringconcat.ddd.common.types.base.Version
 import com.stringconcat.ddd.common.types.common.Address
 import com.stringconcat.ddd.common.types.common.Count
@@ -95,39 +97,43 @@ fun cart(
     )
 }
 
+fun cartWithEvents(): Cart {
+    val cart = cart()
+    cart.addMeal(meal())
+    return cart
+}
+
 fun orderId() = CustomerOrderId(Random.nextLong())
 
-fun orderReadyForPay() = order(state = OrderState.WAITING_FOR_PAYMENT)
+fun orderReadyForComplete(id: CustomerOrderId = orderId()) = order(state = OrderState.CONFIRMED, id = id)
 
-fun orderNotReadyForPay() = order(state = OrderState.COMPLETED)
+fun orderWithEvents(id: CustomerOrderId = orderId()): CustomerOrder {
+    val order = orderReadyForComplete(id)
 
-fun orderReadyForCancel() = order(state = OrderState.PAID)
-
-fun orderNotReadyForCancel() = order(state = OrderState.COMPLETED)
-
-fun orderReadyForConfirm() = order(state = OrderState.PAID)
-
-fun orderNotReadyForConfirm() = order(state = OrderState.WAITING_FOR_PAYMENT)
-
-fun orderReadyForComplete() = order(state = OrderState.CONFIRMED)
-
-fun orderNotReadyForComplete() = order(state = OrderState.CANCELLED)
-
-fun activeOrder() = order(state = OrderState.CONFIRMED)
-
-fun nonActiveOrder() = order(state = OrderState.CANCELLED)
+    check(order.complete() is Either.Right<Unit>)
+    return order
+}
 
 fun order(
     state: OrderState = OrderState.COMPLETED,
     orderItems: Set<OrderItem> = emptySet(),
+    id: CustomerOrderId = orderId(),
+    customerId: CustomerId = customerId()
 ): CustomerOrder {
     return CustomerOrderRestorer.restoreOrder(
-        id = orderId(),
+        id = id,
         created = OffsetDateTime.now(),
-        customerId = customerId(),
+        customerId = customerId,
         orderItems = orderItems,
         address = address(),
         state = state,
         version = version()
     )
+}
+
+class TestEventPublisher : EventPublisher {
+    internal val storage = ArrayList<DomainEvent>()
+    override fun publish(events: Collection<DomainEvent>) {
+        storage.addAll(events)
+    }
 }
