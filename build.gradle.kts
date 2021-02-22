@@ -99,7 +99,7 @@ subprojects {
             violationRules {
 
                 rule {
-                    excludes = listOf("web")
+                    excludes = listOf("application")
                     limit {
                         minimum = BigDecimal("0.95")
                     }

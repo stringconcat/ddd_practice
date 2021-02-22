@@ -10,7 +10,8 @@ import org.springframework.context.annotation.Import
 @Configuration
 @Import(
     CustomerOrderContextConfiguration::class,
-    KitchenContextConfiguration::class
+    KitchenContextConfiguration::class,
+    ContextsIntegration::class
 )
 class ApplicationConfiguration {
 

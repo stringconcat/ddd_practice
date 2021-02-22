@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
+@Suppress("TooManyFunctions")
 class KitchenContextConfiguration {
 
     @Bean
@@ -26,5 +27,4 @@ class KitchenContextConfiguration {
         kitchenOrderExtractor: KitchenOrderExtractor,
         kitchenOrderPersister: KitchenOrderPersister
     ) = CreateOrderHandler(kitchenOrderExtractor, kitchenOrderPersister)
-
 }

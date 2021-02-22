@@ -9,8 +9,8 @@ class RemoveCartHandler(
     private val cartRemover: CartRemover
 ) {
 
-    fun removeCart(forCustomer: String): Either<RemoveCartHandlerError, Unit> {
-        return cartExtractor.getCart(CustomerId(forCustomer)).rightIfNotNull {
+    fun removeCart(forCustomer: CustomerId): Either<RemoveCartHandlerError, Unit> {
+        return cartExtractor.getCart(forCustomer).rightIfNotNull {
             RemoveCartHandlerError.CartNotFound
         }.map {
             // тут можно не делать никаких методов в самой коризине, потому что

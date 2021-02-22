@@ -30,6 +30,13 @@ dependencies {
     // jackson
     implementation(Libs.jackson_kotlin)
 
+    // arrow
+    implementation(Libs.arrow)
+
+    // logging
+    implementation(Libs.log4j_kotlin)
+    implementation(Libs.log4j_core)
+
     // test
     testImplementation(Libs.kotest_junit)
     testImplementation(Libs.kotest_arrow)

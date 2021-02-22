@@ -3,10 +3,10 @@ object LibVers {
     const val csv = "0.15.0"
     const val spring_boot = "2.4.3"
     const val junit = "5.7.1"
-    const val sl4j = "1.7.25"
     const val kotest = "4.4.1"
     const val jackson = "2.12.1"
     const val arrow = "0.11.0"
+    const val log4j = "2.12.0"
 }
 
 object Libs {
@@ -25,12 +25,12 @@ object Libs {
     const val spring_boot_starter_test = "org.springframework.boot:spring-boot-starter-test:${LibVers.spring_boot}"
 
     // Logging
-    const val slf4j_api = "org.slf4j:slf4j-api:${LibVers.sl4j}"
-    const val slf4j_simple = "org.slf4j:slf4j-simple:${LibVers.sl4j}"
-    const val kotlin_logging = "io.github.microutils:kotlin-logging:1.4.9"
+    const val log4j = "org.apache.logging.log4j:log4j-api:${LibVers.log4j}"
+    const val log4j_core = "org.apache.logging.log4j:log4j-core:${LibVers.log4j}"
+    const val log4j_kotlin = "org.apache.logging.log4j:log4j-api-kotlin:1.0.0"
+    const val slf4j_over_log4j = "org.apache.logging.log4j:log4j-slf4j-impl:${LibVers.log4j}"
 
     // Tests
-    const val junit_api = "org.junit.jupiter:junit-jupiter-api:${LibVers.junit}"
     const val junit_params = "org.junit.jupiter:junit-jupiter-params:${LibVers.junit}"
     const val junit_engine = "org.junit.jupiter:junit-jupiter-engine:${LibVers.junit}"
     const val kotest_junit = "io.kotest:kotest-runner-junit5:${LibVers.kotest}"

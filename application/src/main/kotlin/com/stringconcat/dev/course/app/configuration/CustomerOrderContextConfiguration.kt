@@ -34,10 +34,12 @@ import com.stringconcat.ddd.order.usecase.order.PaymentUrlProvider
 import com.stringconcat.ddd.order.usecase.providers.MealPriceProviderImpl
 import com.stringconcat.ddd.order.usecase.rules.CustomerHasActiveOrderRuleImpl
 import com.stringconcat.ddd.order.usecase.rules.MealAlreadyExistsRuleImpl
+import com.stringconcat.dev.course.app.listeners.CheckoutListener
 import com.stringconcat.integration.payment.SimplePaymentUrlProvider
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
+@Suppress("TooManyFunctions")
 @Configuration
 class CustomerOrderContextConfiguration {
 
@@ -175,4 +177,9 @@ class CustomerOrderContextConfiguration {
 
     @Bean
     fun paymentUrlProvider() = SimplePaymentUrlProvider()
+
+    @Bean
+    fun checkoutListener(
+        removeCartHandler: RemoveCartHandler
+    ) = CheckoutListener(removeCartHandler)
 }

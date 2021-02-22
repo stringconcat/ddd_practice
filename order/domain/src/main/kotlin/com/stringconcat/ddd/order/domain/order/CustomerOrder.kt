@@ -60,7 +60,7 @@ class CustomerOrder internal constructor(
                     address = address,
                     version = Version.new()
                 ).apply {
-                    addEvent(CustomerOrderCreatedDomainEvent(id))
+                    addEvent(CustomerOrderCreatedDomainEvent(id, cart.customerId))
                 }.right()
             } else {
                 CheckoutError.EmptyCart.left()
