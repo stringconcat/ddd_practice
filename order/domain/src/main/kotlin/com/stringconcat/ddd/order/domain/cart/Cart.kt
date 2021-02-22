@@ -22,7 +22,7 @@ class Cart internal constructor(
                 id = idGenerator.generate(),
                 customerId = forCustomer,
                 created = OffsetDateTime.now(),
-                version = Version.generate(),
+                version = Version.new(),
                 meals = emptyMap()
             ).apply {
                 addEvent(CartCreatedDomainEvent(cartId = this.id))

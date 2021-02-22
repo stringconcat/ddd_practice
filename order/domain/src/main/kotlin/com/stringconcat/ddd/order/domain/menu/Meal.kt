@@ -47,7 +47,7 @@ class Meal internal constructor(
                     name = name,
                     description = description,
                     price = price,
-                    version = Version.generate(),
+                    version = Version.new(),
                 ).apply {
                     addEvent(MealAddedToMenuDomainEvent(this.id))
                 }.right()

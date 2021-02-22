@@ -1,4 +1,4 @@
-package com.stringconcat.ddd.order.usecase.menu
+package com.stringconcat.ddd.order.persistence
 
 import arrow.core.Either
 import com.stringconcat.ddd.common.types.base.Version
@@ -16,18 +16,11 @@ import com.stringconcat.ddd.order.domain.menu.MealRestorer
 import com.stringconcat.ddd.order.domain.menu.Price
 import com.stringconcat.ddd.order.domain.order.CustomerOrder
 import com.stringconcat.ddd.order.domain.order.CustomerOrderId
-import com.stringconcat.ddd.order.domain.order.OrderItem
 import com.stringconcat.ddd.order.domain.order.CustomerOrderRestorer
+import com.stringconcat.ddd.order.domain.order.OrderItem
 import com.stringconcat.ddd.order.domain.order.OrderState
-import com.stringconcat.ddd.order.domain.rules.CustomerHasActiveOrderRule
-import com.stringconcat.ddd.order.usecase.cart.CartExtractor
-import com.stringconcat.ddd.order.usecase.cart.CartPersister
-import com.stringconcat.ddd.order.usecase.cart.CartRemover
-import com.stringconcat.ddd.order.usecase.order.CustomerOrderExtractor
-import com.stringconcat.ddd.order.usecase.order.CustomerOrderPersister
 import java.math.BigDecimal
 import java.time.OffsetDateTime
-import java.util.LinkedHashMap
 import java.util.UUID
 import kotlin.math.absoluteValue
 import kotlin.random.Random
@@ -61,7 +54,7 @@ fun price(value: BigDecimal = BigDecimal(Random.nextInt(1, 500000))): Price {
     return result.b
 }
 
-fun version() = Version.generate()
+fun version() = Version.new()
 
 fun mealId() = MealId(Random.nextLong())
 
@@ -137,55 +130,4 @@ fun order(
         state = state,
         version = version()
     )
-}
-
-class TestMealPersister : HashMap<MealId, Meal>(), MealPersister {
-    override fun save(meal: Meal) {
-        this[meal.id] = meal
-    }
-}
-
-class TestCartPersister : HashMap<CustomerId, Cart>(), CartPersister {
-    override fun save(cart: Cart) {
-        this[cart.customerId] = cart
-    }
-}
-
-class TestMealExtractor : HashMap<MealId, Meal>(), MealExtractor {
-    override fun getById(id: MealId) = this[id]
-
-    override fun getByName(name: MealName): Meal? {
-        return values.firstOrNull { it.name == name }
-    }
-}
-
-class TestCustomerHasActiveOrderRule(val hasActive: Boolean) : CustomerHasActiveOrderRule {
-    override fun hasActiveOrder(customerId: CustomerId): Boolean {
-        return hasActive
-    }
-}
-
-class TestCartExtractor : HashMap<CustomerId, Cart>(), CartExtractor {
-    override fun getCart(forCustomer: CustomerId): Cart? = this[forCustomer]
-}
-
-class TestCustomerOrderPersister : CustomerOrderPersister, HashMap<CustomerOrderId, CustomerOrder>() {
-    override fun save(order: CustomerOrder) {
-        this[order.id] = order
-    }
-}
-
-class TestCustomerOrderExtractor : CustomerOrderExtractor, LinkedHashMap<CustomerOrderId, CustomerOrder>() {
-    override fun getById(orderId: CustomerOrderId) = this[orderId]
-
-    override fun getLastOrder(customerId: CustomerId): CustomerOrder? {
-        return this.values.lastOrNull { it.customerId == customerId }
-    }
-}
-
-class TestCartRemover : CartRemover {
-    internal val deleted = ArrayList<CartId>()
-    override fun deleteCart(cart: Cart) {
-        deleted.add(cart.id)
-    }
 }

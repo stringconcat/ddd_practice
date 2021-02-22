@@ -1,7 +1,5 @@
 package com.stringconcat.ddd.common.types.base
 
-import kotlin.random.Random
-
 open class DomainEntity<T> protected constructor(
     val id: T,
     val version: Version
@@ -21,7 +19,11 @@ open class DomainEntity<T> protected constructor(
 }
 
 class Version internal constructor(val value: Long) : ValueObject {
+
+    fun increment() = Version(value + 1)
+
     companion object {
-        fun generate() = Version(Random.nextLong())
+        fun new() = Version(0)
+        fun from(value: Long) = Version(value)
     }
 }

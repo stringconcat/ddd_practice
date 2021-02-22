@@ -7,7 +7,7 @@ import kotlin.random.Random
 
 fun orderId() = KitchenOrderId(Random.nextLong())
 
-fun version() = Version.generate()
+fun version() = Version.new()
 
 fun count(value: Int = Random.nextInt(20, 5000)): Count {
     val result = Count.from(value)

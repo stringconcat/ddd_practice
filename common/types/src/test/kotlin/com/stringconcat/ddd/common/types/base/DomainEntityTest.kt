@@ -11,7 +11,7 @@ internal class DomainEntityTest {
     fun `produce event - event stack is clean`() {
 
         val id = 1L
-        val version = Version.generate()
+        val version = Version.new()
 
         val entity = TestEntity(id, version)
         entity.doSomething()

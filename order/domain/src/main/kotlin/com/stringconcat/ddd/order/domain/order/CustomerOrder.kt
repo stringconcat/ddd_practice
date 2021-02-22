@@ -58,7 +58,7 @@ class CustomerOrder internal constructor(
                     customerId = cart.customerId,
                     orderItems = items,
                     address = address,
-                    version = Version.generate()
+                    version = Version.new()
                 ).apply {
                     addEvent(CustomerOrderCreatedDomainEvent(id))
                 }.right()

@@ -37,7 +37,7 @@ class KitchenOrder internal constructor(
                 KitchenOrder(
                     id = id,
                     orderItems = orderItems,
-                    version = Version.generate()
+                    version = Version.new()
                 ).apply {
                     addEvent(KitchenOrderCreatedDomainEvent(id))
                 }.right()

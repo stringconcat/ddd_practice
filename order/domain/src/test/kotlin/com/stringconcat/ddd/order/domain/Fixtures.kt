@@ -55,7 +55,7 @@ fun price(value: BigDecimal = BigDecimal(Random.nextInt(1, 500000))): Price {
     return result.b
 }
 
-fun version() = Version.generate()
+fun version() = Version.new()
 
 fun mealId() = MealId(Random.nextLong())
 
