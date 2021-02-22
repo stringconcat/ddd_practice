@@ -20,5 +20,4 @@ class InMemoryMealRepository(private val eventPublisher: EventPublisher) : MealE
         eventPublisher.publish(meal.popEvents())
         storage[meal.id] = meal
     }
-
 }
