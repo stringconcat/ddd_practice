@@ -21,7 +21,7 @@ internal class RemoveCartHandlerTest {
             this[cart.customerId] = cart
         }
         val handler = RemoveCartHandler(cartExtractor, cartRemover)
-        val result = handler.removeCart(cart.customerId.value)
+        val result = handler.removeCart(cart.customerId)
         result.shouldBeRight()
         cartRemover.deleted shouldContainExactly listOf(cart.id)
     }
@@ -30,7 +30,7 @@ internal class RemoveCartHandlerTest {
     fun `cart not found`() {
         val cartExtractor = TestCartExtractor()
         val handler = RemoveCartHandler(cartExtractor, cartRemover)
-        val result = handler.removeCart(customerId().value)
+        val result = handler.removeCart(customerId())
         result shouldBeLeft RemoveCartHandlerError.CartNotFound
         cartRemover.deleted.shouldBeEmpty()
     }
