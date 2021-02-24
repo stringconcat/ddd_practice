@@ -3,10 +3,19 @@ package com.stringconcat.dev.course.app.event
 import com.stringconcat.ddd.common.types.base.DomainEvent
 import com.stringconcat.ddd.common.types.base.EventPublisher
 import org.apache.logging.log4j.kotlin.Logging
+import kotlin.reflect.KClass
 
-class EventPublisherImpl(listeners: List<DomainEventListener<out DomainEvent>>) : EventPublisher {
+class EventPublisherImpl : EventPublisher {
 
-    private val listenerMap = listeners.groupBy { it.eventType() }
+    private val listenerMap = HashMap<KClass<*>, MutableList<DomainEventListener<out DomainEvent>>>()
+
+    fun registerListener(listener: DomainEventListener<out DomainEvent>) {
+        listenerMap.compute(listener.eventType()) { _, value ->
+            val list = value ?: ArrayList()
+            list.add(listener)
+            list
+        }
+    }
 
     companion object : Logging
 

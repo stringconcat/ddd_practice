@@ -8,7 +8,11 @@ class EventPublisherImplTest {
 
     @Test
     fun `publish events`() {
-        val publisher = EventPublisherImpl(listOf(TestEventListener, AnotherTestEventListener))
+        val publisher = EventPublisherImpl()
+
+        publisher.registerListener(TestEventListener)
+        publisher.registerListener(AnotherTestEventListener)
+
         val testEvent = TestEvent()
         val anotherTestEvent = AnotherTestEvent()
         val events = listOf(testEvent, anotherTestEvent)

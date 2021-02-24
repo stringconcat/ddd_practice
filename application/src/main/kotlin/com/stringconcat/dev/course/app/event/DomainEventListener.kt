@@ -5,7 +5,7 @@ import kotlin.reflect.KClass
 
 interface DomainEventListener<T : DomainEvent> {
 
-    fun eventType(): KClass<in T>
+    fun eventType(): KClass<T>
 
     fun handle(event: T)
 }

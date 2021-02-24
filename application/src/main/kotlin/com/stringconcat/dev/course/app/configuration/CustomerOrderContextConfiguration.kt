@@ -34,6 +34,7 @@ import com.stringconcat.ddd.order.usecase.order.PaymentUrlProvider
 import com.stringconcat.ddd.order.usecase.providers.MealPriceProviderImpl
 import com.stringconcat.ddd.order.usecase.rules.CustomerHasActiveOrderRuleImpl
 import com.stringconcat.ddd.order.usecase.rules.MealAlreadyExistsRuleImpl
+import com.stringconcat.dev.course.app.event.EventPublisherImpl
 import com.stringconcat.dev.course.app.listeners.CheckoutListener
 import com.stringconcat.integration.payment.SimplePaymentUrlProvider
 import org.springframework.context.annotation.Bean
@@ -180,6 +181,11 @@ class CustomerOrderContextConfiguration {
 
     @Bean
     fun checkoutListener(
-        removeCartHandler: RemoveCartHandler
-    ) = CheckoutListener(removeCartHandler)
+        removeCartHandler: RemoveCartHandler,
+        domainEventPublisher: EventPublisherImpl
+    ): CheckoutListener {
+        val listener = CheckoutListener(removeCartHandler)
+        domainEventPublisher.registerListener(listener)
+        return listener
+    }
 }
