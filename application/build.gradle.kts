@@ -26,6 +26,7 @@ dependencies {
 
     // spring
     implementation(Libs.spring_boot_starter_web)
+    implementation(Libs.spring_boot_starter_thymeleaf)
 
     // jackson
     implementation(Libs.jackson_kotlin)
@@ -36,6 +37,9 @@ dependencies {
     // logging
     implementation(Libs.log4j_kotlin)
     implementation(Libs.log4j_core)
+
+//    // telnet
+//    implementation(Libs.telnet)
 
     // test
     testImplementation(Libs.kotest_junit)

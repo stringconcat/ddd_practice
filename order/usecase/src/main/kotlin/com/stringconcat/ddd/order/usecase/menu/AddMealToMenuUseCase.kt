@@ -55,9 +55,9 @@ fun CreatePriceError.toError(): AddMealToMenuUseCaseError {
 }
 
 // передавать сообщения из юзкейса не очень хорошо, лучше завести enum, но для примера нам сойдет
-sealed class AddMealToMenuUseCaseError {
-    data class InvalidName(val message: String) : AddMealToMenuUseCaseError()
-    data class InvalidDescription(val message: String) : AddMealToMenuUseCaseError()
-    data class InvalidPrice(val message: String) : AddMealToMenuUseCaseError()
-    object AlreadyExists : AddMealToMenuUseCaseError()
+sealed class AddMealToMenuUseCaseError(open val message: String) {
+    data class InvalidName(override val message: String) : AddMealToMenuUseCaseError(message)
+    data class InvalidDescription(override val message: String) : AddMealToMenuUseCaseError(message)
+    data class InvalidPrice(override val message: String) : AddMealToMenuUseCaseError(message)
+    object AlreadyExists : AddMealToMenuUseCaseError("Meal already exists")
 }

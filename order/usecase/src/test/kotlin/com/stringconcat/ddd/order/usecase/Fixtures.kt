@@ -159,6 +159,8 @@ class TestMealExtractor : HashMap<MealId, Meal>(), MealExtractor {
     override fun getByName(name: MealName): Meal? {
         return values.firstOrNull { it.name == name }
     }
+
+    override fun getAll() = this.values.toList()
 }
 
 class TestCustomerHasActiveOrderRule(val hasActive: Boolean) : CustomerHasActiveOrderRule {

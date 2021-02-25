@@ -1,4 +1,4 @@
-package com.stringconcat.ddd.meal.persistence.menu
+package com.stringconcat.ddd.order.persistence.menu
 
 import com.stringconcat.ddd.order.domain.menu.MealRemovedFromMenuDomainEvent
 import com.stringconcat.ddd.order.persistence.TestEventPublisher
@@ -6,7 +6,8 @@ import com.stringconcat.ddd.order.persistence.meal
 import com.stringconcat.ddd.order.persistence.mealId
 import com.stringconcat.ddd.order.persistence.mealName
 import com.stringconcat.ddd.order.persistence.mealWithEvents
-import com.stringconcat.ddd.order.persistence.menu.InMemoryMealRepository
+import io.kotest.matchers.collections.shouldBeEmpty
+import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
@@ -85,5 +86,32 @@ internal class InMemoryMealRepositoryTest {
 
         val meal = repository.getByName(storedMeal.name)
         meal shouldBeSameInstanceAs storedMeal
+    }
+
+    @Test
+    fun `get all meals - repository is empty`() {
+        val repository = InMemoryMealRepository(eventPublisher)
+        val meals = repository.getAll()
+        meals.shouldBeEmpty()
+    }
+
+    @Test
+    fun `get all meals - success`() {
+        val repository = InMemoryMealRepository(eventPublisher)
+        val storedMeal = meal()
+        repository.storage[storedMeal.id] = storedMeal
+
+        val meals = repository.getAll()
+        meals shouldContainExactly listOf(storedMeal)
+    }
+
+    @Test
+    fun `get all meals - removed is not returned`() {
+        val repository = InMemoryMealRepository(eventPublisher)
+        val storedMeal = meal(removed = true)
+        repository.storage[storedMeal.id] = storedMeal
+
+        val meals = repository.getAll()
+        meals.shouldBeEmpty()
     }
 }

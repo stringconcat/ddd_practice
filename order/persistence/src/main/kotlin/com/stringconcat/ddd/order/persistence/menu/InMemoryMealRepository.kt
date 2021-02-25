@@ -16,6 +16,8 @@ class InMemoryMealRepository(private val eventPublisher: EventPublisher) : MealE
     override fun getByName(name: MealName) =
         storage.values.firstOrNull { it.name == name }
 
+    override fun getAll() = storage.values.filterNot { it.removed }.toList()
+
     override fun save(meal: Meal) {
         eventPublisher.publish(meal.popEvents())
         storage[meal.id] = meal

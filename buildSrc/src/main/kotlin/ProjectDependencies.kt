@@ -1,12 +1,13 @@
 object LibVers {
 
-    const val csv = "0.15.0"
     const val spring_boot = "2.4.3"
     const val junit = "5.7.1"
     const val kotest = "4.4.1"
     const val jackson = "2.12.1"
     const val arrow = "0.11.0"
     const val log4j = "2.12.0"
+    const val telnet = "1.1"
+
 }
 
 object Libs {
@@ -23,6 +24,8 @@ object Libs {
     // Spring
     const val spring_boot_starter_web = "org.springframework.boot:spring-boot-starter-web:${LibVers.spring_boot}"
     const val spring_boot_starter_test = "org.springframework.boot:spring-boot-starter-test:${LibVers.spring_boot}"
+    const val spring_boot_starter_thymeleaf =
+        "org.springframework.boot:spring-boot-starter-thymeleaf:${LibVers.spring_boot}"
 
     // Logging
     const val log4j = "org.apache.logging.log4j:log4j-api:${LibVers.log4j}"
@@ -36,8 +39,8 @@ object Libs {
     const val kotest_junit = "io.kotest:kotest-runner-junit5:${LibVers.kotest}"
     const val kotest_arrow = "io.kotest:kotest-assertions-arrow:${LibVers.kotest}"
 
-    // CSV
-    const val csv = "com.github.doyaaaaaken:kotlin-csv-jvm:${LibVers.csv}"
+    // telnet
+    const val telnet = "com.khubla.ktelnet:ktelnet:${LibVers.telnet}"
 }
 
 object PluginVers {

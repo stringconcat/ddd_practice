@@ -20,6 +20,7 @@ import com.stringconcat.ddd.order.usecase.cart.CartRemover
 import com.stringconcat.ddd.order.usecase.cart.RemoveCartHandler
 import com.stringconcat.ddd.order.usecase.cart.RemoveMealFromCartUseCase
 import com.stringconcat.ddd.order.usecase.menu.AddMealToMenuUseCase
+import com.stringconcat.ddd.order.usecase.menu.GetMenuUseCase
 import com.stringconcat.ddd.order.usecase.menu.MealExtractor
 import com.stringconcat.ddd.order.usecase.menu.MealPersister
 import com.stringconcat.ddd.order.usecase.menu.RemoveMealFromMenuUseCase
@@ -165,6 +166,9 @@ class CustomerOrderContextConfiguration {
         customerOrderExtractor = customerOrderExtractor,
         customerOrderPersister = customerOrderPersister
     )
+
+    @Bean
+    fun getMenuUseCase(mealExtractor: MealExtractor) = GetMenuUseCase(mealExtractor)
 
     @Bean
     fun mealPriceProvider(mealExtractor: MealExtractor) = MealPriceProviderImpl(mealExtractor)

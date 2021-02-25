@@ -3,7 +3,6 @@ package com.stringconcat.ddd.order.usecase.menu
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
-import com.stringconcat.ddd.common.types.error.BusinessError
 import com.stringconcat.ddd.order.domain.menu.MealId
 
 class RemoveMealFromMenuUseCase(
@@ -22,4 +21,6 @@ class RemoveMealFromMenuUseCase(
     }
 }
 
-object MealNotFound : BusinessError
+object MealNotFound {
+    const val message: String = "Meal not found"
+}
