@@ -8,9 +8,9 @@ import com.stringconcat.ddd.order.domain.menu.MealId
 class RemoveMealFromCartUseCase(
     private val cartExtractor: CartExtractor,
     private val cartPersister: CartPersister
-) {
+) : RemoveMealFromCart {
 
-    fun execute(customerId: String, mealId: Long): Either<RemoveMealFromCartCaseError, Unit> {
+    override fun execute(customerId: String, mealId: Long): Either<RemoveMealFromCartCaseError, Unit> {
         return cartExtractor
             .getCart(forCustomer = CustomerId(customerId))
             .rightIfNotNull { RemoveMealFromCartCaseError.CartNotFound }
@@ -19,8 +19,4 @@ class RemoveMealFromCartUseCase(
                 cartPersister.save(it)
             }
     }
-}
-
-sealed class RemoveMealFromCartCaseError {
-    object CartNotFound : RemoveMealFromCartCaseError()
 }
