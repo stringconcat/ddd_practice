@@ -22,7 +22,7 @@ internal class PayOrderHandlerTest {
     @Test
     fun `successfully payed`() {
         val handler = PayOrderHandler(extractor, persister)
-        val result = handler.payOrder(orderId = order.id.value)
+        val result = handler.execute(orderId = order.id.value)
 
         result.shouldBeRight()
 
@@ -38,7 +38,7 @@ internal class PayOrderHandlerTest {
         extractor[order.id] = order
 
         val handler = PayOrderHandler(extractor, persister)
-        val result = handler.payOrder(orderId = order.id.value)
+        val result = handler.execute(orderId = order.id.value)
         result shouldBeLeft PayOrderHandlerError.InvalidOrderState
     }
 
@@ -46,7 +46,7 @@ internal class PayOrderHandlerTest {
     fun `order not found`() {
         extractor.clear()
         val handler = PayOrderHandler(extractor, persister)
-        val result = handler.payOrder(orderId = order.id.value)
+        val result = handler.execute(orderId = order.id.value)
         result shouldBeLeft PayOrderHandlerError.OrderNotFound
     }
 }

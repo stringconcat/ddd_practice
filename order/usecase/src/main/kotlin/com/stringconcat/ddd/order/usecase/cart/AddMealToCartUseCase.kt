@@ -14,7 +14,7 @@ class AddMealToCartUseCase(
     private val mealExtractor: MealExtractor,
     private val cartPersister: CartPersister
 ) {
-    fun addMealToCart(forCustomer: String, mealId: Long): Either<AddMealToCartUseCaseError, Unit> {
+    fun execute(forCustomer: String, mealId: Long): Either<AddMealToCartUseCaseError, Unit> {
         val customerId = CustomerId(forCustomer)
 
         return mealExtractor.getById(MealId(mealId)).rightIfNotNull {

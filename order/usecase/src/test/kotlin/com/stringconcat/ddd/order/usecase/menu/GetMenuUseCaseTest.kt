@@ -13,7 +13,7 @@ class GetMenuUseCaseTest {
     @Test
     fun `get menu - menu is empty`() {
         val useCase = GetMenuUseCase(mealExtractor)
-        val menu = useCase.getMenu()
+        val menu = useCase.execute()
         menu.shouldBeEmpty()
     }
 
@@ -23,7 +23,7 @@ class GetMenuUseCaseTest {
         mealExtractor[meal.id] = meal
 
         val useCase = GetMenuUseCase(mealExtractor)
-        val menu = useCase.getMenu()
+        val menu = useCase.execute()
         menu shouldContainExactly listOf(
             MealInfo(
                 id = meal.id.value,

@@ -31,7 +31,7 @@ internal class AddMealToMenuUseCaseTest {
             persister,
             TestMealIdGenerator,
             MealNotExist
-        ).addMealToMenu(
+        ).execute(
             AddMealToMenuRequest(
                 name.value,
                 description.value,
@@ -65,7 +65,7 @@ internal class AddMealToMenuUseCaseTest {
             persister,
             TestMealIdGenerator,
             MealExist
-        ).addMealToMenu(
+        ).execute(
             AddMealToMenuRequest(
                 name.value,
                 description.value,
@@ -88,7 +88,7 @@ internal class AddMealToMenuUseCaseTest {
             persister,
             TestMealIdGenerator,
             MealExist
-        ).addMealToMenu(
+        ).execute(
             AddMealToMenuRequest(
                 name,
                 description.value,
@@ -110,7 +110,7 @@ internal class AddMealToMenuUseCaseTest {
             persister,
             TestMealIdGenerator,
             MealExist
-        ).addMealToMenu(
+        ).execute(
             AddMealToMenuRequest(
                 name.value,
                 description,
@@ -132,7 +132,7 @@ internal class AddMealToMenuUseCaseTest {
             persister,
             TestMealIdGenerator,
             MealExist
-        ).addMealToMenu(
+        ).execute(
             AddMealToMenuRequest(
                 name.value,
                 description.value,
@@ -154,7 +154,7 @@ internal class AddMealToMenuUseCaseTest {
             persister,
             TestMealIdGenerator,
             MealExist
-        ).addMealToMenu(
+        ).execute(
             AddMealToMenuRequest(
                 name.value,
                 description.value,

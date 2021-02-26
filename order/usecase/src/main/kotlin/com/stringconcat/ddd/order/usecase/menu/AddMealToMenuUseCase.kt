@@ -22,7 +22,7 @@ class AddMealToMenuUseCase(
     private val mealExistsRule: MealAlreadyExistsRule
 ) {
 
-    fun addMealToMenu(request: AddMealToMenuRequest): Either<AddMealToMenuUseCaseError, MealId> =
+    fun execute(request: AddMealToMenuRequest): Either<AddMealToMenuUseCaseError, MealId> =
         tupled(
             MealName.from(request.name).mapLeft { it.toError() },
             MealDescription.from(request.description).mapLeft { it.toError() },

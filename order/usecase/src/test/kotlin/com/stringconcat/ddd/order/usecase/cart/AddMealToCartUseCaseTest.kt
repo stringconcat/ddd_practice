@@ -40,7 +40,7 @@ internal class AddMealToCartUseCaseTest {
         )
 
         val customerId = customerId()
-        val result = useCase.addMealToCart(customerId.value, meal.id.value)
+        val result = useCase.execute(customerId.value, meal.id.value)
         result.shouldBeRight()
         cartPersister shouldContainKey customerId
         val cart = cartPersister[customerId]
@@ -68,7 +68,7 @@ internal class AddMealToCartUseCaseTest {
             idGenerator = TestCartIdGenerator
         )
 
-        val result = useCase.addMealToCart(customerId.value, meal.id.value)
+        val result = useCase.execute(customerId.value, meal.id.value)
         result.shouldBeRight()
         cartPersister shouldContainKey customerId
         val cart = cartPersister[customerId]
@@ -89,7 +89,7 @@ internal class AddMealToCartUseCaseTest {
             idGenerator = TestCartIdGenerator
         )
 
-        val result = useCase.addMealToCart(UUID.randomUUID().toString(), meal.id.value)
+        val result = useCase.execute(UUID.randomUUID().toString(), meal.id.value)
         result shouldBeLeft AddMealToCartUseCaseError.MealNotFound
         cartPersister.shouldBeEmpty()
     }

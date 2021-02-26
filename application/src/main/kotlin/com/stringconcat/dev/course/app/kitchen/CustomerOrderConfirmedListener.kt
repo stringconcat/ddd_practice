@@ -36,7 +36,7 @@ class CustomerOrderConfirmedListener(
             )
         }
         val request = CreateOrderRequest(id = order.id.value, items = itemData)
-        createOrderHandler.createOrder(request).mapLeft {
+        createOrderHandler.execute(request).mapLeft {
             logger.error("Cannot create order #${order.id} for kitchen: $it")
         }
     }

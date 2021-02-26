@@ -27,7 +27,7 @@ class CheckoutUseCase(
 
 ) {
 
-    fun checkout(request: CheckoutRequest): Either<CheckoutUseCaseError, PaymentInfo> {
+    fun execute(request: CheckoutRequest): Either<CheckoutUseCaseError, PaymentInfo> {
 
         return tupled(
 

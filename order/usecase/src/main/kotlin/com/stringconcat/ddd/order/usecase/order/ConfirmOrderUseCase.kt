@@ -10,7 +10,7 @@ class ConfirmOrderUseCase(
     private val customerOrderPersister: CustomerOrderPersister
 ) {
 
-    fun confirmOrder(orderId: Long): Either<ConfirmOrderUseCaseError, Unit> {
+    fun execute(orderId: Long): Either<ConfirmOrderUseCaseError, Unit> {
         return customerOrderExtractor.getById(CustomerOrderId(orderId))
             .rightIfNotNull { ConfirmOrderUseCaseError.OrderNotFound }
             .flatMap { order ->

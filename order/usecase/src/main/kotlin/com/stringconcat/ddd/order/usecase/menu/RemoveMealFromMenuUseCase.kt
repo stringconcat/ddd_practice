@@ -10,7 +10,7 @@ class RemoveMealFromMenuUseCase(
     private val mealPersister: MealPersister
 ) {
 
-    fun removeMealFromMenu(id: Long): Either<MealNotFound, Unit> {
+    fun execute(id: Long): Either<MealNotFound, Unit> {
         val meal = mealExtractor.getById(MealId(id))
         return if (meal != null) {
             meal.removeMealFromMenu()

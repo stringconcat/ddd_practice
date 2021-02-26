@@ -10,7 +10,7 @@ class CompleteOrderUseCase(
     private val customerOrderPersister: CustomerOrderPersister
 ) {
 
-    fun completeOrder(orderId: Long): Either<CompleteOrderUseCaseError, Unit> {
+    fun execute(orderId: Long): Either<CompleteOrderUseCaseError, Unit> {
         return customerOrderExtractor.getById(CustomerOrderId(orderId))
             .rightIfNotNull { CompleteOrderUseCaseError.OrderNotFound }
             .flatMap { order ->

@@ -33,7 +33,7 @@ internal class CreateOrderHandlerTest {
             items = listOf(itemData)
         )
 
-        val result = handler.createOrder(request)
+        val result = handler.execute(request)
         result.shouldBeRight()
 
         val order = persister[orderId]
@@ -59,7 +59,7 @@ internal class CreateOrderHandlerTest {
             items = emptyList()
         )
 
-        val result = handler.createOrder(request)
+        val result = handler.execute(request)
         result.shouldBeRight()
 
         val order = persister[existingOrder.id]
@@ -77,7 +77,7 @@ internal class CreateOrderHandlerTest {
             items = emptyList()
         )
 
-        val result = handler.createOrder(request)
+        val result = handler.execute(request)
         result shouldBeLeft CreateOrderUseCaseError.EmptyOrder
     }
 
@@ -98,7 +98,7 @@ internal class CreateOrderHandlerTest {
             items = listOf(itemData)
         )
 
-        val result = handler.createOrder(request)
+        val result = handler.execute(request)
         result shouldBeLeft CreateOrderUseCaseError.InvalidCount("Negative value")
     }
 
@@ -119,7 +119,7 @@ internal class CreateOrderHandlerTest {
             items = listOf(itemData)
         )
 
-        val result = handler.createOrder(request)
+        val result = handler.execute(request)
         result shouldBeLeft CreateOrderUseCaseError.InvalidMealName("Meal name is empty")
     }
 }

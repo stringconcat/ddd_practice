@@ -22,7 +22,7 @@ internal class CancelOrderUseCaseTest {
     @Test
     fun `successfully confirmed`() {
         val useCase = CancelOrderUseCase(extractor, persister)
-        val result = useCase.cancelOrder(orderId = order.id.value)
+        val result = useCase.execute(orderId = order.id.value)
 
         result.shouldBeRight()
 
@@ -38,7 +38,7 @@ internal class CancelOrderUseCaseTest {
         extractor[order.id] = order
 
         val useCase = CancelOrderUseCase(extractor, persister)
-        val result = useCase.cancelOrder(orderId = order.id.value)
+        val result = useCase.execute(orderId = order.id.value)
         result shouldBeLeft CancelOrderUseCaseError.InvalidOrderState
     }
 
@@ -46,7 +46,7 @@ internal class CancelOrderUseCaseTest {
     fun `order not found`() {
         extractor.clear()
         val useCase = CancelOrderUseCase(extractor, persister)
-        val result = useCase.cancelOrder(orderId = order.id.value)
+        val result = useCase.execute(orderId = order.id.value)
         result shouldBeLeft CancelOrderUseCaseError.OrderNotFound
     }
 }

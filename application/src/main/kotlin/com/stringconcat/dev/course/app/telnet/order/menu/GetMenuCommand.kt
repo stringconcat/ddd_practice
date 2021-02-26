@@ -10,7 +10,7 @@ import java.util.HashMap
 class GetMenuCommand(private val useCase: GetMenuUseCase) : TelnetCommand {
 
     override fun execute(nvt: NVT, line: String, sessionParameters: HashMap<String, Any>): Boolean {
-        val menu = useCase.getMenu()
+        val menu = useCase.execute()
 
         val table = AsciiTable.getTable(
             AsciiTable.FANCY_ASCII, menu, listOf(

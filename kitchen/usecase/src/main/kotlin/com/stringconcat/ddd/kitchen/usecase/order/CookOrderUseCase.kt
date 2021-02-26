@@ -9,7 +9,7 @@ class CookOrderUseCase(
     private val kitchenOrderPersister: KitchenOrderPersister
 ) {
 
-    fun cookOrder(orderId: Long): Either<CookOrderUseCaseError, Unit> {
+    fun execute(orderId: Long): Either<CookOrderUseCaseError, Unit> {
         return kitchenOrderExtractor.getById(KitchenOrderId(orderId))
             .rightIfNotNull { CookOrderUseCaseError.OrderNotFound }
             .map { order ->

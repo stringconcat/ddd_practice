@@ -24,7 +24,7 @@ internal class RemoveMealFromMenuUseCaseTest {
         val meal = meal()
         mealExtractor[meal.id] = meal
         val useCase = RemoveMealFromMenuUseCase(mealExtractor, mealPersister)
-        val result = useCase.removeMealFromMenu(meal.id.value)
+        val result = useCase.execute(meal.id.value)
         result shouldBeRight Unit
 
         mealPersister shouldContain (meal.id to meal)
@@ -38,7 +38,7 @@ internal class RemoveMealFromMenuUseCaseTest {
     @Test
     fun `meal not found`() {
         val useCase = RemoveMealFromMenuUseCase(mealExtractor, mealPersister)
-        val result = useCase.removeMealFromMenu(mealId().value)
+        val result = useCase.execute(mealId().value)
         result shouldBeLeft MealNotFound
         mealPersister.shouldBeEmpty()
     }

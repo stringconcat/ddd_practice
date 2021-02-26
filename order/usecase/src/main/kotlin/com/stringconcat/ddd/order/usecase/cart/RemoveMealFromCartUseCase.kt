@@ -10,7 +10,7 @@ class RemoveMealFromCartUseCase(
     private val cartPersister: CartPersister
 ) {
 
-    fun removeMealFromCart(customerId: String, mealId: Long): Either<RemoveMealFromCartCaseError, Unit> {
+    fun execute(customerId: String, mealId: Long): Either<RemoveMealFromCartCaseError, Unit> {
         return cartExtractor
             .getCart(forCustomer = CustomerId(customerId))
             .rightIfNotNull { RemoveMealFromCartCaseError.CartNotFound }

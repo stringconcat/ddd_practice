@@ -22,7 +22,7 @@ internal class ConfirmOrderUseCaseTest {
     @Test
     fun `successfully confirmed`() {
         val useCase = ConfirmOrderUseCase(extractor, persister)
-        val result = useCase.confirmOrder(orderId = order.id.value)
+        val result = useCase.execute(orderId = order.id.value)
 
         result.shouldBeRight()
 
@@ -38,7 +38,7 @@ internal class ConfirmOrderUseCaseTest {
         extractor[order.id] = order
 
         val useCase = ConfirmOrderUseCase(extractor, persister)
-        val result = useCase.confirmOrder(orderId = order.id.value)
+        val result = useCase.execute(orderId = order.id.value)
         result shouldBeLeft ConfirmOrderUseCaseError.InvalidOrderState
     }
 
@@ -46,7 +46,7 @@ internal class ConfirmOrderUseCaseTest {
     fun `order not found`() {
         extractor.clear()
         val useCase = ConfirmOrderUseCase(extractor, persister)
-        val result = useCase.confirmOrder(orderId = order.id.value)
+        val result = useCase.execute(orderId = order.id.value)
         result shouldBeLeft ConfirmOrderUseCaseError.OrderNotFound
     }
 }

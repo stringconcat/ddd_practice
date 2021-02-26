@@ -27,7 +27,7 @@ class MenuController(
 
     @GetMapping(URLs.listMenu)
     fun menu(modelMap: ModelMap): String {
-        modelMap.addAttribute(MENU_ATTRIBUTE, getMenuUseCase.getMenu())
+        modelMap.addAttribute(MENU_ATTRIBUTE, getMenuUseCase.execute())
         return Views.menu
     }
 
@@ -39,8 +39,8 @@ class MenuController(
         modelMap: ModelMap
     ): String {
         val request = AddMealToMenuRequest(name, description, price)
-        addMealToMenuUseCase.addMealToMenu(request).mapLeft {
-            modelMap.addAttribute(MENU_ATTRIBUTE, getMenuUseCase.getMenu())
+        addMealToMenuUseCase.execute(request).mapLeft {
+            modelMap.addAttribute(MENU_ATTRIBUTE, getMenuUseCase.execute())
             modelMap.addAttribute(ERROR_ATTRIBUTE, it.message)
             return@addMealToMenu Views.menu
         }
@@ -50,8 +50,8 @@ class MenuController(
 
     @PostMapping(URLs.removeMeal)
     fun removeMealFromMenu(@RequestParam id: Long, modelMap: ModelMap): String {
-        removeMealFromMenuUseCase.removeMealFromMenu(id).mapLeft {
-            modelMap.addAttribute(MENU_ATTRIBUTE, getMenuUseCase.getMenu())
+        removeMealFromMenuUseCase.execute(id).mapLeft {
+            modelMap.addAttribute(MENU_ATTRIBUTE, getMenuUseCase.execute())
             modelMap.addAttribute(ERROR_ATTRIBUTE, it.message)
             return@removeMealFromMenu Views.menu
         }

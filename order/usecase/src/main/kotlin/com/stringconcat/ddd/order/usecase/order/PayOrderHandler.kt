@@ -10,7 +10,7 @@ class PayOrderHandler(
     private val customerOrderPersister: CustomerOrderPersister
 ) {
 
-    fun payOrder(orderId: Long): Either<PayOrderHandlerError, Unit> {
+    fun execute(orderId: Long): Either<PayOrderHandlerError, Unit> {
         return customerOrderExtractor.getById(CustomerOrderId(orderId))
             .rightIfNotNull { PayOrderHandlerError.OrderNotFound }
             .flatMap { order ->

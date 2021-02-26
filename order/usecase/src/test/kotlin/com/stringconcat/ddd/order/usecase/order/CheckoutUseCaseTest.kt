@@ -66,7 +66,7 @@ internal class CheckoutUseCaseTest {
         )
 
         val checkoutRequest = checkoutRequest()
-        val result = useCase.checkout(checkoutRequest)
+        val result = useCase.execute(checkoutRequest)
 
         val orderId = TestCustomerOrderIdGenerator.id
 
@@ -102,7 +102,7 @@ internal class CheckoutUseCaseTest {
         )
 
         val checkoutRequest = checkoutRequest()
-        val result = useCase.checkout(checkoutRequest)
+        val result = useCase.execute(checkoutRequest)
         result shouldBeLeft CheckoutUseCaseError.CartNotFound
     }
 
@@ -121,7 +121,7 @@ internal class CheckoutUseCaseTest {
         )
 
         val checkoutRequest = checkoutRequest()
-        val result = useCase.checkout(checkoutRequest)
+        val result = useCase.execute(checkoutRequest)
         result shouldBeLeft CheckoutUseCaseError.EmptyCart
     }
 
@@ -140,7 +140,7 @@ internal class CheckoutUseCaseTest {
         val address = CheckoutRequest.Address("", address.building)
         val checkoutRequest = CheckoutRequest(customerId.value, address)
 
-        val result = useCase.checkout(checkoutRequest)
+        val result = useCase.execute(checkoutRequest)
         result shouldBeLeft CheckoutUseCaseError.InvalidAddress("Empty street")
     }
 
@@ -158,7 +158,7 @@ internal class CheckoutUseCaseTest {
         val address = CheckoutRequest.Address(address.street, -1)
         val checkoutRequest = CheckoutRequest(customerId.value, address)
 
-        val result = useCase.checkout(checkoutRequest)
+        val result = useCase.execute(checkoutRequest)
         result shouldBeLeft CheckoutUseCaseError.InvalidAddress("Negative value")
     }
 
@@ -176,7 +176,7 @@ internal class CheckoutUseCaseTest {
             customerOrderPersister = orderPersister
         )
 
-        val result = useCase.checkout(checkoutRequest())
+        val result = useCase.execute(checkoutRequest())
         result shouldBeLeft CheckoutUseCaseError.AlreadyHasActiveOrder
     }
 

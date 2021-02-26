@@ -19,7 +19,7 @@ class CreateOrderHandler(
 
 ) {
 
-    fun createOrder(request: CreateOrderRequest): Either<CreateOrderUseCaseError, Unit> {
+    fun execute(request: CreateOrderRequest): Either<CreateOrderUseCaseError, Unit> {
         val order = extractor.getById(KitchenOrderId(request.id)) // выпоняем дедупликацю
         return if (order != null) {
             Unit.right()

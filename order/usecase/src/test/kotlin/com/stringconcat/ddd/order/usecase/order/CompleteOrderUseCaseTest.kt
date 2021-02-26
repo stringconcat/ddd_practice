@@ -22,7 +22,7 @@ internal class CompleteOrderUseCaseTest {
     @Test
     fun `successfully completed`() {
         val useCase = CompleteOrderUseCase(extractor, persister)
-        val result = useCase.completeOrder(orderId = order.id.value)
+        val result = useCase.execute(orderId = order.id.value)
 
         result.shouldBeRight()
 
@@ -38,7 +38,7 @@ internal class CompleteOrderUseCaseTest {
         extractor[order.id] = order
 
         val useCase = CompleteOrderUseCase(extractor, persister)
-        val result = useCase.completeOrder(orderId = order.id.value)
+        val result = useCase.execute(orderId = order.id.value)
         result shouldBeLeft CompleteOrderUseCaseError.InvalidOrderState
     }
 
@@ -46,7 +46,7 @@ internal class CompleteOrderUseCaseTest {
     fun `order not found`() {
         extractor.clear()
         val useCase = CompleteOrderUseCase(extractor, persister)
-        val result = useCase.completeOrder(orderId = order.id.value)
+        val result = useCase.execute(orderId = order.id.value)
         result shouldBeLeft CompleteOrderUseCaseError.OrderNotFound
     }
 }

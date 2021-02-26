@@ -14,7 +14,7 @@ class CheckoutListener(
     override fun eventType() = CustomerOrderCreatedDomainEvent::class
 
     override fun handle(event: CustomerOrderCreatedDomainEvent) {
-        val result = removeCartHandler.removeCart(event.customerId)
+        val result = removeCartHandler.execute(event.customerId)
         result.mapLeft {
             logger.warn("Cart for customer #${event.customerId} is already removed")
         }

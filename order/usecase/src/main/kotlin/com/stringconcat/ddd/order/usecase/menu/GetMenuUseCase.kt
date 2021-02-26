@@ -4,7 +4,7 @@ import java.math.BigDecimal
 
 class GetMenuUseCase(private val mealExtractor: MealExtractor) {
 
-    fun getMenu(): List<MealInfo> {
+    fun execute(): List<MealInfo> {
         return mealExtractor.getAll()
             .map {
                 MealInfo(
