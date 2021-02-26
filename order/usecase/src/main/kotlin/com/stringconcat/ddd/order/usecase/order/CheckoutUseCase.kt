@@ -7,15 +7,12 @@ import arrow.core.rightIfNotNull
 import com.stringconcat.ddd.common.types.common.Address
 import com.stringconcat.ddd.common.types.common.CreateAddressError
 import com.stringconcat.ddd.order.domain.cart.CustomerId
-import com.stringconcat.ddd.order.domain.menu.Price
 import com.stringconcat.ddd.order.domain.order.CheckoutError
 import com.stringconcat.ddd.order.domain.order.CustomerOrder
-import com.stringconcat.ddd.order.domain.order.CustomerOrderId
 import com.stringconcat.ddd.order.domain.order.CustomerOrderIdGenerator
 import com.stringconcat.ddd.order.domain.providers.MealPriceProvider
 import com.stringconcat.ddd.order.domain.rules.CustomerHasActiveOrderRule
 import com.stringconcat.ddd.order.usecase.cart.CartExtractor
-import java.net.URL
 
 class CheckoutUseCase(
     private val idGenerator: CustomerOrderIdGenerator,
@@ -25,9 +22,9 @@ class CheckoutUseCase(
     private val paymentUrlProvider: PaymentUrlProvider,
     private val customerOrderPersister: CustomerOrderPersister
 
-) {
+) : Checkout {
 
-    fun execute(request: CheckoutRequest): Either<CheckoutUseCaseError, PaymentInfo> {
+    override fun execute(request: CheckoutRequest): Either<CheckoutUseCaseError, PaymentInfo> {
 
         return tupled(
 
@@ -60,23 +57,6 @@ class CheckoutUseCase(
             )
         }
     }
-}
-
-data class PaymentInfo(
-    val orderId: CustomerOrderId,
-    val price: Price,
-    val paymentURL: URL
-)
-
-data class CheckoutRequest(val customerId: String, val address: Address) {
-    data class Address(val street: String, val building: Int)
-}
-
-sealed class CheckoutUseCaseError {
-    object CartNotFound : CheckoutUseCaseError()
-    object EmptyCart : CheckoutUseCaseError()
-    object AlreadyHasActiveOrder : CheckoutUseCaseError()
-    data class InvalidAddress(val message: String) : CheckoutUseCaseError()
 }
 
 fun CreateAddressError.toError(): CheckoutUseCaseError {

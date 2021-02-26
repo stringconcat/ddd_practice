@@ -8,9 +8,9 @@ import com.stringconcat.ddd.order.domain.order.CustomerOrderId
 class ConfirmOrderUseCase(
     private val customerOrderExtractor: CustomerOrderExtractor,
     private val customerOrderPersister: CustomerOrderPersister
-) {
+) : ConfirmOrder {
 
-    fun execute(orderId: Long): Either<ConfirmOrderUseCaseError, Unit> {
+    override fun execute(orderId: Long): Either<ConfirmOrderUseCaseError, Unit> {
         return customerOrderExtractor.getById(CustomerOrderId(orderId))
             .rightIfNotNull { ConfirmOrderUseCaseError.OrderNotFound }
             .flatMap { order ->
@@ -19,9 +19,4 @@ class ConfirmOrderUseCase(
                 }.mapLeft { ConfirmOrderUseCaseError.InvalidOrderState }
             }
     }
-}
-
-sealed class ConfirmOrderUseCaseError {
-    object OrderNotFound : ConfirmOrderUseCaseError()
-    object InvalidOrderState : ConfirmOrderUseCaseError()
 }
