@@ -1,4 +1,4 @@
-package com.stringconcat.dev.course.app.order
+package com.stringconcat.dev.course.app.order.controllers
 
 import com.stringconcat.ddd.order.usecase.menu.AddMealToMenuRequest
 import com.stringconcat.ddd.order.usecase.menu.AddMealToMenuUseCase

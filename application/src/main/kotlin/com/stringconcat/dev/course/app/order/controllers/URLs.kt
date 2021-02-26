@@ -1,4 +1,4 @@
-package com.stringconcat.dev.course.app.order
+package com.stringconcat.dev.course.app.order.controllers
 
 object URLs {
     const val rootMenu = "/menu"

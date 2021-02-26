@@ -1,4 +1,4 @@
-package com.stringconcat.dev.course.app.configuration
+package com.stringconcat.dev.course.app.order.configuration
 
 import com.stringconcat.ddd.common.types.base.EventPublisher
 import com.stringconcat.ddd.order.domain.cart.CartIdGenerator
@@ -36,7 +36,7 @@ import com.stringconcat.ddd.order.usecase.providers.MealPriceProviderImpl
 import com.stringconcat.ddd.order.usecase.rules.CustomerHasActiveOrderRuleImpl
 import com.stringconcat.ddd.order.usecase.rules.MealAlreadyExistsRuleImpl
 import com.stringconcat.dev.course.app.event.EventPublisherImpl
-import com.stringconcat.dev.course.app.listeners.CheckoutListener
+import com.stringconcat.dev.course.app.order.listeners.CheckoutListener
 import com.stringconcat.integration.payment.SimplePaymentUrlProvider
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

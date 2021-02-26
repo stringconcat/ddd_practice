@@ -1,4 +1,4 @@
-package com.stringconcat.dev.course.app.listeners
+package com.stringconcat.dev.course.app.kitchen
 
 import com.stringconcat.ddd.kitchen.usecase.order.CreateOrderHandler
 import com.stringconcat.ddd.kitchen.usecase.order.CreateOrderRequest

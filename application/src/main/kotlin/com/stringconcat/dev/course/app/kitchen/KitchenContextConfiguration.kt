@@ -1,4 +1,4 @@
-package com.stringconcat.dev.course.app.configuration
+package com.stringconcat.dev.course.app.kitchen
 
 import com.stringconcat.ddd.common.types.base.EventPublisher
 import com.stringconcat.ddd.kitchen.persistence.order.InMemoryKitchenOrderRepository

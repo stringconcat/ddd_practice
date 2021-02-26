@@ -1,4 +1,4 @@
-package com.stringconcat.dev.course.app.listeners
+package com.stringconcat.dev.course.app.order.listeners
 
 import com.stringconcat.ddd.order.domain.order.CustomerOrderCreatedDomainEvent
 import com.stringconcat.ddd.order.usecase.cart.RemoveCartHandler
