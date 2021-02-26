@@ -51,7 +51,9 @@ class MenuController(
     @PostMapping(URLs.removeMeal)
     fun removeMealFromMenu(@RequestParam id: Long, modelMap: ModelMap): String {
         removeMealFromMenuUseCase.removeMealFromMenu(id).mapLeft {
+            modelMap.addAttribute(MENU_ATTRIBUTE, getMenuUseCase.getMenu())
             modelMap.addAttribute(ERROR_ATTRIBUTE, it.message)
+            return@removeMealFromMenu Views.menu
         }
         return "redirect:/${Views.menu}"
     }
