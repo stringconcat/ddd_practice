@@ -4,7 +4,6 @@ import com.stringconcat.ddd.order.usecase.menu.AddMealToMenu
 import com.stringconcat.ddd.order.usecase.menu.AddMealToMenuRequest
 import com.stringconcat.ddd.order.usecase.menu.GetMenu
 import com.stringconcat.ddd.order.usecase.menu.RemoveMealFromMenu
-import com.stringconcat.ddd.order.usecase.menu.RemoveMealFromMenuUseCase
 import org.springframework.stereotype.Controller
 import org.springframework.ui.ModelMap
 import org.springframework.web.bind.annotation.GetMapping
