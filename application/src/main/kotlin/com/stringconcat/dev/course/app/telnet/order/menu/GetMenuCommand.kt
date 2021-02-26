@@ -4,10 +4,10 @@ import com.github.freva.asciitable.AsciiTable
 import com.github.freva.asciitable.Column
 import com.khubla.telnet.nvt.NVT
 import com.khubla.telnet.shell.command.TelnetCommand
-import com.stringconcat.ddd.order.usecase.menu.GetMenuUseCase
+import com.stringconcat.ddd.order.usecase.menu.GetMenu
 import java.util.HashMap
 
-class GetMenuCommand(private val useCase: GetMenuUseCase) : TelnetCommand {
+class GetMenuCommand(private val useCase: GetMenu) : TelnetCommand {
 
     override fun execute(nvt: NVT, line: String, sessionParameters: HashMap<String, Any>): Boolean {
         val menu = useCase.execute()

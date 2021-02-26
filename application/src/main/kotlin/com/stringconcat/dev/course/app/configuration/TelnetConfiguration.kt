@@ -4,7 +4,7 @@ import com.khubla.telnet.TelnetServer
 import com.khubla.telnet.shell.ShellFactory
 import com.khubla.telnet.shell.command.TelnetCommand
 import com.khubla.telnet.shell.command.TelnetCommandRegistry
-import com.stringconcat.ddd.order.usecase.menu.GetMenuUseCase
+import com.stringconcat.ddd.order.usecase.menu.GetMenu
 import com.stringconcat.dev.course.app.telnet.ApplicationShellFactory
 import com.stringconcat.dev.course.app.telnet.ApplicationTelnetCommandRegistry
 import com.stringconcat.dev.course.app.telnet.order.menu.GetMenuCommand
@@ -30,5 +30,5 @@ class TelnetConfiguration(
     fun commandRegistry(commands: List<TelnetCommand>) = ApplicationTelnetCommandRegistry(commands)
 
     @Bean
-    fun getMenuCommand(useCase: GetMenuUseCase) = GetMenuCommand(useCase)
+    fun getMenuCommand(useCase: GetMenu) = GetMenuCommand(useCase)
 }

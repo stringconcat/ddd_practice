@@ -2,7 +2,7 @@ package com.stringconcat.dev.course.app.controllers.order
 
 import com.stringconcat.ddd.order.usecase.menu.AddMealToMenu
 import com.stringconcat.ddd.order.usecase.menu.AddMealToMenuRequest
-import com.stringconcat.ddd.order.usecase.menu.GetMenuUseCase
+import com.stringconcat.ddd.order.usecase.menu.GetMenu
 import com.stringconcat.ddd.order.usecase.menu.RemoveMealFromMenuUseCase
 import org.springframework.stereotype.Controller
 import org.springframework.ui.ModelMap
@@ -17,7 +17,7 @@ import java.math.BigDecimal
 class MenuController(
     private val addMealToMenuUseCase: AddMealToMenu,
     private val removeMealFromMenuUseCase: RemoveMealFromMenuUseCase,
-    private val getMenuUseCase: GetMenuUseCase
+    private val getMenuUseCase: GetMenu
 ) {
 
     companion object {

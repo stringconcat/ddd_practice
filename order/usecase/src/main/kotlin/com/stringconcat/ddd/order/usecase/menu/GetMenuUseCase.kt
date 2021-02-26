@@ -2,9 +2,9 @@ package com.stringconcat.ddd.order.usecase.menu
 
 import java.math.BigDecimal
 
-class GetMenuUseCase(private val mealExtractor: MealExtractor) {
+class GetMenuUseCase(private val mealExtractor: MealExtractor) : GetMenu {
 
-    fun execute(): List<MealInfo> {
+    override fun execute(): List<MealInfo> {
         return mealExtractor.getAll()
             .map {
                 MealInfo(
