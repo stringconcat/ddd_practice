@@ -4,9 +4,13 @@ import com.khubla.telnet.TelnetServer
 import com.khubla.telnet.shell.ShellFactory
 import com.khubla.telnet.shell.command.TelnetCommand
 import com.khubla.telnet.shell.command.TelnetCommandRegistry
+import com.stringconcat.ddd.order.usecase.cart.AddMealToCartUseCase
+import com.stringconcat.ddd.order.usecase.cart.GetCart
 import com.stringconcat.ddd.order.usecase.menu.GetMenu
 import com.stringconcat.dev.course.app.telnet.ApplicationShellFactory
 import com.stringconcat.dev.course.app.telnet.ApplicationTelnetCommandRegistry
+import com.stringconcat.dev.course.app.telnet.order.menu.AddMealToCartCommand
+import com.stringconcat.dev.course.app.telnet.order.menu.GetCartCommand
 import com.stringconcat.dev.course.app.telnet.order.menu.GetMenuCommand
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
@@ -31,4 +35,10 @@ class TelnetConfiguration(
 
     @Bean
     fun getMenuCommand(useCase: GetMenu) = GetMenuCommand(useCase)
+
+    @Bean
+    fun addMealToCartCommand(useCase: AddMealToCartUseCase) = AddMealToCartCommand(useCase)
+
+    @Bean
+    fun getCartCommand(useCase: GetCart) = GetCartCommand(useCase)
 }

@@ -6,6 +6,6 @@ interface AddMealToCart {
     fun execute(forCustomer: String, mealId: Long): Either<AddMealToCartUseCaseError, Unit>
 }
 
-sealed class AddMealToCartUseCaseError {
-    object MealNotFound : AddMealToCartUseCaseError()
+sealed class AddMealToCartUseCaseError(val message: String) {
+    object MealNotFound : AddMealToCartUseCaseError("Meal not found")
 }

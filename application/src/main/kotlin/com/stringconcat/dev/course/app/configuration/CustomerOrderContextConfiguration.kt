@@ -17,6 +17,7 @@ import com.stringconcat.ddd.order.usecase.cart.AddMealToCartUseCase
 import com.stringconcat.ddd.order.usecase.cart.CartExtractor
 import com.stringconcat.ddd.order.usecase.cart.CartPersister
 import com.stringconcat.ddd.order.usecase.cart.CartRemover
+import com.stringconcat.ddd.order.usecase.cart.GetCartUseCase
 import com.stringconcat.ddd.order.usecase.cart.RemoveCartHandler
 import com.stringconcat.ddd.order.usecase.cart.RemoveMealFromCartUseCase
 import com.stringconcat.ddd.order.usecase.menu.AddMealToMenuUseCase
@@ -92,6 +93,15 @@ class CustomerOrderContextConfiguration {
     ) = RemoveMealFromCartUseCase(
         cartExtractor = cartExtractor,
         cartPersister = cartPersister
+    )
+
+    @Bean
+    fun getCartUseCase(
+        mealExtractor: MealExtractor,
+        cartExtractor: CartExtractor
+    ) = GetCartUseCase(
+        mealExtractor = mealExtractor,
+        cartExtractor = cartExtractor
     )
 
     @Bean

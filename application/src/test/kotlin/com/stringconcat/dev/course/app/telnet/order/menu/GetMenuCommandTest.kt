@@ -5,6 +5,7 @@ import com.stringconcat.ddd.order.usecase.menu.MealInfo
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
+import java.util.UUID
 
 class GetMenuCommandTest {
 
@@ -12,7 +13,7 @@ class GetMenuCommandTest {
     fun `get cart - cart is empty`() {
 
         val command = GetMenuCommand(EmptyUseCase)
-        val result = command.execute("", emptyMap())
+        val result = command.execute("", emptyMap(), UUID.randomUUID())
         result shouldBe
                 "╔══╤══════╤═════════════╤═══════╗\n" +
                 "║  │ Name │ Description │ Price ║\n" +
@@ -23,7 +24,7 @@ class GetMenuCommandTest {
     @Test
     fun `get cart - cart is not empty`() {
         val command = GetMenuCommand(NotEmptyUseCase)
-        val result = command.execute("", emptyMap())
+        val result = command.execute("", emptyMap(), UUID.randomUUID())
         result shouldBe
                 "╔═══╤═══════════╤═════════════╤═══════╗\n" +
                 "║   │ Name      │ Description │ Price ║\n" +
