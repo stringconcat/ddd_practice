@@ -7,9 +7,9 @@ import com.stringconcat.ddd.order.domain.cart.CustomerId
 class RemoveCartHandler(
     private val cartExtractor: CartExtractor,
     private val cartRemover: CartRemover
-) {
+) : RemoveCart {
 
-    fun execute(forCustomer: CustomerId): Either<RemoveCartHandlerError, Unit> {
+    override fun execute(forCustomer: CustomerId): Either<RemoveCartHandlerError, Unit> {
         return cartExtractor.getCart(forCustomer).rightIfNotNull {
             RemoveCartHandlerError.CartNotFound
         }.map {
@@ -18,8 +18,4 @@ class RemoveCartHandler(
             cartRemover.deleteCart(it)
         }
     }
-}
-
-sealed class RemoveCartHandlerError {
-    object CartNotFound : RemoveCartHandlerError()
 }
