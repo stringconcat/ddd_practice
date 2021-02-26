@@ -9,7 +9,7 @@
         </layout>
     </appender>
 
-    <logger name="com.khubla.telnet" level="INFO">
+    <logger name="com.khubla.telnet" level="WARN">
         <appender-ref ref="STDOUT" />
     </logger>
 

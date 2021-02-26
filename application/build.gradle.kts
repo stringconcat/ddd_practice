@@ -18,6 +18,7 @@ dependencies {
     implementation(project(":order:persistence"))
 
     implementation(project(":integration:payment"))
+    implementation(project(":integration:telnet"))
 
     // kotlin
     implementation(Libs.kotlin_jdk8)
@@ -35,8 +36,8 @@ dependencies {
     // arrow
     implementation(Libs.arrow)
 
-    // telnet
-    implementation(Libs.telnet)
+    // table
+    implementation(Libs.ascii_table)
 
     // logging
     implementation(Libs.slf4j_api)

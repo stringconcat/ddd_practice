@@ -50,7 +50,6 @@ subprojects {
         }
     }
 
-
     tasks {
 
         val check = named<DefaultTask>("check")
@@ -86,7 +85,6 @@ subprojects {
             finalizedBy(jacocoTestReport)
             finalizedBy(dependencyUpdate)
         }
-
 
         jacocoTestReport {
             dependsOn(check)

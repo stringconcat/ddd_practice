@@ -5,9 +5,9 @@ object LibVers {
     const val kotest = "4.4.1"
     const val jackson = "2.12.1"
     const val arrow = "0.11.0"
-    const val log4j = "2.12.0"
     const val telnet = "1.1"
     const val slf4j = "1.7.30"
+    const val ascii_table = "1.1.0"
 
 }
 
@@ -34,14 +34,15 @@ object Libs {
     // Logging
     const val slf4j_api = "org.slf4j:slf4j-api:${LibVers.slf4j}"
 
+    // Table
+    const val ascii_table = "com.github.freva:ascii-table:${LibVers.ascii_table}"
+
     // Tests
     const val junit_params = "org.junit.jupiter:junit-jupiter-params:${LibVers.junit}"
     const val junit_engine = "org.junit.jupiter:junit-jupiter-engine:${LibVers.junit}"
     const val kotest_junit = "io.kotest:kotest-runner-junit5:${LibVers.kotest}"
     const val kotest_arrow = "io.kotest:kotest-assertions-arrow:${LibVers.kotest}"
 
-    // telnet
-    const val telnet = "com.khubla.ktelnet:ktelnet:${LibVers.telnet}"
 }
 
 object PluginVers {

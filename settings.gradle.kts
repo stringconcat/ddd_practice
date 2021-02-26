@@ -12,3 +12,4 @@ include(":kitchen:usecase")
 include(":kitchen:persistence")
 
 include(":integration:payment")
+include(":integration:telnet")
