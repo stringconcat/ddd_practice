@@ -13,8 +13,8 @@ class AddMealToCartUseCase(
     private val idGenerator: CartIdGenerator,
     private val mealExtractor: MealExtractor,
     private val cartPersister: CartPersister
-) {
-    fun execute(forCustomer: String, mealId: Long): Either<AddMealToCartUseCaseError, Unit> {
+) : AddMealToCart {
+    override fun execute(forCustomer: String, mealId: Long): Either<AddMealToCartUseCaseError, Unit> {
         val customerId = CustomerId(forCustomer)
 
         return mealExtractor.getById(MealId(mealId)).rightIfNotNull {
@@ -30,8 +30,4 @@ class AddMealToCartUseCase(
         return cartExtractor.getCart(customerId)
             ?: Cart.create(idGenerator = idGenerator, forCustomer = customerId)
     }
-}
-
-sealed class AddMealToCartUseCaseError {
-    object MealNotFound : AddMealToCartUseCaseError()
 }
