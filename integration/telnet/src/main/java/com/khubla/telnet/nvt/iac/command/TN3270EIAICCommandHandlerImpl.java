@@ -149,7 +149,7 @@ public class TN3270EIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             final Set<Integer> tn3270Functions = new HashSet<Integer>();
             for (int i = 2; i < sn.length; i++) {
                logger.info("Client has suggested function: " + sn[i]);
-               tn3270Functions.add(new Integer(sn[i]));
+               tn3270Functions.add(Integer.valueOf(sn[i]));
             }
             nvt.setTn3270Functions(tn3270Functions);
             /*

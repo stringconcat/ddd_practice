@@ -5,8 +5,5 @@ import org.junit.jupiter.api.Test
 class GetMenuCommandTest {
 
     @Test
-    fun `get cart - cart is empty`() {
-
-    }
-
+    fun `get cart - cart is empty`() = Unit
 }
