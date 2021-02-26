@@ -8,19 +8,15 @@ import com.stringconcat.ddd.order.domain.menu.MealId
 class RemoveMealFromMenuUseCase(
     private val mealExtractor: MealExtractor,
     private val mealPersister: MealPersister
-) {
+) : RemoveMealFromMenu {
 
-    fun execute(id: Long): Either<MealNotFound, Unit> {
+    override fun execute(id: Long): Either<RemoveMealFromMenuUseCaseError, Unit> {
         val meal = mealExtractor.getById(MealId(id))
         return if (meal != null) {
             meal.removeMealFromMenu()
             mealPersister.save(meal).right()
         } else {
-            MealNotFound.left()
+            RemoveMealFromMenuUseCaseError.MealNotFound.left()
         }
     }
-}
-
-object MealNotFound {
-    const val message: String = "Meal not found"
 }

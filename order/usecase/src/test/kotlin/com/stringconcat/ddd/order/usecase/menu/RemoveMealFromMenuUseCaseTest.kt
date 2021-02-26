@@ -39,7 +39,7 @@ internal class RemoveMealFromMenuUseCaseTest {
     fun `meal not found`() {
         val useCase = RemoveMealFromMenuUseCase(mealExtractor, mealPersister)
         val result = useCase.execute(mealId().value)
-        result shouldBeLeft MealNotFound
+        result shouldBeLeft RemoveMealFromMenuUseCaseError.MealNotFound
         mealPersister.shouldBeEmpty()
     }
 }
