@@ -7,6 +7,7 @@ object LibVers {
     const val arrow = "0.11.0"
     const val log4j = "2.12.0"
     const val telnet = "1.1"
+    const val slf4j = "1.7.30"
 
 }
 
@@ -23,15 +24,15 @@ object Libs {
 
     // Spring
     const val spring_boot_starter_web = "org.springframework.boot:spring-boot-starter-web:${LibVers.spring_boot}"
+    const val spring_boot_starter_logging = "org.springframework.boot:spring-boot-starter-logging:${
+        LibVers.spring_boot
+    }"
     const val spring_boot_starter_test = "org.springframework.boot:spring-boot-starter-test:${LibVers.spring_boot}"
     const val spring_boot_starter_thymeleaf =
         "org.springframework.boot:spring-boot-starter-thymeleaf:${LibVers.spring_boot}"
 
     // Logging
-    const val log4j = "org.apache.logging.log4j:log4j-api:${LibVers.log4j}"
-    const val log4j_core = "org.apache.logging.log4j:log4j-core:${LibVers.log4j}"
-    const val log4j_kotlin = "org.apache.logging.log4j:log4j-api-kotlin:1.0.0"
-    const val slf4j_over_log4j = "org.apache.logging.log4j:log4j-slf4j-impl:${LibVers.log4j}"
+    const val slf4j_api = "org.slf4j:slf4j-api:${LibVers.slf4j}"
 
     // Tests
     const val junit_params = "org.junit.jupiter:junit-jupiter-params:${LibVers.junit}"

@@ -6,7 +6,7 @@ import com.stringconcat.ddd.order.domain.order.CustomerOrderConfirmedDomainEvent
 import com.stringconcat.ddd.order.usecase.menu.MealExtractor
 import com.stringconcat.ddd.order.usecase.order.CustomerOrderExtractor
 import com.stringconcat.dev.course.app.event.DomainEventListener
-import org.apache.logging.log4j.kotlin.Logging
+import org.slf4j.LoggerFactory
 
 class CustomerOrderConfirmedListener(
     private val customerOrderExtractor: CustomerOrderExtractor,
@@ -14,7 +14,7 @@ class CustomerOrderConfirmedListener(
     private val createOrderHandler: CreateOrderHandler
 ) : DomainEventListener<CustomerOrderConfirmedDomainEvent> {
 
-    companion object : Logging
+    private val logger = LoggerFactory.getLogger(CustomerOrderConfirmedListener::class.java)
 
     override fun eventType() = CustomerOrderConfirmedDomainEvent::class
 
