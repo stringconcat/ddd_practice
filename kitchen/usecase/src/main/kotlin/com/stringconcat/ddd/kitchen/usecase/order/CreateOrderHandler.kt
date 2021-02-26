@@ -17,9 +17,9 @@ class CreateOrderHandler(
     private val extractor: KitchenOrderExtractor,
     private val persister: KitchenOrderPersister
 
-) {
+) : CreateOrder {
 
-    fun execute(request: CreateOrderRequest): Either<CreateOrderUseCaseError, Unit> {
+    override fun execute(request: CreateOrderRequest): Either<CreateOrderUseCaseError, Unit> {
         val order = extractor.getById(KitchenOrderId(request.id)) // выпоняем дедупликацю
         return if (order != null) {
             Unit.right()
@@ -53,16 +53,6 @@ class CreateOrderHandler(
     private fun transform(mealName: String): Either<CreateOrderUseCaseError, Meal> {
         return Meal.from(mealName).mapLeft { it.toError() }
     }
-}
-
-data class CreateOrderRequest(val id: Long, val items: List<OrderItemData>) {
-    data class OrderItemData(val mealName: String, val count: Int)
-}
-
-sealed class CreateOrderUseCaseError {
-    data class InvalidCount(val message: String) : CreateOrderUseCaseError()
-    data class InvalidMealName(val message: String) : CreateOrderUseCaseError()
-    object EmptyOrder : CreateOrderUseCaseError()
 }
 
 fun NegativeValueError.toError() = CreateOrderUseCaseError.InvalidCount("Negative value")

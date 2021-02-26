@@ -7,9 +7,9 @@ import com.stringconcat.ddd.kitchen.domain.order.KitchenOrderId
 class CookOrderUseCase(
     private val kitchenOrderExtractor: KitchenOrderExtractor,
     private val kitchenOrderPersister: KitchenOrderPersister
-) {
+) : CookOrder {
 
-    fun execute(orderId: Long): Either<CookOrderUseCaseError, Unit> {
+    override fun execute(orderId: Long): Either<CookOrderUseCaseError, Unit> {
         return kitchenOrderExtractor.getById(KitchenOrderId(orderId))
             .rightIfNotNull { CookOrderUseCaseError.OrderNotFound }
             .map { order ->
@@ -17,8 +17,4 @@ class CookOrderUseCase(
                 kitchenOrderPersister.save(order)
             }
     }
-}
-
-sealed class CookOrderUseCaseError {
-    object OrderNotFound : CookOrderUseCaseError()
 }
