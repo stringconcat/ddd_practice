@@ -20,9 +20,9 @@ class AddMealToMenuUseCase(
     private val mealPersister: MealPersister,
     private val idGenerator: MealIdGenerator,
     private val mealExistsRule: MealAlreadyExistsRule
-) {
+) : AddMealToMenu {
 
-    fun execute(request: AddMealToMenuRequest): Either<AddMealToMenuUseCaseError, MealId> =
+    override fun execute(request: AddMealToMenuRequest): Either<AddMealToMenuUseCaseError, MealId> =
         tupled(
             MealName.from(request.name).mapLeft { it.toError() },
             MealDescription.from(request.description).mapLeft { it.toError() },
@@ -52,12 +52,4 @@ fun CreatePriceError.toError(): AddMealToMenuUseCaseError {
         is CreatePriceError.InvalidScale -> AddMealToMenuUseCaseError.InvalidPrice("Invalid scale")
         is CreatePriceError.NegativeValue -> AddMealToMenuUseCaseError.InvalidPrice("Negative value")
     }
-}
-
-// передавать сообщения из юзкейса не очень хорошо, лучше завести enum, но для примера нам сойдет
-sealed class AddMealToMenuUseCaseError(open val message: String) {
-    data class InvalidName(override val message: String) : AddMealToMenuUseCaseError(message)
-    data class InvalidDescription(override val message: String) : AddMealToMenuUseCaseError(message)
-    data class InvalidPrice(override val message: String) : AddMealToMenuUseCaseError(message)
-    object AlreadyExists : AddMealToMenuUseCaseError("Meal already exists")
 }
