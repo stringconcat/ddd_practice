@@ -29,12 +29,12 @@
                 </thead>
                 <tbody>
                 <tr th:each="meal : ${menu}">
-                    <th scope="row" th:text="${meal.id}">1</th>
-                    <td th:text="${meal.name}">Junk</td>
-                    <td th:text="${meal.description}">Just it my junk</td>
-                    <td th:text="${meal.price}">12.00</td>
+                    <th scope="row" th:text="${meal.id.value}">1</th>
+                    <td th:text="${meal.name.value}">Junk</td>
+                    <td th:text="${meal.description.value}">Just it my junk</td>
+                    <td th:text="${meal.price.value}">12.00</td>
                     <td>
-                        <form th:action="@{/menu/remove(id=${meal.id})}" method="post">
+                        <form th:action="@{/menu/remove(id=${meal.id.value})}" method="post">
                             <button type="submit" class="btn btn btn-danger btn-sm">Delete</button>
                         </form>
                     </td>
