@@ -9,4 +9,3 @@ interface RemoveMealFromMenu {
 sealed class RemoveMealFromMenuUseCaseError(val message: String) {
     object MealNotFound : RemoveMealFromMenuUseCaseError("Meal not found")
 }
-

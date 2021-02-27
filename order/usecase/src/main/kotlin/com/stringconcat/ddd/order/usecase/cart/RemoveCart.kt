@@ -7,7 +7,6 @@ interface RemoveCart {
     fun execute(forCustomer: CustomerId): Either<RemoveCartHandlerError, Unit>
 }
 
-
 sealed class RemoveCartHandlerError {
     object CartNotFound : RemoveCartHandlerError()
 }
