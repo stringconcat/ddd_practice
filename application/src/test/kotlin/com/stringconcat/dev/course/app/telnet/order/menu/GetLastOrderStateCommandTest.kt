@@ -7,6 +7,7 @@ import com.stringconcat.ddd.order.domain.cart.CustomerId
 import com.stringconcat.ddd.order.domain.order.OrderState
 import com.stringconcat.ddd.order.usecase.order.GetLastOrderState
 import com.stringconcat.ddd.order.usecase.order.GetLastOrderStateUseCaseError
+import com.stringconcat.dev.course.app.customerId
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -21,16 +22,16 @@ internal class GetLastOrderStateCommandTest {
 
         val useCase = TestGetLastOrderState(state.right())
         val command = GetLastOrderStateCommand(useCase)
-        val customerId = "bbb7054f-af8e-47da-b32d-5fa0fec0fcf9"
+        val customerId = customerId()
 
         val result = command.execute(
             line = "",
             sessionParameters = emptyMap(),
-            sessionId = UUID.fromString(customerId)
+            sessionId = UUID.fromString(customerId.value)
         )
 
         result shouldBe state.label()
-        useCase.customerId.value shouldBe customerId
+        useCase.customerId shouldBe customerId
     }
 
     @Test
@@ -39,13 +40,16 @@ internal class GetLastOrderStateCommandTest {
         val useCase = TestGetLastOrderState(GetLastOrderStateUseCaseError.OrderNotFound.left())
         val command = GetLastOrderStateCommand(useCase)
 
+        val customerId = customerId()
+
         val result = command.execute(
             line = "",
             sessionParameters = emptyMap(),
-            sessionId = UUID.randomUUID()
+            sessionId = UUID.fromString(customerId.value)
         )
 
         result shouldBe GetLastOrderStateUseCaseError.OrderNotFound.message
+        useCase.customerId shouldBe customerId
     }
 
     class TestGetLastOrderState(val response: Either<GetLastOrderStateUseCaseError, OrderState>) : GetLastOrderState {

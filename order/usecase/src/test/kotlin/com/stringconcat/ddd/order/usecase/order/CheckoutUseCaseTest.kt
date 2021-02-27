@@ -138,7 +138,7 @@ internal class CheckoutUseCaseTest {
         )
 
         val address = CheckoutRequest.Address("", address.building)
-        val checkoutRequest = CheckoutRequest(customerId.value, address)
+        val checkoutRequest = CheckoutRequest(customerId, address)
 
         val result = useCase.execute(checkoutRequest)
         result shouldBeLeft CheckoutUseCaseError.InvalidAddress("Empty street")
@@ -156,7 +156,7 @@ internal class CheckoutUseCaseTest {
         )
 
         val address = CheckoutRequest.Address(address.street, -1)
-        val checkoutRequest = CheckoutRequest(customerId.value, address)
+        val checkoutRequest = CheckoutRequest(customerId, address)
 
         val result = useCase.execute(checkoutRequest)
         result shouldBeLeft CheckoutUseCaseError.InvalidAddress("Negative value")
@@ -182,6 +182,6 @@ internal class CheckoutUseCaseTest {
 
     private fun checkoutRequest(): CheckoutRequest {
         val address = CheckoutRequest.Address(address.street, address.building)
-        return CheckoutRequest(customerId.value, address)
+        return CheckoutRequest(customerId, address)
     }
 }

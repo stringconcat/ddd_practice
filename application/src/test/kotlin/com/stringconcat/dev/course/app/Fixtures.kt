@@ -2,12 +2,14 @@ package com.stringconcat.dev.course.app
 
 import arrow.core.Either
 import com.stringconcat.ddd.common.types.common.Count
+import com.stringconcat.ddd.order.domain.cart.CustomerId
 import com.stringconcat.ddd.order.domain.menu.MealDescription
 import com.stringconcat.ddd.order.domain.menu.MealId
 import com.stringconcat.ddd.order.domain.menu.MealName
 import com.stringconcat.ddd.order.domain.menu.Price
 import com.stringconcat.ddd.order.domain.order.CustomerOrderId
 import java.math.BigDecimal
+import java.util.UUID
 import kotlin.random.Random
 
 fun mealName(name: String = "Name ${Random.nextInt()}"): MealName {
@@ -37,3 +39,5 @@ fun count(value: Int = Random.nextInt(20, 5000)): Count {
     check(result is Either.Right<Count>)
     return result.b
 }
+
+fun customerId() = CustomerId(UUID.randomUUID().toString())

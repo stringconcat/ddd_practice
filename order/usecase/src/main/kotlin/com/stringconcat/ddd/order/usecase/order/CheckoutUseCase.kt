@@ -6,7 +6,6 @@ import arrow.core.flatMap
 import arrow.core.rightIfNotNull
 import com.stringconcat.ddd.common.types.common.Address
 import com.stringconcat.ddd.common.types.common.CreateAddressError
-import com.stringconcat.ddd.order.domain.cart.CustomerId
 import com.stringconcat.ddd.order.domain.order.CheckoutError
 import com.stringconcat.ddd.order.domain.order.CustomerOrder
 import com.stringconcat.ddd.order.domain.order.CustomerOrderIdGenerator
@@ -33,7 +32,7 @@ class CheckoutUseCase(
                 building = request.address.building
             ).mapLeft { it.toError() },
 
-            cartExtractor.getCart(forCustomer = CustomerId(request.customerId))
+            cartExtractor.getCart(forCustomer = request.customerId)
                 .rightIfNotNull { CheckoutUseCaseError.CartNotFound }
 
         ).flatMap {

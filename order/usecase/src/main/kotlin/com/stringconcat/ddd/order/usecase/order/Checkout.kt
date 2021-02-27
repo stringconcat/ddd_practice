@@ -1,6 +1,7 @@
 package com.stringconcat.ddd.order.usecase.order
 
 import arrow.core.Either
+import com.stringconcat.ddd.order.domain.cart.CustomerId
 import com.stringconcat.ddd.order.domain.menu.Price
 import com.stringconcat.ddd.order.domain.order.CustomerOrderId
 import java.net.URL
@@ -15,7 +16,7 @@ data class PaymentInfo(
     val paymentURL: URL
 )
 
-data class CheckoutRequest(val customerId: String, val address: Address) {
+data class CheckoutRequest(val customerId: CustomerId, val address: Address) {
     data class Address(val street: String, val building: Int)
 }
 

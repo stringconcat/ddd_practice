@@ -1,11 +1,15 @@
 package com.stringconcat.dev.course.app.telnet.order.menu
 
 import arrow.core.Either
+import arrow.core.left
+import arrow.core.right
 import com.stringconcat.ddd.order.domain.cart.CustomerId
 import com.stringconcat.ddd.order.domain.menu.MealId
 import com.stringconcat.ddd.order.usecase.cart.AddMealToCart
 import com.stringconcat.ddd.order.usecase.cart.AddMealToCartUseCaseError
+import com.stringconcat.dev.course.app.customerId
 import com.stringconcat.dev.course.app.mealId
+import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import java.util.UUID
@@ -14,31 +18,49 @@ class AddMealToCartCommandTest {
 
     @Test
     fun `meal successfully added`() {
-        val command = AddMealToCartCommand(TestAddMealToCart)
+
+        val mealId = mealId()
+        val customerId = customerId()
+
+        val useCase = TestAddMealToCart(Unit.right())
+
+        val command = AddMealToCartCommand(useCase)
         val result = command.execute(
-            line = "add ${TestAddMealToCart.mealId.value}",
+            line = "add ${mealId.value}",
             sessionParameters = emptyMap(),
-            sessionId = UUID.fromString(TestAddMealToCart.customerId.value)
+            sessionId = UUID.fromString(customerId.value)
         )
 
         result shouldBe "OK"
+        useCase.mealId shouldBe mealId
+        useCase.customerId shouldBe customerId
     }
 
     @Test
     fun `meal not found`() {
-        val command = AddMealToCartCommand(TestAddMealToCart)
+
+        val mealId = mealId()
+        val customerId = customerId()
+
+        val useCase = TestAddMealToCart(AddMealToCartUseCaseError.MealNotFound.left())
+        val command = AddMealToCartCommand(useCase)
+
         val result = command.execute(
-            line = "add 14",
+            line = "add ${mealId.value}",
             sessionParameters = emptyMap(),
-            sessionId = UUID.fromString(TestAddMealToCart.customerId.value)
+            sessionId = UUID.fromString(customerId.value)
         )
 
         result shouldBe "Meal not found"
+        useCase.mealId shouldBe mealId
+        useCase.customerId shouldBe customerId
     }
 
     @Test
     fun `invalid parameter`() {
-        val command = AddMealToCartCommand(TestAddMealToCart)
+        val useCase = TestAddMealToCart(Unit.right())
+
+        val command = AddMealToCartCommand(useCase)
         val result = command.execute(
             line = "add gggg",
             sessionParameters = emptyMap(),
@@ -46,19 +68,23 @@ class AddMealToCartCommandTest {
         )
 
         result shouldBe "Invalid argument"
+        useCase.verifyZeroInteractions()
     }
 
-    object TestAddMealToCart : AddMealToCart {
+    class TestAddMealToCart(private val response: Either<AddMealToCartUseCaseError, Unit>) : AddMealToCart {
 
-        val mealId = mealId()
-        val customerId = CustomerId("bbb7054f-af8e-47da-b32d-5fa0fec0fcf9")
+        lateinit var mealId: MealId
+        lateinit var customerId: CustomerId
 
         override fun execute(forCustomer: CustomerId, mealId: MealId): Either<AddMealToCartUseCaseError, Unit> {
-            return if (forCustomer == this.customerId && mealId == this.mealId) {
-                Either.right(Unit)
-            } else {
-                Either.left(AddMealToCartUseCaseError.MealNotFound)
-            }
+            this.customerId = forCustomer
+            this.mealId = mealId
+            return response
+        }
+
+        fun verifyZeroInteractions() {
+            ::mealId.isInitialized.shouldBeFalse()
+            ::customerId.isInitialized.shouldBeFalse()
         }
     }
 }

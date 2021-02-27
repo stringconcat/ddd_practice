@@ -1,5 +1,6 @@
 package com.stringconcat.dev.course.app.telnet.order.menu
 
+import com.stringconcat.ddd.order.domain.cart.CustomerId
 import com.stringconcat.ddd.order.usecase.order.Checkout
 import com.stringconcat.ddd.order.usecase.order.CheckoutRequest
 import com.stringconcat.dev.course.app.telnet.ApplicationTelnetCommand
@@ -19,7 +20,7 @@ class CheckoutCommand(private val useCase: Checkout) : ApplicationTelnetCommand(
         }
 
         val address = CheckoutRequest.Address(street = split[1], building = split[2].toInt())
-        val request = CheckoutRequest(sessionId.toString(), address)
+        val request = CheckoutRequest(CustomerId(sessionId.toString()), address)
 
         return useCase.execute(request)
             .fold(
