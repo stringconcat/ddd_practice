@@ -10,10 +10,10 @@ class RemoveMealFromCartUseCase(
     private val cartPersister: CartPersister
 ) : RemoveMealFromCart {
 
-    override fun execute(customerId: String, mealId: Long): Either<RemoveMealFromCartCaseError, Unit> {
+    override fun execute(forCustomer: String, mealId: Long): Either<RemoveMealFromCartUseCaseError, Unit> {
         return cartExtractor
-            .getCart(forCustomer = CustomerId(customerId))
-            .rightIfNotNull { RemoveMealFromCartCaseError.CartNotFound }
+            .getCart(forCustomer = CustomerId(forCustomer))
+            .rightIfNotNull { RemoveMealFromCartUseCaseError.CartNotFound }
             .map {
                 it.removeMeals(MealId(mealId))
                 cartPersister.save(it)

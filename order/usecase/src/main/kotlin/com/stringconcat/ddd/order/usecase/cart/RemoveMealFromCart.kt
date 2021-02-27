@@ -3,9 +3,9 @@ package com.stringconcat.ddd.order.usecase.cart
 import arrow.core.Either
 
 interface RemoveMealFromCart {
-    fun execute(customerId: String, mealId: Long): Either<RemoveMealFromCartCaseError, Unit>
+    fun execute(forCustomer: String, mealId: Long): Either<RemoveMealFromCartUseCaseError, Unit>
 }
 
-sealed class RemoveMealFromCartCaseError {
-    object CartNotFound : RemoveMealFromCartCaseError()
+sealed class RemoveMealFromCartUseCaseError(val message: String) {
+    object CartNotFound : RemoveMealFromCartUseCaseError("Cart not found")
 }

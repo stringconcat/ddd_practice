@@ -34,7 +34,7 @@ class AddMealToCartCommandTest {
     }
 
     @Test
-    fun `invalid command`() {
+    fun `invalid parameter`() {
         val command = AddMealToCartCommand(TestAddMealToCart)
         val result = command.execute(
             line = "add gggg",

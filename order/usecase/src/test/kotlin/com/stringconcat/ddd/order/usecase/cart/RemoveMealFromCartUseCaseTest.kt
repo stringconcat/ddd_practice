@@ -31,7 +31,7 @@ class RemoveMealFromCartUseCaseTest {
         cartExtractor.clear()
         val useCase = RemoveMealFromCartUseCase(cartExtractor, cartPersister)
         val result = useCase.execute(cart.customerId.value, mealId().value)
-        result shouldBeLeft RemoveMealFromCartCaseError.CartNotFound
+        result shouldBeLeft RemoveMealFromCartUseCaseError.CartNotFound
         cartPersister.shouldBeEmpty()
     }
 }
