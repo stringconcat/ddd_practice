@@ -10,8 +10,8 @@ class CancelOrderUseCase(
     private val customerOrderPersister: CustomerOrderPersister
 ) : CancelOrder {
 
-    override fun execute(orderId: Long): Either<CancelOrderUseCaseError, Unit> {
-        return customerOrderExtractor.getById(CustomerOrderId(orderId))
+    override fun execute(orderId: CustomerOrderId): Either<CancelOrderUseCaseError, Unit> {
+        return customerOrderExtractor.getById(orderId)
             .rightIfNotNull { CancelOrderUseCaseError.OrderNotFound }
             .flatMap { order ->
                 order.cancel().map {

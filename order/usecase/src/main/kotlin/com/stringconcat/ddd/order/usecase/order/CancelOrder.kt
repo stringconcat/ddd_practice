@@ -1,9 +1,10 @@
 package com.stringconcat.ddd.order.usecase.order
 
 import arrow.core.Either
+import com.stringconcat.ddd.order.domain.order.CustomerOrderId
 
 interface CancelOrder {
-    fun execute(orderId: Long): Either<CancelOrderUseCaseError, Unit>
+    fun execute(orderId: CustomerOrderId): Either<CancelOrderUseCaseError, Unit>
 }
 
 sealed class CancelOrderUseCaseError {

@@ -10,8 +10,8 @@ class ConfirmOrderUseCase(
     private val customerOrderPersister: CustomerOrderPersister
 ) : ConfirmOrder {
 
-    override fun execute(orderId: Long): Either<ConfirmOrderUseCaseError, Unit> {
-        return customerOrderExtractor.getById(CustomerOrderId(orderId))
+    override fun execute(orderId: CustomerOrderId): Either<ConfirmOrderUseCaseError, Unit> {
+        return customerOrderExtractor.getById(orderId)
             .rightIfNotNull { ConfirmOrderUseCaseError.OrderNotFound }
             .flatMap { order ->
                 order.confirm().map {

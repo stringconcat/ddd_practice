@@ -10,8 +10,8 @@ class PayOrderHandler(
     private val customerOrderPersister: CustomerOrderPersister
 ) : PayOrder {
 
-    override fun execute(orderId: Long): Either<PayOrderHandlerError, Unit> {
-        return customerOrderExtractor.getById(CustomerOrderId(orderId))
+    override fun execute(orderId: CustomerOrderId): Either<PayOrderHandlerError, Unit> {
+        return customerOrderExtractor.getById(orderId)
             .rightIfNotNull { PayOrderHandlerError.OrderNotFound }
             .flatMap { order ->
                 order.pay().map {

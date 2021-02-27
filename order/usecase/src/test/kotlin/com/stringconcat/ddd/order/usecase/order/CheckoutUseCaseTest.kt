@@ -74,9 +74,9 @@ internal class CheckoutUseCaseTest {
         customerOrder.shouldNotBeNull()
 
         result shouldBeRight {
-            it.orderId shouldBe orderId.value
+            it.orderId shouldBe orderId
             it.paymentURL shouldBe TestPaymentUrlProvider.paymentUrl
-            it.price shouldBe customerOrder.totalPrice().value
+            it.price shouldBe customerOrder.totalPrice()
         }
 
         customerOrder.id shouldBe orderId

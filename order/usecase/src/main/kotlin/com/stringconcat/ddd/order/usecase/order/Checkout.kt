@@ -1,7 +1,8 @@
 package com.stringconcat.ddd.order.usecase.order
 
 import arrow.core.Either
-import java.math.BigDecimal
+import com.stringconcat.ddd.order.domain.menu.Price
+import com.stringconcat.ddd.order.domain.order.CustomerOrderId
 import java.net.URL
 
 interface Checkout {
@@ -9,8 +10,8 @@ interface Checkout {
 }
 
 data class PaymentInfo(
-    val orderId: Long,
-    val price: BigDecimal,
+    val orderId: CustomerOrderId,
+    val price: Price,
     val paymentURL: URL
 )
 
