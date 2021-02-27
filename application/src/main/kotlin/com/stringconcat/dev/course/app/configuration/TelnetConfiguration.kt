@@ -9,11 +9,13 @@ import com.stringconcat.ddd.order.usecase.cart.GetCart
 import com.stringconcat.ddd.order.usecase.cart.RemoveMealFromCart
 import com.stringconcat.ddd.order.usecase.menu.GetMenu
 import com.stringconcat.ddd.order.usecase.order.Checkout
+import com.stringconcat.ddd.order.usecase.order.GetLastOrderState
 import com.stringconcat.dev.course.app.telnet.ApplicationShellFactory
 import com.stringconcat.dev.course.app.telnet.ApplicationTelnetCommandRegistry
 import com.stringconcat.dev.course.app.telnet.order.menu.AddMealToCartCommand
 import com.stringconcat.dev.course.app.telnet.order.menu.CheckoutCommand
 import com.stringconcat.dev.course.app.telnet.order.menu.GetCartCommand
+import com.stringconcat.dev.course.app.telnet.order.menu.GetLastOrderStateCommand
 import com.stringconcat.dev.course.app.telnet.order.menu.GetMenuCommand
 import com.stringconcat.dev.course.app.telnet.order.menu.RemoveMealFromCartCommand
 import org.springframework.beans.factory.annotation.Value
@@ -51,4 +53,7 @@ class TelnetConfiguration(
 
     @Bean
     fun checkoutCommand(useCase: Checkout) = CheckoutCommand(useCase)
+
+    @Bean
+    fun getLastOrderStateCommand(useCase: GetLastOrderState) = GetLastOrderStateCommand(useCase)
 }

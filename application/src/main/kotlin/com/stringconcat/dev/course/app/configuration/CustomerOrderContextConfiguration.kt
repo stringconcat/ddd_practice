@@ -31,6 +31,7 @@ import com.stringconcat.ddd.order.usecase.order.CompleteOrderUseCase
 import com.stringconcat.ddd.order.usecase.order.ConfirmOrderUseCase
 import com.stringconcat.ddd.order.usecase.order.CustomerOrderExtractor
 import com.stringconcat.ddd.order.usecase.order.CustomerOrderPersister
+import com.stringconcat.ddd.order.usecase.order.GetLastOrderStateUseCase
 import com.stringconcat.ddd.order.usecase.order.PayOrderHandler
 import com.stringconcat.ddd.order.usecase.order.PaymentUrlProvider
 import com.stringconcat.ddd.order.usecase.providers.MealPriceProviderImpl
@@ -176,6 +177,10 @@ class CustomerOrderContextConfiguration {
         customerOrderExtractor = customerOrderExtractor,
         customerOrderPersister = customerOrderPersister
     )
+
+    @Bean
+    fun getLastOrderStateUseCase(customerOrderExtractor: CustomerOrderExtractor) =
+        GetLastOrderStateUseCase(orderExtractor = customerOrderExtractor)
 
     @Bean
     fun getMenuUseCase(mealExtractor: MealExtractor) = GetMenuUseCase(mealExtractor)
