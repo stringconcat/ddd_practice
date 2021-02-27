@@ -16,7 +16,11 @@ internal class GetCartCommandTest {
     fun `cart successfully received`() {
         val command = GetCartCommand(CartExists)
         val customerId = UUID.fromString("bbb7054f-af8e-47da-b32d-5fa0fec0fcf9")
-        val result = command.execute("", emptyMap(), customerId)
+        val result = command.execute(
+            line = "",
+            sessionParameters = emptyMap(),
+            sessionId = customerId
+        )
 
         result shouldBe "Cart for customer [bbb7054f-af8e-47da-b32d-5fa0fec0fcf9] \n" +
                 "╔═════════╤═══════╤═══════╗\n" +
@@ -29,7 +33,11 @@ internal class GetCartCommandTest {
     @Test
     fun `cart not found`() {
         val command = GetCartCommand(CartDoesntExist)
-        val result = command.execute("", emptyMap(), UUID.randomUUID())
+        val result = command.execute(
+            line = "",
+            sessionParameters = emptyMap(),
+            sessionId = UUID.randomUUID()
+        )
         result shouldBe "Cart not found"
     }
 

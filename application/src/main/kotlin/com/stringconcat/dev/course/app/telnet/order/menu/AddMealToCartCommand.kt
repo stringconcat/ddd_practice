@@ -1,11 +1,11 @@
 package com.stringconcat.dev.course.app.telnet.order.menu
 
 import arrow.core.flatMap
-import com.stringconcat.ddd.order.usecase.cart.AddMealToCartUseCase
+import com.stringconcat.ddd.order.usecase.cart.AddMealToCart
 import com.stringconcat.dev.course.app.telnet.ApplicationTelnetCommand
 import java.util.UUID
 
-class AddMealToCartCommand(private val useCase: AddMealToCartUseCase) : ApplicationTelnetCommand() {
+class AddMealToCartCommand(private val useCase: AddMealToCart) : ApplicationTelnetCommand() {
 
     override fun execute(line: String, sessionParameters: Map<String, Any>, sessionId: UUID): String {
         return LongParameterExtractor.extract(line)

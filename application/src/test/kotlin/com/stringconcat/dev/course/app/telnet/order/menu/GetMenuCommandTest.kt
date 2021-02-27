@@ -13,7 +13,11 @@ class GetMenuCommandTest {
     fun `get cart - cart is empty`() {
 
         val command = GetMenuCommand(EmptyUseCase)
-        val result = command.execute("", emptyMap(), UUID.randomUUID())
+        val result = command.execute(
+            line = "",
+            sessionParameters = emptyMap(),
+            sessionId = UUID.randomUUID()
+        )
         result shouldBe
                 "╔══╤══════╤═════════════╤═══════╗\n" +
                 "║  │ Name │ Description │ Price ║\n" +
@@ -24,7 +28,11 @@ class GetMenuCommandTest {
     @Test
     fun `get cart - cart is not empty`() {
         val command = GetMenuCommand(NotEmptyUseCase)
-        val result = command.execute("", emptyMap(), UUID.randomUUID())
+        val result = command.execute(
+            line = "",
+            sessionParameters = emptyMap(),
+            sessionId = UUID.randomUUID()
+        )
         result shouldBe
                 "╔═══╤═══════════╤═════════════╤═══════╗\n" +
                 "║   │ Name      │ Description │ Price ║\n" +
