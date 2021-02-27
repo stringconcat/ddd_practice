@@ -10,8 +10,8 @@ class RemoveMealFromMenuUseCase(
     private val mealPersister: MealPersister
 ) : RemoveMealFromMenu {
 
-    override fun execute(id: Long): Either<RemoveMealFromMenuUseCaseError, Unit> {
-        val meal = mealExtractor.getById(MealId(id))
+    override fun execute(id: MealId): Either<RemoveMealFromMenuUseCaseError, Unit> {
+        val meal = mealExtractor.getById(id)
         return if (meal != null) {
             meal.removeMealFromMenu()
             mealPersister.save(meal).right()

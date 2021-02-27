@@ -26,10 +26,10 @@ class GetMenuUseCaseTest {
         val menu = useCase.execute()
         menu shouldContainExactly listOf(
             MealInfo(
-                id = meal.id.value,
-                name = meal.name.value,
-                description = meal.description.value,
-                price = meal.price.value
+                id = meal.id,
+                name = meal.name,
+                description = meal.description,
+                price = meal.price
             )
         )
     }
