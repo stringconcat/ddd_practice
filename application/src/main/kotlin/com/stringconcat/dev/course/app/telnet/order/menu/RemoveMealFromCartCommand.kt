@@ -20,5 +20,4 @@ class RemoveMealFromCartCommand(private val useCase: RemoveMealFromCart) : Appli
     override fun getNames() = arrayOf("remove")
 
     override fun getDescription() = "Remove meal from cart"
-
 }
