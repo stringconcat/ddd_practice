@@ -13,10 +13,10 @@ class GetMenuCommand(private val useCase: GetMenu) : ApplicationTelnetCommand() 
 
         return AsciiTable.getTable(
             AsciiTable.FANCY_ASCII, menu, listOf(
-                Column().with { meal -> meal.id.toString() },
-                Column().header("Name").with { meal -> meal.name },
-                Column().header("Description").with { meal -> meal.description },
-                Column().header("Price").with { meal -> meal.price.toPlainString() },
+                Column().with { meal -> meal.id.value.toString() },
+                Column().header("Name").with { meal -> meal.name.value },
+                Column().header("Description").with { meal -> meal.description.value },
+                Column().header("Price").with { meal -> meal.price.value.toPlainString() },
             )
         )
     }

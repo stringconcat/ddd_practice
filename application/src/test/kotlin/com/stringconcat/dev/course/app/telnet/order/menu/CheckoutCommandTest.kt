@@ -7,12 +7,13 @@ import com.stringconcat.ddd.order.usecase.order.Checkout
 import com.stringconcat.ddd.order.usecase.order.CheckoutRequest
 import com.stringconcat.ddd.order.usecase.order.CheckoutUseCaseError
 import com.stringconcat.ddd.order.usecase.order.PaymentInfo
+import com.stringconcat.dev.course.app.orderId
+import com.stringconcat.dev.course.app.price
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
-import java.math.BigDecimal
 import java.net.URL
 import java.util.UUID
 
@@ -20,8 +21,8 @@ class CheckoutCommandTest {
 
     @Test
     fun `successfully checked out`() {
-        val orderId = 2L
-        val price = BigDecimal.TEN
+        val orderId = orderId()
+        val price = price()
         val url = URL("http://localhost")
 
         val street = "street"

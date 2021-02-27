@@ -2,6 +2,10 @@ package com.stringconcat.dev.course.app.telnet.order.menu
 
 import com.stringconcat.ddd.order.usecase.menu.GetMenu
 import com.stringconcat.ddd.order.usecase.menu.MealInfo
+import com.stringconcat.dev.course.app.mealDescription
+import com.stringconcat.dev.course.app.mealId
+import com.stringconcat.dev.course.app.mealName
+import com.stringconcat.dev.course.app.price
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
@@ -37,7 +41,7 @@ class GetMenuCommandTest {
                 "╔═══╤═══════════╤═════════════╤═══════╗\n" +
                 "║   │ Name      │ Description │ Price ║\n" +
                 "╠═══╪═══════════╪═════════════╪═══════╣\n" +
-                "║ 1 │ meal name │ description │    10 ║\n" +
+                "║ 1 │ meal name │ description │ 10.00 ║\n" +
                 "╚═══╧═══════════╧═════════════╧═══════╝"
     }
 
@@ -47,6 +51,13 @@ class GetMenuCommandTest {
 
     private object NotEmptyUseCase : GetMenu {
         override fun execute() =
-            listOf(MealInfo(id = 1, name = "meal name", description = "description", price = BigDecimal.TEN))
+            listOf(
+                MealInfo(
+                    id = mealId(1),
+                    name = mealName("meal name"),
+                    description = mealDescription("description"),
+                    price = price(BigDecimal.TEN)
+                )
+            )
     }
 }

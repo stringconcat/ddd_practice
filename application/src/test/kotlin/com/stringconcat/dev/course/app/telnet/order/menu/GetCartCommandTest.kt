@@ -2,10 +2,14 @@ package com.stringconcat.dev.course.app.telnet.order.menu
 
 import arrow.core.Either
 import arrow.core.right
+import com.stringconcat.ddd.order.domain.cart.CustomerId
 import com.stringconcat.ddd.order.usecase.cart.CartInfo
 import com.stringconcat.ddd.order.usecase.cart.CartItem
 import com.stringconcat.ddd.order.usecase.cart.GetCart
 import com.stringconcat.ddd.order.usecase.cart.GetCartUseCaseError
+import com.stringconcat.dev.course.app.count
+import com.stringconcat.dev.course.app.mealId
+import com.stringconcat.dev.course.app.mealName
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import java.util.UUID
@@ -42,13 +46,14 @@ internal class GetCartCommandTest {
     }
 
     object CartDoesntExist : GetCart {
-        override fun execute(forCustomer: String) = Either.left(GetCartUseCaseError.CartNotFound)
+        override fun execute(forCustomer: CustomerId): Either<GetCartUseCaseError, CartInfo> =
+            Either.left(GetCartUseCaseError.CartNotFound)
     }
 
     object CartExists : GetCart {
 
-        override fun execute(forCustomer: String): Either<GetCartUseCaseError, CartInfo> {
-            val item = CartItem(mealId = 1L, mealName = "Pizza", count = 2)
+        override fun execute(forCustomer: CustomerId): Either<GetCartUseCaseError, CartInfo> {
+            val item = CartItem(mealId = mealId(1L), mealName = mealName("Pizza"), count(2))
             return CartInfo(forCustomer, listOf(item)).right()
         }
     }

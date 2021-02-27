@@ -1,5 +1,6 @@
 package com.stringconcat.dev.course.app.controllers.order
 
+import com.stringconcat.ddd.order.domain.menu.MealId
 import com.stringconcat.ddd.order.usecase.menu.AddMealToMenu
 import com.stringconcat.ddd.order.usecase.menu.AddMealToMenuRequest
 import com.stringconcat.ddd.order.usecase.menu.GetMenu
@@ -50,7 +51,7 @@ class MenuController(
 
     @PostMapping(URLs.removeMeal)
     fun removeMealFromMenu(@RequestParam id: Long, modelMap: ModelMap): String {
-        removeMealFromMenuUseCase.execute(id).mapLeft {
+        removeMealFromMenuUseCase.execute(MealId(id)).mapLeft {
             modelMap.addAttribute(MENU_ATTRIBUTE, getMenuUseCase.execute())
             modelMap.addAttribute(ERROR_ATTRIBUTE, it.message)
             return@removeMealFromMenu Views.menu
