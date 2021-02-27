@@ -21,7 +21,7 @@ class RemoveMealFromCartUseCaseTest {
     @Test
     fun `successfully removed`() {
         val useCase = RemoveMealFromCartUseCase(cartExtractor, cartPersister)
-        val result = useCase.execute(cart.customerId.value, mealId().value)
+        val result = useCase.execute(cart.customerId, mealId())
         result.shouldBeRight()
         cartPersister shouldContainExactly mapOf(cart.customerId to cart)
     }
@@ -30,7 +30,7 @@ class RemoveMealFromCartUseCaseTest {
     fun `cart not found`() {
         cartExtractor.clear()
         val useCase = RemoveMealFromCartUseCase(cartExtractor, cartPersister)
-        val result = useCase.execute(cart.customerId.value, mealId().value)
+        val result = useCase.execute(cart.customerId, mealId())
         result shouldBeLeft RemoveMealFromCartUseCaseError.CartNotFound
         cartPersister.shouldBeEmpty()
     }

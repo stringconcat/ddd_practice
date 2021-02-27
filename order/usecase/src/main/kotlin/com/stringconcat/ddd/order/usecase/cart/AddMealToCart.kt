@@ -1,9 +1,11 @@
 package com.stringconcat.ddd.order.usecase.cart
 
 import arrow.core.Either
+import com.stringconcat.ddd.order.domain.cart.CustomerId
+import com.stringconcat.ddd.order.domain.menu.MealId
 
 interface AddMealToCart {
-    fun execute(forCustomer: String, mealId: Long): Either<AddMealToCartUseCaseError, Unit>
+    fun execute(forCustomer: CustomerId, mealId: MealId): Either<AddMealToCartUseCaseError, Unit>
 }
 
 sealed class AddMealToCartUseCaseError(val message: String) {

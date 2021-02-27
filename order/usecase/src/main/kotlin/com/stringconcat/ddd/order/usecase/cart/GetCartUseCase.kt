@@ -9,8 +9,8 @@ class GetCartUseCase(
     private val mealExtractor: MealExtractor,
     private val cartExtractor: CartExtractor
 ) : GetCart {
-    override fun execute(forCustomer: String): Either<GetCartUseCaseError, CartInfo> {
-        val cart = cartExtractor.getCart(CustomerId(forCustomer))
+    override fun execute(forCustomer: CustomerId): Either<GetCartUseCaseError, CartInfo> {
+        val cart = cartExtractor.getCart(forCustomer)
         return cart.rightIfNotNull { GetCartUseCaseError.CartNotFound }
             .map { c ->
                 c.meals().map {
@@ -18,9 +18,9 @@ class GetCartUseCase(
                         "Meal #${it.key} not found"
                     }
                     CartItem(
-                        mealId = it.key.value,
-                        mealName = meal.name.value,
-                        count = it.value.value
+                        mealId = it.key,
+                        mealName = meal.name,
+                        count = it.value
                     )
                 }
             }.map {

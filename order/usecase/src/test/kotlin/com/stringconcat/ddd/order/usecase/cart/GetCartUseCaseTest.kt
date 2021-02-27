@@ -41,19 +41,19 @@ class GetCartUseCaseTest {
         }
 
         val useCase = GetCartUseCase(mealExtractor, cartExtractor)
-        val result = useCase.execute(customerId.value)
+        val result = useCase.execute(customerId)
         result shouldBeRight {
-            it.customerId shouldBe customerId.value
+            it.customerId shouldBe customerId
             it.items shouldContainExactlyInAnyOrder listOf(
                 CartItem(
-                    mealId = meal1.id.value,
-                    mealName = meal1.name.value,
-                    count = count1.value
+                    mealId = meal1.id,
+                    mealName = meal1.name,
+                    count = count1
                 ),
                 CartItem(
-                    mealId = meal2.id.value,
-                    mealName = meal2.name.value,
-                    count = count2.value
+                    mealId = meal2.id,
+                    mealName = meal2.name,
+                    count = count2
                 )
             )
         }
@@ -65,7 +65,7 @@ class GetCartUseCaseTest {
         val mealExtractor = TestMealExtractor()
         val useCase = GetCartUseCase(mealExtractor, cartExtractor)
 
-        val result = useCase.execute(customerId().value)
+        val result = useCase.execute(customerId())
         result shouldBeLeft GetCartUseCaseError.CartNotFound
     }
 
@@ -89,7 +89,7 @@ class GetCartUseCaseTest {
         val useCase = GetCartUseCase(mealExtractor, cartExtractor)
 
         shouldThrow<IllegalStateException> {
-            useCase.execute(customerId.value)
+            useCase.execute(customerId)
         }
     }
 }

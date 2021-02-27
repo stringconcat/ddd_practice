@@ -1,6 +1,7 @@
 package com.stringconcat.ddd.order.usecase.cart
 
 import com.stringconcat.ddd.order.domain.cart.CartIdGenerator
+import com.stringconcat.ddd.order.domain.cart.CustomerId
 import com.stringconcat.ddd.order.usecase.TestCartExtractor
 import com.stringconcat.ddd.order.usecase.TestCartPersister
 import com.stringconcat.ddd.order.usecase.TestMealExtractor
@@ -40,7 +41,7 @@ internal class AddMealToCartUseCaseTest {
         )
 
         val customerId = customerId()
-        val result = useCase.execute(customerId.value, meal.id.value)
+        val result = useCase.execute(customerId, meal.id)
         result.shouldBeRight()
         cartPersister shouldContainKey customerId
         val cart = cartPersister[customerId]
@@ -68,7 +69,7 @@ internal class AddMealToCartUseCaseTest {
             idGenerator = TestCartIdGenerator
         )
 
-        val result = useCase.execute(customerId.value, meal.id.value)
+        val result = useCase.execute(customerId, meal.id)
         result.shouldBeRight()
         cartPersister shouldContainKey customerId
         val cart = cartPersister[customerId]
@@ -89,7 +90,7 @@ internal class AddMealToCartUseCaseTest {
             idGenerator = TestCartIdGenerator
         )
 
-        val result = useCase.execute(UUID.randomUUID().toString(), meal.id.value)
+        val result = useCase.execute(CustomerId(UUID.randomUUID().toString()), meal.id)
         result shouldBeLeft AddMealToCartUseCaseError.MealNotFound
         cartPersister.shouldBeEmpty()
     }
