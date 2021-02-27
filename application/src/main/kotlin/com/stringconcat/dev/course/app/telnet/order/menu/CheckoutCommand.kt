@@ -30,5 +30,5 @@ class CheckoutCommand(private val useCase: Checkout) : ApplicationTelnetCommand(
 
     override fun getNames() = arrayOf("checkout")
 
-    override fun getDescription() = "Create order"
+    override fun getDescription() = "Create order. Usage: checkout <street> <building>"
 }

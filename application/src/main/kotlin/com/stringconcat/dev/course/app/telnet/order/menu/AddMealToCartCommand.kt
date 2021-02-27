@@ -22,5 +22,5 @@ class AddMealToCartCommand(private val useCase: AddMealToCart) : ApplicationTeln
 
     override fun getNames() = arrayOf("add")
 
-    override fun getDescription() = "Add meal to cart"
+    override fun getDescription() = "Add meal to cart. Usage: add <meal id>"
 }
