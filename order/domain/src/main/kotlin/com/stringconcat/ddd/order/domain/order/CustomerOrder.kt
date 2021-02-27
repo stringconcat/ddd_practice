@@ -25,7 +25,8 @@ class CustomerOrder internal constructor(
     version: Version
 ) : AggregateRoot<CustomerOrderId>(id, version) {
 
-    internal var state: OrderState = OrderState.WAITING_FOR_PAYMENT
+    var state: OrderState = OrderState.WAITING_FOR_PAYMENT
+        internal set
 
     companion object {
 
