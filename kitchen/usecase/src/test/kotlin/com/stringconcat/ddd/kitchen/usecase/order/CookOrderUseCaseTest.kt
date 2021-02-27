@@ -18,7 +18,7 @@ internal class CookOrderUseCaseTest {
     @Test
     fun `successfully complete`() {
         val useCase = CookOrderUseCase(extractor, persister)
-        val result = useCase.execute(order.id.value)
+        val result = useCase.execute(order.id)
         result.shouldBeRight()
 
         val savedOrder = persister[order.id]
@@ -30,7 +30,7 @@ internal class CookOrderUseCaseTest {
     fun `order not found`() {
         extractor.clear()
         val useCase = CookOrderUseCase(extractor, persister)
-        val result = useCase.execute(order.id.value)
+        val result = useCase.execute(order.id)
         result shouldBeLeft CookOrderUseCaseError.OrderNotFound
     }
 }
