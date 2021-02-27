@@ -51,8 +51,8 @@ class CheckoutUseCase(
             val totalPrice = order.totalPrice()
             customerOrderPersister.save(order)
             PaymentInfo(
-                orderId = order.id,
-                price = totalPrice,
+                orderId = order.id.value,
+                price = totalPrice.value,
                 paymentURL = url
             )
         }
