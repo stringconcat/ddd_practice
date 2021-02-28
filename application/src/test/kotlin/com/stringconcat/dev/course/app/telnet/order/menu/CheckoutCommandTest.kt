@@ -12,12 +12,12 @@ import com.stringconcat.dev.course.app.orderId
 import com.stringconcat.dev.course.app.price
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.shouldBe
+import java.net.URL
+import java.util.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
-import java.net.URL
-import java.util.*
 
 class CheckoutCommandTest {
 
