@@ -14,15 +14,15 @@ class AddMealToCartUseCase(
     private val mealExtractor: MealExtractor,
     private val cartPersister: CartPersister
 ) : AddMealToCart {
-    override fun execute(forCustomer: CustomerId, mealId: MealId): Either<AddMealToCartUseCaseError, Unit> {
-        return mealExtractor.getById(mealId).rightIfNotNull {
-            AddMealToCartUseCaseError.MealNotFound
-        }.map {
-            val cart = getOrCreateCart(forCustomer)
-            cart.addMeal(it)
-            cartPersister.save(cart)
-        }
-    }
+    override fun execute(
+        forCustomer: CustomerId,
+        mealId: MealId
+    ): Either<AddMealToCartUseCaseError, Unit> =
+        mealExtractor
+            .getById(mealId)
+            .rightIfNotNull { AddMealToCartUseCaseError.MealNotFound }
+            .map { meal -> getOrCreateCart(forCustomer).apply { addMeal(meal) } }
+            .map { cart -> cartPersister.save(cart) }
 
     private fun getOrCreateCart(customerId: CustomerId): Cart {
         return cartExtractor.getCart(customerId)
