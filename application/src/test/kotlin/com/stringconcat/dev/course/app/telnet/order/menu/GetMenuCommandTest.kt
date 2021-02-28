@@ -16,7 +16,9 @@ class GetMenuCommandTest {
     @Test
     fun `get cart - cart is empty`() {
 
-        val command = GetMenuCommand(EmptyUseCase)
+        val menu = TestGetMenu(emptyList())
+
+        val command = GetMenuCommand(menu)
         val result = command.execute(
             line = "",
             sessionParameters = emptyMap(),
@@ -31,7 +33,18 @@ class GetMenuCommandTest {
 
     @Test
     fun `get cart - cart is not empty`() {
-        val command = GetMenuCommand(NotEmptyUseCase)
+        val menu = TestGetMenu(
+            listOf(
+                MealInfo(
+                    id = mealId(1),
+                    name = mealName("meal name"),
+                    description = mealDescription("description"),
+                    price = price(BigDecimal.TEN)
+                )
+            )
+        )
+
+        val command = GetMenuCommand(menu)
         val result = command.execute(
             line = "",
             sessionParameters = emptyMap(),
@@ -45,19 +58,7 @@ class GetMenuCommandTest {
                 "╚═══╧═══════════╧═════════════╧═══════╝"
     }
 
-    private object EmptyUseCase : GetMenu {
-        override fun execute() = emptyList<MealInfo>()
-    }
-
-    private object NotEmptyUseCase : GetMenu {
-        override fun execute() =
-            listOf(
-                MealInfo(
-                    id = mealId(1),
-                    name = mealName("meal name"),
-                    description = mealDescription("description"),
-                    price = price(BigDecimal.TEN)
-                )
-            )
+    class TestGetMenu(val menu: List<MealInfo>) : GetMenu {
+        override fun execute() = menu
     }
 }

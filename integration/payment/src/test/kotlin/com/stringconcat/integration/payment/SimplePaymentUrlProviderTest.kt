@@ -8,7 +8,7 @@ class SimplePaymentUrlProviderTest {
 
     @Test
     fun `provide url`() {
-        val provider = SimplePaymentUrlProvider()
+        val provider = SimplePaymentUrlProvider(URL("http://localhost"))
         val orderId = orderId()
         val price = price()
         val url = provider.provideUrl(orderId, price)

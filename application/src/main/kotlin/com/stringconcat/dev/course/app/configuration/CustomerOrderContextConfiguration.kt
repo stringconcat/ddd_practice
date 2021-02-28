@@ -42,6 +42,7 @@ import com.stringconcat.dev.course.app.order.listeners.order.CheckoutListener
 import com.stringconcat.integration.payment.SimplePaymentUrlProvider
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import java.net.URL
 
 @Suppress("TooManyFunctions")
 @Configuration
@@ -196,7 +197,7 @@ class CustomerOrderContextConfiguration {
     fun mealAlreadyExistsRule(mealExtractor: MealExtractor) = MealAlreadyExistsRuleImpl(mealExtractor)
 
     @Bean
-    fun paymentUrlProvider() = SimplePaymentUrlProvider()
+    fun paymentUrlProvider() = SimplePaymentUrlProvider(URL("http://localhost:8080"))
 
     @Bean
     fun checkoutListener(
