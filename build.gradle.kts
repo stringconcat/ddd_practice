@@ -99,7 +99,7 @@ subprojects {
                 rule {
                     excludes = listOf("application", "telnet")
                     limit {
-                        minimum = BigDecimal("0.95")
+                        minimum = BigDecimal("0.94")
                     }
                 }
             }

@@ -1,10 +1,8 @@
 package com.stringconcat.ddd.order.usecase.order
 
 import arrow.core.Either
-import arrow.core.extensions.either.apply.tupled
 import arrow.core.flatMap
 import arrow.core.rightIfNotNull
-import com.stringconcat.ddd.common.types.common.Address
 import com.stringconcat.ddd.common.types.common.CreateAddressError
 import com.stringconcat.ddd.order.domain.order.CheckoutError
 import com.stringconcat.ddd.order.domain.order.CustomerOrder
@@ -20,42 +18,29 @@ class CheckoutUseCase(
     private val priceProvider: MealPriceProvider,
     private val paymentUrlProvider: PaymentUrlProvider,
     private val customerOrderPersister: CustomerOrderPersister
-
 ) : Checkout {
 
-    override fun execute(request: CheckoutRequest): Either<CheckoutUseCaseError, PaymentInfo> {
+    override fun execute(request: CheckoutRequest): Either<CheckoutUseCaseError, PaymentInfo> =
 
-        return tupled(
-
-            Address.from(
-                street = request.address.street,
-                building = request.address.building
-            ).mapLeft { it.toError() },
-
-            cartExtractor.getCart(forCustomer = request.customerId)
-                .rightIfNotNull { CheckoutUseCaseError.CartNotFound }
-
-        ).flatMap {
-
+        cartExtractor
+            .getCart(forCustomer = request.customerId)
+            .rightIfNotNull { CheckoutUseCaseError.CartNotFound }
+        .flatMap { cart ->
             CustomerOrder.checkout(
                 idGenerator = idGenerator,
                 activeOrder = activeOrderRule,
                 priceProvider = priceProvider,
-                address = it.a,
-                cart = it.b
+                address = request.deliveryTo,
+                cart = cart
             ).mapLeft { err -> err.toError() }
         }.map { order ->
-
-            val url = paymentUrlProvider.provideUrl(order.id, order.totalPrice())
-            val totalPrice = order.totalPrice()
             customerOrderPersister.save(order)
             PaymentInfo(
                 orderId = order.id,
-                price = totalPrice,
-                paymentURL = url
+                price = order.totalPrice(),
+                paymentURL = paymentUrlProvider.provideUrl(order.id, order.totalPrice())
             )
         }
-    }
 }
 
 fun CreateAddressError.toError(): CheckoutUseCaseError {

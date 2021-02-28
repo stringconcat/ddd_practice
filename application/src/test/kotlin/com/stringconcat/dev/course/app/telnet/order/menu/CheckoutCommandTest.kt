@@ -17,7 +17,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import java.net.URL
-import java.util.UUID
+import java.util.*
 
 class CheckoutCommandTest {
 
@@ -42,8 +42,8 @@ class CheckoutCommandTest {
         )
 
         checkout.request.customerId shouldBe customerId
-        checkout.request.address.street shouldBe street
-        checkout.request.address.building shouldBe building
+        checkout.request.deliveryTo.street shouldBe street
+        checkout.request.deliveryTo.building shouldBe building
 
         result shouldBe "Please follow this URL for payment $url"
     }
@@ -80,8 +80,8 @@ class CheckoutCommandTest {
         result shouldBe response.message
 
         checkout.request.customerId shouldBe customerId
-        checkout.request.address.street shouldBe street
-        checkout.request.address.building shouldBe building
+        checkout.request.deliveryTo.street shouldBe street
+        checkout.request.deliveryTo.building shouldBe building
     }
 
     class TestCheckout(private val response: Either<CheckoutUseCaseError, PaymentInfo>) : Checkout {

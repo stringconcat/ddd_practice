@@ -4,7 +4,10 @@ import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
 
-data class Address internal constructor(val street: String, val building: Int) {
+data class Address internal constructor(
+    val street: String,
+    val building: Int
+) {
 
     companion object {
 

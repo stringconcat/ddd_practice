@@ -1,5 +1,6 @@
 package com.stringconcat.ddd.order.usecase.order
 
+import com.stringconcat.ddd.common.types.common.Address
 import com.stringconcat.ddd.order.domain.menu.MealId
 import com.stringconcat.ddd.order.domain.menu.Price
 import com.stringconcat.ddd.order.domain.order.CustomerOrderId
@@ -126,43 +127,6 @@ internal class CheckoutUseCaseTest {
     }
 
     @Test
-    fun `invalid address - invalid street`() {
-
-        val useCase = CheckoutUseCase(
-            idGenerator = TestCustomerOrderIdGenerator,
-            cartExtractor = cartExtractor,
-            activeOrderRule = activeOrderRule,
-            priceProvider = TestMealPriceProvider,
-            paymentUrlProvider = TestPaymentUrlProvider,
-            customerOrderPersister = orderPersister
-        )
-
-        val address = CheckoutRequest.Address("", address.building)
-        val checkoutRequest = CheckoutRequest(customerId, address)
-
-        val result = useCase.execute(checkoutRequest)
-        result shouldBeLeft CheckoutUseCaseError.InvalidAddress("Empty street")
-    }
-
-    @Test
-    fun `invalid address - invalid building`() {
-        val useCase = CheckoutUseCase(
-            idGenerator = TestCustomerOrderIdGenerator,
-            cartExtractor = cartExtractor,
-            activeOrderRule = activeOrderRule,
-            priceProvider = TestMealPriceProvider,
-            paymentUrlProvider = TestPaymentUrlProvider,
-            customerOrderPersister = orderPersister
-        )
-
-        val address = CheckoutRequest.Address(address.street, -1)
-        val checkoutRequest = CheckoutRequest(customerId, address)
-
-        val result = useCase.execute(checkoutRequest)
-        result shouldBeLeft CheckoutUseCaseError.InvalidAddress("Negative value")
-    }
-
-    @Test
     fun `already has active order`() {
 
         val activeOrderRule = TestCustomerHasActiveOrderRule(true)
@@ -176,12 +140,18 @@ internal class CheckoutUseCaseTest {
             customerOrderPersister = orderPersister
         )
 
-        val result = useCase.execute(checkoutRequest())
-        result shouldBeLeft CheckoutUseCaseError.AlreadyHasActiveOrder
+        useCase
+            .execute(checkoutRequest())
+            .shouldBeLeft(CheckoutUseCaseError.AlreadyHasActiveOrder)
     }
 
     private fun checkoutRequest(): CheckoutRequest {
-        val address = CheckoutRequest.Address(address.street, address.building)
-        return CheckoutRequest(customerId, address)
+        return Address
+            .from(address.street, address.building)
+            .map { CheckoutRequest(customerId, address) }
+            .fold(
+                ifLeft = { throw IllegalStateException() },
+                ifRight = { it }
+            )
     }
 }
