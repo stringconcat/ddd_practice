@@ -8,7 +8,7 @@ import com.stringconcat.ddd.order.usecase.order.Checkout
 import com.stringconcat.ddd.order.usecase.order.CheckoutRequest
 import com.stringconcat.ddd.order.usecase.order.CheckoutUseCaseError
 import com.stringconcat.dev.course.app.telnet.ApplicationTelnetCommand
-import java.util.*
+import java.util.UUID
 
 class CheckoutCommand(private val useCase: Checkout) : ApplicationTelnetCommand() {
 
