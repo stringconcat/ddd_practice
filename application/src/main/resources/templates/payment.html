@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments :: header"></div>
+<body>
+
+<!-- Begin page content -->
+<main role="main" class="container">
+
+    <h1 class="mt-5" th:text="'Payment for order #'+${orderId}">Payment for order #1</h1>
+
+
+    <div class="row">
+        <div class="col-sm">
+            <form th:action="@{/payment(orderId=${orderId})}" method="post">
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Pay</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</main>
+
+<div th:replace="fragments :: footer"></div>
+
+</body>
+</html>

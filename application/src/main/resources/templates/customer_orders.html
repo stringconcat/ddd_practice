@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments :: header"></div>
+<body>
+
+<div th:replace="fragments :: navbar"></div>
+
+<!-- Begin page content -->
+<main role="main" class="container" style="padding-top: 30px;">
+
+    <h1 class="mt-5">Customer orders</h1>
+
+    <div class="row">
+
+        <div class="col-sm">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">State</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="order : ${orders}">
+                    <th scope="row" th:text="${order.id.value}">1</th>
+                    <td th:text="${order.address.street}+' '+${order.address.building}">Junk</td>
+                    <td th:text="${status_names.get(order.state)}">Paid</td>
+                    <td th:text="${order.total.value}">12.00</td>
+                    <td>
+                        <div class="row">
+                            <form th:if="${order.state == T(com.stringconcat.ddd.order.domain.order.OrderState).PAID}"
+                                  th:action="@{/customer/orders/cancel(orderId=${order.id.value})}" method="post">
+                                <button type="submit" class="btn btn btn-danger btn-sm">Cancel</button>
+                            </form>
+                            &nbsp;
+                            <form th:if="${order.state == T(com.stringconcat.ddd.order.domain.order.OrderState).PAID}"
+                                  th:action="@{/customer/orders/confirm(orderId=${order.id.value})}" method="post">
+                                <button type="submit" class="btn btn btn-success btn-sm">Confirm</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row" th:if="${error != null}">
+        <div class="col-sm">
+            <div class="alert alert-danger" th:text="${error}" role="alert">
+            </div>
+        </div>
+    </div>
+
+
+</main>
+
+<div th:replace="fragments :: footer"></div>
+
+</body>
+</html>

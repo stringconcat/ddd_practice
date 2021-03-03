@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments :: header"></div>
+<body>
+
+<!-- Begin page content -->
+<main role="main" class="container" style="padding-top: 30px;">
+
+    <h1 class="mt-5" th:text="'Payment result for order #'+${orderId}">Payment result for order #1</h1>
+
+    <div class="row" th:if="${error != null}">
+        <div class="col-sm">
+            <div class="alert alert-danger" th:text="${error}" role="alert">
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row" th:if="${error == null}">
+        <div class="col-sm">
+            <div class="alert alert-success" role="alert">
+                Success!
+            </div>
+        </div>
+    </div>
+
+
+</main>
+
+<div th:replace="fragments :: footer"></div>
+
+</body>
+</html>
