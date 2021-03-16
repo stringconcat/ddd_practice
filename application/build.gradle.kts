@@ -19,6 +19,7 @@ dependencies {
 
     implementation(project(":integration:payment"))
     implementation(project(":integration:telnet"))
+    implementation(project(":integration:crm"))
 
     // kotlin
     implementation(Libs.kotlin_jdk8)

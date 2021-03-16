@@ -1,6 +1,8 @@
 package com.stringconcat.dev.course.app
 
 import arrow.core.Either
+import arrow.core.left
+import arrow.core.right
 import com.stringconcat.ddd.common.types.base.Version
 import com.stringconcat.ddd.common.types.common.Address
 import com.stringconcat.ddd.common.types.common.Count
@@ -17,7 +19,11 @@ import com.stringconcat.ddd.order.domain.order.CustomerOrderRestorer
 import com.stringconcat.ddd.order.domain.order.OrderItem
 import com.stringconcat.ddd.order.domain.order.OrderState
 import com.stringconcat.ddd.order.usecase.menu.MealExtractor
+import com.stringconcat.ddd.order.usecase.order.CrmProvider
+import com.stringconcat.ddd.order.usecase.order.CrmSendHandlerError
 import com.stringconcat.ddd.order.usecase.order.CustomerOrderExtractor
+import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.booleans.shouldBeTrue
 import java.math.BigDecimal
 import java.time.OffsetDateTime
 import java.util.LinkedHashMap
@@ -111,4 +117,34 @@ class TestMealExtractor : HashMap<MealId, Meal>(), MealExtractor {
     }
 
     override fun getAll() = this.values.toList()
+}
+
+class TestSuccessfulCrmProvider : CrmProvider {
+    lateinit var instance: Any
+
+    override fun send(orderId: CustomerOrderId, price: Price): Either<CrmSendHandlerError, Unit> {
+        this.instance = true
+        return Unit.right()
+    }
+
+    fun verifyZeroInteraction() {
+        ::instance.isInitialized.shouldBeFalse()
+    }
+
+    fun verifyNotZeroInteraction() {
+        ::instance.isInitialized.shouldBeTrue()
+    }
+}
+
+class TestFailedCrmProvider : CrmProvider {
+    lateinit var instance: Any
+
+    override fun send(orderId: CustomerOrderId, price: Price): Either<CrmSendHandlerError, Unit> {
+        this.instance = true
+        return CrmSendHandlerError.OrderNotSentToCrm.left()
+    }
+
+    fun verifyNotZeroInteraction() {
+        ::instance.isInitialized.shouldBeTrue()
+    }
 }
