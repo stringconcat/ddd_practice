@@ -70,7 +70,7 @@ class CustomerOrder internal constructor(
 
     fun confirm() = changeState(OrderState.CONFIRMED, CustomerOrderConfirmedDomainEvent(id))
 
-    fun pay() = changeState(OrderState.PAID, CustomerOrderHasBeenDomainEvent(id))
+    fun pay() = changeState(OrderState.PAID, CustomerOrderHasBeenPaidDomainEvent(id))
 
     fun complete() = changeState(OrderState.COMPLETED, CustomerOrderCompletedDomainEvent(id))
 

@@ -7,4 +7,4 @@ data class CustomerOrderCreatedDomainEvent(val orderId: CustomerOrderId, val for
 data class CustomerOrderCompletedDomainEvent(val orderId: CustomerOrderId) : DomainEvent()
 data class CustomerOrderConfirmedDomainEvent(val orderId: CustomerOrderId) : DomainEvent()
 data class CustomerOrderCancelledDomainEvent(val orderId: CustomerOrderId) : DomainEvent()
-data class CustomerOrderHasBeenDomainEvent(val orderId: CustomerOrderId) : DomainEvent()
+data class CustomerOrderHasBeenPaidDomainEvent(val orderId: CustomerOrderId) : DomainEvent()

@@ -93,6 +93,9 @@ fun meal(removed: Boolean = false): Meal {
     )
 }
 
+fun orderItem(price: Price, count: Count) =
+    OrderItem(mealId = mealId(), price = price, count = count)
+
 class TestCustomerOrderExtractor : CustomerOrderExtractor, LinkedHashMap<CustomerOrderId, CustomerOrder>() {
     override fun getById(orderId: CustomerOrderId) = this[orderId]
 

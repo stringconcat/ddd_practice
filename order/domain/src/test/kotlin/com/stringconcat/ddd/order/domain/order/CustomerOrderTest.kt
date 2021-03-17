@@ -137,7 +137,7 @@ class CustomerOrderTest {
         val order = order(state = OrderState.WAITING_FOR_PAYMENT)
         order.pay() shouldBeRight Unit
         order.state shouldBe OrderState.PAID
-        order.popEvents() shouldContainExactly listOf(CustomerOrderHasBeenDomainEvent(order.id))
+        order.popEvents() shouldContainExactly listOf(CustomerOrderHasBeenPaidDomainEvent(order.id))
     }
 
     @Test
