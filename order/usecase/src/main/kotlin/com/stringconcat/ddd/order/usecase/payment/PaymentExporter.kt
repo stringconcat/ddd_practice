@@ -1,4 +1,4 @@
-package com.stringconcat.dev.course.app.listeners
+package com.stringconcat.ddd.order.usecase.payment
 
 import com.stringconcat.ddd.order.domain.payment.OrderPayment
 

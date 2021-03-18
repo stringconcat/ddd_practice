@@ -2,7 +2,7 @@ dependencies {
     // project
     implementation(project(":common:types"))
     implementation(project(":order:domain"))
-    implementation(project(":application"))
+    implementation(project(":order:usecase"))
 
     // kotlin
     implementation(Libs.kotlin_jdk8)

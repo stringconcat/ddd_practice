@@ -95,6 +95,10 @@ class CustomerOrder internal constructor(
     }
 
     fun isActive(): Boolean = state.active
+
+    fun isPaid(): Boolean = state == OrderState.PAID
+            || state == OrderState.CONFIRMED
+            || state == OrderState.COMPLETED
 }
 
 class OrderItem constructor(

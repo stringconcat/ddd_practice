@@ -1,7 +1,7 @@
 package com.stringconcat.integration.crm
 
 import com.stringconcat.ddd.order.domain.payment.OrderPayment
-import com.stringconcat.dev.course.app.listeners.PaymentExporter
+import com.stringconcat.ddd.order.usecase.payment.PaymentExporter
 import org.slf4j.LoggerFactory
 
 class SimpleCRMConnector : PaymentExporter {

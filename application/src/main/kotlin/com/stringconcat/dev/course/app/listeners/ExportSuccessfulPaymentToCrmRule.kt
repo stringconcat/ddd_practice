@@ -3,6 +3,7 @@ package com.stringconcat.dev.course.app.listeners
 import com.stringconcat.ddd.order.domain.order.CustomerOrderHasBeenPaidDomainEvent
 import com.stringconcat.ddd.order.domain.payment.OrderPayment
 import com.stringconcat.ddd.order.usecase.order.CustomerOrderExtractor
+import com.stringconcat.ddd.order.usecase.payment.PaymentExporter
 import com.stringconcat.dev.course.app.event.DomainEventListener
 
 class ExportSuccessfulPaymentToCrmRule(
