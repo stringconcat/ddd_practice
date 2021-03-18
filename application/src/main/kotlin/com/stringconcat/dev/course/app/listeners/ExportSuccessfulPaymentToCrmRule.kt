@@ -13,7 +13,11 @@ class ExportSuccessfulPaymentToCrmRule(
     override fun eventType() = CustomerOrderHasBeenPaidDomainEvent::class
 
     override fun handle(event: CustomerOrderHasBeenPaidDomainEvent) {
-        val order = orderExtractor.getById(event.orderId) ?: throw IllegalStateException("order has to exist")
+        val order = orderExtractor.getById(event.orderId)
+        checkNotNull(order) {
+            "Order ${event.orderId} not found"
+        }
+
         val orderPayment = OrderPayment(orderId = order.id, price = order.totalPrice())
         paymentExporter.exportPayment(payment = orderPayment)
     }
