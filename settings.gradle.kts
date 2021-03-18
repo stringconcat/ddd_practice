@@ -13,3 +13,4 @@ include(":kitchen:persistence")
 
 include(":integration:payment")
 include(":integration:telnet")
+include(":integration:dummyCRM")
