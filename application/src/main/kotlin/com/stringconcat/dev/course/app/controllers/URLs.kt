@@ -6,7 +6,7 @@ object URLs {
     const val addMeal = "$rootMenu/add"
     const val removeMeal = "$rootMenu/remove"
 
-    const val payment = "/payment"
+    const val payment = "/com/stringconcat/ddd/order/usecase/payment"
 
     const val customer_orders = "/customer/orders"
     const val confirm_customer_order = "$customer_orders/confirm"
@@ -18,7 +18,7 @@ object URLs {
 
 object Views {
     const val menu = "menu"
-    const val payment = "payment"
+    const val payment = "com/stringconcat/ddd/order/usecase/payment"
     const val paymentResult = "payment_result"
 
     const val customer_orders = "customer_orders"

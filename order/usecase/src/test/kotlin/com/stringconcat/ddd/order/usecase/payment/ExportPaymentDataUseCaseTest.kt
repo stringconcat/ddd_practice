@@ -5,12 +5,12 @@ import com.stringconcat.ddd.order.domain.order.CustomerOrder
 import com.stringconcat.ddd.order.domain.order.CustomerOrderId
 import com.stringconcat.ddd.order.domain.order.OrderState
 import com.stringconcat.ddd.order.domain.payment.OrderPayment
+import com.stringconcat.ddd.order.usecase.count
+import com.stringconcat.ddd.order.usecase.order
 import com.stringconcat.ddd.order.usecase.order.CustomerOrderExtractor
-import com.stringconcat.dev.course.app.customerOrder
-import com.stringconcat.dev.course.app.orderId
-import com.stringconcat.dev.course.app.orderItem
-import com.stringconcat.dev.course.app.price
-import com.stringconcat.dev.course.app.count
+import com.stringconcat.ddd.order.usecase.orderId
+import com.stringconcat.ddd.order.usecase.orderItem
+import com.stringconcat.ddd.order.usecase.price
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight
 import io.kotest.matchers.nulls.shouldNotBeNull
@@ -31,7 +31,7 @@ internal class ExportPaymentDataUseCaseTest {
 
     @Test
     fun `should return error if order is not paid`() {
-        val order = customerOrder(
+        val order = order(
             state = OrderState.WAITING_FOR_PAYMENT,
             orderItems = setOf(
                 orderItem(price(BigDecimal.valueOf(10)), count(2)),
@@ -48,7 +48,7 @@ internal class ExportPaymentDataUseCaseTest {
 
     @Test
     fun `should report about payment`() {
-        val order = customerOrder(
+        val order = order(
             state = OrderState.PAID,
             orderItems = setOf(
                 orderItem(price(BigDecimal.valueOf(10)), count(2)),

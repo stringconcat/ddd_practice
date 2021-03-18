@@ -35,6 +35,8 @@ import com.stringconcat.ddd.order.usecase.order.GetLastOrderStateUseCase
 import com.stringconcat.ddd.order.usecase.order.GetOrdersUseCase
 import com.stringconcat.ddd.order.usecase.order.PayOrderHandler
 import com.stringconcat.ddd.order.usecase.order.PaymentUrlProvider
+import com.stringconcat.ddd.order.usecase.payment.ExportPaymentDataUseCase
+import com.stringconcat.ddd.order.usecase.payment.PaymentExporter
 import com.stringconcat.ddd.order.usecase.providers.MealPriceProviderImpl
 import com.stringconcat.ddd.order.usecase.rules.CustomerHasActiveOrderImpl
 import com.stringconcat.ddd.order.usecase.rules.MealAlreadyExistsImpl
@@ -203,6 +205,15 @@ class CustomerOrderContextConfiguration {
 
     @Bean
     fun paymentUrlProvider() = SimplePaymentUrlProvider(URL("http://localhost:8080"))
+
+    @Bean
+    fun exportPaymentDataUseCase(
+        paymentExporter: PaymentExporter,
+        orderExtractor: CustomerOrderExtractor
+    ) = ExportPaymentDataUseCase(
+        paymentExporter = paymentExporter,
+        orderExtractor = orderExtractor
+    )
 
     @Bean
     fun checkoutListener(
