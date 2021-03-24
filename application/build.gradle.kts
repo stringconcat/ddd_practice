@@ -13,9 +13,9 @@ dependencies {
     implementation(project(":kitchen:usecase"))
     implementation(project(":kitchen:persistence"))
 
-    implementation(project(":order:domain"))
-    implementation(project(":order:usecase"))
-    implementation(project(":order:persistence"))
+    implementation(project(":shop:domain"))
+    implementation(project(":shop:usecase"))
+    implementation(project(":shop:persistence"))
 
     implementation(project(":integration:payment"))
     implementation(project(":integration:telnet"))

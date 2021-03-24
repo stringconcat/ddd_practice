@@ -1,8 +1,8 @@
 dependencies {
     // project
     implementation(project(":common:types"))
-    implementation(project(":order:domain"))
-    implementation(project(":order:usecase"))
+    implementation(project(":shop:domain"))
+    implementation(project(":shop:usecase"))
 
     // kotlin
     implementation(Libs.kotlin_jdk8)

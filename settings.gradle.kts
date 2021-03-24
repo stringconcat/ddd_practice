@@ -3,9 +3,9 @@ rootProject.name = "ddd_practice"
 include(":application")
 include(":common:types")
 
-include(":order:domain")
-include(":order:usecase")
-include(":order:persistence")
+include(":shop:domain")
+include(":shop:usecase")
+include(":shop:persistence")
 
 include(":kitchen:domain")
 include(":kitchen:usecase")

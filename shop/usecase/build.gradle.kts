@@ -1,6 +1,6 @@
 dependencies {
     // project
-    implementation(project(":order:domain"))
+    implementation(project(":shop:domain"))
     implementation(project(":common:types"))
 
     // kotlin
