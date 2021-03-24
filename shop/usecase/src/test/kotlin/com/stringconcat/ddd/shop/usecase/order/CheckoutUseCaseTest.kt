@@ -4,12 +4,12 @@ import com.stringconcat.ddd.common.types.common.Address
 import com.stringconcat.ddd.shop.domain.cart.CustomerId
 import com.stringconcat.ddd.shop.domain.menu.MealId
 import com.stringconcat.ddd.shop.domain.menu.Price
-import com.stringconcat.ddd.shop.domain.order.CustomerOrderId
-import com.stringconcat.ddd.shop.domain.order.CustomerOrderIdGenerator
+import com.stringconcat.ddd.shop.domain.order.ShopOrderId
+import com.stringconcat.ddd.shop.domain.order.ShopOrderIdGenerator
 import com.stringconcat.ddd.shop.domain.order.MealPriceProvider
 import com.stringconcat.ddd.shop.usecase.TestCartExtractor
 import com.stringconcat.ddd.shop.usecase.TestCustomerHasActiveOrder
-import com.stringconcat.ddd.shop.usecase.TestCustomerOrderPersister
+import com.stringconcat.ddd.shop.usecase.TestShopOrderPersister
 import com.stringconcat.ddd.shop.usecase.address
 import com.stringconcat.ddd.shop.usecase.cart
 import com.stringconcat.ddd.shop.usecase.count
@@ -41,36 +41,36 @@ internal class CheckoutUseCaseTest {
         }
 
         val activeOrderRule = TestCustomerHasActiveOrder(false)
-        val orderPersister = TestCustomerOrderPersister()
+        val orderPersister = TestShopOrderPersister()
 
         val useCase = CheckoutUseCase(
-            idGenerator = TestCustomerOrderIdGenerator,
+            idGenerator = TestShopOrderIdGenerator,
             cartExtractor = cartExtractor,
             activeOrder = activeOrderRule,
             priceProvider = TestMealPriceProvider,
             paymentUrlProvider = TestPaymentUrlProvider,
-            customerOrderPersister = orderPersister
+            shopOrderPersister = orderPersister
         )
 
         val checkoutRequest = checkoutRequest(address, customerId)
         val result = useCase.execute(checkoutRequest)
 
-        val orderId = TestCustomerOrderIdGenerator.id
+        val orderId = TestShopOrderIdGenerator.id
 
-        val customerOrder = orderPersister[orderId]
-        customerOrder.shouldNotBeNull()
+        val shopOrder = orderPersister[orderId]
+        shopOrder.shouldNotBeNull()
 
         result shouldBeRight {
             it.orderId shouldBe orderId
             it.paymentURL shouldBe TestPaymentUrlProvider.paymentUrl
-            it.price shouldBe customerOrder.totalPrice()
+            it.price shouldBe shopOrder.totalPrice()
         }
 
-        customerOrder.id shouldBe orderId
-        customerOrder.address shouldBe address
-        customerOrder.forCustomer shouldBe customerId
-        customerOrder.orderItems.shouldHaveSize(1)
-        val orderItem = customerOrder.orderItems.first()
+        shopOrder.id shouldBe orderId
+        shopOrder.address shouldBe address
+        shopOrder.forCustomer shouldBe customerId
+        shopOrder.orderItems.shouldHaveSize(1)
+        val orderItem = shopOrder.orderItems.first()
         orderItem.mealId shouldBe meal.id
         orderItem.count shouldBe count
         orderItem.price shouldBe TestMealPriceProvider.price
@@ -80,16 +80,16 @@ internal class CheckoutUseCaseTest {
     fun `cart not found`() {
 
         val activeOrderRule = TestCustomerHasActiveOrder(false)
-        val orderPersister = TestCustomerOrderPersister()
+        val orderPersister = TestShopOrderPersister()
 
         val cartExtractor = TestCartExtractor()
         val useCase = CheckoutUseCase(
-            idGenerator = TestCustomerOrderIdGenerator,
+            idGenerator = TestShopOrderIdGenerator,
             cartExtractor = cartExtractor,
             activeOrder = activeOrderRule,
             priceProvider = TestMealPriceProvider,
             paymentUrlProvider = TestPaymentUrlProvider,
-            customerOrderPersister = orderPersister
+            shopOrderPersister = orderPersister
         )
 
         val checkoutRequest = checkoutRequest()
@@ -104,19 +104,19 @@ internal class CheckoutUseCaseTest {
 
         val cart = cart(customerId = customerId)
         val activeOrderRule = TestCustomerHasActiveOrder(false)
-        val orderPersister = TestCustomerOrderPersister()
+        val orderPersister = TestShopOrderPersister()
 
         val cartExtractor = TestCartExtractor().apply {
             this[customerId] = cart
         }
 
         val useCase = CheckoutUseCase(
-            idGenerator = TestCustomerOrderIdGenerator,
+            idGenerator = TestShopOrderIdGenerator,
             cartExtractor = cartExtractor,
             activeOrder = activeOrderRule,
             priceProvider = TestMealPriceProvider,
             paymentUrlProvider = TestPaymentUrlProvider,
-            customerOrderPersister = orderPersister
+            shopOrderPersister = orderPersister
         )
 
         val checkoutRequest = checkoutRequest(customerId = customerId)
@@ -132,15 +132,15 @@ internal class CheckoutUseCaseTest {
             this[cart.forCustomer] = cart
         }
         val activeOrderRule = TestCustomerHasActiveOrder(true)
-        val orderPersister = TestCustomerOrderPersister()
+        val orderPersister = TestShopOrderPersister()
 
         val useCase = CheckoutUseCase(
-            idGenerator = TestCustomerOrderIdGenerator,
+            idGenerator = TestShopOrderIdGenerator,
             cartExtractor = cartExtractor,
             activeOrder = activeOrderRule,
             priceProvider = TestMealPriceProvider,
             paymentUrlProvider = TestPaymentUrlProvider,
-            customerOrderPersister = orderPersister
+            shopOrderPersister = orderPersister
         )
 
         useCase
@@ -161,7 +161,7 @@ internal class CheckoutUseCaseTest {
             )
     }
 
-    object TestCustomerOrderIdGenerator : CustomerOrderIdGenerator {
+    object TestShopOrderIdGenerator : ShopOrderIdGenerator {
         val id = orderId()
         override fun generate() = id
     }
@@ -173,6 +173,6 @@ internal class CheckoutUseCaseTest {
 
     object TestPaymentUrlProvider : PaymentUrlProvider {
         val paymentUrl = URL("http://localhost")
-        override fun provideUrl(orderId: CustomerOrderId, price: Price) = paymentUrl
+        override fun provideUrl(orderId: ShopOrderId, price: Price) = paymentUrl
     }
 }

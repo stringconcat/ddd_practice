@@ -8,7 +8,7 @@
 <!-- Begin page content -->
 <main role="main" class="container" style="padding-top: 30px;">
 
-    <h1 class="mt-5">Customer orders</h1>
+    <h1 class="mt-5">Shop orders</h1>
 
     <div class="row">
 
@@ -32,12 +32,12 @@
                     <td>
                         <div class="row">
                             <form th:if="${order.state == T(com.stringconcat.ddd.shop.domain.order.OrderState).PAID}"
-                                  th:action="@{/customer/orders/cancel(orderId=${order.id.value})}" method="post">
+                                  th:action="@{/shop/orders/cancel(orderId=${order.id.value})}" method="post">
                                 <button type="submit" class="btn btn btn-danger btn-sm">Cancel</button>
                             </form>
                             &nbsp;
                             <form th:if="${order.state == T(com.stringconcat.ddd.shop.domain.order.OrderState).PAID}"
-                                  th:action="@{/customer/orders/confirm(orderId=${order.id.value})}" method="post">
+                                  th:action="@{/shop/orders/confirm(orderId=${order.id.value})}" method="post">
                                 <button type="submit" class="btn btn btn-success btn-sm">Confirm</button>
                             </form>
                         </div>

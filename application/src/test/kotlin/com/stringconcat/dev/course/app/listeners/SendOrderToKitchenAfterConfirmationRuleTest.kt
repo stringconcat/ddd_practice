@@ -6,12 +6,12 @@ import arrow.core.right
 import com.stringconcat.ddd.kitchen.usecase.order.CreateOrder
 import com.stringconcat.ddd.kitchen.usecase.order.CreateOrderRequest
 import com.stringconcat.ddd.kitchen.usecase.order.CreateOrderUseCaseError
-import com.stringconcat.ddd.shop.domain.order.CustomerOrderConfirmedDomainEvent
+import com.stringconcat.ddd.shop.domain.order.ShopOrderConfirmedDomainEvent
 import com.stringconcat.ddd.shop.domain.order.OrderItem
-import com.stringconcat.dev.course.app.TestCustomerOrderExtractor
+import com.stringconcat.dev.course.app.TestShopOrderExtractor
 import com.stringconcat.dev.course.app.TestMealExtractor
 import com.stringconcat.dev.course.app.count
-import com.stringconcat.dev.course.app.customerOrder
+import com.stringconcat.dev.course.app.shopOrder
 import com.stringconcat.dev.course.app.meal
 import com.stringconcat.dev.course.app.orderId
 import com.stringconcat.dev.course.app.price
@@ -30,9 +30,9 @@ class SendOrderToKitchenAfterConfirmationRuleTest {
         val meal = meal()
         val price = price()
         val count = count()
-        val order = customerOrder(orderItems = setOf(OrderItem(meal.id, price, count)))
+        val order = shopOrder(orderItems = setOf(OrderItem(meal.id, price, count)))
 
-        val orderExtractor = TestCustomerOrderExtractor().apply {
+        val orderExtractor = TestShopOrderExtractor().apply {
             this[order.id] = order
         }
 
@@ -44,11 +44,11 @@ class SendOrderToKitchenAfterConfirmationRuleTest {
 
         val rule = SendOrderToKitchenAfterConfirmationRule(
             mealExtractor = mealExtractor,
-            customerOrderExtractor = orderExtractor,
+            shopOrderExtractor = orderExtractor,
             createOrder = useCase
         )
 
-        val event = CustomerOrderConfirmedDomainEvent(order.id)
+        val event = ShopOrderConfirmedDomainEvent(order.id)
         rule.handle(event)
 
         useCase.request.id shouldBe order.id.value
@@ -62,7 +62,7 @@ class SendOrderToKitchenAfterConfirmationRuleTest {
 
     @Test
     fun `order not found`() {
-        val orderExtractor = TestCustomerOrderExtractor()
+        val orderExtractor = TestShopOrderExtractor()
 
         val mealExtractor = TestMealExtractor()
 
@@ -70,11 +70,11 @@ class SendOrderToKitchenAfterConfirmationRuleTest {
 
         val rule = SendOrderToKitchenAfterConfirmationRule(
             mealExtractor = mealExtractor,
-            customerOrderExtractor = orderExtractor,
+            shopOrderExtractor = orderExtractor,
             createOrder = useCase
         )
 
-        val event = CustomerOrderConfirmedDomainEvent(orderId())
+        val event = ShopOrderConfirmedDomainEvent(orderId())
 
         shouldThrow<IllegalStateException> {
             rule.handle(event)
@@ -89,9 +89,9 @@ class SendOrderToKitchenAfterConfirmationRuleTest {
         val meal = meal()
         val price = price()
         val count = count()
-        val order = customerOrder(orderItems = setOf(OrderItem(meal.id, price, count)))
+        val order = shopOrder(orderItems = setOf(OrderItem(meal.id, price, count)))
 
-        val orderExtractor = TestCustomerOrderExtractor().apply {
+        val orderExtractor = TestShopOrderExtractor().apply {
             this[order.id] = order
         }
 
@@ -101,11 +101,11 @@ class SendOrderToKitchenAfterConfirmationRuleTest {
 
         val rule = SendOrderToKitchenAfterConfirmationRule(
             mealExtractor = mealExtractor,
-            customerOrderExtractor = orderExtractor,
+            shopOrderExtractor = orderExtractor,
             createOrder = useCase
         )
 
-        val event = CustomerOrderConfirmedDomainEvent(order.id)
+        val event = ShopOrderConfirmedDomainEvent(order.id)
 
         shouldThrow<IllegalStateException> {
             rule.handle(event)
@@ -120,9 +120,9 @@ class SendOrderToKitchenAfterConfirmationRuleTest {
         val meal = meal()
         val price = price()
         val count = count()
-        val order = customerOrder(orderItems = setOf(OrderItem(meal.id, price, count)))
+        val order = shopOrder(orderItems = setOf(OrderItem(meal.id, price, count)))
 
-        val orderExtractor = TestCustomerOrderExtractor().apply {
+        val orderExtractor = TestShopOrderExtractor().apply {
             this[order.id] = order
         }
 
@@ -134,11 +134,11 @@ class SendOrderToKitchenAfterConfirmationRuleTest {
 
         val rule = SendOrderToKitchenAfterConfirmationRule(
             mealExtractor = mealExtractor,
-            customerOrderExtractor = orderExtractor,
+            shopOrderExtractor = orderExtractor,
             createOrder = useCase
         )
 
-        val event = CustomerOrderConfirmedDomainEvent(order.id)
+        val event = ShopOrderConfirmedDomainEvent(order.id)
 
         shouldThrow<IllegalStateException> {
             rule.handle(event)

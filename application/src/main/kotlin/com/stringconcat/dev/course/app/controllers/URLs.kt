@@ -8,9 +8,9 @@ object URLs {
 
     const val payment = "/payment"
 
-    const val customer_orders = "/customer/orders"
-    const val confirm_customer_order = "$customer_orders/confirm"
-    const val cancel_customer_order = "$customer_orders/cancel"
+    const val shop_orders = "/shop/orders"
+    const val confirm_shop_order = "$shop_orders/confirm"
+    const val cancel_shop_order = "$shop_orders/cancel"
 
     const val kitchen_orders = "/kitchen/orders"
     const val cook_kitchen_order = "$kitchen_orders/cook"
@@ -21,7 +21,7 @@ object Views {
     const val payment = "payment"
     const val paymentResult = "payment_result"
 
-    const val customer_orders = "customer_orders"
+    const val shopOrders = "shop_orders"
 
-    const val kitchen_orders = "kitchen_orders"
+    const val kitchenOrders = "kitchen_orders"
 }

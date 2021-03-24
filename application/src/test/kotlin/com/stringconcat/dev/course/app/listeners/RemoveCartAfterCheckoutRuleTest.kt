@@ -4,7 +4,7 @@ import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
 import com.stringconcat.ddd.shop.domain.cart.CustomerId
-import com.stringconcat.ddd.shop.domain.order.CustomerOrderCreatedDomainEvent
+import com.stringconcat.ddd.shop.domain.order.ShopOrderCreatedDomainEvent
 import com.stringconcat.ddd.shop.usecase.cart.RemoveCart
 import com.stringconcat.ddd.shop.usecase.cart.RemoveCartHandlerError
 import com.stringconcat.dev.course.app.customerId
@@ -22,7 +22,7 @@ class RemoveCartAfterCheckoutRuleTest {
 
         val useCase = TestRemoveCart(Unit.right())
         val rule = RemoveCartAfterCheckoutRule(useCase)
-        val event = CustomerOrderCreatedDomainEvent(orderId = orderId, forCustomer = customerId)
+        val event = ShopOrderCreatedDomainEvent(orderId = orderId, forCustomer = customerId)
         rule.handle(event)
 
         useCase.forCustomer shouldBe customerId
@@ -35,7 +35,7 @@ class RemoveCartAfterCheckoutRuleTest {
 
         val useCase = TestRemoveCart(RemoveCartHandlerError.CartNotFound.left())
         val rule = RemoveCartAfterCheckoutRule(useCase)
-        val event = CustomerOrderCreatedDomainEvent(orderId = orderId, forCustomer = customerId)
+        val event = ShopOrderCreatedDomainEvent(orderId = orderId, forCustomer = customerId)
         rule.handle(event)
 
         useCase.forCustomer shouldBe customerId

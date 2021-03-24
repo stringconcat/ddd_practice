@@ -3,19 +3,19 @@ package com.stringconcat.ddd.shop.usecase.order
 import arrow.core.Either
 import arrow.core.flatMap
 import arrow.core.rightIfNotNull
-import com.stringconcat.ddd.shop.domain.order.CustomerOrderId
+import com.stringconcat.ddd.shop.domain.order.ShopOrderId
 
 class CancelOrderUseCase(
-    private val customerOrderExtractor: CustomerOrderExtractor,
-    private val customerOrderPersister: CustomerOrderPersister
+    private val shopOrderExtractor: ShopOrderExtractor,
+    private val shopOrderPersister: ShopOrderPersister
 ) : CancelOrder {
 
-    override fun execute(orderId: CustomerOrderId): Either<CancelOrderUseCaseError, Unit> {
-        return customerOrderExtractor.getById(orderId)
+    override fun execute(orderId: ShopOrderId): Either<CancelOrderUseCaseError, Unit> {
+        return shopOrderExtractor.getById(orderId)
             .rightIfNotNull { CancelOrderUseCaseError.OrderNotFound }
             .flatMap { order ->
                 order.cancel().map {
-                    customerOrderPersister.save(order)
+                    shopOrderPersister.save(order)
                 }.mapLeft { CancelOrderUseCaseError.InvalidOrderState }
             }
     }

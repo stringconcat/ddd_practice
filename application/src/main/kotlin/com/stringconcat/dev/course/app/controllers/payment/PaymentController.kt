@@ -1,6 +1,6 @@
 package com.stringconcat.dev.course.app.controllers.payment
 
-import com.stringconcat.ddd.shop.domain.order.CustomerOrderId
+import com.stringconcat.ddd.shop.domain.order.ShopOrderId
 import com.stringconcat.ddd.shop.usecase.order.PayOrder
 import com.stringconcat.dev.course.app.controllers.URLs
 import com.stringconcat.dev.course.app.controllers.Views
@@ -28,7 +28,7 @@ class PaymentController(private val payOrder: PayOrder) {
     @PostMapping
     fun payOrder(@RequestParam orderId: Long, map: ModelMap): String {
         map.addAttribute("orderId", orderId)
-        payOrder.execute(CustomerOrderId(orderId))
+        payOrder.execute(ShopOrderId(orderId))
             .mapLeft { map.addAttribute(ERROR_ATTRIBUTE, it.message) }
         return Views.paymentResult
     }

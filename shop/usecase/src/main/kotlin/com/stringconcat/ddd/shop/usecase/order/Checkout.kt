@@ -4,7 +4,7 @@ import arrow.core.Either
 import com.stringconcat.ddd.common.types.common.Address
 import com.stringconcat.ddd.shop.domain.cart.CustomerId
 import com.stringconcat.ddd.shop.domain.menu.Price
-import com.stringconcat.ddd.shop.domain.order.CustomerOrderId
+import com.stringconcat.ddd.shop.domain.order.ShopOrderId
 import java.net.URL
 
 interface Checkout {
@@ -12,7 +12,7 @@ interface Checkout {
 }
 
 data class PaymentInfo(
-    val orderId: CustomerOrderId,
+    val orderId: ShopOrderId,
     val price: Price,
     val paymentURL: URL
 )

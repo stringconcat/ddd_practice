@@ -10,7 +10,7 @@ import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import java.time.OffsetDateTime
 
-internal class CustomerOrderRestorerTest {
+internal class ShopOrderRestorerTest {
 
     @Test
     fun `restore order - success`() {
@@ -23,7 +23,7 @@ internal class CustomerOrderRestorerTest {
         val version = version()
         val address = address()
 
-        val order = CustomerOrderRestorer.restoreOrder(
+        val order = ShopOrderRestorer.restoreOrder(
             id = id,
             created = created,
             forCustomer = customerId,

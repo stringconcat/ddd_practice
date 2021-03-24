@@ -15,14 +15,14 @@ import com.stringconcat.ddd.shop.domain.menu.MealId
 import com.stringconcat.ddd.shop.domain.menu.Price
 import java.time.OffsetDateTime
 
-class CustomerOrder internal constructor(
-    id: CustomerOrderId,
+class ShopOrder internal constructor(
+    id: ShopOrderId,
     val created: OffsetDateTime,
     val forCustomer: CustomerId,
     val address: Address,
     val orderItems: Set<OrderItem>,
     version: Version
-) : AggregateRoot<CustomerOrderId>(id, version) {
+) : AggregateRoot<ShopOrderId>(id, version) {
 
     var state: OrderState = OrderState.WAITING_FOR_PAYMENT
         internal set
@@ -31,11 +31,11 @@ class CustomerOrder internal constructor(
 
         fun checkout(
             cart: Cart,
-            idGenerator: CustomerOrderIdGenerator,
+            idGenerator: ShopOrderIdGenerator,
             activeOrder: CustomerHasActiveOrder,
             address: Address,
             priceProvider: MealPriceProvider
-        ): Either<CheckoutError, CustomerOrder> {
+        ): Either<CheckoutError, ShopOrder> {
 
             if (activeOrder.check(cart.forCustomer)) {
                 return CheckoutError.AlreadyHasActiveOrder.left()
@@ -52,7 +52,7 @@ class CustomerOrder internal constructor(
                     OrderItem(mealId, price, count)
                 }.toSet()
 
-                CustomerOrder(
+                ShopOrder(
                     id = idGenerator.generate(),
                     created = OffsetDateTime.now(),
                     forCustomer = cart.forCustomer,
@@ -60,7 +60,7 @@ class CustomerOrder internal constructor(
                     address = address,
                     version = Version.new()
                 ).apply {
-                    addEvent(CustomerOrderCreatedDomainEvent(id, cart.forCustomer))
+                    addEvent(ShopOrderCreatedDomainEvent(id, cart.forCustomer))
                 }.right()
             } else {
                 CheckoutError.EmptyCart.left()
@@ -68,13 +68,13 @@ class CustomerOrder internal constructor(
         }
     }
 
-    fun confirm() = changeState(OrderState.CONFIRMED, CustomerOrderConfirmedDomainEvent(id))
+    fun confirm() = changeState(OrderState.CONFIRMED, ShopOrderConfirmedDomainEvent(id))
 
-    fun pay() = changeState(OrderState.PAID, CustomerOrderHasBeenDomainEvent(id))
+    fun pay() = changeState(OrderState.PAID, ShopOrderPaidDomainEvent(id))
 
-    fun complete() = changeState(OrderState.COMPLETED, CustomerOrderCompletedDomainEvent(id))
+    fun complete() = changeState(OrderState.COMPLETED, ShopOrderCompletedDomainEvent(id))
 
-    fun cancel() = changeState(OrderState.CANCELLED, CustomerOrderCancelledDomainEvent(id))
+    fun cancel() = changeState(OrderState.CANCELLED, ShopOrderCancelledDomainEvent(id))
 
     private fun changeState(newState: OrderState, event: DomainEvent): Either<InvalidState, Unit> {
         return when {

@@ -25,7 +25,7 @@ class KitchenOrderController(
     @GetMapping(URLs.kitchen_orders)
     fun orders(map: ModelMap): String {
         map.addAttribute(ORDERS_ATTRIBUTE, getOrdersUseCase.execute())
-        return Views.kitchen_orders
+        return Views.kitchenOrders
     }
 
     @PostMapping(URLs.cook_kitchen_order)
@@ -33,7 +33,7 @@ class KitchenOrderController(
         cookOrder.execute(KitchenOrderId(orderId)).mapLeft {
             map.addAttribute(ORDERS_ATTRIBUTE, getOrdersUseCase.execute())
             map.addAttribute(ERROR_ATTRIBUTE, it.message)
-            return@confirm Views.customer_orders
+            return@confirm Views.shopOrders
         }
 
         return "redirect:${URLs.kitchen_orders}"

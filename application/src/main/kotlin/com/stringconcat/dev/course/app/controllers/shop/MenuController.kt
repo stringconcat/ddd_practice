@@ -1,4 +1,4 @@
-package com.stringconcat.dev.course.app.controllers.order
+package com.stringconcat.dev.course.app.controllers.shop
 
 import arrow.core.flatMap
 import com.stringconcat.ddd.shop.domain.menu.MealId

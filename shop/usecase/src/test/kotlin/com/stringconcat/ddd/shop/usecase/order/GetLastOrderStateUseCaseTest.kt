@@ -1,6 +1,6 @@
 package com.stringconcat.ddd.shop.usecase.order
 
-import com.stringconcat.ddd.shop.usecase.TestCustomerOrderExtractor
+import com.stringconcat.ddd.shop.usecase.TestShopOrderExtractor
 import com.stringconcat.ddd.shop.usecase.customerId
 import com.stringconcat.ddd.shop.usecase.order
 import io.kotest.assertions.arrow.either.shouldBeLeft
@@ -12,7 +12,7 @@ class GetLastOrderStateUseCaseTest {
     @Test
     fun `status successfully received`() {
         val order = order()
-        val orderExtractor = TestCustomerOrderExtractor().apply {
+        val orderExtractor = TestShopOrderExtractor().apply {
             this[order.id] = order
         }
         val useCase = GetLastOrderStateUseCase(orderExtractor)
@@ -22,7 +22,7 @@ class GetLastOrderStateUseCaseTest {
 
     @Test
     fun `order not found`() {
-        val orderExtractor = TestCustomerOrderExtractor()
+        val orderExtractor = TestShopOrderExtractor()
         val useCase = GetLastOrderStateUseCase(orderExtractor)
         val result = useCase.execute(customerId())
         result shouldBeLeft GetLastOrderStateUseCaseError.OrderNotFound

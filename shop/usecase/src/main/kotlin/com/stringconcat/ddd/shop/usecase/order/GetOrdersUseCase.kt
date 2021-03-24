@@ -1,9 +1,9 @@
 package com.stringconcat.ddd.shop.usecase.order
 
-class GetOrdersUseCase(private val orderExtractor: CustomerOrderExtractor) : GetOrders {
-    override fun execute(): List<CustomerOrderInfo> {
+class GetOrdersUseCase(private val orderExtractor: ShopOrderExtractor) : GetOrders {
+    override fun execute(): List<ShopOrderInfo> {
         return orderExtractor.getAll().map {
-            CustomerOrderInfo(
+            ShopOrderInfo(
                 id = it.id,
                 state = it.state,
                 address = it.address,

@@ -16,9 +16,9 @@ import com.stringconcat.ddd.shop.domain.menu.MealId
 import com.stringconcat.ddd.shop.domain.menu.MealName
 import com.stringconcat.ddd.shop.domain.menu.MealRestorer
 import com.stringconcat.ddd.shop.domain.menu.Price
-import com.stringconcat.ddd.shop.domain.order.CustomerOrder
-import com.stringconcat.ddd.shop.domain.order.CustomerOrderId
-import com.stringconcat.ddd.shop.domain.order.CustomerOrderRestorer
+import com.stringconcat.ddd.shop.domain.order.ShopOrder
+import com.stringconcat.ddd.shop.domain.order.ShopOrderId
+import com.stringconcat.ddd.shop.domain.order.ShopOrderRestorer
 import com.stringconcat.ddd.shop.domain.order.OrderItem
 import com.stringconcat.ddd.shop.domain.order.OrderState
 import java.math.BigDecimal
@@ -109,11 +109,11 @@ fun cartWithEvents(): Cart {
     return cart
 }
 
-fun orderId() = CustomerOrderId(Random.nextLong())
+fun orderId() = ShopOrderId(Random.nextLong())
 
-fun orderReadyForComplete(id: CustomerOrderId = orderId()) = order(state = OrderState.CONFIRMED, id = id)
+fun orderReadyForComplete(id: ShopOrderId = orderId()) = order(state = OrderState.CONFIRMED, id = id)
 
-fun orderWithEvents(id: CustomerOrderId = orderId()): CustomerOrder {
+fun orderWithEvents(id: ShopOrderId = orderId()): ShopOrder {
     val order = orderReadyForComplete(id)
 
     check(order.complete() is Either.Right<Unit>)
@@ -123,10 +123,10 @@ fun orderWithEvents(id: CustomerOrderId = orderId()): CustomerOrder {
 fun order(
     state: OrderState = OrderState.COMPLETED,
     orderItems: Set<OrderItem> = emptySet(),
-    id: CustomerOrderId = orderId(),
+    id: ShopOrderId = orderId(),
     customerId: CustomerId = customerId()
-): CustomerOrder {
-    return CustomerOrderRestorer.restoreOrder(
+): ShopOrder {
+    return ShopOrderRestorer.restoreOrder(
         id = id,
         created = OffsetDateTime.now(),
         forCustomer = customerId,

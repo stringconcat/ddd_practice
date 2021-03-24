@@ -1,6 +1,6 @@
-package com.stringconcat.dev.course.app.controllers.order
+package com.stringconcat.dev.course.app.controllers.shop
 
-import com.stringconcat.ddd.shop.domain.order.CustomerOrderId
+import com.stringconcat.ddd.shop.domain.order.ShopOrderId
 import com.stringconcat.ddd.shop.domain.order.OrderState
 import com.stringconcat.ddd.shop.usecase.order.CancelOrder
 import com.stringconcat.ddd.shop.usecase.order.ConfirmOrder
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 
 @Controller
-class CustomerOrderController(
+class ShopOrderController(
     private val getOrdersUseCase: GetOrders,
     private val confirmOrder: ConfirmOrder,
     private val cancelOrder: CancelOrder
@@ -34,34 +34,34 @@ class CustomerOrderController(
         )
     }
 
-    @GetMapping(URLs.customer_orders)
+    @GetMapping(URLs.shop_orders)
     fun orders(map: ModelMap): String {
         map.addAttribute(ORDERS_ATTRIBUTE, getOrdersUseCase.execute())
         map.addAttribute(STATUS_NAMES_ATTRIBUTE, statusNames)
-        return Views.customer_orders
+        return Views.shopOrders
     }
 
-    @PostMapping(URLs.confirm_customer_order)
+    @PostMapping(URLs.confirm_shop_order)
     fun confirm(@RequestParam orderId: Long, map: ModelMap): String {
-        confirmOrder.execute(CustomerOrderId(orderId)).mapLeft {
+        confirmOrder.execute(ShopOrderId(orderId)).mapLeft {
             map.addAttribute(ORDERS_ATTRIBUTE, getOrdersUseCase.execute())
             map.addAttribute(STATUS_NAMES_ATTRIBUTE, statusNames)
             map.addAttribute(ERROR_ATTRIBUTE, it.message)
-            return@confirm Views.customer_orders
+            return@confirm Views.shopOrders
         }
 
-        return "redirect:${URLs.customer_orders}"
+        return "redirect:${URLs.shop_orders}"
     }
 
-    @PostMapping(URLs.cancel_customer_order)
+    @PostMapping(URLs.cancel_shop_order)
     fun cancel(@RequestParam orderId: Long, map: ModelMap): String {
-        cancelOrder.execute(CustomerOrderId(orderId)).mapLeft {
+        cancelOrder.execute(ShopOrderId(orderId)).mapLeft {
             map.addAttribute(ORDERS_ATTRIBUTE, getOrdersUseCase.execute())
             map.addAttribute(STATUS_NAMES_ATTRIBUTE, statusNames)
             map.addAttribute(ERROR_ATTRIBUTE, it.message)
-            return@cancel Views.customer_orders
+            return@cancel Views.shopOrders
         }
 
-        return "redirect:${URLs.customer_orders}"
+        return "redirect:${URLs.shop_orders}"
     }
 }

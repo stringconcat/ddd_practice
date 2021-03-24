@@ -1,8 +1,8 @@
 package com.stringconcat.ddd.shop.usecase.order
 
-import com.stringconcat.ddd.shop.domain.order.CustomerOrderCancelledDomainEvent
-import com.stringconcat.ddd.shop.usecase.TestCustomerOrderExtractor
-import com.stringconcat.ddd.shop.usecase.TestCustomerOrderPersister
+import com.stringconcat.ddd.shop.domain.order.ShopOrderCancelledDomainEvent
+import com.stringconcat.ddd.shop.usecase.TestShopOrderExtractor
+import com.stringconcat.ddd.shop.usecase.TestShopOrderPersister
 import com.stringconcat.ddd.shop.usecase.orderId
 import com.stringconcat.ddd.shop.usecase.orderNotReadyForCancel
 import com.stringconcat.ddd.shop.usecase.orderReadyForCancel
@@ -18,19 +18,19 @@ internal class CancelOrderUseCaseTest {
     fun `successfully confirmed`() {
 
         val order = orderReadyForCancel()
-        val extractor = TestCustomerOrderExtractor().apply {
+        val extractor = TestShopOrderExtractor().apply {
             this[order.id] = order
         }
-        val persister = TestCustomerOrderPersister()
+        val persister = TestShopOrderPersister()
 
         val useCase = CancelOrderUseCase(extractor, persister)
         val result = useCase.execute(orderId = order.id)
 
         result.shouldBeRight()
 
-        val customerOrder = persister[order.id]
-        customerOrder.shouldNotBeNull()
-        customerOrder.popEvents() shouldContainExactly listOf(CustomerOrderCancelledDomainEvent(order.id))
+        val shopOrder = persister[order.id]
+        shopOrder.shouldNotBeNull()
+        shopOrder.popEvents() shouldContainExactly listOf(ShopOrderCancelledDomainEvent(order.id))
     }
 
     @Test
@@ -38,10 +38,10 @@ internal class CancelOrderUseCaseTest {
 
         val order = orderNotReadyForCancel()
 
-        val extractor = TestCustomerOrderExtractor().apply {
+        val extractor = TestShopOrderExtractor().apply {
             this[order.id] = order
         }
-        val persister = TestCustomerOrderPersister()
+        val persister = TestShopOrderPersister()
 
         val useCase = CancelOrderUseCase(extractor, persister)
         val result = useCase.execute(orderId = order.id)
@@ -50,8 +50,8 @@ internal class CancelOrderUseCaseTest {
 
     @Test
     fun `order not found`() {
-        val extractor = TestCustomerOrderExtractor()
-        val persister = TestCustomerOrderPersister()
+        val extractor = TestShopOrderExtractor()
+        val persister = TestShopOrderPersister()
 
         val useCase = CancelOrderUseCase(extractor, persister)
         val result = useCase.execute(orderId = orderId())

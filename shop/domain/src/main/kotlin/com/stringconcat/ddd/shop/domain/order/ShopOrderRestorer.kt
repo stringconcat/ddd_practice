@@ -5,19 +5,19 @@ import com.stringconcat.ddd.common.types.common.Address
 import com.stringconcat.ddd.shop.domain.cart.CustomerId
 import java.time.OffsetDateTime
 
-object CustomerOrderRestorer {
+object ShopOrderRestorer {
 
     fun restoreOrder(
-        id: CustomerOrderId,
+        id: ShopOrderId,
         created: OffsetDateTime,
         forCustomer: CustomerId,
         address: Address,
         orderItems: Set<OrderItem>,
         state: OrderState,
         version: Version
-    ): CustomerOrder {
+    ): ShopOrder {
 
-        return CustomerOrder(
+        return ShopOrder(
             id = id,
             created = created,
             forCustomer = forCustomer,

@@ -14,10 +14,10 @@ import com.stringconcat.ddd.shop.domain.menu.MealId
 import com.stringconcat.ddd.shop.domain.menu.MealName
 import com.stringconcat.ddd.shop.domain.menu.MealRestorer
 import com.stringconcat.ddd.shop.domain.menu.Price
-import com.stringconcat.ddd.shop.domain.order.CustomerOrder
-import com.stringconcat.ddd.shop.domain.order.CustomerOrderId
+import com.stringconcat.ddd.shop.domain.order.ShopOrder
+import com.stringconcat.ddd.shop.domain.order.ShopOrderId
 import com.stringconcat.ddd.shop.domain.order.OrderItem
-import com.stringconcat.ddd.shop.domain.order.CustomerOrderRestorer
+import com.stringconcat.ddd.shop.domain.order.ShopOrderRestorer
 import com.stringconcat.ddd.shop.domain.order.OrderState
 import com.stringconcat.ddd.shop.domain.order.CustomerHasActiveOrder
 import com.stringconcat.ddd.shop.usecase.cart.CartExtractor
@@ -25,8 +25,8 @@ import com.stringconcat.ddd.shop.usecase.cart.CartPersister
 import com.stringconcat.ddd.shop.usecase.cart.CartRemover
 import com.stringconcat.ddd.shop.usecase.menu.MealExtractor
 import com.stringconcat.ddd.shop.usecase.menu.MealPersister
-import com.stringconcat.ddd.shop.usecase.order.CustomerOrderExtractor
-import com.stringconcat.ddd.shop.usecase.order.CustomerOrderPersister
+import com.stringconcat.ddd.shop.usecase.order.ShopOrderExtractor
+import com.stringconcat.ddd.shop.usecase.order.ShopOrderPersister
 import java.math.BigDecimal
 import java.time.OffsetDateTime
 import java.util.LinkedHashMap
@@ -104,7 +104,7 @@ fun cart(
     )
 }
 
-fun orderId() = CustomerOrderId(Random.nextLong())
+fun orderId() = ShopOrderId(Random.nextLong())
 
 fun orderReadyForPay() = order(state = OrderState.WAITING_FOR_PAYMENT)
 
@@ -129,8 +129,8 @@ fun nonActiveOrder() = order(state = OrderState.CANCELLED)
 fun order(
     state: OrderState = OrderState.COMPLETED,
     orderItems: Set<OrderItem> = emptySet(),
-): CustomerOrder {
-    return CustomerOrderRestorer.restoreOrder(
+): ShopOrder {
+    return ShopOrderRestorer.restoreOrder(
         id = orderId(),
         created = OffsetDateTime.now(),
         forCustomer = customerId(),
@@ -173,16 +173,16 @@ class TestCartExtractor : HashMap<CustomerId, Cart>(), CartExtractor {
     override fun getCart(forCustomer: CustomerId): Cart? = this[forCustomer]
 }
 
-class TestCustomerOrderPersister : CustomerOrderPersister, HashMap<CustomerOrderId, CustomerOrder>() {
-    override fun save(order: CustomerOrder) {
+class TestShopOrderPersister : ShopOrderPersister, HashMap<ShopOrderId, ShopOrder>() {
+    override fun save(order: ShopOrder) {
         this[order.id] = order
     }
 }
 
-class TestCustomerOrderExtractor : CustomerOrderExtractor, LinkedHashMap<CustomerOrderId, CustomerOrder>() {
-    override fun getById(orderId: CustomerOrderId) = this[orderId]
+class TestShopOrderExtractor : ShopOrderExtractor, LinkedHashMap<ShopOrderId, ShopOrder>() {
+    override fun getById(orderId: ShopOrderId) = this[orderId]
 
-    override fun getLastOrder(forCustomer: CustomerId): CustomerOrder? {
+    override fun getLastOrder(forCustomer: CustomerId): ShopOrder? {
         return this.values.lastOrNull { it.forCustomer == forCustomer }
     }
 

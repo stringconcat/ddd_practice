@@ -2,23 +2,23 @@ package com.stringconcat.dev.course.app.listeners
 
 import com.stringconcat.ddd.kitchen.usecase.order.CreateOrder
 import com.stringconcat.ddd.kitchen.usecase.order.CreateOrderRequest
-import com.stringconcat.ddd.shop.domain.order.CustomerOrderConfirmedDomainEvent
+import com.stringconcat.ddd.shop.domain.order.ShopOrderConfirmedDomainEvent
 import com.stringconcat.ddd.shop.usecase.menu.MealExtractor
-import com.stringconcat.ddd.shop.usecase.order.CustomerOrderExtractor
+import com.stringconcat.ddd.shop.usecase.order.ShopOrderExtractor
 import com.stringconcat.dev.course.app.event.DomainEventListener
 
 class SendOrderToKitchenAfterConfirmationRule(
-    private val customerOrderExtractor: CustomerOrderExtractor,
+    private val shopOrderExtractor: ShopOrderExtractor,
     private val mealExtractor: MealExtractor,
     private val createOrder: CreateOrder
-) : DomainEventListener<CustomerOrderConfirmedDomainEvent> {
+) : DomainEventListener<ShopOrderConfirmedDomainEvent> {
 
-    override fun eventType() = CustomerOrderConfirmedDomainEvent::class
+    override fun eventType() = ShopOrderConfirmedDomainEvent::class
 
-    override fun handle(event: CustomerOrderConfirmedDomainEvent) {
-        val order = customerOrderExtractor.getById(event.orderId)
+    override fun handle(event: ShopOrderConfirmedDomainEvent) {
+        val order = shopOrderExtractor.getById(event.orderId)
         checkNotNull(order) {
-            "Customer order #${event.orderId} not found"
+            "Shop order #${event.orderId} not found"
         }
 
         val itemData = order.orderItems.map {

@@ -1,6 +1,6 @@
 package com.stringconcat.ddd.shop.usecase.rules
 
-import com.stringconcat.ddd.shop.usecase.TestCustomerOrderExtractor
+import com.stringconcat.ddd.shop.usecase.TestShopOrderExtractor
 import com.stringconcat.ddd.shop.usecase.activeOrder
 import com.stringconcat.ddd.shop.usecase.customerId
 import com.stringconcat.ddd.shop.usecase.nonActiveOrder
@@ -14,7 +14,7 @@ internal class CustomerHasActiveOrderImplTest {
     fun `active order exists`() {
 
         val activeOrder = activeOrder()
-        val extractor = TestCustomerOrderExtractor().apply {
+        val extractor = TestShopOrderExtractor().apply {
             this[activeOrder.id] = activeOrder
         }
         val rule = CustomerHasActiveOrderImpl(extractor)
@@ -27,7 +27,7 @@ internal class CustomerHasActiveOrderImplTest {
     fun `order exists but not active`() {
 
         val activeOrder = nonActiveOrder()
-        val extractor = TestCustomerOrderExtractor().apply {
+        val extractor = TestShopOrderExtractor().apply {
             this[activeOrder.id] = activeOrder
         }
         val rule = CustomerHasActiveOrderImpl(extractor)
@@ -39,7 +39,7 @@ internal class CustomerHasActiveOrderImplTest {
     @Test
     fun `order doesn't exists`() {
 
-        val extractor = TestCustomerOrderExtractor()
+        val extractor = TestShopOrderExtractor()
         val rule = CustomerHasActiveOrderImpl(extractor)
 
         val hasActiveOrder = rule.check(customerId())

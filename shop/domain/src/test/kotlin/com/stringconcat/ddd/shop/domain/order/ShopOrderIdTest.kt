@@ -1,12 +1,11 @@
-package com.stringconcat.ddd.shop.domain.cart
+package com.stringconcat.ddd.shop.domain.order
 
-import com.stringconcat.ddd.shop.domain.order.ShopOrderId
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldNotBeSameInstanceAs
 import org.junit.jupiter.api.Test
 import kotlin.random.Random
 
-internal class CartIdTest {
+internal class ShopOrderIdTest {
 
     @Test
     fun `check equality`() {

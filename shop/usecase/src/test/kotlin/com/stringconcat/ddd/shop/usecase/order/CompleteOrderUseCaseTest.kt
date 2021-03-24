@@ -1,8 +1,8 @@
 package com.stringconcat.ddd.shop.usecase.order
 
-import com.stringconcat.ddd.shop.domain.order.CustomerOrderCompletedDomainEvent
-import com.stringconcat.ddd.shop.usecase.TestCustomerOrderExtractor
-import com.stringconcat.ddd.shop.usecase.TestCustomerOrderPersister
+import com.stringconcat.ddd.shop.domain.order.ShopOrderCompletedDomainEvent
+import com.stringconcat.ddd.shop.usecase.TestShopOrderExtractor
+import com.stringconcat.ddd.shop.usecase.TestShopOrderPersister
 import com.stringconcat.ddd.shop.usecase.orderId
 import com.stringconcat.ddd.shop.usecase.orderNotReadyForComplete
 import com.stringconcat.ddd.shop.usecase.orderReadyForComplete
@@ -18,29 +18,29 @@ internal class CompleteOrderUseCaseTest {
     fun `successfully completed`() {
 
         val order = orderReadyForComplete()
-        val extractor = TestCustomerOrderExtractor().apply {
+        val extractor = TestShopOrderExtractor().apply {
             this[order.id] = order
         }
-        val persister = TestCustomerOrderPersister()
+        val persister = TestShopOrderPersister()
 
         val useCase = CompleteOrderUseCase(extractor, persister)
         val result = useCase.execute(orderId = order.id)
 
         result.shouldBeRight()
 
-        val customerOrder = persister[order.id]
-        customerOrder.shouldNotBeNull()
-        customerOrder.popEvents() shouldContainExactly listOf(CustomerOrderCompletedDomainEvent(order.id))
+        val shopOrder = persister[order.id]
+        shopOrder.shouldNotBeNull()
+        shopOrder.popEvents() shouldContainExactly listOf(ShopOrderCompletedDomainEvent(order.id))
     }
 
     @Test
     fun `invalid state`() {
 
         val order = orderNotReadyForComplete()
-        val extractor = TestCustomerOrderExtractor().apply {
+        val extractor = TestShopOrderExtractor().apply {
             this[order.id] = order
         }
-        val persister = TestCustomerOrderPersister()
+        val persister = TestShopOrderPersister()
 
         val useCase = CompleteOrderUseCase(extractor, persister)
         val result = useCase.execute(orderId = order.id)
@@ -49,8 +49,8 @@ internal class CompleteOrderUseCaseTest {
 
     @Test
     fun `order not found`() {
-        val extractor = TestCustomerOrderExtractor()
-        val persister = TestCustomerOrderPersister()
+        val extractor = TestShopOrderExtractor()
+        val persister = TestShopOrderPersister()
 
         val useCase = CompleteOrderUseCase(extractor, persister)
         val result = useCase.execute(orderId = orderId())

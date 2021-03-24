@@ -1,8 +1,8 @@
 package com.stringconcat.ddd.shop.usecase.order
 
-import com.stringconcat.ddd.shop.domain.order.CustomerOrderHasBeenDomainEvent
-import com.stringconcat.ddd.shop.usecase.TestCustomerOrderExtractor
-import com.stringconcat.ddd.shop.usecase.TestCustomerOrderPersister
+import com.stringconcat.ddd.shop.domain.order.ShopOrderPaidDomainEvent
+import com.stringconcat.ddd.shop.usecase.TestShopOrderExtractor
+import com.stringconcat.ddd.shop.usecase.TestShopOrderPersister
 import com.stringconcat.ddd.shop.usecase.orderId
 import com.stringconcat.ddd.shop.usecase.orderNotReadyForPay
 import com.stringconcat.ddd.shop.usecase.orderReadyForPay
@@ -18,10 +18,10 @@ internal class PayOrderHandlerTest {
     fun `successfully payed`() {
 
         val order = orderReadyForPay()
-        val extractor = TestCustomerOrderExtractor().apply {
+        val extractor = TestShopOrderExtractor().apply {
             this[order.id] = order
         }
-        val persister = TestCustomerOrderPersister()
+        val persister = TestShopOrderPersister()
 
         val handler = PayOrderHandler(extractor, persister)
         val result = handler.execute(orderId = order.id)
@@ -30,17 +30,17 @@ internal class PayOrderHandlerTest {
 
         val customerOrder = persister[order.id]
         customerOrder.shouldNotBeNull()
-        customerOrder.popEvents() shouldContainExactly listOf(CustomerOrderHasBeenDomainEvent(order.id))
+        customerOrder.popEvents() shouldContainExactly listOf(ShopOrderPaidDomainEvent(order.id))
     }
 
     @Test
     fun `invalid state`() {
 
         val order = orderNotReadyForPay()
-        val extractor = TestCustomerOrderExtractor().apply {
+        val extractor = TestShopOrderExtractor().apply {
             this[order.id] = order
         }
-        val persister = TestCustomerOrderPersister()
+        val persister = TestShopOrderPersister()
 
         val handler = PayOrderHandler(extractor, persister)
         val result = handler.execute(orderId = order.id)
@@ -49,8 +49,8 @@ internal class PayOrderHandlerTest {
 
     @Test
     fun `order not found`() {
-        val extractor = TestCustomerOrderExtractor()
-        val persister = TestCustomerOrderPersister()
+        val extractor = TestShopOrderExtractor()
+        val persister = TestShopOrderPersister()
 
         val handler = PayOrderHandler(extractor, persister)
         val result = handler.execute(orderId = orderId())

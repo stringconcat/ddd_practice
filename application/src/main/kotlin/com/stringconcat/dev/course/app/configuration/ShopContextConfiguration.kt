@@ -3,7 +3,7 @@ package com.stringconcat.dev.course.app.configuration
 import com.stringconcat.ddd.common.types.base.EventPublisher
 import com.stringconcat.ddd.shop.domain.cart.CartIdGenerator
 import com.stringconcat.ddd.shop.domain.menu.MealIdGenerator
-import com.stringconcat.ddd.shop.domain.order.CustomerOrderIdGenerator
+import com.stringconcat.ddd.shop.domain.order.ShopOrderIdGenerator
 import com.stringconcat.ddd.shop.domain.order.MealPriceProvider
 import com.stringconcat.ddd.shop.domain.order.CustomerHasActiveOrder
 import com.stringconcat.ddd.shop.domain.menu.MealAlreadyExists
@@ -11,8 +11,8 @@ import com.stringconcat.ddd.shop.persistence.cart.InMemoryCartRepository
 import com.stringconcat.ddd.shop.persistence.cart.InMemoryIncrementalCartIdGenerator
 import com.stringconcat.ddd.shop.persistence.menu.InMemoryIncrementalMealIdGenerator
 import com.stringconcat.ddd.shop.persistence.menu.InMemoryMealRepository
-import com.stringconcat.ddd.shop.persistence.order.InMemoryCustomerOrderRepository
-import com.stringconcat.ddd.shop.persistence.order.InMemoryIncrementalCustomerOrderIdGenerator
+import com.stringconcat.ddd.shop.persistence.order.InMemoryShopOrderRepository
+import com.stringconcat.ddd.shop.persistence.order.InMemoryIncrementalShopOrderIdGenerator
 import com.stringconcat.ddd.shop.usecase.cart.AddMealToCartUseCase
 import com.stringconcat.ddd.shop.usecase.cart.CartExtractor
 import com.stringconcat.ddd.shop.usecase.cart.CartPersister
@@ -29,8 +29,8 @@ import com.stringconcat.ddd.shop.usecase.order.CancelOrderUseCase
 import com.stringconcat.ddd.shop.usecase.order.CheckoutUseCase
 import com.stringconcat.ddd.shop.usecase.order.CompleteOrderUseCase
 import com.stringconcat.ddd.shop.usecase.order.ConfirmOrderUseCase
-import com.stringconcat.ddd.shop.usecase.order.CustomerOrderExtractor
-import com.stringconcat.ddd.shop.usecase.order.CustomerOrderPersister
+import com.stringconcat.ddd.shop.usecase.order.ShopOrderExtractor
+import com.stringconcat.ddd.shop.usecase.order.ShopOrderPersister
 import com.stringconcat.ddd.shop.usecase.order.GetLastOrderStateUseCase
 import com.stringconcat.ddd.shop.usecase.order.GetOrdersUseCase
 import com.stringconcat.ddd.shop.usecase.order.PayOrderHandler
@@ -47,7 +47,7 @@ import java.net.URL
 
 @Suppress("TooManyFunctions")
 @Configuration
-class CustomerOrderContextConfiguration {
+class ShopContextConfiguration {
 
     @Bean
     fun cartRepository(eventPublisher: EventPublisher) = InMemoryCartRepository(eventPublisher)
@@ -56,7 +56,7 @@ class CustomerOrderContextConfiguration {
     fun mealRepository(eventPublisher: EventPublisher) = InMemoryMealRepository(eventPublisher)
 
     @Bean
-    fun customerOrderRepository(eventPublisher: EventPublisher) = InMemoryCustomerOrderRepository(eventPublisher)
+    fun shopOrderRepository(eventPublisher: EventPublisher) = InMemoryShopOrderRepository(eventPublisher)
 
     @Bean
     fun cartIdGenerator() = InMemoryIncrementalCartIdGenerator()
@@ -65,7 +65,7 @@ class CustomerOrderContextConfiguration {
     fun mealIdGenerator() = InMemoryIncrementalMealIdGenerator()
 
     @Bean
-    fun customerOrderIdGenerator() = InMemoryIncrementalCustomerOrderIdGenerator()
+    fun shopOrderIdGenerator() = InMemoryIncrementalShopOrderIdGenerator()
 
     @Bean
     fun addMealToCartUseCase(
@@ -129,64 +129,64 @@ class CustomerOrderContextConfiguration {
 
     @Bean
     fun payOrderHandler(
-        customerOrderExtractor: CustomerOrderExtractor,
-        customerOrderPersister: CustomerOrderPersister
+        shopOrderExtractor: ShopOrderExtractor,
+        shopOrderPersister: ShopOrderPersister
     ) = PayOrderHandler(
-        customerOrderExtractor = customerOrderExtractor,
-        customerOrderPersister = customerOrderPersister
+        shopOrderExtractor = shopOrderExtractor,
+        shopOrderPersister = shopOrderPersister
     )
 
     @Bean
     fun cancelOrderUseCase(
-        customerOrderExtractor: CustomerOrderExtractor,
-        customerOrderPersister: CustomerOrderPersister
+        shopOrderExtractor: ShopOrderExtractor,
+        shopOrderPersister: ShopOrderPersister
     ) = CancelOrderUseCase(
-        customerOrderExtractor = customerOrderExtractor,
-        customerOrderPersister = customerOrderPersister
+        shopOrderExtractor = shopOrderExtractor,
+        shopOrderPersister = shopOrderPersister
     )
 
     @Bean
     fun completeOrderUseCase(
-        customerOrderExtractor: CustomerOrderExtractor,
-        customerOrderPersister: CustomerOrderPersister
+        shopOrderExtractor: ShopOrderExtractor,
+        shopOrderPersister: ShopOrderPersister
     ) = CompleteOrderUseCase(
-        customerOrderExtractor = customerOrderExtractor,
-        customerOrderPersister = customerOrderPersister
+        shopOrderExtractor = shopOrderExtractor,
+        shopOrderPersister = shopOrderPersister
     )
 
     @Bean
     fun checkoutUseCase(
-        idGenerator: CustomerOrderIdGenerator,
+        idGenerator: ShopOrderIdGenerator,
         cartExtractor: CartExtractor,
         activeOrder: CustomerHasActiveOrder,
         priceProvider: MealPriceProvider,
         paymentUrlProvider: PaymentUrlProvider,
-        customerOrderPersister: CustomerOrderPersister
+        shopOrderPersister: ShopOrderPersister
     ) = CheckoutUseCase(
         idGenerator = idGenerator,
         cartExtractor = cartExtractor,
         activeOrder = activeOrder,
         priceProvider = priceProvider,
         paymentUrlProvider = paymentUrlProvider,
-        customerOrderPersister = customerOrderPersister
+        shopOrderPersister = shopOrderPersister
     )
 
     @Bean
     fun confirmOrderUseCase(
-        customerOrderExtractor: CustomerOrderExtractor,
-        customerOrderPersister: CustomerOrderPersister
+        shopOrderExtractor: ShopOrderExtractor,
+        shopOrderPersister: ShopOrderPersister
     ) = ConfirmOrderUseCase(
-        customerOrderExtractor = customerOrderExtractor,
-        customerOrderPersister = customerOrderPersister
+        shopOrderExtractor = shopOrderExtractor,
+        shopOrderPersister = shopOrderPersister
     )
 
     @Bean
-    fun getLastOrderStateUseCase(customerOrderExtractor: CustomerOrderExtractor) =
-        GetLastOrderStateUseCase(orderExtractor = customerOrderExtractor)
+    fun getLastOrderStateUseCase(shopOrderExtractor: ShopOrderExtractor) =
+        GetLastOrderStateUseCase(orderExtractor = shopOrderExtractor)
 
     @Bean
-    fun getOrders(customerOrderExtractor: CustomerOrderExtractor) =
-        GetOrdersUseCase(orderExtractor = customerOrderExtractor)
+    fun getOrders(shopOrderExtractor: ShopOrderExtractor) =
+        GetOrdersUseCase(orderExtractor = shopOrderExtractor)
 
     @Bean
     fun getMenuUseCase(mealExtractor: MealExtractor) = GetMenuUseCase(mealExtractor)
@@ -195,8 +195,8 @@ class CustomerOrderContextConfiguration {
     fun mealPriceProvider(mealExtractor: MealExtractor) = MealPriceProviderImpl(mealExtractor)
 
     @Bean
-    fun customerHasActiveOrderRule(customerOrderExtractor: CustomerOrderExtractor) =
-        CustomerHasActiveOrderImpl(customerOrderExtractor)
+    fun shopHasActiveOrderRule(shopOrderExtractor: ShopOrderExtractor) =
+        CustomerHasActiveOrderImpl(shopOrderExtractor)
 
     @Bean
     fun mealAlreadyExistsRule(mealExtractor: MealExtractor) = MealAlreadyExistsImpl(mealExtractor)

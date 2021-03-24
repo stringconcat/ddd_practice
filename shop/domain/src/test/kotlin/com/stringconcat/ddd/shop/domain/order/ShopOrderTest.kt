@@ -21,11 +21,11 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 import java.math.BigDecimal
 
-class CustomerOrderTest {
+class ShopOrderTest {
 
     val id = orderId()
 
-    private val idGenerator = object : CustomerOrderIdGenerator {
+    private val idGenerator = object : ShopOrderIdGenerator {
         override fun generate() = id
     }
 
@@ -40,7 +40,7 @@ class CustomerOrderTest {
         val mealPriceProvider = TestMealPriceProvider.apply { this[mealId] = price }
         val cart = cart(mapOf(mealId to count))
 
-        val result = CustomerOrder.checkout(
+        val result = ShopOrder.checkout(
             cart = cart,
             idGenerator = idGenerator,
             activeOrder = activeOrderRule,
@@ -54,7 +54,7 @@ class CustomerOrderTest {
             it.id shouldBe id
             it.address shouldBe address
             it.state shouldBe OrderState.WAITING_FOR_PAYMENT
-            it.popEvents() shouldContainExactly listOf(CustomerOrderCreatedDomainEvent(id, cart.forCustomer))
+            it.popEvents() shouldContainExactly listOf(ShopOrderCreatedDomainEvent(id, cart.forCustomer))
         }
     }
 
@@ -69,7 +69,7 @@ class CustomerOrderTest {
 
         val activeOrderRule = TestCustomerHasActiveOrder(true)
 
-        val result = CustomerOrder.checkout(
+        val result = ShopOrder.checkout(
             cart = cart,
             idGenerator = idGenerator,
             activeOrder = activeOrderRule,
@@ -83,7 +83,7 @@ class CustomerOrderTest {
     @Test
     fun `checkout - empty cart`() {
         val cart = cart()
-        val result = CustomerOrder.checkout(
+        val result = ShopOrder.checkout(
             cart = cart,
             idGenerator = idGenerator,
             activeOrder = activeOrderRule,
@@ -112,7 +112,7 @@ class CustomerOrderTest {
         val order = order(state = OrderState.CONFIRMED)
         order.complete() shouldBeRight Unit
         order.state shouldBe OrderState.COMPLETED
-        order.popEvents() shouldContainExactly listOf(CustomerOrderCompletedDomainEvent(order.id))
+        order.popEvents() shouldContainExactly listOf(ShopOrderCompletedDomainEvent(order.id))
     }
 
     @Test
@@ -137,7 +137,7 @@ class CustomerOrderTest {
         val order = order(state = OrderState.WAITING_FOR_PAYMENT)
         order.pay() shouldBeRight Unit
         order.state shouldBe OrderState.PAID
-        order.popEvents() shouldContainExactly listOf(CustomerOrderHasBeenDomainEvent(order.id))
+        order.popEvents() shouldContainExactly listOf(ShopOrderPaidDomainEvent(order.id))
     }
 
     @Test
@@ -162,7 +162,7 @@ class CustomerOrderTest {
         val order = order(state = OrderState.PAID)
         order.cancel() shouldBeRight Unit
         order.state shouldBe OrderState.CANCELLED
-        order.popEvents() shouldContainExactly listOf(CustomerOrderCancelledDomainEvent(order.id))
+        order.popEvents() shouldContainExactly listOf(ShopOrderCancelledDomainEvent(order.id))
     }
 
     @Test
@@ -187,7 +187,7 @@ class CustomerOrderTest {
         val order = order(state = OrderState.PAID)
         order.confirm() shouldBeRight Unit
         order.state shouldBe OrderState.CONFIRMED
-        order.popEvents() shouldContainExactly listOf(CustomerOrderConfirmedDomainEvent(order.id))
+        order.popEvents() shouldContainExactly listOf(ShopOrderConfirmedDomainEvent(order.id))
     }
 
     @Test

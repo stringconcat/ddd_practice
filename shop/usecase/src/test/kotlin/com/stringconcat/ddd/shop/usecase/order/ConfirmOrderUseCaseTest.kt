@@ -1,8 +1,8 @@
 package com.stringconcat.ddd.shop.usecase.order
 
-import com.stringconcat.ddd.shop.domain.order.CustomerOrderConfirmedDomainEvent
-import com.stringconcat.ddd.shop.usecase.TestCustomerOrderExtractor
-import com.stringconcat.ddd.shop.usecase.TestCustomerOrderPersister
+import com.stringconcat.ddd.shop.domain.order.ShopOrderConfirmedDomainEvent
+import com.stringconcat.ddd.shop.usecase.TestShopOrderExtractor
+import com.stringconcat.ddd.shop.usecase.TestShopOrderPersister
 import com.stringconcat.ddd.shop.usecase.orderId
 import com.stringconcat.ddd.shop.usecase.orderNotReadyForConfirm
 import com.stringconcat.ddd.shop.usecase.orderReadyForConfirm
@@ -18,29 +18,29 @@ internal class ConfirmOrderUseCaseTest {
     fun `successfully confirmed`() {
 
         val order = orderReadyForConfirm()
-        val extractor = TestCustomerOrderExtractor().apply {
+        val extractor = TestShopOrderExtractor().apply {
             this[order.id] = order
         }
-        val persister = TestCustomerOrderPersister()
+        val persister = TestShopOrderPersister()
 
         val useCase = ConfirmOrderUseCase(extractor, persister)
         val result = useCase.execute(orderId = order.id)
 
         result.shouldBeRight()
 
-        val customerOrder = persister[order.id]
-        customerOrder.shouldNotBeNull()
-        customerOrder.popEvents() shouldContainExactly listOf(CustomerOrderConfirmedDomainEvent(order.id))
+        val shopOrder = persister[order.id]
+        shopOrder.shouldNotBeNull()
+        shopOrder.popEvents() shouldContainExactly listOf(ShopOrderConfirmedDomainEvent(order.id))
     }
 
     @Test
     fun `invalid state`() {
 
         val order = orderNotReadyForConfirm()
-        val extractor = TestCustomerOrderExtractor().apply {
+        val extractor = TestShopOrderExtractor().apply {
             this[order.id] = order
         }
-        val persister = TestCustomerOrderPersister()
+        val persister = TestShopOrderPersister()
 
         val useCase = ConfirmOrderUseCase(extractor, persister)
         val result = useCase.execute(orderId = order.id)
@@ -50,8 +50,8 @@ internal class ConfirmOrderUseCaseTest {
     @Test
     fun `order not found`() {
 
-        val extractor = TestCustomerOrderExtractor()
-        val persister = TestCustomerOrderPersister()
+        val extractor = TestShopOrderExtractor()
+        val persister = TestShopOrderPersister()
 
         val useCase = ConfirmOrderUseCase(extractor, persister)
         val result = useCase.execute(orderId = orderId())

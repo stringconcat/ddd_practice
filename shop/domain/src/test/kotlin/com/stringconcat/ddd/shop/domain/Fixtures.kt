@@ -14,10 +14,10 @@ import com.stringconcat.ddd.shop.domain.menu.MealId
 import com.stringconcat.ddd.shop.domain.menu.MealName
 import com.stringconcat.ddd.shop.domain.menu.MealRestorer
 import com.stringconcat.ddd.shop.domain.menu.Price
-import com.stringconcat.ddd.shop.domain.order.CustomerOrder
-import com.stringconcat.ddd.shop.domain.order.CustomerOrderId
+import com.stringconcat.ddd.shop.domain.order.ShopOrder
+import com.stringconcat.ddd.shop.domain.order.ShopOrderId
 import com.stringconcat.ddd.shop.domain.order.OrderItem
-import com.stringconcat.ddd.shop.domain.order.CustomerOrderRestorer
+import com.stringconcat.ddd.shop.domain.order.ShopOrderRestorer
 import com.stringconcat.ddd.shop.domain.order.OrderState
 import com.stringconcat.ddd.shop.domain.order.CustomerHasActiveOrder
 import java.math.BigDecimal
@@ -91,7 +91,7 @@ fun cart(meals: Map<MealId, Count> = emptyMap()): Cart {
     )
 }
 
-fun orderId() = CustomerOrderId(Random.nextLong())
+fun orderId() = ShopOrderId(Random.nextLong())
 
 fun orderItem(
     price: Price = price(),
@@ -107,8 +107,8 @@ fun orderItem(
 fun order(
     state: OrderState = OrderState.COMPLETED,
     orderItems: Set<OrderItem> = setOf(orderItem()),
-): CustomerOrder {
-    return CustomerOrderRestorer.restoreOrder(
+): ShopOrder {
+    return ShopOrderRestorer.restoreOrder(
         id = orderId(),
         created = OffsetDateTime.now(),
         forCustomer = customerId(),

@@ -1,6 +1,6 @@
 package com.stringconcat.ddd.shop.persistence.order
 
-import com.stringconcat.ddd.shop.domain.order.CustomerOrderCompletedDomainEvent
+import com.stringconcat.ddd.shop.domain.order.ShopOrderCompletedDomainEvent
 import com.stringconcat.ddd.shop.persistence.TestEventPublisher
 import com.stringconcat.ddd.shop.persistence.customerId
 import com.stringconcat.ddd.shop.persistence.order
@@ -15,12 +15,12 @@ import io.kotest.matchers.types.shouldBeInstanceOf
 import io.kotest.matchers.types.shouldBeSameInstanceAs
 import org.junit.jupiter.api.Test
 
-internal class InMemoryCustomerOrderRepositoryTest {
+internal class InMemoryShopOrderRepositoryTest {
 
     @Test
     fun `saving order - order doesn't exist`() {
         val eventPublisher = TestEventPublisher()
-        val repository = InMemoryCustomerOrderRepository(eventPublisher)
+        val repository = InMemoryShopOrderRepository(eventPublisher)
         val order = orderWithEvents()
 
         repository.save(order)
@@ -30,7 +30,7 @@ internal class InMemoryCustomerOrderRepositoryTest {
         eventPublisher.storage.shouldHaveSize(1)
 
         val event = eventPublisher.storage.first()
-        event.shouldBeInstanceOf<CustomerOrderCompletedDomainEvent>()
+        event.shouldBeInstanceOf<ShopOrderCompletedDomainEvent>()
         event.orderId shouldBe order.id
     }
 
@@ -41,14 +41,14 @@ internal class InMemoryCustomerOrderRepositoryTest {
         val existingOrder = order(id = id)
 
         val eventPublisher = TestEventPublisher()
-        val repository = InMemoryCustomerOrderRepository(eventPublisher)
+        val repository = InMemoryShopOrderRepository(eventPublisher)
         repository.storage[existingOrder.id] = existingOrder
 
         val updatedOrder = orderWithEvents(id)
         repository.save(updatedOrder)
 
         val event = eventPublisher.storage.first()
-        event.shouldBeInstanceOf<CustomerOrderCompletedDomainEvent>()
+        event.shouldBeInstanceOf<ShopOrderCompletedDomainEvent>()
         event.orderId shouldBe updatedOrder.id
     }
 
@@ -57,7 +57,7 @@ internal class InMemoryCustomerOrderRepositoryTest {
         val existingOrder = order()
 
         val eventPublisher = TestEventPublisher()
-        val repository = InMemoryCustomerOrderRepository(eventPublisher)
+        val repository = InMemoryShopOrderRepository(eventPublisher)
         repository.storage[existingOrder.id] = existingOrder
 
         val order = repository.getById(existingOrder.id)
@@ -67,7 +67,7 @@ internal class InMemoryCustomerOrderRepositoryTest {
     @Test
     fun `get by id - order doesn't exist`() {
         val eventPublisher = TestEventPublisher()
-        val repository = InMemoryCustomerOrderRepository(eventPublisher)
+        val repository = InMemoryShopOrderRepository(eventPublisher)
         val order = repository.getById(orderId())
         order.shouldBeNull()
     }
@@ -75,7 +75,7 @@ internal class InMemoryCustomerOrderRepositoryTest {
     @Test
     fun `get last - repository is empty`() {
         val eventPublisher = TestEventPublisher()
-        val repository = InMemoryCustomerOrderRepository(eventPublisher)
+        val repository = InMemoryShopOrderRepository(eventPublisher)
         val order = repository.getLastOrder(customerId())
         order.shouldBeNull()
     }
@@ -88,7 +88,7 @@ internal class InMemoryCustomerOrderRepositoryTest {
         val lastOrder = order(customerId = customerId)
 
         val eventPublisher = TestEventPublisher()
-        val repository = InMemoryCustomerOrderRepository(eventPublisher)
+        val repository = InMemoryShopOrderRepository(eventPublisher)
         repository.save(firstOrder)
         repository.save(lastOrder)
 
@@ -99,7 +99,7 @@ internal class InMemoryCustomerOrderRepositoryTest {
     @Test
     fun `get all - storage is empty`() {
         val eventPublisher = TestEventPublisher()
-        val repository = InMemoryCustomerOrderRepository(eventPublisher)
+        val repository = InMemoryShopOrderRepository(eventPublisher)
         val result = repository.getAll()
         result.shouldBeEmpty()
     }
@@ -108,7 +108,7 @@ internal class InMemoryCustomerOrderRepositoryTest {
     fun `get all - storage is not empty`() {
         val order = order()
         val eventPublisher = TestEventPublisher()
-        val repository = InMemoryCustomerOrderRepository(eventPublisher)
+        val repository = InMemoryShopOrderRepository(eventPublisher)
         repository.storage[order.id] = order
 
         val result = repository.getAll()
