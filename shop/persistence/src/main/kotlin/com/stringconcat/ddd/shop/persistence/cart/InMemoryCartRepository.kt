@@ -1,11 +1,11 @@
-package com.stringconcat.ddd.order.persistence.cart
+package com.stringconcat.ddd.shop.persistence.cart
 
 import com.stringconcat.ddd.common.types.base.EventPublisher
-import com.stringconcat.ddd.order.domain.cart.Cart
-import com.stringconcat.ddd.order.domain.cart.CustomerId
-import com.stringconcat.ddd.order.usecase.cart.CartExtractor
-import com.stringconcat.ddd.order.usecase.cart.CartPersister
-import com.stringconcat.ddd.order.usecase.cart.CartRemover
+import com.stringconcat.ddd.shop.domain.cart.Cart
+import com.stringconcat.ddd.shop.domain.cart.CustomerId
+import com.stringconcat.ddd.shop.usecase.cart.CartExtractor
+import com.stringconcat.ddd.shop.usecase.cart.CartPersister
+import com.stringconcat.ddd.shop.usecase.cart.CartRemover
 
 class InMemoryCartRepository(private val eventPublisher: EventPublisher) : CartExtractor, CartPersister, CartRemover {
 

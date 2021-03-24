@@ -1,7 +1,7 @@
-package com.stringconcat.ddd.order.persistence.order
+package com.stringconcat.ddd.shop.persistence.order
 
-import com.stringconcat.ddd.order.domain.order.CustomerOrderId
-import com.stringconcat.ddd.order.domain.order.CustomerOrderIdGenerator
+import com.stringconcat.ddd.shop.domain.shop.CustomerOrderId
+import com.stringconcat.ddd.shop.domain.shop.CustomerOrderIdGenerator
 import java.util.concurrent.atomic.AtomicLong
 
 class InMemoryIncrementalCustomerOrderIdGenerator : CustomerOrderIdGenerator {

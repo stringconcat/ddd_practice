@@ -1,11 +1,11 @@
-package com.stringconcat.ddd.order.persistence.order
+package com.stringconcat.ddd.shop.persistence.order
 
 import com.stringconcat.ddd.common.types.base.EventPublisher
-import com.stringconcat.ddd.order.domain.cart.CustomerId
-import com.stringconcat.ddd.order.domain.order.CustomerOrder
-import com.stringconcat.ddd.order.domain.order.CustomerOrderId
-import com.stringconcat.ddd.order.usecase.order.CustomerOrderExtractor
-import com.stringconcat.ddd.order.usecase.order.CustomerOrderPersister
+import com.stringconcat.ddd.shop.domain.cart.CustomerId
+import com.stringconcat.ddd.shop.domain.shop.CustomerOrder
+import com.stringconcat.ddd.shop.domain.shop.CustomerOrderId
+import com.stringconcat.ddd.shop.usecase.shop.CustomerOrderExtractor
+import com.stringconcat.ddd.shop.usecase.shop.CustomerOrderPersister
 
 class InMemoryCustomerOrderRepository(private val eventPublisher: EventPublisher) :
     CustomerOrderExtractor,

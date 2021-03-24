@@ -1,4 +1,4 @@
-package com.stringconcat.ddd.order.persistence.order
+package com.stringconcat.ddd.shop.persistence.order
 
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test

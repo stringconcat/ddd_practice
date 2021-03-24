@@ -1,11 +1,11 @@
-package com.stringconcat.ddd.order.persistence.menu
+package com.stringconcat.ddd.shop.persistence.menu
 
 import com.stringconcat.ddd.common.types.base.EventPublisher
-import com.stringconcat.ddd.order.domain.menu.Meal
-import com.stringconcat.ddd.order.domain.menu.MealId
-import com.stringconcat.ddd.order.domain.menu.MealName
-import com.stringconcat.ddd.order.usecase.menu.MealExtractor
-import com.stringconcat.ddd.order.usecase.menu.MealPersister
+import com.stringconcat.ddd.shop.domain.menu.Meal
+import com.stringconcat.ddd.shop.domain.menu.MealId
+import com.stringconcat.ddd.shop.domain.menu.MealName
+import com.stringconcat.ddd.shop.usecase.menu.MealExtractor
+import com.stringconcat.ddd.shop.usecase.menu.MealPersister
 
 class InMemoryMealRepository(private val eventPublisher: EventPublisher) : MealExtractor, MealPersister {
 

@@ -1,4 +1,4 @@
-package com.stringconcat.ddd.order.persistence.menu
+package com.stringconcat.ddd.shop.persistence.menu
 
 import com.stringconcat.ddd.order.domain.menu.MealRemovedFromMenuDomainEvent
 import com.stringconcat.ddd.order.persistence.TestEventPublisher

@@ -1,7 +1,7 @@
-package com.stringconcat.ddd.order.persistence.menu
+package com.stringconcat.ddd.shop.persistence.menu
 
-import com.stringconcat.ddd.order.domain.menu.MealId
-import com.stringconcat.ddd.order.domain.menu.MealIdGenerator
+import com.stringconcat.ddd.shop.domain.menu.MealId
+import com.stringconcat.ddd.shop.domain.menu.MealIdGenerator
 import java.util.concurrent.atomic.AtomicLong
 
 class InMemoryIncrementalMealIdGenerator : MealIdGenerator {

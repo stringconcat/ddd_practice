@@ -1,4 +1,4 @@
-package com.stringconcat.ddd.order.persistence.cart
+package com.stringconcat.ddd.shop.persistence.cart
 
 import com.stringconcat.ddd.order.domain.cart.MealAddedToCartDomainEvent
 import com.stringconcat.ddd.order.persistence.TestEventPublisher

@@ -1,4 +1,4 @@
-package com.stringconcat.ddd.order.persistence.order
+package com.stringconcat.ddd.shop.persistence.order
 
 import com.stringconcat.ddd.order.domain.order.CustomerOrderCompletedDomainEvent
 import com.stringconcat.ddd.order.persistence.TestEventPublisher

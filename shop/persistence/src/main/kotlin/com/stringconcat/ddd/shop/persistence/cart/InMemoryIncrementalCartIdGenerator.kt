@@ -1,7 +1,7 @@
-package com.stringconcat.ddd.order.persistence.cart
+package com.stringconcat.ddd.shop.persistence.cart
 
-import com.stringconcat.ddd.order.domain.cart.CartId
-import com.stringconcat.ddd.order.domain.cart.CartIdGenerator
+import com.stringconcat.ddd.shop.domain.cart.CartId
+import com.stringconcat.ddd.shop.domain.cart.CartIdGenerator
 import java.util.concurrent.atomic.AtomicLong
 
 class InMemoryIncrementalCartIdGenerator : CartIdGenerator {
