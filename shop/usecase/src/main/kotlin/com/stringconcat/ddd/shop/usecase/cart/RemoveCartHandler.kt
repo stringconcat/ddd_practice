@@ -1,7 +1,8 @@
 package com.stringconcat.ddd.shop.usecase.cart
 
 import arrow.core.Either
-import com.stringconcat.ddd.order.domain.cart.CustomerId
+import arrow.core.rightIfNotNull
+import com.stringconcat.ddd.shop.domain.cart.CustomerId
 
 class RemoveCartHandler(
     private val cartExtractor: CartExtractor,

@@ -31,12 +31,12 @@
                     <td th:text="${order.total.value}">12.00</td>
                     <td>
                         <div class="row">
-                            <form th:if="${order.state == T(com.stringconcat.ddd.order.domain.order.OrderState).PAID}"
+                            <form th:if="${order.state == T(com.stringconcat.ddd.shop.domain.order.OrderState).PAID}"
                                   th:action="@{/customer/orders/cancel(orderId=${order.id.value})}" method="post">
                                 <button type="submit" class="btn btn btn-danger btn-sm">Cancel</button>
                             </form>
                             &nbsp;
-                            <form th:if="${order.state == T(com.stringconcat.ddd.order.domain.order.OrderState).PAID}"
+                            <form th:if="${order.state == T(com.stringconcat.ddd.shop.domain.order.OrderState).PAID}"
                                   th:action="@{/customer/orders/confirm(orderId=${order.id.value})}" method="post">
                                 <button type="submit" class="btn btn btn-success btn-sm">Confirm</button>
                             </form>

@@ -1,7 +1,7 @@
 package com.stringconcat.ddd.shop.usecase.menu
 
 import arrow.core.Either
-import com.stringconcat.ddd.order.domain.menu.MealId
+import com.stringconcat.ddd.shop.domain.menu.MealId
 
 interface RemoveMealFromMenu {
     fun execute(id: MealId): Either<RemoveMealFromMenuUseCaseError, Unit>

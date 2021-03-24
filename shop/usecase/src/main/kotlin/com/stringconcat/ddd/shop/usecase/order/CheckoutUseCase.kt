@@ -1,11 +1,13 @@
 package com.stringconcat.ddd.shop.usecase.order
 
 import arrow.core.Either
-import com.stringconcat.ddd.order.domain.order.CheckoutError
-import com.stringconcat.ddd.order.domain.order.CustomerOrder
-import com.stringconcat.ddd.order.domain.order.CustomerOrderIdGenerator
-import com.stringconcat.ddd.order.domain.order.MealPriceProvider
-import com.stringconcat.ddd.order.domain.order.CustomerHasActiveOrder
+import arrow.core.flatMap
+import arrow.core.rightIfNotNull
+import com.stringconcat.ddd.shop.domain.order.CheckoutError
+import com.stringconcat.ddd.shop.domain.order.CustomerOrder
+import com.stringconcat.ddd.shop.domain.order.CustomerOrderIdGenerator
+import com.stringconcat.ddd.shop.domain.order.MealPriceProvider
+import com.stringconcat.ddd.shop.domain.order.CustomerHasActiveOrder
 import com.stringconcat.ddd.shop.usecase.cart.CartExtractor
 
 class CheckoutUseCase(

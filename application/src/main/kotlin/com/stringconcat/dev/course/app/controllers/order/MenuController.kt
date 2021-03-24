@@ -1,11 +1,11 @@
 package com.stringconcat.dev.course.app.controllers.order
 
 import arrow.core.flatMap
-import com.stringconcat.ddd.order.domain.menu.MealId
-import com.stringconcat.ddd.order.usecase.menu.AddMealToMenu
-import com.stringconcat.ddd.order.usecase.menu.AddMealToMenuRequest
-import com.stringconcat.ddd.order.usecase.menu.GetMenu
-import com.stringconcat.ddd.order.usecase.menu.RemoveMealFromMenu
+import com.stringconcat.ddd.shop.domain.menu.MealId
+import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenu
+import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenuRequest
+import com.stringconcat.ddd.shop.usecase.menu.GetMenu
+import com.stringconcat.ddd.shop.usecase.menu.RemoveMealFromMenu
 import com.stringconcat.dev.course.app.controllers.URLs
 import com.stringconcat.dev.course.app.controllers.Views
 import org.springframework.stereotype.Controller

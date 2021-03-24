@@ -1,7 +1,7 @@
 package com.stringconcat.dev.course.app.telnet.order.menu
 
-import com.stringconcat.ddd.order.usecase.menu.GetMenu
-import com.stringconcat.ddd.order.usecase.menu.MealInfo
+import com.stringconcat.ddd.shop.usecase.menu.GetMenu
+import com.stringconcat.ddd.shop.usecase.menu.MealInfo
 import com.stringconcat.dev.course.app.mealDescription
 import com.stringconcat.dev.course.app.mealId
 import com.stringconcat.dev.course.app.mealName

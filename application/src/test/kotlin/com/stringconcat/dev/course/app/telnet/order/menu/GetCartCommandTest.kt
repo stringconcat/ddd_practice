@@ -3,11 +3,11 @@ package com.stringconcat.dev.course.app.telnet.order.menu
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
-import com.stringconcat.ddd.order.domain.cart.CustomerId
-import com.stringconcat.ddd.order.usecase.cart.CartInfo
-import com.stringconcat.ddd.order.usecase.cart.CartItem
-import com.stringconcat.ddd.order.usecase.cart.GetCart
-import com.stringconcat.ddd.order.usecase.cart.GetCartUseCaseError
+import com.stringconcat.ddd.shop.domain.cart.CustomerId
+import com.stringconcat.ddd.shop.usecase.cart.CartInfo
+import com.stringconcat.ddd.shop.usecase.cart.CartItem
+import com.stringconcat.ddd.shop.usecase.cart.GetCart
+import com.stringconcat.ddd.shop.usecase.cart.GetCartUseCaseError
 import com.stringconcat.dev.course.app.count
 import com.stringconcat.dev.course.app.customerId
 import com.stringconcat.dev.course.app.mealId

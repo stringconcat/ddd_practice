@@ -2,12 +2,12 @@ package com.stringconcat.ddd.shop.usecase.menu
 
 import arrow.core.Either
 import arrow.core.extensions.either.apply.tupled
-import com.stringconcat.ddd.order.domain.menu.CreatePriceError
-import com.stringconcat.ddd.order.domain.menu.EmptyDescriptionError
-import com.stringconcat.ddd.order.domain.menu.EmptyMealNameError
-import com.stringconcat.ddd.order.domain.menu.MealDescription
-import com.stringconcat.ddd.order.domain.menu.MealName
-import com.stringconcat.ddd.order.domain.menu.Price
+import com.stringconcat.ddd.shop.domain.menu.CreatePriceError
+import com.stringconcat.ddd.shop.domain.menu.EmptyDescriptionError
+import com.stringconcat.ddd.shop.domain.menu.EmptyMealNameError
+import com.stringconcat.ddd.shop.domain.menu.MealDescription
+import com.stringconcat.ddd.shop.domain.menu.MealName
+import com.stringconcat.ddd.shop.domain.menu.Price
 import java.math.BigDecimal
 
 data class AddMealToMenuRequest internal constructor(

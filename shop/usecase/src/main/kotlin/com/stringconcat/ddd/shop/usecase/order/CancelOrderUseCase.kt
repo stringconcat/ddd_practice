@@ -1,7 +1,9 @@
 package com.stringconcat.ddd.shop.usecase.order
 
 import arrow.core.Either
-import com.stringconcat.ddd.order.domain.order.CustomerOrderId
+import arrow.core.flatMap
+import arrow.core.rightIfNotNull
+import com.stringconcat.ddd.shop.domain.order.CustomerOrderId
 
 class CancelOrderUseCase(
     private val customerOrderExtractor: CustomerOrderExtractor,

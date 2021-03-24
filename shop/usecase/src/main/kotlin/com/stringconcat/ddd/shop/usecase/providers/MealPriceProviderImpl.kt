@@ -1,8 +1,8 @@
 package com.stringconcat.ddd.shop.usecase.providers
 
-import com.stringconcat.ddd.order.domain.menu.MealId
-import com.stringconcat.ddd.order.domain.menu.Price
-import com.stringconcat.ddd.order.domain.order.MealPriceProvider
+import com.stringconcat.ddd.shop.domain.menu.MealId
+import com.stringconcat.ddd.shop.domain.menu.Price
+import com.stringconcat.ddd.shop.domain.order.MealPriceProvider
 import com.stringconcat.ddd.shop.usecase.menu.MealExtractor
 
 // можно сделать оптимизацию и загружать в юзкейсе сразу все

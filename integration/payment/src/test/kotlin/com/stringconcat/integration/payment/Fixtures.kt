@@ -1,8 +1,8 @@
 package com.stringconcat.integration.payment
 
 import arrow.core.Either
-import com.stringconcat.ddd.order.domain.menu.Price
-import com.stringconcat.ddd.order.domain.order.CustomerOrderId
+import com.stringconcat.ddd.shop.domain.menu.Price
+import com.stringconcat.ddd.shop.domain.order.CustomerOrderId
 import java.math.BigDecimal
 import kotlin.random.Random
 

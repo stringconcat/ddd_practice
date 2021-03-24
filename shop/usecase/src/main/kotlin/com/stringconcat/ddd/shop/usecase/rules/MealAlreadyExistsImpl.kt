@@ -1,7 +1,7 @@
 package com.stringconcat.ddd.shop.usecase.rules
 
-import com.stringconcat.ddd.order.domain.menu.MealName
-import com.stringconcat.ddd.order.domain.menu.MealAlreadyExists
+import com.stringconcat.ddd.shop.domain.menu.MealName
+import com.stringconcat.ddd.shop.domain.menu.MealAlreadyExists
 import com.stringconcat.ddd.shop.usecase.menu.MealExtractor
 
 class MealAlreadyExistsImpl(val extractor: MealExtractor) : MealAlreadyExists {

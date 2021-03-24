@@ -3,7 +3,7 @@ package com.stringconcat.ddd.shop.usecase.menu
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
-import com.stringconcat.ddd.order.domain.menu.MealId
+import com.stringconcat.ddd.shop.domain.menu.MealId
 
 class RemoveMealFromMenuUseCase(
     private val mealExtractor: MealExtractor,

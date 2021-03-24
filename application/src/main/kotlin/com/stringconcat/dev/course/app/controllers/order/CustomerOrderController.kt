@@ -1,10 +1,10 @@
 package com.stringconcat.dev.course.app.controllers.order
 
-import com.stringconcat.ddd.order.domain.order.CustomerOrderId
-import com.stringconcat.ddd.order.domain.order.OrderState
-import com.stringconcat.ddd.order.usecase.order.CancelOrder
-import com.stringconcat.ddd.order.usecase.order.ConfirmOrder
-import com.stringconcat.ddd.order.usecase.order.GetOrders
+import com.stringconcat.ddd.shop.domain.order.CustomerOrderId
+import com.stringconcat.ddd.shop.domain.order.OrderState
+import com.stringconcat.ddd.shop.usecase.order.CancelOrder
+import com.stringconcat.ddd.shop.usecase.order.ConfirmOrder
+import com.stringconcat.ddd.shop.usecase.order.GetOrders
 import com.stringconcat.dev.course.app.controllers.URLs
 import com.stringconcat.dev.course.app.controllers.Views
 import org.springframework.stereotype.Controller

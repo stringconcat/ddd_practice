@@ -3,10 +3,10 @@ package com.stringconcat.dev.course.app.telnet.order.menu
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
-import com.stringconcat.ddd.order.domain.cart.CustomerId
-import com.stringconcat.ddd.order.domain.order.OrderState
-import com.stringconcat.ddd.order.usecase.order.GetLastOrderState
-import com.stringconcat.ddd.order.usecase.order.GetLastOrderStateUseCaseError
+import com.stringconcat.ddd.shop.domain.cart.CustomerId
+import com.stringconcat.ddd.shop.domain.order.OrderState
+import com.stringconcat.ddd.shop.usecase.order.GetLastOrderState
+import com.stringconcat.ddd.shop.usecase.order.GetLastOrderStateUseCaseError
 import com.stringconcat.dev.course.app.customerId
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test

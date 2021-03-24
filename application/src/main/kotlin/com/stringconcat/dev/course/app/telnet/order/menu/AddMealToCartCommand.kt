@@ -1,9 +1,9 @@
 package com.stringconcat.dev.course.app.telnet.order.menu
 
 import arrow.core.flatMap
-import com.stringconcat.ddd.order.domain.cart.CustomerId
-import com.stringconcat.ddd.order.domain.menu.MealId
-import com.stringconcat.ddd.order.usecase.cart.AddMealToCart
+import com.stringconcat.ddd.shop.domain.cart.CustomerId
+import com.stringconcat.ddd.shop.domain.menu.MealId
+import com.stringconcat.ddd.shop.usecase.cart.AddMealToCart
 import com.stringconcat.dev.course.app.telnet.ApplicationTelnetCommand
 import java.util.UUID
 

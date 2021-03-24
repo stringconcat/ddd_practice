@@ -1,10 +1,11 @@
 package com.stringconcat.ddd.shop.usecase.cart
 
 import arrow.core.Either
-import com.stringconcat.ddd.order.domain.cart.Cart
-import com.stringconcat.ddd.order.domain.cart.CartIdGenerator
-import com.stringconcat.ddd.order.domain.cart.CustomerId
-import com.stringconcat.ddd.order.domain.menu.MealId
+import arrow.core.rightIfNotNull
+import com.stringconcat.ddd.shop.domain.cart.Cart
+import com.stringconcat.ddd.shop.domain.cart.CartIdGenerator
+import com.stringconcat.ddd.shop.domain.cart.CustomerId
+import com.stringconcat.ddd.shop.domain.menu.MealId
 import com.stringconcat.ddd.shop.usecase.menu.MealExtractor
 
 class AddMealToCartUseCase(

@@ -1,8 +1,8 @@
 package com.stringconcat.ddd.shop.usecase.menu
 
-import com.stringconcat.ddd.order.domain.menu.Meal
-import com.stringconcat.ddd.order.domain.menu.MealId
-import com.stringconcat.ddd.order.domain.menu.MealName
+import com.stringconcat.ddd.shop.domain.menu.Meal
+import com.stringconcat.ddd.shop.domain.menu.MealId
+import com.stringconcat.ddd.shop.domain.menu.MealName
 
 interface MealExtractor {
 

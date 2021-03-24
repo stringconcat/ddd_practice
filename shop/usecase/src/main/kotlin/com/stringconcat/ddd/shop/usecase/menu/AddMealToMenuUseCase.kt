@@ -1,11 +1,11 @@
 package com.stringconcat.ddd.shop.usecase.menu
 
 import arrow.core.Either
-import com.stringconcat.ddd.order.domain.menu.AlreadyExistsWithSameNameError
-import com.stringconcat.ddd.order.domain.menu.Meal
-import com.stringconcat.ddd.order.domain.menu.MealAlreadyExists
-import com.stringconcat.ddd.order.domain.menu.MealId
-import com.stringconcat.ddd.order.domain.menu.MealIdGenerator
+import com.stringconcat.ddd.shop.domain.menu.AlreadyExistsWithSameNameError
+import com.stringconcat.ddd.shop.domain.menu.Meal
+import com.stringconcat.ddd.shop.domain.menu.MealAlreadyExists
+import com.stringconcat.ddd.shop.domain.menu.MealId
+import com.stringconcat.ddd.shop.domain.menu.MealIdGenerator
 
 class AddMealToMenuUseCase(
     private val mealPersister: MealPersister,

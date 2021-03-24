@@ -3,10 +3,10 @@ package com.stringconcat.dev.course.app.telnet.order.menu
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
-import com.stringconcat.ddd.order.usecase.order.Checkout
-import com.stringconcat.ddd.order.usecase.order.CheckoutRequest
-import com.stringconcat.ddd.order.usecase.order.CheckoutUseCaseError
-import com.stringconcat.ddd.order.usecase.order.PaymentInfo
+import com.stringconcat.ddd.shop.usecase.order.Checkout
+import com.stringconcat.ddd.shop.usecase.order.CheckoutRequest
+import com.stringconcat.ddd.shop.usecase.order.CheckoutUseCaseError
+import com.stringconcat.ddd.shop.usecase.order.PaymentInfo
 import com.stringconcat.dev.course.app.customerId
 import com.stringconcat.dev.course.app.orderId
 import com.stringconcat.dev.course.app.price

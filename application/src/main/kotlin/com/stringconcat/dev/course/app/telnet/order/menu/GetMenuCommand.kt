@@ -2,7 +2,7 @@ package com.stringconcat.dev.course.app.telnet.order.menu
 
 import com.github.freva.asciitable.AsciiTable
 import com.github.freva.asciitable.Column
-import com.stringconcat.ddd.order.usecase.menu.GetMenu
+import com.stringconcat.ddd.shop.usecase.menu.GetMenu
 import com.stringconcat.dev.course.app.telnet.ApplicationTelnetCommand
 import java.util.UUID
 

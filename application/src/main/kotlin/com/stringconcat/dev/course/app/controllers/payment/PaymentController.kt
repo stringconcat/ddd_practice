@@ -1,7 +1,7 @@
 package com.stringconcat.dev.course.app.controllers.payment
 
-import com.stringconcat.ddd.order.domain.order.CustomerOrderId
-import com.stringconcat.ddd.order.usecase.order.PayOrder
+import com.stringconcat.ddd.shop.domain.order.CustomerOrderId
+import com.stringconcat.ddd.shop.usecase.order.PayOrder
 import com.stringconcat.dev.course.app.controllers.URLs
 import com.stringconcat.dev.course.app.controllers.Views
 import org.springframework.stereotype.Controller

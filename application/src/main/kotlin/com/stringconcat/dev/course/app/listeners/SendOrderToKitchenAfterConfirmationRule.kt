@@ -2,9 +2,9 @@ package com.stringconcat.dev.course.app.listeners
 
 import com.stringconcat.ddd.kitchen.usecase.order.CreateOrder
 import com.stringconcat.ddd.kitchen.usecase.order.CreateOrderRequest
-import com.stringconcat.ddd.order.domain.order.CustomerOrderConfirmedDomainEvent
-import com.stringconcat.ddd.order.usecase.menu.MealExtractor
-import com.stringconcat.ddd.order.usecase.order.CustomerOrderExtractor
+import com.stringconcat.ddd.shop.domain.order.CustomerOrderConfirmedDomainEvent
+import com.stringconcat.ddd.shop.usecase.menu.MealExtractor
+import com.stringconcat.ddd.shop.usecase.order.CustomerOrderExtractor
 import com.stringconcat.dev.course.app.event.DomainEventListener
 
 class SendOrderToKitchenAfterConfirmationRule(

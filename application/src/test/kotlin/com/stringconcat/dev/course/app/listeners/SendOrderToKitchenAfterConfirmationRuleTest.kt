@@ -6,8 +6,8 @@ import arrow.core.right
 import com.stringconcat.ddd.kitchen.usecase.order.CreateOrder
 import com.stringconcat.ddd.kitchen.usecase.order.CreateOrderRequest
 import com.stringconcat.ddd.kitchen.usecase.order.CreateOrderUseCaseError
-import com.stringconcat.ddd.order.domain.order.CustomerOrderConfirmedDomainEvent
-import com.stringconcat.ddd.order.domain.order.OrderItem
+import com.stringconcat.ddd.shop.domain.order.CustomerOrderConfirmedDomainEvent
+import com.stringconcat.ddd.shop.domain.order.OrderItem
 import com.stringconcat.dev.course.app.TestCustomerOrderExtractor
 import com.stringconcat.dev.course.app.TestMealExtractor
 import com.stringconcat.dev.course.app.count

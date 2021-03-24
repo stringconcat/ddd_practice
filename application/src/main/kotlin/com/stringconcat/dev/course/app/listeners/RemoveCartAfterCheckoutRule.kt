@@ -1,7 +1,7 @@
 package com.stringconcat.dev.course.app.listeners
 
-import com.stringconcat.ddd.order.domain.order.CustomerOrderCreatedDomainEvent
-import com.stringconcat.ddd.order.usecase.cart.RemoveCart
+import com.stringconcat.ddd.shop.domain.order.CustomerOrderCreatedDomainEvent
+import com.stringconcat.ddd.shop.usecase.cart.RemoveCart
 import com.stringconcat.dev.course.app.event.DomainEventListener
 import org.slf4j.LoggerFactory
 

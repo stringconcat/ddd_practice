@@ -3,10 +3,10 @@ package com.stringconcat.dev.course.app.telnet.order.menu
 import arrow.core.flatMap
 import com.stringconcat.ddd.common.types.common.Address
 import com.stringconcat.ddd.common.types.common.CreateAddressError
-import com.stringconcat.ddd.order.domain.cart.CustomerId
-import com.stringconcat.ddd.order.usecase.order.Checkout
-import com.stringconcat.ddd.order.usecase.order.CheckoutRequest
-import com.stringconcat.ddd.order.usecase.order.CheckoutUseCaseError
+import com.stringconcat.ddd.shop.domain.cart.CustomerId
+import com.stringconcat.ddd.shop.usecase.order.Checkout
+import com.stringconcat.ddd.shop.usecase.order.CheckoutRequest
+import com.stringconcat.ddd.shop.usecase.order.CheckoutUseCaseError
 import com.stringconcat.dev.course.app.telnet.ApplicationTelnetCommand
 import java.util.UUID
 

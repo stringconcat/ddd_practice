@@ -1,9 +1,9 @@
 package com.stringconcat.ddd.shop.usecase.menu
 
-import com.stringconcat.ddd.order.domain.menu.MealDescription
-import com.stringconcat.ddd.order.domain.menu.MealId
-import com.stringconcat.ddd.order.domain.menu.MealName
-import com.stringconcat.ddd.order.domain.menu.Price
+import com.stringconcat.ddd.shop.domain.menu.MealDescription
+import com.stringconcat.ddd.shop.domain.menu.MealId
+import com.stringconcat.ddd.shop.domain.menu.MealName
+import com.stringconcat.ddd.shop.domain.menu.Price
 
 interface GetMenu {
     fun execute(): List<MealInfo>
