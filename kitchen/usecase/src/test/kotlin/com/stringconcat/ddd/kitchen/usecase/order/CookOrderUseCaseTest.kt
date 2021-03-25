@@ -3,7 +3,7 @@ package com.stringconcat.ddd.kitchen.usecase.order
 import com.stringconcat.ddd.kitchen.domain.order.KitchenOrderCookedDomainEvent
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight
-import io.kotest.matchers.collections.shouldNotContainExactly
+import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 
@@ -12,7 +12,7 @@ internal class CookOrderUseCaseTest {
     @Test
     fun `successfully complete`() {
 
-        val order = order()
+        val order = order(cooked = false)
         val persister = TestKitchenOrderPersister()
         val extractor = TestKitchenOrderExtractor().apply {
             this[order.id] = order
@@ -24,7 +24,7 @@ internal class CookOrderUseCaseTest {
 
         val savedOrder = persister[order.id]
         savedOrder shouldBe order
-        order.popEvents() shouldNotContainExactly listOf(KitchenOrderCookedDomainEvent(order.id))
+        order.popEvents() shouldContainExactly listOf(KitchenOrderCookedDomainEvent(order.id))
     }
 
     @Test
