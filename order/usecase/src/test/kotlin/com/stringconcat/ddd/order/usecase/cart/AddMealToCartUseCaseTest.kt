@@ -1,7 +1,9 @@
 package com.stringconcat.ddd.order.usecase.cart
 
+import com.stringconcat.ddd.order.domain.cart.Cart
 import com.stringconcat.ddd.order.domain.cart.CartIdGenerator
 import com.stringconcat.ddd.order.domain.cart.CustomerId
+import com.stringconcat.ddd.order.domain.cart.NumberOfMealsExceedsLimit
 import com.stringconcat.ddd.order.usecase.TestCartExtractor
 import com.stringconcat.ddd.order.usecase.TestCartPersister
 import com.stringconcat.ddd.order.usecase.TestMealExtractor
@@ -37,7 +39,8 @@ internal class AddMealToCartUseCaseTest {
             mealExtractor = mealExtractor,
             cartPersister = cartPersister,
             cartExtractor = cartExtractor,
-            idGenerator = TestCartIdGenerator
+            idGenerator = TestCartIdGenerator,
+            numberOfMealsExceedsLimit = NumberOfMealsDoesNotExceedLimit
         )
 
         val customerId = customerId()
@@ -71,7 +74,8 @@ internal class AddMealToCartUseCaseTest {
             mealExtractor = mealExtractor,
             cartPersister = cartPersister,
             cartExtractor = cartExtractor,
-            idGenerator = TestCartIdGenerator
+            idGenerator = TestCartIdGenerator,
+            numberOfMealsExceedsLimit = NumberOfMealsDoesNotExceedLimit
         )
 
         val result = useCase.execute(customerId, meal.id)
@@ -96,7 +100,8 @@ internal class AddMealToCartUseCaseTest {
             mealExtractor = mealExtractor,
             cartPersister = cartPersister,
             cartExtractor = cartExtractor,
-            idGenerator = TestCartIdGenerator
+            idGenerator = TestCartIdGenerator,
+            numberOfMealsExceedsLimit = NumberOfMealsDoesNotExceedLimit
         )
 
         val result = useCase.execute(CustomerId(UUID.randomUUID().toString()), meal.id)
@@ -107,5 +112,11 @@ internal class AddMealToCartUseCaseTest {
     object TestCartIdGenerator : CartIdGenerator {
         val id = cartId()
         override fun generate() = id
+    }
+}
+
+object NumberOfMealsDoesNotExceedLimit : NumberOfMealsExceedsLimit {
+    override fun check(cart: Cart): Boolean {
+        return false
     }
 }
