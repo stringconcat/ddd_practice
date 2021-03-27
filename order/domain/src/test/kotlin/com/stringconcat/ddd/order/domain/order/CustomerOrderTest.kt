@@ -137,7 +137,7 @@ class CustomerOrderTest {
         val order = order(state = OrderState.WAITING_FOR_PAYMENT)
         order.pay() shouldBeRight Unit
         order.state shouldBe OrderState.PAID
-        order.popEvents() shouldContainExactly listOf(CustomerOrderHasBeenDomainEvent(order.id))
+        order.popEvents() shouldContainExactly listOf(CustomerOrderHasBeenPaidDomainEvent(order.id))
     }
 
     @Test
@@ -214,6 +214,27 @@ class CustomerOrderTest {
 
         val order = order(orderItems = setOf(orderItem1, orderItem2))
         order.totalPrice() shouldBe price(BigDecimal("367.38"))
+    }
+
+    @Test
+    fun `should consider order as paid`() {
+        val order = order(state = OrderState.PAID)
+        order.isPaid() shouldBe true
+
+        val confirmedOrder = order(state = OrderState.CONFIRMED)
+        confirmedOrder.isPaid() shouldBe true
+
+        val completedOrder = order(state = OrderState.COMPLETED)
+        completedOrder.isPaid() shouldBe true
+    }
+
+    @Test
+    fun `should not consider order as paid`() {
+        val order = order(state = OrderState.WAITING_FOR_PAYMENT)
+        order.isPaid() shouldBe false
+
+        val cancelledOrder = order(state = OrderState.CANCELLED)
+        cancelledOrder.isPaid() shouldBe false
     }
 
     object TestMealPriceProvider : MealPriceProvider, HashMap<MealId, Price>() {

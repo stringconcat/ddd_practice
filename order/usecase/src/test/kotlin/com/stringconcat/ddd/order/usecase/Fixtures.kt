@@ -141,6 +141,9 @@ fun order(
     )
 }
 
+fun orderItem(price: Price, count: Count) =
+    OrderItem(mealId = mealId(), price = price, count = count)
+
 class TestMealPersister : HashMap<MealId, Meal>(), MealPersister {
     override fun save(meal: Meal) {
         this[meal.id] = meal

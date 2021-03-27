@@ -2,7 +2,7 @@ object LibVers {
 
     const val spring_boot = "2.4.3"
     const val junit = "5.7.1"
-    const val kotest = "4.4.1"
+    const val kotest = "4.4.3"
     const val jackson = "2.12.1"
     const val arrow = "0.11.0"
     const val telnet = "1.1"
@@ -54,7 +54,7 @@ object Libs {
 object PluginVers {
     const val kotlin = Global.kotlin_version
     const val spring_boot = LibVers.spring_boot
-    const val detekt = "1.15.0"
+    const val detekt = "1.16.0"
     const val detekt_formatting = detekt
     const val spring_dependency_management = "1.0.11.RELEASE"
     const val spring_kotlin = Global.kotlin_version
