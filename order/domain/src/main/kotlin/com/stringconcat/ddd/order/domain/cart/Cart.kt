@@ -1,11 +1,6 @@
 package com.stringconcat.ddd.order.domain.cart
 
 import arrow.core.Either
-import arrow.core.extensions.map.foldable.fold
-import arrow.core.extensions.map.foldable.foldLeft
-import arrow.core.extensions.map.foldable.reduceLeftOption
-import arrow.core.extensions.map.foldable.reduceRightOption
-import arrow.core.extensions.map.functor.map
 import arrow.core.left
 import arrow.core.right
 import com.stringconcat.ddd.common.types.base.AggregateRoot

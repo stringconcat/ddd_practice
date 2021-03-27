@@ -10,6 +10,7 @@ import com.stringconcat.ddd.order.domain.cart.Cart
 import com.stringconcat.ddd.order.domain.cart.CartId
 import com.stringconcat.ddd.order.domain.cart.CartRestorer
 import com.stringconcat.ddd.order.domain.cart.CustomerId
+import com.stringconcat.ddd.order.domain.cart.NumberOfMealsExceedsLimit
 import com.stringconcat.ddd.order.domain.menu.Meal
 import com.stringconcat.ddd.order.domain.menu.MealDescription
 import com.stringconcat.ddd.order.domain.menu.MealId
@@ -105,7 +106,7 @@ fun cart(
 
 fun cartWithEvents(): Cart {
     val cart = cart()
-    cart.addMeal(meal())
+    cart.addMeal(meal(), NumberOfMealsDoesNotExceedLimit)
     return cart
 }
 
@@ -141,5 +142,11 @@ class TestEventPublisher : EventPublisher {
     internal val storage = ArrayList<DomainEvent>()
     override fun publish(events: Collection<DomainEvent>) {
         storage.addAll(events)
+    }
+}
+
+object NumberOfMealsDoesNotExceedLimit : NumberOfMealsExceedsLimit {
+    override fun check(cart: Cart): Boolean {
+        return false
     }
 }

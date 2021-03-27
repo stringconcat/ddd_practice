@@ -8,6 +8,7 @@ import com.stringconcat.ddd.order.domain.cart.Cart
 import com.stringconcat.ddd.order.domain.cart.CartId
 import com.stringconcat.ddd.order.domain.cart.CartRestorer
 import com.stringconcat.ddd.order.domain.cart.CustomerId
+import com.stringconcat.ddd.order.domain.cart.NumberOfMealsExceedsLimit
 import com.stringconcat.ddd.order.domain.menu.Meal
 import com.stringconcat.ddd.order.domain.menu.MealDescription
 import com.stringconcat.ddd.order.domain.menu.MealId
@@ -196,5 +197,17 @@ class TestCartRemover : CartRemover {
     internal val deleted = ArrayList<CartId>()
     override fun deleteCart(cart: Cart) {
         deleted.add(cart.id)
+    }
+}
+
+object NumberOfMealsDoesNotExceedLimit : NumberOfMealsExceedsLimit {
+    override fun check(cart: Cart): Boolean {
+        return false
+    }
+}
+
+object NumberOfMealsExceedsLimit : NumberOfMealsExceedsLimit {
+    override fun check(cart: Cart): Boolean {
+        return true
     }
 }

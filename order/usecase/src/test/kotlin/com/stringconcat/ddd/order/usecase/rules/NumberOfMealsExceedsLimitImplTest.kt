@@ -20,7 +20,6 @@ internal class NumberOfMealsExceedsLimitImplTest {
     @Test
     fun `number of meals same as the limit`() {
         testLimitationRule(cart = cartWith2Meals, limit = 2, expectedResult = false)
-
     }
 
     @Test

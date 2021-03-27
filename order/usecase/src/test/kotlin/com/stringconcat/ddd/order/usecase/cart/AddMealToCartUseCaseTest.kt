@@ -1,9 +1,9 @@
 package com.stringconcat.ddd.order.usecase.cart
 
-import com.stringconcat.ddd.order.domain.cart.Cart
 import com.stringconcat.ddd.order.domain.cart.CartIdGenerator
 import com.stringconcat.ddd.order.domain.cart.CustomerId
-import com.stringconcat.ddd.order.domain.cart.NumberOfMealsExceedsLimit
+import com.stringconcat.ddd.order.usecase.NumberOfMealsDoesNotExceedLimit
+import com.stringconcat.ddd.order.usecase.NumberOfMealsExceedsLimit
 import com.stringconcat.ddd.order.usecase.TestCartExtractor
 import com.stringconcat.ddd.order.usecase.TestCartPersister
 import com.stringconcat.ddd.order.usecase.TestMealExtractor
@@ -109,14 +109,32 @@ internal class AddMealToCartUseCaseTest {
         cartPersister.shouldBeEmpty()
     }
 
+    @Test
+    fun `number of meals limit exceeded`() {
+
+        val meal = meal()
+        val customerId = customerId()
+        val cartPersister = TestCartPersister()
+        val cartExtractor = TestCartExtractor()
+        val mealExtractor = TestMealExtractor().apply {
+            this[meal.id] = meal
+        }
+
+        val useCase = AddMealToCartUseCase(
+            mealExtractor = mealExtractor,
+            cartPersister = cartPersister,
+            cartExtractor = cartExtractor,
+            idGenerator = TestCartIdGenerator,
+            numberOfMealsExceedsLimit = NumberOfMealsExceedsLimit
+        )
+
+        val result = useCase.execute(customerId, meal.id)
+
+        result shouldBeLeft AddMealToCartUseCaseError.NumberOfMealsLimitExceeded
+    }
+
     object TestCartIdGenerator : CartIdGenerator {
         val id = cartId()
         override fun generate() = id
-    }
-}
-
-object NumberOfMealsDoesNotExceedLimit : NumberOfMealsExceedsLimit {
-    override fun check(cart: Cart): Boolean {
-        return false
     }
 }

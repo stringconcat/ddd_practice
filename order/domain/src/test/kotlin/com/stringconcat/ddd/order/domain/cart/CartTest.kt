@@ -1,5 +1,7 @@
 package com.stringconcat.ddd.order.domain.cart
 
+import com.stringconcat.ddd.order.domain.MealsLimitExceeded
+import com.stringconcat.ddd.order.domain.MealsLimitNotExceeded
 import com.stringconcat.ddd.order.domain.cart
 import com.stringconcat.ddd.order.domain.cartId
 import com.stringconcat.ddd.order.domain.count
@@ -108,17 +110,5 @@ internal class CartTest {
     object TestCartIdGenerator : CartIdGenerator {
         val id = cartId()
         override fun generate() = id
-    }
-
-    object MealsLimitExceeded : NumberOfMealsExceedsLimit {
-        override fun check(cart: Cart): Boolean {
-            return true
-        }
-    }
-
-    object MealsLimitNotExceeded : NumberOfMealsExceedsLimit {
-        override fun check(cart: Cart): Boolean {
-            return false
-        }
     }
 }

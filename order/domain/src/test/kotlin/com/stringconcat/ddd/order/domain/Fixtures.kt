@@ -8,6 +8,7 @@ import com.stringconcat.ddd.order.domain.cart.Cart
 import com.stringconcat.ddd.order.domain.cart.CartId
 import com.stringconcat.ddd.order.domain.cart.CartRestorer
 import com.stringconcat.ddd.order.domain.cart.CustomerId
+import com.stringconcat.ddd.order.domain.cart.NumberOfMealsExceedsLimit
 import com.stringconcat.ddd.order.domain.menu.Meal
 import com.stringconcat.ddd.order.domain.menu.MealDescription
 import com.stringconcat.ddd.order.domain.menu.MealId
@@ -122,5 +123,17 @@ fun order(
 class TestCustomerHasActiveOrder(val hasActive: Boolean) : CustomerHasActiveOrder {
     override fun check(forCustomer: CustomerId): Boolean {
         return hasActive
+    }
+}
+
+object MealsLimitExceeded : NumberOfMealsExceedsLimit {
+    override fun check(cart: Cart): Boolean {
+        return true
+    }
+}
+
+object MealsLimitNotExceeded : NumberOfMealsExceedsLimit {
+    override fun check(cart: Cart): Boolean {
+        return false
     }
 }
