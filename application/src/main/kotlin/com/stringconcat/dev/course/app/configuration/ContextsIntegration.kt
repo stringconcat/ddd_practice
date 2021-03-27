@@ -7,6 +7,7 @@ import com.stringconcat.ddd.order.usecase.payment.ExportPaymentData
 import com.stringconcat.dev.course.app.event.EventPublisherImpl
 import com.stringconcat.dev.course.app.listeners.ExportSuccessfulPaymentToCrmRule
 import com.stringconcat.dev.course.app.listeners.SendOrderToKitchenAfterConfirmationRule
+import com.stringconcat.integration.crm.SimpleCRMConnector
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -43,4 +44,7 @@ class ContextsIntegration {
         domainEventPublisher.registerListener(listener)
         return listener
     }
+
+    @Bean
+    fun simpleCRMConnector() = SimpleCRMConnector()
 }

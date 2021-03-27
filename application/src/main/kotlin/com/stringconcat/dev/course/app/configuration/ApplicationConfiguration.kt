@@ -10,8 +10,7 @@ import org.springframework.context.annotation.Import
     CustomerOrderContextConfiguration::class,
     KitchenContextConfiguration::class,
     ContextsIntegration::class,
-    TelnetConfiguration::class,
-    CRMConfiguration::class
+    TelnetConfiguration::class
 )
 class ApplicationConfiguration {
 
