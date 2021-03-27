@@ -1,3 +1,3 @@
 object Global {
-    const val kotlin_version = "1.4.31"
+    const val kotlin_version = "1.4.32"
 }
