@@ -12,7 +12,7 @@ class ExportSuccessfulPaymentToCrmRule(
 
     override fun handle(event: CustomerOrderHasBeenPaidDomainEvent) {
         exportPaymentData.execute(event.orderId).mapLeft { error ->
-            throw IllegalStateException(error.message)
+            throw error(error.message)
         }
     }
 }
