@@ -6,7 +6,7 @@ import arrow.core.rightIfNotNull
 import com.stringconcat.ddd.order.domain.cart.Cart
 import com.stringconcat.ddd.order.domain.cart.CartIdGenerator
 import com.stringconcat.ddd.order.domain.cart.CustomerId
-import com.stringconcat.ddd.order.domain.cart.NumberOfMealsExceedsLimit
+import com.stringconcat.ddd.order.domain.cart.NumberOfMealsLimit
 import com.stringconcat.ddd.order.domain.menu.MealId
 import com.stringconcat.ddd.order.usecase.menu.MealExtractor
 
@@ -15,7 +15,7 @@ class AddMealToCartUseCase(
     private val idGenerator: CartIdGenerator,
     private val mealExtractor: MealExtractor,
     private val cartPersister: CartPersister,
-    private val numberOfMealsExceedsLimit: NumberOfMealsExceedsLimit
+    private val numberOfMealsLimit: NumberOfMealsLimit
 ) : AddMealToCart {
     override fun execute(
         forCustomer: CustomerId,
@@ -26,7 +26,7 @@ class AddMealToCartUseCase(
             .rightIfNotNull { AddMealToCartUseCaseError.MealNotFound }
             .flatMap { meal ->
                 val cart = getOrCreateCart(forCustomer)
-                cart.addMeal(meal, numberOfMealsExceedsLimit)
+                cart.addMeal(meal, numberOfMealsLimit)
                     .map { cart }
                     .mapLeft { AddMealToCartUseCaseError.NumberOfMealsLimitExceeded }
             }

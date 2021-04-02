@@ -1,7 +1,6 @@
 package com.stringconcat.ddd.order.domain.cart
 
-import com.stringconcat.ddd.order.domain.MealsLimitExceeded
-import com.stringconcat.ddd.order.domain.MealsLimitNotExceeded
+import com.stringconcat.ddd.order.domain.TestNumberOfMealsLimit
 import com.stringconcat.ddd.order.domain.cart
 import com.stringconcat.ddd.order.domain.cartId
 import com.stringconcat.ddd.order.domain.count
@@ -40,7 +39,7 @@ internal class CartTest {
         val cart = cart()
         val meal = meal()
 
-        cart.addMeal(meal, MealsLimitNotExceeded) shouldBeRight Unit
+        cart.addMeal(meal, TestNumberOfMealsLimit(100)) shouldBeRight Unit
         cart.popEvents() shouldContainExactly listOf(MealAddedToCartDomainEvent(cart.id, meal.id))
         cart.meals() shouldContainExactly mapOf(meal.id to count(1))
     }
@@ -52,7 +51,7 @@ internal class CartTest {
         val count = count(2)
         val cart = cart(meals = mapOf(meal.id to count))
 
-        cart.addMeal(meal, MealsLimitNotExceeded) shouldBeRight Unit
+        cart.addMeal(meal, TestNumberOfMealsLimit(100)) shouldBeRight Unit
         cart.popEvents() shouldContainExactly listOf(MealAddedToCartDomainEvent(cart.id, meal.id))
         cart.meals() shouldContainExactly mapOf(meal.id to count(3))
     }
@@ -63,7 +62,7 @@ internal class CartTest {
         val count = count(2)
         val cart = cart(meals = mapOf(meal.id to count))
 
-        cart.addMeal(meal, MealsLimitExceeded) shouldBeLeft MealsLimitExceededError
+        cart.addMeal(meal, TestNumberOfMealsLimit(2)) shouldBeLeft MealsLimitExceededError
         cart.popEvents() shouldContainExactly emptyList()
         cart.meals() shouldContainExactly mapOf(meal.id to count(2))
     }

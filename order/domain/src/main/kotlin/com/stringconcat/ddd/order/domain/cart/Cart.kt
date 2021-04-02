@@ -40,9 +40,10 @@ class Cart internal constructor(
 
     fun addMeal(
         meal: Meal,
-        numberOfMealsExceedsLimit: NumberOfMealsExceedsLimit
+        numberOfMealsLimit: NumberOfMealsLimit
     ): Either<MealsLimitExceededError, Unit> {
-        if (numberOfMealsExceedsLimit.check(this)) {
+        val mealsLimitExceeded = numberOfMeals() >= numberOfMealsLimit.maximumNumberOfMeals().value
+        if (mealsLimitExceeded) {
             return MealsLimitExceededError.left()
         }
 
@@ -55,6 +56,10 @@ class Cart internal constructor(
             updateExistingMeal(mealId, count)
         }.right()
     }
+
+    private fun numberOfMeals() =
+        meals().asSequence()
+            .sumBy { it.value.value }
 
     private fun updateExistingMeal(
         mealId: MealId,

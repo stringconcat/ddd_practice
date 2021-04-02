@@ -2,11 +2,10 @@ package com.stringconcat.ddd.order.usecase.cart
 
 import com.stringconcat.ddd.order.domain.cart.CartIdGenerator
 import com.stringconcat.ddd.order.domain.cart.CustomerId
-import com.stringconcat.ddd.order.usecase.NumberOfMealsDoesNotExceedLimit
-import com.stringconcat.ddd.order.usecase.NumberOfMealsExceedsLimit
 import com.stringconcat.ddd.order.usecase.TestCartExtractor
 import com.stringconcat.ddd.order.usecase.TestCartPersister
 import com.stringconcat.ddd.order.usecase.TestMealExtractor
+import com.stringconcat.ddd.order.usecase.TestNumberOfMealsLimit
 import com.stringconcat.ddd.order.usecase.cart
 import com.stringconcat.ddd.order.usecase.cartId
 import com.stringconcat.ddd.order.usecase.count
@@ -40,7 +39,7 @@ internal class AddMealToCartUseCaseTest {
             cartPersister = cartPersister,
             cartExtractor = cartExtractor,
             idGenerator = TestCartIdGenerator,
-            numberOfMealsExceedsLimit = NumberOfMealsDoesNotExceedLimit
+            numberOfMealsLimit = TestNumberOfMealsLimit(100)
         )
 
         val customerId = customerId()
@@ -75,7 +74,7 @@ internal class AddMealToCartUseCaseTest {
             cartPersister = cartPersister,
             cartExtractor = cartExtractor,
             idGenerator = TestCartIdGenerator,
-            numberOfMealsExceedsLimit = NumberOfMealsDoesNotExceedLimit
+            numberOfMealsLimit = TestNumberOfMealsLimit(100)
         )
 
         val result = useCase.execute(customerId, meal.id)
@@ -101,7 +100,7 @@ internal class AddMealToCartUseCaseTest {
             cartPersister = cartPersister,
             cartExtractor = cartExtractor,
             idGenerator = TestCartIdGenerator,
-            numberOfMealsExceedsLimit = NumberOfMealsDoesNotExceedLimit
+            numberOfMealsLimit = TestNumberOfMealsLimit(100)
         )
 
         val result = useCase.execute(CustomerId(UUID.randomUUID().toString()), meal.id)
@@ -125,7 +124,7 @@ internal class AddMealToCartUseCaseTest {
             cartPersister = cartPersister,
             cartExtractor = cartExtractor,
             idGenerator = TestCartIdGenerator,
-            numberOfMealsExceedsLimit = NumberOfMealsExceedsLimit
+            numberOfMealsLimit = TestNumberOfMealsLimit(0)
         )
 
         val result = useCase.execute(customerId, meal.id)

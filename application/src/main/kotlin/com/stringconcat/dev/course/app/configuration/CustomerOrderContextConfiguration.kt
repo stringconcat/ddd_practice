@@ -3,7 +3,7 @@ package com.stringconcat.dev.course.app.configuration
 import com.stringconcat.ddd.common.types.base.EventPublisher
 import com.stringconcat.ddd.common.types.common.Count
 import com.stringconcat.ddd.order.domain.cart.CartIdGenerator
-import com.stringconcat.ddd.order.domain.cart.NumberOfMealsExceedsLimit
+import com.stringconcat.ddd.order.domain.cart.NumberOfMealsLimit
 import com.stringconcat.ddd.order.domain.menu.MealIdGenerator
 import com.stringconcat.ddd.order.domain.order.CustomerOrderIdGenerator
 import com.stringconcat.ddd.order.domain.order.MealPriceProvider
@@ -42,7 +42,7 @@ import com.stringconcat.ddd.order.usecase.payment.PaymentExporter
 import com.stringconcat.ddd.order.usecase.providers.MealPriceProviderImpl
 import com.stringconcat.ddd.order.usecase.rules.CustomerHasActiveOrderImpl
 import com.stringconcat.ddd.order.usecase.rules.MealAlreadyExistsImpl
-import com.stringconcat.ddd.order.usecase.rules.NumberOfMealsExceedsLimitImpl
+import com.stringconcat.ddd.order.usecase.rules.NumberOfMealsLimitImpl
 import com.stringconcat.dev.course.app.event.EventPublisherImpl
 import com.stringconcat.dev.course.app.listeners.RemoveCartAfterCheckoutRule
 import com.stringconcat.integration.payment.SimplePaymentUrlProvider
@@ -79,13 +79,13 @@ class CustomerOrderContextConfiguration {
         idGenerator: CartIdGenerator,
         mealExtractor: MealExtractor,
         cartPersister: CartPersister,
-        numberOfMealsExceedsLimit: NumberOfMealsExceedsLimit
+        numberOfMealsLimit: NumberOfMealsLimit
     ) = AddMealToCartUseCase(
         cartExtractor = cartExtractor,
         idGenerator = idGenerator,
         mealExtractor = mealExtractor,
         cartPersister = cartPersister,
-        numberOfMealsExceedsLimit = numberOfMealsExceedsLimit
+        numberOfMealsLimit = numberOfMealsLimit
     )
 
     @Bean
@@ -213,8 +213,8 @@ class CustomerOrderContextConfiguration {
     fun numberOfMealsExceedsLimit(
         @Value("\${order.maximumNumberOfMeals}")
         maximumNumberOfMeals: Int
-    ): NumberOfMealsExceedsLimitImpl = Count.from(maximumNumberOfMeals)
-            .map { NumberOfMealsExceedsLimitImpl(it) }
+    ): NumberOfMealsLimitImpl = Count.from(maximumNumberOfMeals)
+            .map { limit -> NumberOfMealsLimitImpl { limit } }
             .orNull() ?: error("order.maximumNumberOfMeals should be a non-negative number")
 
     @Bean
