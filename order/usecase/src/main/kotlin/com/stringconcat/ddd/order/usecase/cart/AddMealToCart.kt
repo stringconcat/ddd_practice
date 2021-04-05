@@ -10,4 +10,5 @@ interface AddMealToCart {
 
 sealed class AddMealToCartUseCaseError(val message: String) {
     object MealNotFound : AddMealToCartUseCaseError("Meal not found")
+    object NumberOfMealsLimitExceeded : AddMealToCartUseCaseError("Number of meals limit exceeded")
 }

@@ -8,6 +8,7 @@ import com.stringconcat.ddd.order.domain.cart.Cart
 import com.stringconcat.ddd.order.domain.cart.CartId
 import com.stringconcat.ddd.order.domain.cart.CartRestorer
 import com.stringconcat.ddd.order.domain.cart.CustomerId
+import com.stringconcat.ddd.order.domain.cart.NumberOfMealsLimit
 import com.stringconcat.ddd.order.domain.menu.Meal
 import com.stringconcat.ddd.order.domain.menu.MealDescription
 import com.stringconcat.ddd.order.domain.menu.MealId
@@ -27,6 +28,7 @@ import com.stringconcat.ddd.order.usecase.menu.MealExtractor
 import com.stringconcat.ddd.order.usecase.menu.MealPersister
 import com.stringconcat.ddd.order.usecase.order.CustomerOrderExtractor
 import com.stringconcat.ddd.order.usecase.order.CustomerOrderPersister
+import io.kotest.matchers.nulls.shouldNotBeNull
 import java.math.BigDecimal
 import java.time.OffsetDateTime
 import java.util.LinkedHashMap
@@ -196,5 +198,12 @@ class TestCartRemover : CartRemover {
     internal val deleted = ArrayList<CartId>()
     override fun deleteCart(cart: Cart) {
         deleted.add(cart.id)
+    }
+}
+
+class TestNumberOfMealsLimit(private val limit: Int) : NumberOfMealsLimit {
+
+    override fun maximumNumberOfMeals(): Count {
+        return Count.from(limit).orNull().shouldNotBeNull()
     }
 }

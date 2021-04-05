@@ -8,6 +8,7 @@ import com.stringconcat.ddd.order.domain.cart.Cart
 import com.stringconcat.ddd.order.domain.cart.CartId
 import com.stringconcat.ddd.order.domain.cart.CartRestorer
 import com.stringconcat.ddd.order.domain.cart.CustomerId
+import com.stringconcat.ddd.order.domain.cart.NumberOfMealsLimit
 import com.stringconcat.ddd.order.domain.menu.Meal
 import com.stringconcat.ddd.order.domain.menu.MealDescription
 import com.stringconcat.ddd.order.domain.menu.MealId
@@ -20,6 +21,7 @@ import com.stringconcat.ddd.order.domain.order.OrderItem
 import com.stringconcat.ddd.order.domain.order.CustomerOrderRestorer
 import com.stringconcat.ddd.order.domain.order.OrderState
 import com.stringconcat.ddd.order.domain.order.CustomerHasActiveOrder
+import io.kotest.matchers.nulls.shouldNotBeNull
 import java.math.BigDecimal
 import java.time.OffsetDateTime
 import java.util.UUID
@@ -122,5 +124,12 @@ fun order(
 class TestCustomerHasActiveOrder(val hasActive: Boolean) : CustomerHasActiveOrder {
     override fun check(forCustomer: CustomerId): Boolean {
         return hasActive
+    }
+}
+
+class TestNumberOfMealsLimit(private val limit: Int) : NumberOfMealsLimit {
+
+    override fun maximumNumberOfMeals(): Count {
+        return Count.from(limit).orNull().shouldNotBeNull()
     }
 }

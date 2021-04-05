@@ -1,8 +1,12 @@
 package com.stringconcat.ddd.order.domain.cart
 
+import arrow.core.Either
+import arrow.core.left
+import arrow.core.right
 import com.stringconcat.ddd.common.types.base.AggregateRoot
 import com.stringconcat.ddd.common.types.base.Version
 import com.stringconcat.ddd.common.types.common.Count
+import com.stringconcat.ddd.common.types.error.BusinessError
 import com.stringconcat.ddd.order.domain.menu.Meal
 import com.stringconcat.ddd.order.domain.menu.MealId
 import java.time.OffsetDateTime
@@ -35,8 +39,14 @@ class Cart internal constructor(
     fun meals(): Map<MealId, Count> = HashMap(meals)
 
     fun addMeal(
-        meal: Meal
-    ) {
+        meal: Meal,
+        numberOfMealsLimit: NumberOfMealsLimit
+    ): Either<MealsLimitExceededError, Unit> {
+        val mealsLimitExceeded = numberOfMeals() >= numberOfMealsLimit.maximumNumberOfMeals().value
+        if (mealsLimitExceeded) {
+            return MealsLimitExceededError.left()
+        }
+
         val mealId = meal.id
         val count = meals[mealId]
 
@@ -44,8 +54,12 @@ class Cart internal constructor(
             createNewMeal(mealId)
         } else {
             updateExistingMeal(mealId, count)
-        }
+        }.right()
     }
+
+    private fun numberOfMeals() =
+        meals().asSequence()
+            .sumBy { it.value.value }
 
     private fun updateExistingMeal(
         mealId: MealId,
@@ -73,3 +87,5 @@ class Cart internal constructor(
         }
     }
 }
+
+object MealsLimitExceededError : BusinessError

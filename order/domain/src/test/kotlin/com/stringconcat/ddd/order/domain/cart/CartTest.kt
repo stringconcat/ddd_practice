@@ -1,10 +1,13 @@
 package com.stringconcat.ddd.order.domain.cart
 
+import com.stringconcat.ddd.order.domain.TestNumberOfMealsLimit
 import com.stringconcat.ddd.order.domain.cart
 import com.stringconcat.ddd.order.domain.cartId
 import com.stringconcat.ddd.order.domain.count
 import com.stringconcat.ddd.order.domain.customerId
 import com.stringconcat.ddd.order.domain.meal
+import io.kotest.assertions.arrow.either.shouldBeLeft
+import io.kotest.assertions.arrow.either.shouldBeRight
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.date.shouldBeBefore
@@ -36,7 +39,7 @@ internal class CartTest {
         val cart = cart()
         val meal = meal()
 
-        cart.addMeal(meal)
+        cart.addMeal(meal, TestNumberOfMealsLimit(100)) shouldBeRight Unit
         cart.popEvents() shouldContainExactly listOf(MealAddedToCartDomainEvent(cart.id, meal.id))
         cart.meals() shouldContainExactly mapOf(meal.id to count(1))
     }
@@ -48,9 +51,20 @@ internal class CartTest {
         val count = count(2)
         val cart = cart(meals = mapOf(meal.id to count))
 
-        cart.addMeal(meal)
+        cart.addMeal(meal, TestNumberOfMealsLimit(100)) shouldBeRight Unit
         cart.popEvents() shouldContainExactly listOf(MealAddedToCartDomainEvent(cart.id, meal.id))
         cart.meals() shouldContainExactly mapOf(meal.id to count(3))
+    }
+
+    @Test
+    fun `add meal - meals limit exceeded`() {
+        val meal = meal()
+        val count = count(2)
+        val cart = cart(meals = mapOf(meal.id to count))
+
+        cart.addMeal(meal, TestNumberOfMealsLimit(2)) shouldBeLeft MealsLimitExceededError
+        cart.popEvents() shouldContainExactly emptyList()
+        cart.meals() shouldContainExactly mapOf(meal.id to count(2))
     }
 
     @Test
