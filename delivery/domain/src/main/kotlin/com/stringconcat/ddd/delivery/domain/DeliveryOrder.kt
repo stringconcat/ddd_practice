@@ -9,7 +9,6 @@ import com.stringconcat.ddd.common.types.base.Version
 import com.stringconcat.ddd.common.types.common.Address
 import com.stringconcat.ddd.common.types.common.Count
 import com.stringconcat.ddd.common.types.error.BusinessError
-import com.stringconcat.ddd.delivery.Meal
 
 data class DeliveryOrderId(val value: Long)
 

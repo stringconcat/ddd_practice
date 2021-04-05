@@ -6,6 +6,7 @@ import com.stringconcat.ddd.common.types.common.Address
 import com.stringconcat.ddd.common.types.common.Count
 import com.stringconcat.ddd.delivery.domain.DeliveryOrder
 import com.stringconcat.ddd.delivery.domain.DeliveryOrderId
+import com.stringconcat.ddd.delivery.domain.Meal
 import com.stringconcat.ddd.delivery.domain.OrderItem
 import io.kotest.matchers.nulls.shouldNotBeNull
 import kotlin.random.Random
