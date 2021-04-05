@@ -11,6 +11,10 @@ include(":kitchen:domain")
 include(":kitchen:usecase")
 include(":kitchen:persistence")
 
+include(":delivery:domain")
+include(":delivery:usecase")
+include(":delivery:persistence")
+
 include(":integration:payment")
 include(":integration:telnet")
 include(":integration:dummyCRM")
