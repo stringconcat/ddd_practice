@@ -14,7 +14,7 @@ class CleanArchitectureGuard {
             .domainModels("com.stringconcat.ddd.shop.domain..")
             .domainServices("com.stringconcat.ddd.shop.domain..")
             .applicationServices("com.stringconcat.ddd.shop.usecase..")
-            .adapter("persistence","com.stringconcat.ddd.shop.persistence..")
+            .adapter("persistence", "com.stringconcat.ddd.shop.persistence..")
 
     @ArchTest
     val `onion architecture should be followed for kitchen` =
@@ -22,7 +22,7 @@ class CleanArchitectureGuard {
             .domainModels("com.stringconcat.ddd.kitchen.domain..")
             .domainServices("com.stringconcat.ddd.kitchen.domain..")
             .applicationServices("com.stringconcat.ddd.kitchen.usecase..")
-            .adapter("persistence","com.stringconcat.ddd.kitchen.persistence..")
+            .adapter("persistence", "com.stringconcat.ddd.kitchen.persistence..")
 
     @ArchTest
     val `kitchen business logic should depends only on approved packages` = ArchRuleDefinition.classes()
