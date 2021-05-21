@@ -10,6 +10,7 @@ object LibVers {
     const val ascii_table = "1.1.0"
     const val testng = "7.3.0"
     const val commons_net = "3.8.0"
+    const val arch_unit = "0.18.0"
 
 }
 
@@ -44,6 +45,7 @@ object Libs {
     const val junit_engine = "org.junit.jupiter:junit-jupiter-engine:${LibVers.junit}"
     const val kotest_junit = "io.kotest:kotest-runner-junit5:${LibVers.kotest}"
     const val kotest_arrow = "io.kotest:kotest-assertions-arrow:${LibVers.kotest}"
+    const val arch_unit = "com.tngtech.archunit:archunit-junit5:${LibVers.arch_unit}"
 
     // Telnet deps
     const val testng = "org.testng:testng:${LibVers.testng}"
