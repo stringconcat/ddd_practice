@@ -16,6 +16,7 @@ dependencies {
     implementation(project(":shop:domain"))
     implementation(project(":shop:usecase"))
     implementation(project(":shop:persistence"))
+    implementation(project(":shop:telnet"))
 
     implementation(project(":integration:payment"))
     implementation(project(":integration:telnet"))

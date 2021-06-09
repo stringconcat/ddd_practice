@@ -2,39 +2,50 @@ package com.stringconcat.dev.course.app.configuration
 
 import com.stringconcat.ddd.common.types.base.EventPublisher
 import com.stringconcat.ddd.shop.domain.cart.CartIdGenerator
-import com.stringconcat.ddd.shop.domain.menu.MealIdGenerator
-import com.stringconcat.ddd.shop.domain.order.ShopOrderIdGenerator
-import com.stringconcat.ddd.shop.domain.order.MealPriceProvider
-import com.stringconcat.ddd.shop.domain.order.CustomerHasActiveOrder
 import com.stringconcat.ddd.shop.domain.menu.MealAlreadyExists
+import com.stringconcat.ddd.shop.domain.menu.MealIdGenerator
+import com.stringconcat.ddd.shop.domain.order.CustomerHasActiveOrder
+import com.stringconcat.ddd.shop.domain.order.MealPriceProvider
+import com.stringconcat.ddd.shop.domain.order.ShopOrderIdGenerator
 import com.stringconcat.ddd.shop.persistence.cart.InMemoryCartRepository
 import com.stringconcat.ddd.shop.persistence.cart.InMemoryIncrementalCartIdGenerator
 import com.stringconcat.ddd.shop.persistence.menu.InMemoryIncrementalMealIdGenerator
 import com.stringconcat.ddd.shop.persistence.menu.InMemoryMealRepository
-import com.stringconcat.ddd.shop.persistence.order.InMemoryShopOrderRepository
 import com.stringconcat.ddd.shop.persistence.order.InMemoryIncrementalShopOrderIdGenerator
+import com.stringconcat.ddd.shop.persistence.order.InMemoryShopOrderRepository
+import com.stringconcat.ddd.shop.telnet.menu.AddMealToCartCommand
+import com.stringconcat.ddd.shop.telnet.menu.CheckoutCommand
+import com.stringconcat.ddd.shop.telnet.menu.GetCartCommand
+import com.stringconcat.ddd.shop.telnet.menu.GetLastOrderStateCommand
+import com.stringconcat.ddd.shop.telnet.menu.GetMenuCommand
+import com.stringconcat.ddd.shop.telnet.menu.RemoveMealFromCartCommand
 import com.stringconcat.ddd.shop.usecase.cart.AddMealToCartUseCase
 import com.stringconcat.ddd.shop.usecase.cart.CartExtractor
 import com.stringconcat.ddd.shop.usecase.cart.CartPersister
 import com.stringconcat.ddd.shop.usecase.cart.CartRemover
+import com.stringconcat.ddd.shop.usecase.cart.GetCart
 import com.stringconcat.ddd.shop.usecase.cart.GetCartUseCase
 import com.stringconcat.ddd.shop.usecase.cart.RemoveCartHandler
+import com.stringconcat.ddd.shop.usecase.cart.RemoveMealFromCart
 import com.stringconcat.ddd.shop.usecase.cart.RemoveMealFromCartUseCase
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenuUseCase
+import com.stringconcat.ddd.shop.usecase.menu.GetMenu
 import com.stringconcat.ddd.shop.usecase.menu.GetMenuUseCase
 import com.stringconcat.ddd.shop.usecase.menu.MealExtractor
 import com.stringconcat.ddd.shop.usecase.menu.MealPersister
 import com.stringconcat.ddd.shop.usecase.menu.RemoveMealFromMenuUseCase
 import com.stringconcat.ddd.shop.usecase.order.CancelOrderUseCase
+import com.stringconcat.ddd.shop.usecase.order.Checkout
 import com.stringconcat.ddd.shop.usecase.order.CheckoutUseCase
 import com.stringconcat.ddd.shop.usecase.order.CompleteOrderUseCase
 import com.stringconcat.ddd.shop.usecase.order.ConfirmOrderUseCase
-import com.stringconcat.ddd.shop.usecase.order.ShopOrderExtractor
-import com.stringconcat.ddd.shop.usecase.order.ShopOrderPersister
+import com.stringconcat.ddd.shop.usecase.order.GetLastOrderState
 import com.stringconcat.ddd.shop.usecase.order.GetLastOrderStateUseCase
 import com.stringconcat.ddd.shop.usecase.order.GetOrdersUseCase
 import com.stringconcat.ddd.shop.usecase.order.PayOrderHandler
 import com.stringconcat.ddd.shop.usecase.order.PaymentUrlProvider
+import com.stringconcat.ddd.shop.usecase.order.ShopOrderExtractor
+import com.stringconcat.ddd.shop.usecase.order.ShopOrderPersister
 import com.stringconcat.ddd.shop.usecase.providers.MealPriceProviderImpl
 import com.stringconcat.ddd.shop.usecase.rules.CustomerHasActiveOrderImpl
 import com.stringconcat.ddd.shop.usecase.rules.MealAlreadyExistsImpl
@@ -48,6 +59,24 @@ import java.net.URL
 @Suppress("TooManyFunctions")
 @Configuration
 class ShopContextConfiguration {
+
+    @Bean
+    fun getMenuCommand(useCase: GetMenu) = GetMenuCommand(useCase)
+
+    @Bean
+    fun addMealToCartCommand(useCase: AddMealToCartUseCase) = AddMealToCartCommand(useCase)
+
+    @Bean
+    fun removeMealFromCartCommand(useCase: RemoveMealFromCart) = RemoveMealFromCartCommand(useCase)
+
+    @Bean
+    fun getCartCommand(useCase: GetCart) = GetCartCommand(useCase)
+
+    @Bean
+    fun checkoutCommand(useCase: Checkout) = CheckoutCommand(useCase)
+
+    @Bean
+    fun getLastOrderStateCommand(useCase: GetLastOrderState) = GetLastOrderStateCommand(useCase)
 
     @Bean
     fun cartRepository(eventPublisher: EventPublisher) = InMemoryCartRepository(eventPublisher)

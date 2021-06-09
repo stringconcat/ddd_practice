@@ -1,9 +1,8 @@
-package com.stringconcat.dev.course.app.telnet.order.menu
+package com.stringconcat.ddd.shop.telnet.menu
 
 import com.stringconcat.ddd.shop.domain.cart.CustomerId
 import com.stringconcat.ddd.shop.domain.order.OrderState
 import com.stringconcat.ddd.shop.usecase.order.GetLastOrderState
-import com.stringconcat.dev.course.app.telnet.ApplicationTelnetCommand
 import java.util.UUID
 
 class GetLastOrderStateCommand(private val useCase: GetLastOrderState) : ApplicationTelnetCommand() {

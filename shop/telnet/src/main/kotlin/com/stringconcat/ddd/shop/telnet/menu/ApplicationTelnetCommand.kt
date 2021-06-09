@@ -1,10 +1,12 @@
-package com.stringconcat.dev.course.app.telnet
+package com.stringconcat.ddd.shop.telnet.menu
 
 import com.khubla.telnet.nvt.NVT
 import com.khubla.telnet.shell.command.TelnetCommand
-import java.util.HashMap
 import java.util.UUID
 
+/**
+ * Костыль для библиотечного интерфейса
+ */
 abstract class ApplicationTelnetCommand : TelnetCommand {
 
     override fun execute(nvt: NVT, line: String, sessionParameters: HashMap<String, Any>, sessionId: UUID): Boolean {

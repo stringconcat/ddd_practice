@@ -1,10 +1,9 @@
-package com.stringconcat.dev.course.app.telnet.order.menu
+package com.stringconcat.ddd.shop.telnet.menu
 
 import com.github.freva.asciitable.AsciiTable
 import com.github.freva.asciitable.Column
 import com.stringconcat.ddd.shop.domain.cart.CustomerId
 import com.stringconcat.ddd.shop.usecase.cart.GetCart
-import com.stringconcat.dev.course.app.telnet.ApplicationTelnetCommand
 import java.util.UUID
 
 class GetCartCommand(private val useCase: GetCart) : ApplicationTelnetCommand() {

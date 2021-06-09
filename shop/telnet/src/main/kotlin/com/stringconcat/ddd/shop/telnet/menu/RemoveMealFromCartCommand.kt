@@ -1,10 +1,9 @@
-package com.stringconcat.dev.course.app.telnet.order.menu
+package com.stringconcat.ddd.shop.telnet.menu
 
 import arrow.core.flatMap
 import com.stringconcat.ddd.shop.domain.cart.CustomerId
 import com.stringconcat.ddd.shop.domain.menu.MealId
 import com.stringconcat.ddd.shop.usecase.cart.RemoveMealFromCart
-import com.stringconcat.dev.course.app.telnet.ApplicationTelnetCommand
 import java.util.UUID
 
 class RemoveMealFromCartCommand(private val useCase: RemoveMealFromCart) : ApplicationTelnetCommand() {

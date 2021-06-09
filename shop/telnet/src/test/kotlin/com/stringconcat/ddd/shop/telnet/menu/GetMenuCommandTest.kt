@@ -1,11 +1,11 @@
-package com.stringconcat.dev.course.app.telnet.order.menu
+package com.stringconcat.ddd.shop.telnet.menu
 
+import com.stringconcat.ddd.shop.telnet.mealDescription
+import com.stringconcat.ddd.shop.telnet.mealId
+import com.stringconcat.ddd.shop.telnet.mealName
+import com.stringconcat.ddd.shop.telnet.price
 import com.stringconcat.ddd.shop.usecase.menu.GetMenu
 import com.stringconcat.ddd.shop.usecase.menu.MealInfo
-import com.stringconcat.dev.course.app.mealDescription
-import com.stringconcat.dev.course.app.mealId
-import com.stringconcat.dev.course.app.mealName
-import com.stringconcat.dev.course.app.price
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal

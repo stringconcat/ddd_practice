@@ -6,6 +6,7 @@ include(":common:types")
 include(":shop:domain")
 include(":shop:usecase")
 include(":shop:persistence")
+include(":shop:telnet")
 
 include(":kitchen:domain")
 include(":kitchen:usecase")

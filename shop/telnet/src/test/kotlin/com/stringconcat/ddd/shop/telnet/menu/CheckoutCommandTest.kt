@@ -1,23 +1,23 @@
-package com.stringconcat.dev.course.app.telnet.order.menu
+package com.stringconcat.ddd.shop.telnet.menu
 
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
+import com.stringconcat.ddd.shop.telnet.customerId
+import com.stringconcat.ddd.shop.telnet.orderId
+import com.stringconcat.ddd.shop.telnet.price
 import com.stringconcat.ddd.shop.usecase.order.Checkout
 import com.stringconcat.ddd.shop.usecase.order.CheckoutRequest
 import com.stringconcat.ddd.shop.usecase.order.CheckoutUseCaseError
 import com.stringconcat.ddd.shop.usecase.order.PaymentInfo
-import com.stringconcat.dev.course.app.customerId
-import com.stringconcat.dev.course.app.orderId
-import com.stringconcat.dev.course.app.price
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.shouldBe
-import java.net.URL
-import java.util.UUID
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
+import java.net.URL
+import java.util.UUID
 
 class CheckoutCommandTest {
 
