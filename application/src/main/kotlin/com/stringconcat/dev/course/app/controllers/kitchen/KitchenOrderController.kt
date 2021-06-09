@@ -33,7 +33,7 @@ class KitchenOrderController(
         cookOrder.execute(KitchenOrderId(orderId)).mapLeft {
             map.addAttribute(ORDERS_ATTRIBUTE, getOrdersUseCase.execute())
             map.addAttribute(ERROR_ATTRIBUTE, it.message)
-            return@confirm Views.shopOrders
+            return@confirm Views.kitchenOrders
         }
 
         return "redirect:${URLs.kitchen_orders}"

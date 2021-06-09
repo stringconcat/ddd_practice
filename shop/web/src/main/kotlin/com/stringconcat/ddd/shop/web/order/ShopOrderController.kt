@@ -1,12 +1,12 @@
-package com.stringconcat.dev.course.app.controllers.shop
+package com.stringconcat.ddd.shop.web.order
 
 import com.stringconcat.ddd.shop.domain.order.ShopOrderId
 import com.stringconcat.ddd.shop.domain.order.OrderState
 import com.stringconcat.ddd.shop.usecase.order.CancelOrder
 import com.stringconcat.ddd.shop.usecase.order.ConfirmOrder
 import com.stringconcat.ddd.shop.usecase.order.GetOrders
-import com.stringconcat.dev.course.app.controllers.URLs
-import com.stringconcat.dev.course.app.controllers.Views
+import com.stringconcat.ddd.shop.web.URLs
+import com.stringconcat.ddd.shop.web.Views
 import org.springframework.stereotype.Controller
 import org.springframework.ui.ModelMap
 import org.springframework.web.bind.annotation.GetMapping

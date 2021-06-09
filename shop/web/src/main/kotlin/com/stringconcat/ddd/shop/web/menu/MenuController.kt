@@ -1,4 +1,4 @@
-package com.stringconcat.dev.course.app.controllers.shop
+package com.stringconcat.ddd.shop.web.menu
 
 import arrow.core.flatMap
 import com.stringconcat.ddd.shop.domain.menu.MealId
@@ -6,8 +6,8 @@ import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenu
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenuRequest
 import com.stringconcat.ddd.shop.usecase.menu.GetMenu
 import com.stringconcat.ddd.shop.usecase.menu.RemoveMealFromMenu
-import com.stringconcat.dev.course.app.controllers.URLs
-import com.stringconcat.dev.course.app.controllers.Views
+import com.stringconcat.ddd.shop.web.URLs
+import com.stringconcat.ddd.shop.web.Views
 import org.springframework.stereotype.Controller
 import org.springframework.ui.ModelMap
 import org.springframework.web.bind.annotation.GetMapping
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import java.math.BigDecimal
 
 @Controller
-@RequestMapping()
+@RequestMapping
 class MenuController(
     private val addMealToMenuUseCase: AddMealToMenu,
     private val removeMealFromMenuUseCase: RemoveMealFromMenu,

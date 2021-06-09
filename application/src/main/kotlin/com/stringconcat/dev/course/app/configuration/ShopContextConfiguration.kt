@@ -16,9 +16,9 @@ import com.stringconcat.ddd.shop.persistence.order.InMemoryShopOrderRepository
 import com.stringconcat.ddd.shop.telnet.cart.AddMealToCartCommand
 import com.stringconcat.ddd.shop.telnet.cart.CheckoutCommand
 import com.stringconcat.ddd.shop.telnet.cart.GetCartCommand
-import com.stringconcat.ddd.shop.telnet.menu.GetLastOrderStateCommand
-import com.stringconcat.ddd.shop.telnet.menu.GetMenuCommand
 import com.stringconcat.ddd.shop.telnet.cart.RemoveMealFromCartCommand
+import com.stringconcat.ddd.shop.telnet.menu.GetMenuCommand
+import com.stringconcat.ddd.shop.telnet.order.GetLastOrderStateCommand
 import com.stringconcat.ddd.shop.usecase.cart.AddMealToCartUseCase
 import com.stringconcat.ddd.shop.usecase.cart.CartExtractor
 import com.stringconcat.ddd.shop.usecase.cart.CartPersister
