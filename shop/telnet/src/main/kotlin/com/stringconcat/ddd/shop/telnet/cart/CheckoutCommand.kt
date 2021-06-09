@@ -1,9 +1,10 @@
-package com.stringconcat.ddd.shop.telnet.menu
+package com.stringconcat.ddd.shop.telnet.cart
 
 import arrow.core.flatMap
 import com.stringconcat.ddd.common.types.common.Address
 import com.stringconcat.ddd.common.types.common.CreateAddressError
 import com.stringconcat.ddd.shop.domain.cart.CustomerId
+import com.stringconcat.ddd.shop.telnet.ApplicationTelnetCommand
 import com.stringconcat.ddd.shop.usecase.order.Checkout
 import com.stringconcat.ddd.shop.usecase.order.CheckoutRequest
 import com.stringconcat.ddd.shop.usecase.order.CheckoutUseCaseError

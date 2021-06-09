@@ -1,7 +1,8 @@
-package com.stringconcat.ddd.shop.telnet.menu
+package com.stringconcat.ddd.shop.telnet.order
 
 import com.stringconcat.ddd.shop.domain.cart.CustomerId
 import com.stringconcat.ddd.shop.domain.order.OrderState
+import com.stringconcat.ddd.shop.telnet.ApplicationTelnetCommand
 import com.stringconcat.ddd.shop.usecase.order.GetLastOrderState
 import java.util.UUID
 

@@ -1,4 +1,4 @@
-package com.stringconcat.ddd.shop.telnet.menu
+package com.stringconcat.ddd.shop.telnet
 
 import arrow.core.Either
 

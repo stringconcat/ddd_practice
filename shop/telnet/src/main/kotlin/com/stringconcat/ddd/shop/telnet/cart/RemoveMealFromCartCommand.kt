@@ -1,8 +1,10 @@
-package com.stringconcat.ddd.shop.telnet.menu
+package com.stringconcat.ddd.shop.telnet.cart
 
 import arrow.core.flatMap
 import com.stringconcat.ddd.shop.domain.cart.CustomerId
 import com.stringconcat.ddd.shop.domain.menu.MealId
+import com.stringconcat.ddd.shop.telnet.ApplicationTelnetCommand
+import com.stringconcat.ddd.shop.telnet.LongParameterExtractor
 import com.stringconcat.ddd.shop.usecase.cart.RemoveMealFromCart
 import java.util.UUID
 

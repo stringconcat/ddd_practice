@@ -1,4 +1,4 @@
-package com.stringconcat.ddd.shop.telnet.menu
+package com.stringconcat.ddd.shop.telnet
 
 import com.khubla.telnet.nvt.NVT
 import com.khubla.telnet.shell.command.TelnetCommand

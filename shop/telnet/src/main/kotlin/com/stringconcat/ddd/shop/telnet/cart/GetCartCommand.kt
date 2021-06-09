@@ -1,8 +1,9 @@
-package com.stringconcat.ddd.shop.telnet.menu
+package com.stringconcat.ddd.shop.telnet.cart
 
 import com.github.freva.asciitable.AsciiTable
 import com.github.freva.asciitable.Column
 import com.stringconcat.ddd.shop.domain.cart.CustomerId
+import com.stringconcat.ddd.shop.telnet.ApplicationTelnetCommand
 import com.stringconcat.ddd.shop.usecase.cart.GetCart
 import java.util.UUID
 

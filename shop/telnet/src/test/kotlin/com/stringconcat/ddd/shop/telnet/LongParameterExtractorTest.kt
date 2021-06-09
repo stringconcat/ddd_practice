@@ -1,5 +1,6 @@
-package com.stringconcat.ddd.shop.telnet.menu
+package com.stringconcat.ddd.shop.telnet
 
+import com.stringconcat.ddd.shop.telnet.LongParameterExtractor
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight
 import org.junit.jupiter.api.Test

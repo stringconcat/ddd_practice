@@ -5,6 +5,7 @@ import arrow.core.left
 import arrow.core.right
 import com.stringconcat.ddd.shop.domain.cart.CustomerId
 import com.stringconcat.ddd.shop.domain.menu.MealId
+import com.stringconcat.ddd.shop.telnet.cart.RemoveMealFromCartCommand
 import com.stringconcat.ddd.shop.telnet.customerId
 import com.stringconcat.ddd.shop.telnet.mealId
 import com.stringconcat.ddd.shop.usecase.cart.RemoveMealFromCart

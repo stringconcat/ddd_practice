@@ -13,12 +13,12 @@ import com.stringconcat.ddd.shop.persistence.menu.InMemoryIncrementalMealIdGener
 import com.stringconcat.ddd.shop.persistence.menu.InMemoryMealRepository
 import com.stringconcat.ddd.shop.persistence.order.InMemoryIncrementalShopOrderIdGenerator
 import com.stringconcat.ddd.shop.persistence.order.InMemoryShopOrderRepository
-import com.stringconcat.ddd.shop.telnet.menu.AddMealToCartCommand
-import com.stringconcat.ddd.shop.telnet.menu.CheckoutCommand
-import com.stringconcat.ddd.shop.telnet.menu.GetCartCommand
+import com.stringconcat.ddd.shop.telnet.cart.AddMealToCartCommand
+import com.stringconcat.ddd.shop.telnet.cart.CheckoutCommand
+import com.stringconcat.ddd.shop.telnet.cart.GetCartCommand
 import com.stringconcat.ddd.shop.telnet.menu.GetLastOrderStateCommand
 import com.stringconcat.ddd.shop.telnet.menu.GetMenuCommand
-import com.stringconcat.ddd.shop.telnet.menu.RemoveMealFromCartCommand
+import com.stringconcat.ddd.shop.telnet.cart.RemoveMealFromCartCommand
 import com.stringconcat.ddd.shop.usecase.cart.AddMealToCartUseCase
 import com.stringconcat.ddd.shop.usecase.cart.CartExtractor
 import com.stringconcat.ddd.shop.usecase.cart.CartPersister
