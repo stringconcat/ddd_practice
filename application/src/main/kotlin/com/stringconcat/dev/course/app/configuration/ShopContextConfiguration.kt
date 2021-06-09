@@ -257,5 +257,4 @@ class ShopContextConfiguration {
 
     @Bean
     fun getLastOrderStateCommand(useCase: GetLastOrderState) = GetLastOrderStateCommand(useCase)
-
 }
