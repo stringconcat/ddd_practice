@@ -12,6 +12,7 @@ include(":shop:web")
 include(":kitchen:domain")
 include(":kitchen:usecase")
 include(":kitchen:persistence")
+include(":kitchen:web")
 
 include(":integration:payment")
 include(":integration:telnet")

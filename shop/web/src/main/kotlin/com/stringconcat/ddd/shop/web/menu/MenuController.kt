@@ -19,9 +19,9 @@ import java.math.BigDecimal
 @Controller
 @RequestMapping
 class MenuController(
-    private val addMealToMenuUseCase: AddMealToMenu,
-    private val removeMealFromMenuUseCase: RemoveMealFromMenu,
-    private val getMenuUseCase: GetMenu
+    private val addMealToMenu: AddMealToMenu,
+    private val removeMealFromMenu: RemoveMealFromMenu,
+    private val getMenu: GetMenu
 ) {
 
     companion object {
@@ -31,7 +31,7 @@ class MenuController(
 
     @GetMapping(URLs.listMenu)
     fun menu(modelMap: ModelMap): String {
-        modelMap.addAttribute(MENU_ATTRIBUTE, getMenuUseCase.execute())
+        modelMap.addAttribute(MENU_ATTRIBUTE, getMenu.execute())
         return Views.menu
     }
 
@@ -46,10 +46,10 @@ class MenuController(
         AddMealToMenuRequest.from(name, description, price)
             .mapLeft { it.message }
             .flatMap {
-                addMealToMenuUseCase.execute(it)
+                addMealToMenu.execute(it)
                     .mapLeft { it.message }
             }.mapLeft {
-                modelMap.addAttribute(MENU_ATTRIBUTE, getMenuUseCase.execute())
+                modelMap.addAttribute(MENU_ATTRIBUTE, getMenu.execute())
                 modelMap.addAttribute(ERROR_ATTRIBUTE, it)
                 return@addMealToMenu Views.menu
             }
@@ -59,8 +59,8 @@ class MenuController(
 
     @PostMapping(URLs.removeMeal)
     fun removeMealFromMenu(@RequestParam id: Long, modelMap: ModelMap): String {
-        removeMealFromMenuUseCase.execute(MealId(id)).mapLeft {
-            modelMap.addAttribute(MENU_ATTRIBUTE, getMenuUseCase.execute())
+        removeMealFromMenu.execute(MealId(id)).mapLeft {
+            modelMap.addAttribute(MENU_ATTRIBUTE, getMenu.execute())
             modelMap.addAttribute(ERROR_ATTRIBUTE, it.message)
             return@removeMealFromMenu Views.menu
         }

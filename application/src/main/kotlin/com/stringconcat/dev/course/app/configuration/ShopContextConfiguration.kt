@@ -28,19 +28,24 @@ import com.stringconcat.ddd.shop.usecase.cart.GetCartUseCase
 import com.stringconcat.ddd.shop.usecase.cart.RemoveCartHandler
 import com.stringconcat.ddd.shop.usecase.cart.RemoveMealFromCart
 import com.stringconcat.ddd.shop.usecase.cart.RemoveMealFromCartUseCase
+import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenu
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenuUseCase
 import com.stringconcat.ddd.shop.usecase.menu.GetMenu
 import com.stringconcat.ddd.shop.usecase.menu.GetMenuUseCase
 import com.stringconcat.ddd.shop.usecase.menu.MealExtractor
 import com.stringconcat.ddd.shop.usecase.menu.MealPersister
+import com.stringconcat.ddd.shop.usecase.menu.RemoveMealFromMenu
 import com.stringconcat.ddd.shop.usecase.menu.RemoveMealFromMenuUseCase
+import com.stringconcat.ddd.shop.usecase.order.CancelOrder
 import com.stringconcat.ddd.shop.usecase.order.CancelOrderUseCase
 import com.stringconcat.ddd.shop.usecase.order.Checkout
 import com.stringconcat.ddd.shop.usecase.order.CheckoutUseCase
 import com.stringconcat.ddd.shop.usecase.order.CompleteOrderUseCase
+import com.stringconcat.ddd.shop.usecase.order.ConfirmOrder
 import com.stringconcat.ddd.shop.usecase.order.ConfirmOrderUseCase
 import com.stringconcat.ddd.shop.usecase.order.GetLastOrderState
 import com.stringconcat.ddd.shop.usecase.order.GetLastOrderStateUseCase
+import com.stringconcat.ddd.shop.usecase.order.GetOrders
 import com.stringconcat.ddd.shop.usecase.order.GetOrdersUseCase
 import com.stringconcat.ddd.shop.usecase.order.PayOrderHandler
 import com.stringconcat.ddd.shop.usecase.order.PaymentUrlProvider
@@ -49,6 +54,8 @@ import com.stringconcat.ddd.shop.usecase.order.ShopOrderPersister
 import com.stringconcat.ddd.shop.usecase.providers.MealPriceProviderImpl
 import com.stringconcat.ddd.shop.usecase.rules.CustomerHasActiveOrderImpl
 import com.stringconcat.ddd.shop.usecase.rules.MealAlreadyExistsImpl
+import com.stringconcat.ddd.shop.web.menu.MenuController
+import com.stringconcat.ddd.shop.web.order.ShopOrderController
 import com.stringconcat.dev.course.app.event.EventPublisherImpl
 import com.stringconcat.dev.course.app.listeners.RemoveCartAfterCheckoutRule
 import com.stringconcat.integration.payment.SimplePaymentUrlProvider
@@ -59,24 +66,6 @@ import java.net.URL
 @Suppress("TooManyFunctions")
 @Configuration
 class ShopContextConfiguration {
-
-    @Bean
-    fun getMenuCommand(useCase: GetMenu) = GetMenuCommand(useCase)
-
-    @Bean
-    fun addMealToCartCommand(useCase: AddMealToCartUseCase) = AddMealToCartCommand(useCase)
-
-    @Bean
-    fun removeMealFromCartCommand(useCase: RemoveMealFromCart) = RemoveMealFromCartCommand(useCase)
-
-    @Bean
-    fun getCartCommand(useCase: GetCart) = GetCartCommand(useCase)
-
-    @Bean
-    fun checkoutCommand(useCase: Checkout) = CheckoutCommand(useCase)
-
-    @Bean
-    fun getLastOrderStateCommand(useCase: GetLastOrderState) = GetLastOrderStateCommand(useCase)
 
     @Bean
     fun cartRepository(eventPublisher: EventPublisher) = InMemoryCartRepository(eventPublisher)
@@ -242,4 +231,31 @@ class ShopContextConfiguration {
         domainEventPublisher.registerListener(listener)
         return listener
     }
+
+    @Bean
+    fun menuController(addMealToMenu: AddMealToMenu, removeMealFromMenu: RemoveMealFromMenu, getMenu: GetMenu) =
+        MenuController(addMealToMenu, removeMealFromMenu, getMenu)
+
+    @Bean
+    fun shopOrderController(getOrders: GetOrders, confirmOrder: ConfirmOrder, cancelOrder: CancelOrder) =
+        ShopOrderController(getOrders, confirmOrder, cancelOrder)
+
+    @Bean
+    fun getMenuCommand(useCase: GetMenu) = GetMenuCommand(useCase)
+
+    @Bean
+    fun addMealToCartCommand(useCase: AddMealToCartUseCase) = AddMealToCartCommand(useCase)
+
+    @Bean
+    fun removeMealFromCartCommand(useCase: RemoveMealFromCart) = RemoveMealFromCartCommand(useCase)
+
+    @Bean
+    fun getCartCommand(useCase: GetCart) = GetCartCommand(useCase)
+
+    @Bean
+    fun checkoutCommand(useCase: Checkout) = CheckoutCommand(useCase)
+
+    @Bean
+    fun getLastOrderStateCommand(useCase: GetLastOrderState) = GetLastOrderStateCommand(useCase)
+
 }
