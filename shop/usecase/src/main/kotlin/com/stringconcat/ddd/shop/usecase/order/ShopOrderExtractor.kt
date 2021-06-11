@@ -8,6 +8,4 @@ interface ShopOrderExtractor {
     fun getById(orderId: ShopOrderId): ShopOrder?
 
     fun getLastOrder(forCustomer: CustomerId): ShopOrder?
-
-    fun getAll(): List<ShopOrder>
 }

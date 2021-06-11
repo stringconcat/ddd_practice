@@ -8,6 +8,7 @@ include(":shop:usecase")
 include(":shop:persistence")
 include(":shop:telnet")
 include(":shop:web")
+include(":shop:query")
 
 include(":kitchen:domain")
 include(":kitchen:usecase")

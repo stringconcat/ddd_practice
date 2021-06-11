@@ -13,7 +13,7 @@ class CleanArchitectureGuard {
         Architectures.onionArchitecture()
             .domainModels("com.stringconcat.ddd.shop.domain..")
             .domainServices("com.stringconcat.ddd.shop.domain..")
-            .applicationServices("com.stringconcat.ddd.shop.usecase..")
+            .applicationServices("com.stringconcat.ddd.shop.usecase..", "com.stringconcat.ddd.shop.query..")
             .adapter("persistence", "com.stringconcat.ddd.shop.persistence..")
             .adapter("telnet", "com.stringconcat.ddd.shop.telnet..")
             .adapter("web", "com.stringconcat.ddd.shop.web..")

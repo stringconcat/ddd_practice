@@ -1,9 +1,7 @@
 dependencies {
     // project
-    implementation(project(":common:types"))
     implementation(project(":shop:domain"))
-    implementation(project(":shop:usecase"))
-    implementation(project(":shop:query"))
+    implementation(project(":common:types"))
 
     // kotlin
     implementation(Libs.kotlin_jdk8)

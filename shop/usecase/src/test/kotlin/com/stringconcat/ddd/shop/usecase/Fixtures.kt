@@ -185,8 +185,6 @@ class TestShopOrderExtractor : ShopOrderExtractor, LinkedHashMap<ShopOrderId, Sh
     override fun getLastOrder(forCustomer: CustomerId): ShopOrder? {
         return this.values.lastOrNull { it.forCustomer == forCustomer }
     }
-
-    override fun getAll() = values.toList()
 }
 
 class TestCartRemover : CartRemover {

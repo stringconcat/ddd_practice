@@ -4,8 +4,9 @@ import com.stringconcat.ddd.shop.domain.order.ShopOrderCompletedDomainEvent
 import com.stringconcat.ddd.shop.persistence.TestEventPublisher
 import com.stringconcat.ddd.shop.persistence.customerId
 import com.stringconcat.ddd.shop.persistence.order
-import com.stringconcat.ddd.shop.persistence.orderWithEvents
 import com.stringconcat.ddd.shop.persistence.orderId
+import com.stringconcat.ddd.shop.persistence.orderWithEvents
+import com.stringconcat.ddd.shop.query.order.ShopOrderInfo
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldHaveSize
@@ -112,6 +113,13 @@ internal class InMemoryShopOrderRepositoryTest {
         repository.storage[order.id] = order
 
         val result = repository.getAll()
-        result shouldContainExactly listOf(order)
+        result shouldContainExactly listOf(
+            ShopOrderInfo(
+                id = order.id,
+                total = order.totalPrice(),
+                state = order.state,
+                address = order.address
+            )
+        )
     }
 }

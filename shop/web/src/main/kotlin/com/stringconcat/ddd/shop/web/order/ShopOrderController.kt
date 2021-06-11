@@ -1,10 +1,10 @@
 package com.stringconcat.ddd.shop.web.order
 
-import com.stringconcat.ddd.shop.domain.order.ShopOrderId
 import com.stringconcat.ddd.shop.domain.order.OrderState
+import com.stringconcat.ddd.shop.domain.order.ShopOrderId
+import com.stringconcat.ddd.shop.query.order.GetOrders
 import com.stringconcat.ddd.shop.usecase.order.CancelOrder
 import com.stringconcat.ddd.shop.usecase.order.ConfirmOrder
-import com.stringconcat.ddd.shop.usecase.order.GetOrders
 import com.stringconcat.ddd.shop.web.URLs
 import com.stringconcat.ddd.shop.web.Views
 import org.springframework.stereotype.Controller
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam
 
 @Controller
 class ShopOrderController(
-    private val getOrdersUseCase: GetOrders,
+    private val getOrders: GetOrders,
     private val confirmOrder: ConfirmOrder,
     private val cancelOrder: CancelOrder
 ) {
@@ -36,7 +36,7 @@ class ShopOrderController(
 
     @GetMapping(URLs.shop_orders)
     fun orders(map: ModelMap): String {
-        map.addAttribute(ORDERS_ATTRIBUTE, getOrdersUseCase.execute())
+        map.addAttribute(ORDERS_ATTRIBUTE, getOrders.execute())
         map.addAttribute(STATUS_NAMES_ATTRIBUTE, statusNames)
         return Views.shopOrders
     }
@@ -44,7 +44,7 @@ class ShopOrderController(
     @PostMapping(URLs.confirm_shop_order)
     fun confirm(@RequestParam orderId: Long, map: ModelMap): String {
         confirmOrder.execute(ShopOrderId(orderId)).mapLeft {
-            map.addAttribute(ORDERS_ATTRIBUTE, getOrdersUseCase.execute())
+            map.addAttribute(ORDERS_ATTRIBUTE, getOrders.execute())
             map.addAttribute(STATUS_NAMES_ATTRIBUTE, statusNames)
             map.addAttribute(ERROR_ATTRIBUTE, it.message)
             return@confirm Views.shopOrders
@@ -56,7 +56,7 @@ class ShopOrderController(
     @PostMapping(URLs.cancel_shop_order)
     fun cancel(@RequestParam orderId: Long, map: ModelMap): String {
         cancelOrder.execute(ShopOrderId(orderId)).mapLeft {
-            map.addAttribute(ORDERS_ATTRIBUTE, getOrdersUseCase.execute())
+            map.addAttribute(ORDERS_ATTRIBUTE, getOrders.execute())
             map.addAttribute(STATUS_NAMES_ATTRIBUTE, statusNames)
             map.addAttribute(ERROR_ATTRIBUTE, it.message)
             return@cancel Views.shopOrders

@@ -13,6 +13,9 @@ import com.stringconcat.ddd.shop.persistence.menu.InMemoryIncrementalMealIdGener
 import com.stringconcat.ddd.shop.persistence.menu.InMemoryMealRepository
 import com.stringconcat.ddd.shop.persistence.order.InMemoryIncrementalShopOrderIdGenerator
 import com.stringconcat.ddd.shop.persistence.order.InMemoryShopOrderRepository
+import com.stringconcat.ddd.shop.query.order.GetOrders
+import com.stringconcat.ddd.shop.query.order.GetOrdersUseCase
+import com.stringconcat.ddd.shop.query.order.ShopOrderQueryHandler
 import com.stringconcat.ddd.shop.telnet.cart.AddMealToCartCommand
 import com.stringconcat.ddd.shop.telnet.cart.CheckoutCommand
 import com.stringconcat.ddd.shop.telnet.cart.GetCartCommand
@@ -45,8 +48,6 @@ import com.stringconcat.ddd.shop.usecase.order.ConfirmOrder
 import com.stringconcat.ddd.shop.usecase.order.ConfirmOrderUseCase
 import com.stringconcat.ddd.shop.usecase.order.GetLastOrderState
 import com.stringconcat.ddd.shop.usecase.order.GetLastOrderStateUseCase
-import com.stringconcat.ddd.shop.usecase.order.GetOrders
-import com.stringconcat.ddd.shop.usecase.order.GetOrdersUseCase
 import com.stringconcat.ddd.shop.usecase.order.PayOrderHandler
 import com.stringconcat.ddd.shop.usecase.order.PaymentUrlProvider
 import com.stringconcat.ddd.shop.usecase.order.ShopOrderExtractor
@@ -203,8 +204,7 @@ class ShopContextConfiguration {
         GetLastOrderStateUseCase(orderExtractor = shopOrderExtractor)
 
     @Bean
-    fun getOrders(shopOrderExtractor: ShopOrderExtractor) =
-        GetOrdersUseCase(orderExtractor = shopOrderExtractor)
+    fun getOrders(queryHandler: ShopOrderQueryHandler) = GetOrdersUseCase(queryHandler)
 
     @Bean
     fun getMenuUseCase(mealExtractor: MealExtractor) = GetMenuUseCase(mealExtractor)

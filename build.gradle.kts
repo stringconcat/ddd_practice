@@ -97,7 +97,7 @@ allprojects {
             violationRules {
 
                 rule {
-                    excludes = listOf("application", "telnet")
+                    excludes = listOf("application", "telnet", "query")
                     limit {
                         minimum = BigDecimal("0.94")
                     }

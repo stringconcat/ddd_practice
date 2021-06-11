@@ -11,16 +11,15 @@ import com.stringconcat.ddd.shop.domain.menu.MealId
 import com.stringconcat.ddd.shop.domain.menu.MealName
 import com.stringconcat.ddd.shop.domain.menu.MealRestorer
 import com.stringconcat.ddd.shop.domain.menu.Price
+import com.stringconcat.ddd.shop.domain.order.OrderItem
+import com.stringconcat.ddd.shop.domain.order.OrderState
 import com.stringconcat.ddd.shop.domain.order.ShopOrder
 import com.stringconcat.ddd.shop.domain.order.ShopOrderId
 import com.stringconcat.ddd.shop.domain.order.ShopOrderRestorer
-import com.stringconcat.ddd.shop.domain.order.OrderItem
-import com.stringconcat.ddd.shop.domain.order.OrderState
 import com.stringconcat.ddd.shop.usecase.menu.MealExtractor
 import com.stringconcat.ddd.shop.usecase.order.ShopOrderExtractor
 import java.math.BigDecimal
 import java.time.OffsetDateTime
-import java.util.LinkedHashMap
 import java.util.UUID
 import kotlin.math.absoluteValue
 import kotlin.random.Random
@@ -99,8 +98,6 @@ class TestShopOrderExtractor : ShopOrderExtractor, LinkedHashMap<ShopOrderId, Sh
     override fun getLastOrder(forCustomer: CustomerId): ShopOrder? {
         return this.values.lastOrNull { it.forCustomer == forCustomer }
     }
-
-    override fun getAll() = values.toList()
 }
 
 class TestMealExtractor : HashMap<MealId, Meal>(), MealExtractor {

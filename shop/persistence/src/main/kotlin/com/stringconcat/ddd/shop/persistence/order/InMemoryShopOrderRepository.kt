@@ -4,12 +4,15 @@ import com.stringconcat.ddd.common.types.base.EventPublisher
 import com.stringconcat.ddd.shop.domain.cart.CustomerId
 import com.stringconcat.ddd.shop.domain.order.ShopOrder
 import com.stringconcat.ddd.shop.domain.order.ShopOrderId
+import com.stringconcat.ddd.shop.query.order.ShopOrderInfo
+import com.stringconcat.ddd.shop.query.order.ShopOrderQueryHandler
 import com.stringconcat.ddd.shop.usecase.order.ShopOrderExtractor
 import com.stringconcat.ddd.shop.usecase.order.ShopOrderPersister
 
 class InMemoryShopOrderRepository(private val eventPublisher: EventPublisher) :
     ShopOrderExtractor,
-    ShopOrderPersister {
+    ShopOrderPersister,
+    ShopOrderQueryHandler {
 
     internal val storage = LinkedHashMap<ShopOrderId, ShopOrder>()
 
@@ -23,5 +26,12 @@ class InMemoryShopOrderRepository(private val eventPublisher: EventPublisher) :
         storage[order.id] = order
     }
 
-    override fun getAll(): List<ShopOrder> = storage.values.toList()
+    override fun getAll(): List<ShopOrderInfo> = storage.values.map {
+        ShopOrderInfo(
+            id = it.id,
+            state = it.state,
+            address = it.address,
+            total = it.totalPrice()
+        )
+    }
 }

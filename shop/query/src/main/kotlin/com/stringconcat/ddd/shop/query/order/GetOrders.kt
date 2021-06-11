@@ -1,4 +1,4 @@
-package com.stringconcat.ddd.shop.usecase.order
+package com.stringconcat.ddd.shop.query.order
 
 import com.stringconcat.ddd.common.types.common.Address
 import com.stringconcat.ddd.shop.domain.menu.Price
