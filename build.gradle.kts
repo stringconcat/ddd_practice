@@ -1,13 +1,13 @@
 val parentProjectDir = projectDir
 
 plugins {
-    id(Plugins.kotlin) version PluginVers.kotlin apply true
+    id(Plugins.kotlin) version PluginVers.kotlin apply false
     id(Plugins.detekt) version PluginVers.detekt
     id(Plugins.update_dependencies) version PluginVers.update_dependencies
     id(Plugins.owasp_dependencies) version PluginVers.owasp_dependencies
 }
 
-allprojects {
+subprojects {
 
     configurations.all {
         resolutionStrategy {
@@ -135,14 +135,4 @@ allprojects {
             }
         }
     }
-}
-
-dependencies {
-
-    implementation(project(":application"))
-
-    testImplementation(Libs.arch_unit)
-    testImplementation(Libs.junit_engine)
-    testImplementation(Libs.junit_params)
-    testImplementation(Libs.kotest_junit)
 }

@@ -1,4 +1,4 @@
-package com.stringconcat.ddd.fitnes
+package com.stringconcat.dev.course.app.fitnes
 
 import com.tngtech.archunit.core.domain.JavaClass
 import com.tngtech.archunit.core.domain.JavaClasses

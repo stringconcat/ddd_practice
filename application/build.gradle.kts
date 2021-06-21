@@ -53,4 +53,5 @@ dependencies {
     testImplementation(Libs.spring_boot_starter_test) {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
+    testImplementation(Libs.arch_unit)
 }
