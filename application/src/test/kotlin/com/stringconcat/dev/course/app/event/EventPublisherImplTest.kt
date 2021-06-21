@@ -10,20 +10,23 @@ class EventPublisherImplTest {
     fun `publish events`() {
         val publisher = EventPublisherImpl()
 
-        publisher.registerListener(TestEventListener)
-        publisher.registerListener(AnotherTestEventListener)
+        val testEventListener = TestEventListener()
+        publisher.registerListener(testEventListener)
 
-        val testEvent = TestEvent()
-        val anotherTestEvent = AnotherTestEvent()
+        val anotherTestEventListener = AnotherTestEventListener()
+        publisher.registerListener(anotherTestEventListener)
+
+        val testEvent = TestEvent("TestEvent")
+        val anotherTestEvent = AnotherTestEvent("AnotherTestEvent")
         val events = listOf(testEvent, anotherTestEvent)
 
         publisher.publish(events)
 
-        TestEventListener.events shouldContainExactly listOf(testEvent)
-        AnotherTestEventListener.events shouldContainExactly listOf(anotherTestEvent)
+        testEventListener.events shouldContainExactly listOf(testEvent)
+        anotherTestEventListener.events shouldContainExactly listOf(anotherTestEvent)
     }
 
-    object TestEventListener : DomainEventListener<TestEvent> {
+    class TestEventListener : DomainEventListener<TestEvent> {
         val events = ArrayList<TestEvent>()
         override fun eventType() = TestEvent::class
 
@@ -32,7 +35,7 @@ class EventPublisherImplTest {
         }
     }
 
-    object AnotherTestEventListener : DomainEventListener<AnotherTestEvent> {
+    class AnotherTestEventListener : DomainEventListener<AnotherTestEvent> {
         val events = ArrayList<AnotherTestEvent>()
         override fun eventType() = AnotherTestEvent::class
 
@@ -41,6 +44,6 @@ class EventPublisherImplTest {
         }
     }
 
-    class TestEvent : DomainEvent()
-    class AnotherTestEvent : DomainEvent()
+    data class TestEvent(val name: String) : DomainEvent()
+    data class AnotherTestEvent(val name: String) : DomainEvent()
 }

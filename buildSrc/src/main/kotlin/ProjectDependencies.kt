@@ -62,6 +62,7 @@ object PluginVers {
     const val spring_kotlin = Global.kotlin_version
     const val update_dependencies = "0.36.0"
     const val owasp_dependencies = "6.1.0"
+    const val pitest = "1.6.0"
 }
 
 object Plugins {
@@ -73,4 +74,5 @@ object Plugins {
     const val spring_kotlin = "org.jetbrains.kotlin.plugin.spring"
     const val update_dependencies = "com.github.ben-manes.versions"
     const val owasp_dependencies = "org.owasp.dependencycheck"
+    const val pitest = "info.solidsoft.pitest"
 }
