@@ -5,6 +5,7 @@ plugins {
     id(Plugins.detekt) version PluginVers.detekt
     id(Plugins.update_dependencies) version PluginVers.update_dependencies
     id(Plugins.owasp_dependencies) version PluginVers.owasp_dependencies
+    id(Plugins.pitest) version PluginVers.pitest apply false
 }
 
 subprojects {
@@ -28,6 +29,7 @@ subprojects {
         plugin("jacoco")
         plugin(Plugins.update_dependencies)
         plugin(Plugins.owasp_dependencies)
+        plugin(Plugins.pitest)
     }
 
     repositories {
@@ -48,6 +50,14 @@ subprojects {
         dependencies {
             detektPlugins("${Plugins.detekt_formatting}:${PluginVers.detekt_formatting}")
         }
+    }
+
+    configure<info.solidsoft.gradle.pitest.PitestPluginExtension> {
+        junit5PluginVersion.set("0.12")
+        targetClasses.set(listOf("com.stringconcat.*"))
+        failWhenNoMutations.set(false)
+        timestampedReports.set(false)
+
     }
 
     tasks {

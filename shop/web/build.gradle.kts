@@ -13,4 +13,10 @@ dependencies {
     //spring
     implementation(Libs.spring_boot_starter_web)
     implementation(Libs.spring_boot_starter_thymeleaf)
+
+    // test
+    testImplementation(Libs.kotest_junit)
+    testImplementation(Libs.kotest_arrow)
+    testImplementation(Libs.junit_engine)
+    testImplementation(Libs.junit_params)
 }
