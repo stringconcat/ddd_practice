@@ -1,7 +1,8 @@
-package com.stringconcat.ddd.shop.usecase.order
+package com.stringconcat.ddd.shop.usecase.order.scenarios
 
 import com.stringconcat.ddd.shop.usecase.TestShopOrderExtractor
 import com.stringconcat.ddd.shop.usecase.order
+import com.stringconcat.ddd.shop.usecase.order.ShopOrderInfo
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import org.junit.jupiter.api.Test

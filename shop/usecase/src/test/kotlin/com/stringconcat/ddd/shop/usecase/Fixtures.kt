@@ -25,8 +25,8 @@ import com.stringconcat.ddd.shop.usecase.cart.CartPersister
 import com.stringconcat.ddd.shop.usecase.cart.CartRemover
 import com.stringconcat.ddd.shop.usecase.menu.scenarios.MealExtractor
 import com.stringconcat.ddd.shop.usecase.menu.scenarios.MealPersister
-import com.stringconcat.ddd.shop.usecase.order.ShopOrderExtractor
-import com.stringconcat.ddd.shop.usecase.order.ShopOrderPersister
+import com.stringconcat.ddd.shop.usecase.order.scenarios.ShopOrderExtractor
+import com.stringconcat.ddd.shop.usecase.order.scenarios.ShopOrderPersister
 import java.math.BigDecimal
 import java.time.OffsetDateTime
 import java.util.LinkedHashMap

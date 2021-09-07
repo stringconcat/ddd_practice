@@ -1,4 +1,4 @@
-package com.stringconcat.ddd.shop.usecase.order
+package com.stringconcat.ddd.shop.usecase.order.scenarios
 
 import com.stringconcat.ddd.common.types.common.Address
 import com.stringconcat.ddd.shop.domain.cart.CustomerId
@@ -15,6 +15,8 @@ import com.stringconcat.ddd.shop.usecase.cart
 import com.stringconcat.ddd.shop.usecase.count
 import com.stringconcat.ddd.shop.usecase.customerId
 import com.stringconcat.ddd.shop.usecase.meal
+import com.stringconcat.ddd.shop.usecase.order.CheckoutRequest
+import com.stringconcat.ddd.shop.usecase.order.CheckoutUseCaseError
 import com.stringconcat.ddd.shop.usecase.orderId
 import com.stringconcat.ddd.shop.usecase.price
 import io.kotest.assertions.arrow.either.shouldBeLeft

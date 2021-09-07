@@ -1,9 +1,11 @@
-package com.stringconcat.ddd.shop.usecase.order
+package com.stringconcat.ddd.shop.usecase.order.scenarios
 
 import arrow.core.Either
 import arrow.core.rightIfNotNull
 import com.stringconcat.ddd.shop.domain.cart.CustomerId
 import com.stringconcat.ddd.shop.domain.order.OrderState
+import com.stringconcat.ddd.shop.usecase.order.GetLastOrderState
+import com.stringconcat.ddd.shop.usecase.order.GetLastOrderStateUseCaseError
 
 class GetLastOrderStateUseCase(private val orderExtractor: ShopOrderExtractor) : GetLastOrderState {
 

@@ -2,7 +2,7 @@ package com.stringconcat.ddd.shop.usecase.rules
 
 import com.stringconcat.ddd.shop.domain.cart.CustomerId
 import com.stringconcat.ddd.shop.domain.order.CustomerHasActiveOrder
-import com.stringconcat.ddd.shop.usecase.order.ShopOrderExtractor
+import com.stringconcat.ddd.shop.usecase.order.scenarios.ShopOrderExtractor
 
 class CustomerHasActiveOrderImpl(
     private val shopOrderExtractor: ShopOrderExtractor

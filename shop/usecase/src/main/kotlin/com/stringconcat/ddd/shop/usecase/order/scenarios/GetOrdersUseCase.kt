@@ -1,4 +1,7 @@
-package com.stringconcat.ddd.shop.usecase.order
+package com.stringconcat.ddd.shop.usecase.order.scenarios
+
+import com.stringconcat.ddd.shop.usecase.order.GetOrders
+import com.stringconcat.ddd.shop.usecase.order.ShopOrderInfo
 
 class GetOrdersUseCase(private val orderExtractor: ShopOrderExtractor) : GetOrders {
     override fun execute(): List<ShopOrderInfo> {

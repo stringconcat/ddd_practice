@@ -1,4 +1,4 @@
-package com.stringconcat.ddd.shop.usecase.order
+package com.stringconcat.ddd.shop.usecase.order.scenarios
 
 import arrow.core.Either
 import arrow.core.flatMap
@@ -9,6 +9,10 @@ import com.stringconcat.ddd.shop.domain.order.ShopOrderIdGenerator
 import com.stringconcat.ddd.shop.domain.order.MealPriceProvider
 import com.stringconcat.ddd.shop.domain.order.CustomerHasActiveOrder
 import com.stringconcat.ddd.shop.usecase.cart.CartExtractor
+import com.stringconcat.ddd.shop.usecase.order.Checkout
+import com.stringconcat.ddd.shop.usecase.order.CheckoutRequest
+import com.stringconcat.ddd.shop.usecase.order.CheckoutUseCaseError
+import com.stringconcat.ddd.shop.usecase.order.PaymentInfo
 
 class CheckoutUseCase(
     private val idGenerator: ShopOrderIdGenerator,

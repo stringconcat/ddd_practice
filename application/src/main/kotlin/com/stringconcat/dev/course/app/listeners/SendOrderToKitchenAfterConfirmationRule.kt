@@ -4,7 +4,7 @@ import com.stringconcat.ddd.kitchen.usecase.order.CreateOrder
 import com.stringconcat.ddd.kitchen.usecase.order.CreateOrderRequest
 import com.stringconcat.ddd.shop.domain.order.ShopOrderConfirmedDomainEvent
 import com.stringconcat.ddd.shop.usecase.menu.scenarios.MealExtractor
-import com.stringconcat.ddd.shop.usecase.order.ShopOrderExtractor
+import com.stringconcat.ddd.shop.usecase.order.scenarios.ShopOrderExtractor
 import com.stringconcat.dev.course.app.event.DomainEventListener
 
 class SendOrderToKitchenAfterConfirmationRule(
