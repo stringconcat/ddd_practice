@@ -9,7 +9,7 @@ class CodeClimate {
 
     @ArchTest
     val `no cycle dependencies` = slices()
-        .matching("com.stringconcat.ddd")
+        .matching("com.stringconcat.ddd.(**)")
         .should()
         .beFreeOfCycles()
 }
