@@ -20,9 +20,9 @@ import com.stringconcat.ddd.shop.domain.order.OrderItem
 import com.stringconcat.ddd.shop.domain.order.ShopOrderRestorer
 import com.stringconcat.ddd.shop.domain.order.OrderState
 import com.stringconcat.ddd.shop.domain.order.CustomerHasActiveOrder
-import com.stringconcat.ddd.shop.usecase.cart.CartExtractor
-import com.stringconcat.ddd.shop.usecase.cart.CartPersister
-import com.stringconcat.ddd.shop.usecase.cart.CartRemover
+import com.stringconcat.ddd.shop.usecase.cart.scenarios.CartExtractor
+import com.stringconcat.ddd.shop.usecase.cart.scenarios.CartPersister
+import com.stringconcat.ddd.shop.usecase.cart.scenarios.CartRemover
 import com.stringconcat.ddd.shop.usecase.menu.scenarios.MealExtractor
 import com.stringconcat.ddd.shop.usecase.menu.scenarios.MealPersister
 import com.stringconcat.ddd.shop.usecase.order.scenarios.ShopOrderExtractor

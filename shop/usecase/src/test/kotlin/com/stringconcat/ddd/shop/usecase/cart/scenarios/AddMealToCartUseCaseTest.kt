@@ -1,4 +1,4 @@
-package com.stringconcat.ddd.shop.usecase.cart
+package com.stringconcat.ddd.shop.usecase.cart.scenarios
 
 import com.stringconcat.ddd.shop.domain.cart.CartIdGenerator
 import com.stringconcat.ddd.shop.domain.cart.CustomerId
@@ -6,6 +6,7 @@ import com.stringconcat.ddd.shop.usecase.TestCartExtractor
 import com.stringconcat.ddd.shop.usecase.TestCartPersister
 import com.stringconcat.ddd.shop.usecase.TestMealExtractor
 import com.stringconcat.ddd.shop.usecase.cart
+import com.stringconcat.ddd.shop.usecase.cart.AddMealToCartUseCaseError
 import com.stringconcat.ddd.shop.usecase.cartId
 import com.stringconcat.ddd.shop.usecase.count
 import com.stringconcat.ddd.shop.usecase.customerId

@@ -1,8 +1,10 @@
-package com.stringconcat.ddd.shop.usecase.cart
+package com.stringconcat.ddd.shop.usecase.cart.scenarios
 
 import com.stringconcat.ddd.shop.usecase.TestCartExtractor
 import com.stringconcat.ddd.shop.usecase.TestMealExtractor
 import com.stringconcat.ddd.shop.usecase.cart
+import com.stringconcat.ddd.shop.usecase.cart.CartItem
+import com.stringconcat.ddd.shop.usecase.cart.GetCartUseCaseError
 import com.stringconcat.ddd.shop.usecase.count
 import com.stringconcat.ddd.shop.usecase.customerId
 import com.stringconcat.ddd.shop.usecase.meal

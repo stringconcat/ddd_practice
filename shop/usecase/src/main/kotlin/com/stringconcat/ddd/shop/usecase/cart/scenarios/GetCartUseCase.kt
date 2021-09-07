@@ -1,8 +1,12 @@
-package com.stringconcat.ddd.shop.usecase.cart
+package com.stringconcat.ddd.shop.usecase.cart.scenarios
 
 import arrow.core.Either
 import arrow.core.rightIfNotNull
 import com.stringconcat.ddd.shop.domain.cart.CustomerId
+import com.stringconcat.ddd.shop.usecase.cart.CartInfo
+import com.stringconcat.ddd.shop.usecase.cart.CartItem
+import com.stringconcat.ddd.shop.usecase.cart.GetCart
+import com.stringconcat.ddd.shop.usecase.cart.GetCartUseCaseError
 import com.stringconcat.ddd.shop.usecase.menu.scenarios.MealExtractor
 
 class GetCartUseCase(

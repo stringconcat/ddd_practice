@@ -1,8 +1,9 @@
-package com.stringconcat.ddd.shop.usecase.cart
+package com.stringconcat.ddd.shop.usecase.cart.scenarios
 
 import com.stringconcat.ddd.shop.usecase.TestCartExtractor
 import com.stringconcat.ddd.shop.usecase.TestCartPersister
 import com.stringconcat.ddd.shop.usecase.cart
+import com.stringconcat.ddd.shop.usecase.cart.RemoveMealFromCartUseCaseError
 import com.stringconcat.ddd.shop.usecase.mealId
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight
