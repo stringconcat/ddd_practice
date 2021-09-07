@@ -14,5 +14,7 @@ include(":kitchen:usecase")
 include(":kitchen:persistence")
 include(":kitchen:web")
 
+include(":delivery") // should be empty
+
 include(":integration:payment")
 include(":integration:telnet")
