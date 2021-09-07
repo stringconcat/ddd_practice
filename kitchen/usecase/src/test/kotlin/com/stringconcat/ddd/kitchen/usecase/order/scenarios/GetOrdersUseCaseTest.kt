@@ -1,5 +1,8 @@
-package com.stringconcat.ddd.kitchen.usecase.order
+package com.stringconcat.ddd.kitchen.usecase.order.scenarios
 
+import com.stringconcat.ddd.kitchen.usecase.order.KitchenOrderInfo
+import com.stringconcat.ddd.kitchen.usecase.order.TestKitchenOrderExtractor
+import com.stringconcat.ddd.kitchen.usecase.order.order
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldNotBeEmpty

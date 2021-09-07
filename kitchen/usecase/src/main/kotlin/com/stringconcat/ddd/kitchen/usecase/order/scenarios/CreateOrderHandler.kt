@@ -1,4 +1,4 @@
-package com.stringconcat.ddd.kitchen.usecase.order
+package com.stringconcat.ddd.kitchen.usecase.order.scenarios
 
 import arrow.core.Either
 import arrow.core.extensions.either.apply.tupled
@@ -12,6 +12,9 @@ import com.stringconcat.ddd.kitchen.domain.order.KitchenOrder
 import com.stringconcat.ddd.kitchen.domain.order.KitchenOrderId
 import com.stringconcat.ddd.kitchen.domain.order.Meal
 import com.stringconcat.ddd.kitchen.domain.order.OrderItem
+import com.stringconcat.ddd.kitchen.usecase.order.CreateOrder
+import com.stringconcat.ddd.kitchen.usecase.order.CreateOrderRequest
+import com.stringconcat.ddd.kitchen.usecase.order.CreateOrderUseCaseError
 
 class CreateOrderHandler(
     private val extractor: KitchenOrderExtractor,

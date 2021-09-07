@@ -8,6 +8,8 @@ import com.stringconcat.ddd.kitchen.domain.order.KitchenOrderId
 import com.stringconcat.ddd.kitchen.domain.order.KitchenOrderRestorer
 import com.stringconcat.ddd.kitchen.domain.order.Meal
 import com.stringconcat.ddd.kitchen.domain.order.OrderItem
+import com.stringconcat.ddd.kitchen.usecase.order.scenarios.KitchenOrderExtractor
+import com.stringconcat.ddd.kitchen.usecase.order.scenarios.KitchenOrderPersister
 import kotlin.random.Random
 
 fun orderId() = KitchenOrderId(Random.nextLong())

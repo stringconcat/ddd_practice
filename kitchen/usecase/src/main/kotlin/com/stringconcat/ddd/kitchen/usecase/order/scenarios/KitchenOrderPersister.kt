@@ -1,4 +1,4 @@
-package com.stringconcat.ddd.kitchen.usecase.order
+package com.stringconcat.ddd.kitchen.usecase.order.scenarios
 
 import com.stringconcat.ddd.kitchen.domain.order.KitchenOrder
 

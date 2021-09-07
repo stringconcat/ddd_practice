@@ -1,6 +1,6 @@
 package com.stringconcat.dev.course.app.configuration
 
-import com.stringconcat.ddd.kitchen.usecase.order.CreateOrderHandler
+import com.stringconcat.ddd.kitchen.usecase.order.scenarios.CreateOrderHandler
 import com.stringconcat.ddd.shop.usecase.menu.scenarios.MealExtractor
 import com.stringconcat.ddd.shop.usecase.order.scenarios.ShopOrderExtractor
 import com.stringconcat.dev.course.app.event.EventPublisherImpl

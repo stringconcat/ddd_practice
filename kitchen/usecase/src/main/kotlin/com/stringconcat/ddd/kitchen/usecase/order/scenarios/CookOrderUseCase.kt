@@ -1,8 +1,10 @@
-package com.stringconcat.ddd.kitchen.usecase.order
+package com.stringconcat.ddd.kitchen.usecase.order.scenarios
 
 import arrow.core.Either
 import arrow.core.rightIfNotNull
 import com.stringconcat.ddd.kitchen.domain.order.KitchenOrderId
+import com.stringconcat.ddd.kitchen.usecase.order.CookOrder
+import com.stringconcat.ddd.kitchen.usecase.order.CookOrderUseCaseError
 
 class CookOrderUseCase(
     private val kitchenOrderExtractor: KitchenOrderExtractor,
