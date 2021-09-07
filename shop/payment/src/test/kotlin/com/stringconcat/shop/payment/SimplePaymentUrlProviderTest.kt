@@ -1,4 +1,4 @@
-package com.stringconcat.integration.payment
+package com.stringconcat.shop.payment
 
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test

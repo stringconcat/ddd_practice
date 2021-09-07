@@ -8,6 +8,7 @@ dependencies {
 
     // project
     implementation(project(":common:types"))
+    implementation(project(":common:telnet"))
 
     implementation(project(":kitchen:domain"))
     implementation(project(":kitchen:usecase"))
@@ -19,9 +20,7 @@ dependencies {
     implementation(project(":shop:persistence"))
     implementation(project(":shop:telnet"))
     implementation(project(":shop:web"))
-
-    implementation(project(":integration:payment"))
-    implementation(project(":integration:telnet"))
+    implementation(project(":shop:payment"))
 
     // kotlin
     implementation(Libs.kotlin_jdk8)

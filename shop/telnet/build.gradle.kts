@@ -3,7 +3,7 @@ dependencies {
     implementation(project(":common:types"))
     implementation(project(":shop:domain"))
     implementation(project(":shop:usecase"))
-    implementation(project(":integration:telnet"))
+    implementation(project(":common:telnet"))
 
     // kotlin
     implementation(Libs.kotlin_jdk8)

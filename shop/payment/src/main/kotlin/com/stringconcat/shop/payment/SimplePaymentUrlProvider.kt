@@ -1,4 +1,4 @@
-package com.stringconcat.integration.payment
+package com.stringconcat.shop.payment
 
 import com.stringconcat.ddd.shop.domain.menu.Price
 import com.stringconcat.ddd.shop.domain.order.ShopOrderId

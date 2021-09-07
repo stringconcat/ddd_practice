@@ -1,4 +1,4 @@
-package com.stringconcat.integration.payment
+package com.stringconcat.shop.payment
 
 import arrow.core.Either
 import com.stringconcat.ddd.shop.domain.menu.Price

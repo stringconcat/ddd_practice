@@ -19,7 +19,8 @@ class TelnetConfiguration(
 ) {
 
     @Bean(initMethod = "start", destroyMethod = "shutdown")
-    fun telnetServer(shellFactory: ShellFactory) = TelnetServer(telnetPort, telnetThreads, shellFactory)
+    fun telnetServer(shellFactory: ShellFactory) =
+        TelnetServer(telnetPort, telnetThreads, shellFactory)
 
     @Bean
     fun shellFactory(commandRegistry: TelnetCommandRegistry) = ApplicationShellFactory(commandRegistry)

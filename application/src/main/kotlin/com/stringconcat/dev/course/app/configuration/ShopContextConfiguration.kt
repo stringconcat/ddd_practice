@@ -58,7 +58,7 @@ import com.stringconcat.ddd.shop.web.menu.MenuController
 import com.stringconcat.ddd.shop.web.order.ShopOrderController
 import com.stringconcat.dev.course.app.event.EventPublisherImpl
 import com.stringconcat.dev.course.app.listeners.RemoveCartAfterCheckoutRule
-import com.stringconcat.integration.payment.SimplePaymentUrlProvider
+import com.stringconcat.shop.payment.SimplePaymentUrlProvider
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import java.net.URL
