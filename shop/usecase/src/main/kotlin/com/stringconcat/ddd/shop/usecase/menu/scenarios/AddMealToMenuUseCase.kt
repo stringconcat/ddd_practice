@@ -1,4 +1,4 @@
-package com.stringconcat.ddd.shop.usecase.menu
+package com.stringconcat.ddd.shop.usecase.menu.scenarios
 
 import arrow.core.Either
 import com.stringconcat.ddd.shop.domain.menu.AlreadyExistsWithSameNameError
@@ -6,6 +6,9 @@ import com.stringconcat.ddd.shop.domain.menu.Meal
 import com.stringconcat.ddd.shop.domain.menu.MealAlreadyExists
 import com.stringconcat.ddd.shop.domain.menu.MealId
 import com.stringconcat.ddd.shop.domain.menu.MealIdGenerator
+import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenu
+import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenuRequest
+import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenuUseCaseError
 
 class AddMealToMenuUseCase(
     private val mealPersister: MealPersister,

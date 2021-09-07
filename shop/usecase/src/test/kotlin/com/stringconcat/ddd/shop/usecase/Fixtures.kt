@@ -23,8 +23,8 @@ import com.stringconcat.ddd.shop.domain.order.CustomerHasActiveOrder
 import com.stringconcat.ddd.shop.usecase.cart.CartExtractor
 import com.stringconcat.ddd.shop.usecase.cart.CartPersister
 import com.stringconcat.ddd.shop.usecase.cart.CartRemover
-import com.stringconcat.ddd.shop.usecase.menu.MealExtractor
-import com.stringconcat.ddd.shop.usecase.menu.MealPersister
+import com.stringconcat.ddd.shop.usecase.menu.scenarios.MealExtractor
+import com.stringconcat.ddd.shop.usecase.menu.scenarios.MealPersister
 import com.stringconcat.ddd.shop.usecase.order.ShopOrderExtractor
 import com.stringconcat.ddd.shop.usecase.order.ShopOrderPersister
 import java.math.BigDecimal

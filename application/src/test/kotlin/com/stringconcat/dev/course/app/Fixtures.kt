@@ -16,7 +16,7 @@ import com.stringconcat.ddd.shop.domain.order.ShopOrderId
 import com.stringconcat.ddd.shop.domain.order.ShopOrderRestorer
 import com.stringconcat.ddd.shop.domain.order.OrderItem
 import com.stringconcat.ddd.shop.domain.order.OrderState
-import com.stringconcat.ddd.shop.usecase.menu.MealExtractor
+import com.stringconcat.ddd.shop.usecase.menu.scenarios.MealExtractor
 import com.stringconcat.ddd.shop.usecase.order.ShopOrderExtractor
 import java.math.BigDecimal
 import java.time.OffsetDateTime

@@ -3,7 +3,7 @@ package com.stringconcat.ddd.shop.usecase.cart
 import arrow.core.Either
 import arrow.core.rightIfNotNull
 import com.stringconcat.ddd.shop.domain.cart.CustomerId
-import com.stringconcat.ddd.shop.usecase.menu.MealExtractor
+import com.stringconcat.ddd.shop.usecase.menu.scenarios.MealExtractor
 
 class GetCartUseCase(
     private val mealExtractor: MealExtractor,

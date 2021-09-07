@@ -1,9 +1,11 @@
-package com.stringconcat.ddd.shop.usecase.menu
+package com.stringconcat.ddd.shop.usecase.menu.scenarios
 
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
 import com.stringconcat.ddd.shop.domain.menu.MealId
+import com.stringconcat.ddd.shop.usecase.menu.RemoveMealFromMenu
+import com.stringconcat.ddd.shop.usecase.menu.RemoveMealFromMenuUseCaseError
 
 class RemoveMealFromMenuUseCase(
     private val mealExtractor: MealExtractor,

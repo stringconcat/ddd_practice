@@ -6,7 +6,7 @@ import com.stringconcat.ddd.shop.domain.cart.Cart
 import com.stringconcat.ddd.shop.domain.cart.CartIdGenerator
 import com.stringconcat.ddd.shop.domain.cart.CustomerId
 import com.stringconcat.ddd.shop.domain.menu.MealId
-import com.stringconcat.ddd.shop.usecase.menu.MealExtractor
+import com.stringconcat.ddd.shop.usecase.menu.scenarios.MealExtractor
 
 class AddMealToCartUseCase(
     private val cartExtractor: CartExtractor,

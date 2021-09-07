@@ -1,7 +1,8 @@
-package com.stringconcat.ddd.shop.usecase.menu
+package com.stringconcat.ddd.shop.usecase.menu.scenarios
 
 import com.stringconcat.ddd.shop.usecase.TestMealExtractor
 import com.stringconcat.ddd.shop.usecase.meal
+import com.stringconcat.ddd.shop.usecase.menu.MealInfo
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import org.junit.jupiter.api.Test

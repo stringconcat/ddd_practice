@@ -1,4 +1,4 @@
-package com.stringconcat.ddd.shop.usecase.menu
+package com.stringconcat.ddd.shop.usecase.menu.scenarios
 
 import com.stringconcat.ddd.shop.domain.menu.MealAlreadyExists
 import com.stringconcat.ddd.shop.domain.menu.MealIdGenerator
@@ -7,6 +7,8 @@ import com.stringconcat.ddd.shop.usecase.TestMealPersister
 import com.stringconcat.ddd.shop.usecase.mealDescription
 import com.stringconcat.ddd.shop.usecase.mealId
 import com.stringconcat.ddd.shop.usecase.mealName
+import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenuRequest
+import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenuUseCaseError
 import com.stringconcat.ddd.shop.usecase.price
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight
