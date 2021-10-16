@@ -1,15 +1,18 @@
 package com.stringconcat.dev.course.app
 
+import com.stringconcat.dev.course.app.controllers.IndexController
 import com.stringconcat.dev.course.app.controllers.URLs
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
-import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@WebMvcTest
+@ContextConfiguration(classes = [MainTest.TestConfiguration::class])
 class MainTest {
 
     @Autowired
@@ -20,5 +23,11 @@ class MainTest {
         mockMvc.get("/")
             .andExpect { status { is3xxRedirection() } }
             .andExpect { header { string("Location", URLs.rootMenu) } }
+    }
+
+    @Configuration
+    class TestConfiguration {
+        @Bean
+        fun indexController() = IndexController()
     }
 }
