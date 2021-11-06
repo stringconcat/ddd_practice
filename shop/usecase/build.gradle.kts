@@ -1,3 +1,5 @@
+project.base.archivesBaseName = "shop-usecase"
+
 dependencies {
     // project
     implementation(project(":shop:domain"))

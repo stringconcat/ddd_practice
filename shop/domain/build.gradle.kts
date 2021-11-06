@@ -1,3 +1,5 @@
+project.base.archivesBaseName = "shop-domain"
+
 dependencies {
     // project
     implementation(project(":common:types"))

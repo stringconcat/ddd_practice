@@ -1,3 +1,5 @@
+project.base.archivesBaseName = "kitchen-domain"
+
 dependencies {
     // project
     implementation(project(":common:types"))

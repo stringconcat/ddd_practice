@@ -1,3 +1,5 @@
+project.base.archivesBaseName = "shop-telnet"
+
 dependencies {
     // project
     implementation(project(":common:types"))

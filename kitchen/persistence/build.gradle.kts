@@ -1,3 +1,5 @@
+project.base.archivesBaseName = "kitchen-persistence"
+
 dependencies {
     // project
     implementation(project(":common:types"))

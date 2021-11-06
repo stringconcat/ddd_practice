@@ -1,13 +1,14 @@
 object LibVers {
 
-    const val spring_boot = "2.4.3"
+    const val spring_boot = "2.5.6"
     const val junit = "5.7.1"
-    const val kotest = "4.4.3"
+    const val kotest = "4.6.3"
+    const val kotest_arrow = "4.4.3"
     const val jackson = "2.12.1"
     const val arrow = "0.11.0"
     const val telnet = "1.1"
     const val slf4j = "1.7.30"
-    const val ascii_table = "1.1.0"
+    const val ascii_table = "1.2.0"
     const val testng = "7.3.0"
     const val commons_net = "3.8.0"
     const val arch_unit = "0.18.0"
@@ -42,9 +43,10 @@ object Libs {
 
     // Tests
     const val junit_params = "org.junit.jupiter:junit-jupiter-params:${LibVers.junit}"
+    const val junit_api = "org.junit.jupiter:junit-jupiter-api:${LibVers.junit}"
     const val junit_engine = "org.junit.jupiter:junit-jupiter-engine:${LibVers.junit}"
     const val kotest_junit = "io.kotest:kotest-runner-junit5:${LibVers.kotest}"
-    const val kotest_arrow = "io.kotest:kotest-assertions-arrow:${LibVers.kotest}"
+    const val kotest_arrow = "io.kotest:kotest-assertions-arrow:${LibVers.kotest_arrow}"
     const val arch_unit = "com.tngtech.archunit:archunit-junit5:${LibVers.arch_unit}"
 
     // Telnet deps
@@ -56,7 +58,7 @@ object Libs {
 object PluginVers {
     const val kotlin = Global.kotlin_version
     const val spring_boot = LibVers.spring_boot
-    const val detekt = "1.16.0"
+    const val detekt = "1.18.1"
     const val detekt_formatting = detekt
     const val spring_dependency_management = "1.0.11.RELEASE"
     const val spring_kotlin = Global.kotlin_version

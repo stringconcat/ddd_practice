@@ -1,3 +1,5 @@
+project.base.archivesBaseName = "kitchen-usecase"
+
 dependencies {
     // project
     implementation(project(":kitchen:domain"))
