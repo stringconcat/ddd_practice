@@ -1,4 +1,4 @@
-project.base.archivesBaseName = "kitchen-usecase"
+project.base.archivesName.set("kitchen-usecase")
 
 dependencies {
     // project

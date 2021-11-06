@@ -1,4 +1,4 @@
-project.base.archivesBaseName = "shop-telnet"
+project.base.archivesName.set("shop-telnet")
 
 dependencies {
     // project

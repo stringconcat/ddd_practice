@@ -1,4 +1,4 @@
-project.base.archivesBaseName = "kitchen-web"
+project.base.archivesName.set("kitchen-web")
 
 dependencies {
     // project

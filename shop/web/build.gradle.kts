@@ -1,4 +1,4 @@
-project.base.archivesBaseName = "shop-web"
+project.base.archivesName.set("shop-web")
 
 dependencies {
     // project

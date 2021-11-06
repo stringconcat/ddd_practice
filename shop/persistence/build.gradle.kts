@@ -1,4 +1,4 @@
-project.base.archivesBaseName = "shop-persistence"
+project.base.archivesName.set("shop-persistence")
 
 dependencies {
     // project

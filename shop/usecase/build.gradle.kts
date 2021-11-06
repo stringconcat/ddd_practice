@@ -1,4 +1,4 @@
-project.base.archivesBaseName = "shop-usecase"
+project.base.archivesName.set("shop-usecase")
 
 dependencies {
     // project

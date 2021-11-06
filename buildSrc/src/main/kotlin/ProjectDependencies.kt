@@ -4,14 +4,14 @@ object LibVers {
     const val junit = "5.7.1"
     const val kotest = "4.6.3"
     const val kotest_arrow = "4.4.3"
-    const val jackson = "2.12.1"
+    const val jackson = "2.13.0"
     const val arrow = "0.11.0"
     const val telnet = "1.1"
-    const val slf4j = "1.7.30"
+    const val slf4j = "1.7.32"
     const val ascii_table = "1.2.0"
     const val testng = "7.3.0"
     const val commons_net = "3.8.0"
-    const val arch_unit = "0.18.0"
+    const val arch_unit = "0.22.0"
 
 }
 
@@ -43,7 +43,6 @@ object Libs {
 
     // Tests
     const val junit_params = "org.junit.jupiter:junit-jupiter-params:${LibVers.junit}"
-    const val junit_api = "org.junit.jupiter:junit-jupiter-api:${LibVers.junit}"
     const val junit_engine = "org.junit.jupiter:junit-jupiter-engine:${LibVers.junit}"
     const val kotest_junit = "io.kotest:kotest-runner-junit5:${LibVers.kotest}"
     const val kotest_arrow = "io.kotest:kotest-assertions-arrow:${LibVers.kotest_arrow}"
