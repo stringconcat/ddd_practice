@@ -1,7 +1,7 @@
 package com.stringconcat.ddd.shop.usecase.menu
 
 import arrow.core.Either
-import arrow.core.extensions.either.apply.tupled
+import arrow.core.zip
 import com.stringconcat.ddd.shop.domain.menu.CreatePriceError
 import com.stringconcat.ddd.shop.domain.menu.EmptyDescriptionError
 import com.stringconcat.ddd.shop.domain.menu.EmptyMealNameError
@@ -32,13 +32,13 @@ data class AddMealToMenuRequest internal constructor(
             description: String,
             price: BigDecimal
         ): Either<InvalidMealParameters, AddMealToMenuRequest> {
-            return tupled(
-                MealName.from(name).mapLeft { it.toError() },
-                MealDescription.from(description).mapLeft { it.toError() },
-                Price.from(price).mapLeft { it.toError() }
-            ).map { params ->
-                AddMealToMenuRequest(params.a, params.b, params.c)
-            }
+            return MealName.from(name).mapLeft { it.toError() }
+                .zip(
+                    MealDescription.from(description).mapLeft { it.toError() },
+                    Price.from(price).mapLeft { it.toError() }
+                ) { mealName, mealDescription, mealPrice ->
+                    AddMealToMenuRequest(mealName, mealDescription, mealPrice)
+                }
         }
     }
 }

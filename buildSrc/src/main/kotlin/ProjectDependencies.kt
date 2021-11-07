@@ -5,7 +5,7 @@ object LibVers {
     const val kotest = "4.6.3"
     const val kotest_arrow = "4.4.3"
     const val jackson = "2.13.0"
-    const val arrow = "0.11.0"
+    const val arrow = "1.0.1"
     const val telnet = "1.1"
     const val slf4j = "1.7.32"
     const val ascii_table = "1.2.0"

@@ -1,9 +1,9 @@
 package com.stringconcat.ddd.kitchen.usecase.order.scenarios
 
 import arrow.core.Either
-import arrow.core.extensions.either.apply.tupled
 import arrow.core.left
 import arrow.core.right
+import arrow.core.zip
 import com.stringconcat.ddd.common.types.common.Count
 import com.stringconcat.ddd.common.types.common.NegativeValueError
 import com.stringconcat.ddd.kitchen.domain.order.EmptyMealNameError
@@ -34,10 +34,9 @@ class CreateOrderHandler(
     private fun createNewOrder(request: CreateOrderRequest): Either<CreateOrderUseCaseError, Unit> {
 
         val items = request.items.map {
-            tupled(
-                transform(it.count),
+            transform(it.count).zip(
                 transform(it.mealName)
-            ).map { sourceItem -> OrderItem(sourceItem.b, sourceItem.a) }
+            ) { count, mealName ->  OrderItem(mealName, count) }
         }.map {
             it.mapLeft { e -> return@createNewOrder e.left() }
         }.mapNotNull { it.orNull() }

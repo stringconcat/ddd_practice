@@ -11,16 +11,15 @@ import com.stringconcat.ddd.shop.domain.menu.MealId
 import com.stringconcat.ddd.shop.domain.menu.MealName
 import com.stringconcat.ddd.shop.domain.menu.MealRestorer
 import com.stringconcat.ddd.shop.domain.menu.Price
+import com.stringconcat.ddd.shop.domain.order.OrderItem
+import com.stringconcat.ddd.shop.domain.order.OrderState
 import com.stringconcat.ddd.shop.domain.order.ShopOrder
 import com.stringconcat.ddd.shop.domain.order.ShopOrderId
 import com.stringconcat.ddd.shop.domain.order.ShopOrderRestorer
-import com.stringconcat.ddd.shop.domain.order.OrderItem
-import com.stringconcat.ddd.shop.domain.order.OrderState
 import com.stringconcat.ddd.shop.usecase.menu.scenarios.MealExtractor
 import com.stringconcat.ddd.shop.usecase.order.scenarios.ShopOrderExtractor
 import java.math.BigDecimal
 import java.time.OffsetDateTime
-import java.util.LinkedHashMap
 import java.util.UUID
 import kotlin.math.absoluteValue
 import kotlin.random.Random
@@ -28,7 +27,7 @@ import kotlin.random.Random
 fun mealName(name: String = "Name ${Random.nextInt()}"): MealName {
     val result = MealName.from(name)
     check(result is Either.Right<MealName>)
-    return result.b
+    return result.value
 }
 
 fun orderId() = ShopOrderId(Random.nextLong())
@@ -36,13 +35,13 @@ fun orderId() = ShopOrderId(Random.nextLong())
 fun mealDescription(description: String = "Description ${Random.nextInt()}"): MealDescription {
     val result = MealDescription.from(description)
     check(result is Either.Right<MealDescription>)
-    return result.b
+    return result.value
 }
 
 fun price(value: BigDecimal = BigDecimal(Random.nextInt(1, 500000))): Price {
     val result = Price.from(value)
     check(result is Either.Right<Price>)
-    return result.b
+    return result.value
 }
 
 fun mealId(id: Long = Random.nextLong()) = MealId(id)
@@ -50,7 +49,7 @@ fun mealId(id: Long = Random.nextLong()) = MealId(id)
 fun count(value: Int = Random.nextInt(20, 5000)): Count {
     val result = Count.from(value)
     check(result is Either.Right<Count>)
-    return result.b
+    return result.value
 }
 
 fun customerId() = CustomerId(UUID.randomUUID().toString())
@@ -63,7 +62,7 @@ fun address(): Address {
     )
 
     check(result is Either.Right<Address>)
-    return result.b
+    return result.value
 }
 
 fun shopOrder(
