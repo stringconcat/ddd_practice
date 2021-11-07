@@ -2,18 +2,12 @@ package com.stringconcat.ddd.kitchen.domain.order
 
 import arrow.core.Either
 import com.stringconcat.ddd.common.types.base.Version
-import com.stringconcat.ddd.common.types.common.Count
+import com.stringconcat.ddd.common.types.count
 import kotlin.random.Random
 
 fun orderId() = KitchenOrderId(Random.nextLong())
 
 fun version() = Version.new()
-
-fun count(value: Int = Random.nextInt(20, 5000)): Count {
-    val result = Count.from(value)
-    check(result is Either.Right<Count>)
-    return result.value
-}
 
 fun meal(): Meal {
     val result = Meal.from("Meal #${Random.nextInt()}")
@@ -28,9 +22,9 @@ fun orderItem(): OrderItem {
     )
 }
 
-fun order(cooked: Boolean = true): KitchenOrder {
+fun order(id: KitchenOrderId = orderId(), cooked: Boolean = true): KitchenOrder {
     return KitchenOrderRestorer.restoreOrder(
-        id = orderId(),
+        id = id,
         orderItems = listOf(orderItem()),
         cooked = cooked,
         version = version()

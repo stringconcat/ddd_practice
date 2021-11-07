@@ -1,15 +1,15 @@
 package com.stringconcat.ddd.kitchen.usecase.order.scenarios
 
+import com.stringconcat.ddd.common.types.count
 import com.stringconcat.ddd.kitchen.domain.order.KitchenOrderCreatedDomainEvent
 import com.stringconcat.ddd.kitchen.domain.order.OrderItem
+import com.stringconcat.ddd.kitchen.domain.order.meal
+import com.stringconcat.ddd.kitchen.domain.order.order
+import com.stringconcat.ddd.kitchen.domain.order.orderId
 import com.stringconcat.ddd.kitchen.usecase.order.CreateOrderRequest
 import com.stringconcat.ddd.kitchen.usecase.order.CreateOrderUseCaseError
 import com.stringconcat.ddd.kitchen.usecase.order.TestKitchenOrderExtractor
 import com.stringconcat.ddd.kitchen.usecase.order.TestKitchenOrderPersister
-import com.stringconcat.ddd.kitchen.usecase.order.count
-import com.stringconcat.ddd.kitchen.usecase.order.meal
-import com.stringconcat.ddd.kitchen.usecase.order.order
-import com.stringconcat.ddd.kitchen.usecase.order.orderId
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.matchers.collections.shouldContainExactly

@@ -1,6 +1,8 @@
 package com.stringconcat.ddd.kitchen.persistence.order
 
 import com.stringconcat.ddd.kitchen.domain.order.KitchenOrderCookedDomainEvent
+import com.stringconcat.ddd.kitchen.domain.order.order
+import com.stringconcat.ddd.kitchen.domain.order.orderId
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldHaveSize

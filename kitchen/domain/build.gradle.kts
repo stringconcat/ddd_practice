@@ -15,4 +15,9 @@ dependencies {
     testImplementation(Libs.kotest_arrow)
     testImplementation(Libs.junit_engine)
     testImplementation(Libs.junit_params)
+
+    testImplementation(testFixtures(project(":common:types")))
+
+    testFixturesImplementation(testFixtures(project(":common:types")))
+    testFixturesImplementation(Libs.arrow)
 }
