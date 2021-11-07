@@ -3,24 +3,23 @@ package com.stringconcat.dev.course.app.listeners
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
+import com.stringconcat.ddd.common.types.count
 import com.stringconcat.ddd.kitchen.usecase.order.CreateOrder
 import com.stringconcat.ddd.kitchen.usecase.order.CreateOrderRequest
 import com.stringconcat.ddd.kitchen.usecase.order.CreateOrderUseCaseError
-import com.stringconcat.ddd.shop.domain.order.ShopOrderConfirmedDomainEvent
+import com.stringconcat.ddd.shop.domain.meal
+import com.stringconcat.ddd.shop.domain.order
 import com.stringconcat.ddd.shop.domain.order.OrderItem
-import com.stringconcat.dev.course.app.TestShopOrderExtractor
-import com.stringconcat.dev.course.app.TestMealExtractor
-import com.stringconcat.dev.course.app.count
-import com.stringconcat.dev.course.app.shopOrder
-import com.stringconcat.dev.course.app.meal
-import com.stringconcat.dev.course.app.orderId
-import com.stringconcat.dev.course.app.price
+import com.stringconcat.ddd.shop.domain.order.ShopOrderConfirmedDomainEvent
+import com.stringconcat.ddd.shop.domain.orderId
+import com.stringconcat.ddd.shop.domain.price
+import com.stringconcat.ddd.shop.usecase.TestMealExtractor
+import com.stringconcat.ddd.shop.usecase.TestShopOrderExtractor
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
-import java.lang.IllegalStateException
 
 class SendOrderToKitchenAfterConfirmationRuleTest {
 
@@ -30,7 +29,7 @@ class SendOrderToKitchenAfterConfirmationRuleTest {
         val meal = meal()
         val price = price()
         val count = count()
-        val order = shopOrder(orderItems = setOf(OrderItem(meal.id, price, count)))
+        val order = order(orderItems = setOf(OrderItem(meal.id, price, count)))
 
         val orderExtractor = TestShopOrderExtractor().apply {
             this[order.id] = order
@@ -89,7 +88,7 @@ class SendOrderToKitchenAfterConfirmationRuleTest {
         val meal = meal()
         val price = price()
         val count = count()
-        val order = shopOrder(orderItems = setOf(OrderItem(meal.id, price, count)))
+        val order = order(orderItems = setOf(OrderItem(meal.id, price, count)))
 
         val orderExtractor = TestShopOrderExtractor().apply {
             this[order.id] = order
@@ -120,7 +119,7 @@ class SendOrderToKitchenAfterConfirmationRuleTest {
         val meal = meal()
         val price = price()
         val count = count()
-        val order = shopOrder(orderItems = setOf(OrderItem(meal.id, price, count)))
+        val order = order(orderItems = setOf(OrderItem(meal.id, price, count)))
 
         val orderExtractor = TestShopOrderExtractor().apply {
             this[order.id] = order

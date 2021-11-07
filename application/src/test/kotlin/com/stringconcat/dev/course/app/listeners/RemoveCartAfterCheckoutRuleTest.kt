@@ -4,11 +4,11 @@ import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
 import com.stringconcat.ddd.shop.domain.cart.CustomerId
+import com.stringconcat.ddd.shop.domain.customerId
 import com.stringconcat.ddd.shop.domain.order.ShopOrderCreatedDomainEvent
+import com.stringconcat.ddd.shop.domain.orderId
 import com.stringconcat.ddd.shop.usecase.cart.RemoveCart
 import com.stringconcat.ddd.shop.usecase.cart.RemoveCartHandlerError
-import com.stringconcat.dev.course.app.customerId
-import com.stringconcat.dev.course.app.orderId
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 
