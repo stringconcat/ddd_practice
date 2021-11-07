@@ -91,7 +91,7 @@ class TestShopOrderExtractor : ShopOrderExtractor, LinkedHashMap<ShopOrderId, Sh
 }
 
 class TestCartRemover : CartRemover {
-    internal val deleted = ArrayList<CartId>()
+    val deleted = ArrayList<CartId>()
     override fun deleteCart(cart: Cart) {
         deleted.add(cart.id)
     }

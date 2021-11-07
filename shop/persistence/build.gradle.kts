@@ -20,4 +20,8 @@ dependencies {
 
     testImplementation(testFixtures(project(":common:types")))
     testImplementation(testFixtures(project(":shop:domain")))
+
+    testFixturesImplementation(testFixtures(project(":common:types")))
+    testFixturesImplementation(testFixtures(project(":shop:domain")))
+    testFixturesImplementation(Libs.arrow)
 }

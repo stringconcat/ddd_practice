@@ -37,7 +37,7 @@ fun orderWithEvents(id: ShopOrderId = orderId()): ShopOrder {
 }
 
 class TestEventPublisher : EventPublisher {
-    internal val storage = ArrayList<DomainEvent>()
+    val storage = ArrayList<DomainEvent>()
     override fun publish(events: Collection<DomainEvent>) {
         storage.addAll(events)
     }
