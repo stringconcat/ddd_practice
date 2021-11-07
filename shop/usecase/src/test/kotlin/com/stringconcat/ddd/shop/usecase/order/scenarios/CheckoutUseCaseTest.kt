@@ -4,9 +4,9 @@ import com.stringconcat.ddd.common.types.common.Address
 import com.stringconcat.ddd.shop.domain.cart.CustomerId
 import com.stringconcat.ddd.shop.domain.menu.MealId
 import com.stringconcat.ddd.shop.domain.menu.Price
+import com.stringconcat.ddd.shop.domain.order.MealPriceProvider
 import com.stringconcat.ddd.shop.domain.order.ShopOrderId
 import com.stringconcat.ddd.shop.domain.order.ShopOrderIdGenerator
-import com.stringconcat.ddd.shop.domain.order.MealPriceProvider
 import com.stringconcat.ddd.shop.usecase.TestCartExtractor
 import com.stringconcat.ddd.shop.usecase.TestCustomerHasActiveOrder
 import com.stringconcat.ddd.shop.usecase.TestShopOrderPersister
@@ -19,13 +19,14 @@ import com.stringconcat.ddd.shop.usecase.order.CheckoutRequest
 import com.stringconcat.ddd.shop.usecase.order.CheckoutUseCaseError
 import com.stringconcat.ddd.shop.usecase.orderId
 import com.stringconcat.ddd.shop.usecase.price
-import io.kotest.assertions.arrow.either.shouldBeLeft
-import io.kotest.assertions.arrow.either.shouldBeRight
+import io.kotest.assertions.arrow.core.shouldBeLeft
+import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
-import org.junit.jupiter.api.Test
 import java.net.URL
+import org.junit.jupiter.api.Test
 
 internal class CheckoutUseCaseTest {
 
@@ -62,7 +63,7 @@ internal class CheckoutUseCaseTest {
         val shopOrder = orderPersister[orderId]
         shopOrder.shouldNotBeNull()
 
-        result shouldBeRight {
+        result.shouldBeRight().should {
             it.orderId shouldBe orderId
             it.paymentURL shouldBe TestPaymentUrlProvider.paymentUrl
             it.price shouldBe shopOrder.totalPrice()

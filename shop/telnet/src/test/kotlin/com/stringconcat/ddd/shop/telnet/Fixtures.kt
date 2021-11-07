@@ -15,7 +15,7 @@ import kotlin.random.Random
 fun mealName(name: String = "Name ${Random.nextInt()}"): MealName {
     val result = MealName.from(name)
     check(result is Either.Right<MealName>)
-    return result.b
+    return result.value
 }
 
 fun orderId() = ShopOrderId(Random.nextLong())
@@ -23,13 +23,13 @@ fun orderId() = ShopOrderId(Random.nextLong())
 fun mealDescription(description: String = "Description ${Random.nextInt()}"): MealDescription {
     val result = MealDescription.from(description)
     check(result is Either.Right<MealDescription>)
-    return result.b
+    return result.value
 }
 
 fun price(value: BigDecimal = BigDecimal(Random.nextInt(1, 500000))): Price {
     val result = Price.from(value)
     check(result is Either.Right<Price>)
-    return result.b
+    return result.value
 }
 
 fun mealId(id: Long = Random.nextLong()) = MealId(id)
@@ -37,7 +37,7 @@ fun mealId(id: Long = Random.nextLong()) = MealId(id)
 fun count(value: Int = Random.nextInt(20, 5000)): Count {
     val result = Count.from(value)
     check(result is Either.Right<Count>)
-    return result.b
+    return result.value
 }
 
 fun customerId() = CustomerId(UUID.randomUUID().toString())

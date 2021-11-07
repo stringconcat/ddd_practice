@@ -7,8 +7,8 @@ import com.stringconcat.ddd.shop.usecase.order.CompleteOrderUseCaseError
 import com.stringconcat.ddd.shop.usecase.orderId
 import com.stringconcat.ddd.shop.usecase.orderNotReadyForComplete
 import com.stringconcat.ddd.shop.usecase.orderReadyForComplete
-import io.kotest.assertions.arrow.either.shouldBeLeft
-import io.kotest.assertions.arrow.either.shouldBeRight
+import io.kotest.assertions.arrow.core.shouldBeLeft
+import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.nulls.shouldNotBeNull
 import org.junit.jupiter.api.Test

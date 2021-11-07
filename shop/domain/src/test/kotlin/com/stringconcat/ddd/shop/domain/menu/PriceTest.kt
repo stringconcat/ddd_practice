@@ -2,35 +2,33 @@ package com.stringconcat.ddd.shop.domain.menu
 
 import com.stringconcat.ddd.shop.domain.count
 import com.stringconcat.ddd.shop.domain.price
-import io.kotest.assertions.arrow.either.shouldBeLeft
-import io.kotest.assertions.arrow.either.shouldBeRight
+import io.kotest.assertions.arrow.core.shouldBeLeft
+import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.matchers.shouldBe
+import java.math.BigDecimal
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
-import java.math.BigDecimal
 
 internal class PriceTest {
 
     @ParameterizedTest
     @ValueSource(ints = [0, 1])
     fun `create price - success`(value: Int) {
-        val price = BigDecimal(value)
-        val result = Price.from(price)
+        val input = BigDecimal(value)
+        val result = Price.from(input)
 
-        result shouldBeRight {
-            it.value shouldBe price.setScale(2)
-        }
+        val price = result.shouldBeRight()
+        price.value shouldBe input.setScale(2)
     }
 
     @Test
     fun `create price - change scale`() {
-        val price = BigDecimal("1.4")
-        val result = Price.from(price)
+        val value = BigDecimal("1.4")
+        val result = Price.from(value)
 
-        result shouldBeRight {
-            it.value shouldBe BigDecimal("1.40")
-        }
+        val price = result.shouldBeRight()
+        price.value shouldBe BigDecimal("1.40")
     }
 
     @Test

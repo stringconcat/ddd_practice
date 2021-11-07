@@ -5,8 +5,8 @@ import com.stringconcat.ddd.shop.usecase.TestCartRemover
 import com.stringconcat.ddd.shop.usecase.cart
 import com.stringconcat.ddd.shop.usecase.cart.RemoveCartHandlerError
 import com.stringconcat.ddd.shop.usecase.customerId
-import io.kotest.assertions.arrow.either.shouldBeLeft
-import io.kotest.assertions.arrow.either.shouldBeRight
+import io.kotest.assertions.arrow.core.shouldBeLeft
+import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import org.junit.jupiter.api.Test

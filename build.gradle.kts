@@ -30,10 +30,10 @@ subprojects {
         plugin(Plugins.update_dependencies)
         plugin(Plugins.owasp_dependencies)
         plugin(Plugins.pitest)
+        plugin(Plugins.javaTestFixtures)
     }
 
     repositories {
-        jcenter()
         mavenCentral()
         mavenLocal()
     }

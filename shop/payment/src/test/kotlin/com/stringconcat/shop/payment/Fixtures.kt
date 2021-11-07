@@ -9,7 +9,7 @@ import kotlin.random.Random
 fun price(value: BigDecimal = BigDecimal(Random.nextInt(1, 500000))): Price {
     val result = Price.from(value)
     check(result is Either.Right<Price>)
-    return result.b
+    return result.value
 }
 
 fun orderId() = ShopOrderId(Random.nextLong())

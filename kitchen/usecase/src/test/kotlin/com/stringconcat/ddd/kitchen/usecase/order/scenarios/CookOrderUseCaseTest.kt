@@ -5,8 +5,8 @@ import com.stringconcat.ddd.kitchen.usecase.order.CookOrderUseCaseError
 import com.stringconcat.ddd.kitchen.usecase.order.TestKitchenOrderExtractor
 import com.stringconcat.ddd.kitchen.usecase.order.TestKitchenOrderPersister
 import com.stringconcat.ddd.kitchen.usecase.order.order
-import io.kotest.assertions.arrow.either.shouldBeLeft
-import io.kotest.assertions.arrow.either.shouldBeRight
+import io.kotest.assertions.arrow.core.shouldBeLeft
+import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test

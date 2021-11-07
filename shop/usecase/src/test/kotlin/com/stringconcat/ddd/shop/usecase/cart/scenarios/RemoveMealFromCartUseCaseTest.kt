@@ -5,8 +5,8 @@ import com.stringconcat.ddd.shop.usecase.TestCartPersister
 import com.stringconcat.ddd.shop.usecase.cart
 import com.stringconcat.ddd.shop.usecase.cart.RemoveMealFromCartUseCaseError
 import com.stringconcat.ddd.shop.usecase.mealId
-import io.kotest.assertions.arrow.either.shouldBeLeft
-import io.kotest.assertions.arrow.either.shouldBeRight
+import io.kotest.assertions.arrow.core.shouldBeLeft
+import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.matchers.maps.shouldBeEmpty
 import io.kotest.matchers.maps.shouldContainExactly
 import org.junit.jupiter.api.Test

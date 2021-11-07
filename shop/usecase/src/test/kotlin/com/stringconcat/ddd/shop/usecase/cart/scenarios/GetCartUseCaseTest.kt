@@ -8,13 +8,12 @@ import com.stringconcat.ddd.shop.usecase.cart.GetCartUseCaseError
 import com.stringconcat.ddd.shop.usecase.count
 import com.stringconcat.ddd.shop.usecase.customerId
 import com.stringconcat.ddd.shop.usecase.meal
-import io.kotest.assertions.arrow.either.shouldBeLeft
-import io.kotest.assertions.arrow.either.shouldBeRight
+import io.kotest.assertions.arrow.core.shouldBeLeft
+import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
-import java.lang.IllegalStateException
 
 class GetCartUseCaseTest {
 
@@ -44,21 +43,21 @@ class GetCartUseCaseTest {
 
         val useCase = GetCartUseCase(mealExtractor, cartExtractor)
         val result = useCase.execute(customerId)
-        result shouldBeRight {
-            it.forCustomer shouldBe customerId
-            it.items shouldContainExactlyInAnyOrder listOf(
-                CartItem(
-                    mealId = meal1.id,
-                    mealName = meal1.name,
-                    count = count1
-                ),
-                CartItem(
-                    mealId = meal2.id,
-                    mealName = meal2.name,
-                    count = count2
-                )
+
+        val extractedCart = result.shouldBeRight()
+        extractedCart.forCustomer shouldBe customerId
+        extractedCart.items shouldContainExactlyInAnyOrder listOf(
+            CartItem(
+                mealId = meal1.id,
+                mealName = meal1.name,
+                count = count1
+            ),
+            CartItem(
+                mealId = meal2.id,
+                mealName = meal2.name,
+                count = count2
             )
-        }
+        )
     }
 
     @Test

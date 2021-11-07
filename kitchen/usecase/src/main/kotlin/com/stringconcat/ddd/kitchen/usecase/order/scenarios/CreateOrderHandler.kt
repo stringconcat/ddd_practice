@@ -36,7 +36,7 @@ class CreateOrderHandler(
         val items = request.items.map {
             transform(it.count).zip(
                 transform(it.mealName)
-            ) { count, mealName ->  OrderItem(mealName, count) }
+            ) { count, mealName -> OrderItem(mealName, count) }
         }.map {
             it.mapLeft { e -> return@createNewOrder e.left() }
         }.mapNotNull { it.orNull() }

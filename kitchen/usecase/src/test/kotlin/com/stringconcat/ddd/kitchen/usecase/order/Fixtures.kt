@@ -19,13 +19,13 @@ fun version() = Version.new()
 fun count(value: Int = Random.nextInt(20, 5000)): Count {
     val result = Count.from(value)
     check(result is Either.Right<Count>)
-    return result.b
+    return result.value
 }
 
 fun meal(): Meal {
     val result = Meal.from("Meal #${Random.nextInt()}")
     check(result is Either.Right<Meal>)
-    return result.b
+    return result.value
 }
 
 fun orderItem(): OrderItem {

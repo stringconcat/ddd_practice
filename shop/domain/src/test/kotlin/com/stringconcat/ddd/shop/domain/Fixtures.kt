@@ -34,25 +34,25 @@ fun address(): Address {
     )
 
     check(result is Either.Right<Address>)
-    return result.b
+    return result.value
 }
 
 fun mealName(): MealName {
     val result = MealName.from("Name ${Random.nextInt()}")
     check(result is Either.Right<MealName>)
-    return result.b
+    return result.value
 }
 
 fun mealDescription(): MealDescription {
     val result = MealDescription.from("Description ${Random.nextInt()}")
     check(result is Either.Right<MealDescription>)
-    return result.b
+    return result.value
 }
 
 fun price(value: BigDecimal = BigDecimal(Random.nextInt(1, 500000))): Price {
     val result = Price.from(value)
     check(result is Either.Right<Price>)
-    return result.b
+    return result.value
 }
 
 fun version() = Version.new()
@@ -78,7 +78,7 @@ fun cartId() = CartId(Random.nextLong())
 fun count(value: Int = Random.nextInt(20, 5000)): Count {
     val result = Count.from(value)
     check(result is Either.Right<Count>)
-    return result.b
+    return result.value
 }
 
 fun cart(meals: Map<MealId, Count> = emptyMap()): Cart {

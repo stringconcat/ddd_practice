@@ -7,8 +7,8 @@ import com.stringconcat.ddd.shop.usecase.order.PayOrderHandlerError
 import com.stringconcat.ddd.shop.usecase.orderId
 import com.stringconcat.ddd.shop.usecase.orderNotReadyForPay
 import com.stringconcat.ddd.shop.usecase.orderReadyForPay
-import io.kotest.assertions.arrow.either.shouldBeLeft
-import io.kotest.assertions.arrow.either.shouldBeRight
+import io.kotest.assertions.arrow.core.shouldBeLeft
+import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.nulls.shouldNotBeNull
 import org.junit.jupiter.api.Test

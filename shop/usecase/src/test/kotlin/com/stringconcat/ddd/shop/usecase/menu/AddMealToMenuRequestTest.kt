@@ -3,10 +3,10 @@ package com.stringconcat.ddd.shop.usecase.menu
 import com.stringconcat.ddd.shop.usecase.mealDescription
 import com.stringconcat.ddd.shop.usecase.mealName
 import com.stringconcat.ddd.shop.usecase.price
-import io.kotest.assertions.arrow.either.shouldBeLeft
-import io.kotest.assertions.arrow.either.shouldBeRight
-import org.junit.jupiter.api.Test
+import io.kotest.assertions.arrow.core.shouldBeLeft
+import io.kotest.assertions.arrow.core.shouldBeRight
 import java.math.BigDecimal
+import org.junit.jupiter.api.Test
 
 class AddMealToMenuRequestTest {
 
@@ -21,7 +21,6 @@ class AddMealToMenuRequestTest {
             description = description.value,
             price = price.value
         )
-
         result shouldBeRight AddMealToMenuRequest(name, description, price)
     }
 

@@ -1,7 +1,7 @@
 package com.stringconcat.ddd.kitchen.domain.order
 
-import io.kotest.assertions.arrow.either.shouldBeLeft
-import io.kotest.assertions.arrow.either.shouldBeRight
+import io.kotest.assertions.arrow.core.shouldBeLeft
+import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
@@ -17,17 +17,17 @@ internal class KitchenOrderTest {
 
         val result = KitchenOrder.create(id = id, items)
 
-        result.shouldBeRight { order ->
+        val order = result.shouldBeRight()
 
-            order.id shouldBe id
-            order.cooked shouldBe false
-            order.meals.size shouldBe 1
-            val orderItem = order.meals.first()
-            orderItem.meal shouldBe item.meal
-            orderItem.count shouldBe item.count
+        order.id shouldBe id
+        order.cooked shouldBe false
+        order.meals.size shouldBe 1
 
-            order.popEvents() shouldContainExactly listOf(KitchenOrderCreatedDomainEvent(id))
-        }
+        val orderItem = order.meals.first()
+        orderItem.meal shouldBe item.meal
+        orderItem.count shouldBe item.count
+
+        order.popEvents() shouldContainExactly listOf(KitchenOrderCreatedDomainEvent(id))
     }
 
     @Test

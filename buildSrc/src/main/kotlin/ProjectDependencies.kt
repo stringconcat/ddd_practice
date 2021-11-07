@@ -2,8 +2,8 @@ object LibVers {
 
     const val spring_boot = "2.5.6"
     const val junit = "5.7.1"
-    const val kotest = "4.6.3"
-    const val kotest_arrow = "4.4.3"
+    const val kotest = "5.0.0.M3"
+    const val kotest_arrow = "1.1.1"
     const val jackson = "2.13.0"
     const val arrow = "1.0.1"
     const val telnet = "1.1"
@@ -45,7 +45,7 @@ object Libs {
     const val junit_params = "org.junit.jupiter:junit-jupiter-params:${LibVers.junit}"
     const val junit_engine = "org.junit.jupiter:junit-jupiter-engine:${LibVers.junit}"
     const val kotest_junit = "io.kotest:kotest-runner-junit5:${LibVers.kotest}"
-    const val kotest_arrow = "io.kotest:kotest-assertions-arrow:${LibVers.kotest_arrow}"
+    const val kotest_arrow = "io.kotest.extensions:kotest-assertions-arrow-jvm:${LibVers.kotest_arrow}"
     const val arch_unit = "com.tngtech.archunit:archunit-junit5:${LibVers.arch_unit}"
 
     // Telnet deps
@@ -76,4 +76,5 @@ object Plugins {
     const val update_dependencies = "com.github.ben-manes.versions"
     const val owasp_dependencies = "org.owasp.dependencycheck"
     const val pitest = "info.solidsoft.pitest"
+    const val javaTestFixtures = "java-test-fixtures"
 }

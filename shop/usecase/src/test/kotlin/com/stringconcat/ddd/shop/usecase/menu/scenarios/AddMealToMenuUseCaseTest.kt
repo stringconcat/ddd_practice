@@ -10,10 +10,11 @@ import com.stringconcat.ddd.shop.usecase.mealName
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenuRequest
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenuUseCaseError
 import com.stringconcat.ddd.shop.usecase.price
-import io.kotest.assertions.arrow.either.shouldBeLeft
-import io.kotest.assertions.arrow.either.shouldBeRight
+import io.kotest.assertions.arrow.core.shouldBeLeft
+import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.matchers.maps.shouldBeEmpty
 import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 
@@ -42,7 +43,7 @@ internal class AddMealToMenuUseCaseTest {
 
         val id = TestMealIdGenerator.id
 
-        result shouldBeRight {
+        result.shouldBeRight().should {
             it shouldBe id
         }
 

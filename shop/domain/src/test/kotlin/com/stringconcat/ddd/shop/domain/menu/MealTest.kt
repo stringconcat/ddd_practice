@@ -5,8 +5,8 @@ import com.stringconcat.ddd.shop.domain.mealDescription
 import com.stringconcat.ddd.shop.domain.mealId
 import com.stringconcat.ddd.shop.domain.mealName
 import com.stringconcat.ddd.shop.domain.price
-import io.kotest.assertions.arrow.either.shouldBeLeft
-import io.kotest.assertions.arrow.either.shouldBeRight
+import io.kotest.assertions.arrow.core.shouldBeLeft
+import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
@@ -36,14 +36,14 @@ internal class MealTest {
             price = price
         )
 
-        result shouldBeRight {
-            it.id shouldBe mealId
-            it.name shouldBe name
-            it.description shouldBe description
-            it.price shouldBe price
-            it.visible() shouldBe true
-            it.popEvents() shouldContainExactly listOf(MealAddedToMenuDomainEvent(mealId))
-        }
+       val meal = result.shouldBeRight()
+
+        meal.id shouldBe mealId
+        meal.name shouldBe name
+        meal.description shouldBe description
+        meal.price shouldBe price
+        meal.visible() shouldBe true
+        meal.popEvents() shouldContainExactly listOf(MealAddedToMenuDomainEvent(mealId))
     }
 
     @Test

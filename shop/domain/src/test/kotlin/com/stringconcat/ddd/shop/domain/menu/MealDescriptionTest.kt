@@ -1,8 +1,8 @@
 package com.stringconcat.ddd.shop.domain.menu
 
 import arrow.core.Either
-import io.kotest.assertions.arrow.either.shouldBeLeft
-import io.kotest.assertions.arrow.either.shouldBeRight
+import io.kotest.assertions.arrow.core.shouldBeLeft
+import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 import org.junit.jupiter.api.Test
@@ -13,13 +13,12 @@ internal class MealDescriptionTest {
 
     @Test
     fun `create description - success`() {
-        val description = "Some string"
-        val result = MealDescription.from(description)
+        val value = "Some string"
+        val result = MealDescription.from(value)
 
         result.shouldBeInstanceOf<Either.Right<MealDescription>>()
-        result shouldBeRight {
-            it.value shouldBe description
-        }
+        val description = result.shouldBeRight()
+        description.value shouldBe value
     }
 
     @ParameterizedTest

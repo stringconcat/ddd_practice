@@ -10,8 +10,8 @@ import com.stringconcat.ddd.kitchen.usecase.order.count
 import com.stringconcat.ddd.kitchen.usecase.order.meal
 import com.stringconcat.ddd.kitchen.usecase.order.order
 import com.stringconcat.ddd.kitchen.usecase.order.orderId
-import io.kotest.assertions.arrow.either.shouldBeLeft
-import io.kotest.assertions.arrow.either.shouldBeRight
+import io.kotest.assertions.arrow.core.shouldBeLeft
+import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.nulls.shouldNotBeNull

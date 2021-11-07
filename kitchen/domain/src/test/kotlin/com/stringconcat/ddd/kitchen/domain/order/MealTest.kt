@@ -1,7 +1,7 @@
 package com.stringconcat.ddd.kitchen.domain.order
 
-import io.kotest.assertions.arrow.either.shouldBeLeft
-import io.kotest.assertions.arrow.either.shouldBeRight
+import io.kotest.assertions.arrow.core.shouldBeLeft
+import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -14,9 +14,8 @@ internal class MealTest {
         val name = "Some string"
         val result = Meal.from(name)
 
-        result shouldBeRight {
-            it.value shouldBe name
-        }
+        val meal = result.shouldBeRight()
+        meal.value shouldBe name
     }
 
     @ParameterizedTest

@@ -1,7 +1,7 @@
 package com.stringconcat.ddd.common.types.common
 
-import io.kotest.assertions.arrow.either.shouldBeLeft
-import io.kotest.assertions.arrow.either.shouldBeRight
+import io.kotest.assertions.arrow.core.shouldBeLeft
+import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -16,10 +16,9 @@ internal class AddressTest {
         val building = 15
 
         val result = Address.from(street, building)
-        result shouldBeRight {
-            it.street shouldBe street
-            it.building shouldBe building
-        }
+        val address = result.shouldBeRight()
+        address.building shouldBe building
+        address.street shouldBe street
     }
 
     @ParameterizedTest

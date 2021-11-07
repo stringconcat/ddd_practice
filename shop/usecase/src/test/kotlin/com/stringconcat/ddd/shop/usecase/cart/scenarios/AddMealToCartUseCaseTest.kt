@@ -11,16 +11,16 @@ import com.stringconcat.ddd.shop.usecase.cartId
 import com.stringconcat.ddd.shop.usecase.count
 import com.stringconcat.ddd.shop.usecase.customerId
 import com.stringconcat.ddd.shop.usecase.meal
-import io.kotest.assertions.arrow.either.shouldBeLeft
-import io.kotest.assertions.arrow.either.shouldBeRight
+import io.kotest.assertions.arrow.core.shouldBeLeft
+import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.matchers.maps.shouldBeEmpty
 import io.kotest.matchers.maps.shouldContainExactly
 import io.kotest.matchers.maps.shouldContainKey
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeSameInstanceAs
-import org.junit.jupiter.api.Test
 import java.util.UUID
+import org.junit.jupiter.api.Test
 
 internal class AddMealToCartUseCaseTest {
 

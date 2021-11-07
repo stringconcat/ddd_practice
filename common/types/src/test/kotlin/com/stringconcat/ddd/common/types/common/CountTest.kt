@@ -1,8 +1,8 @@
 package com.stringconcat.ddd.common.types.common
 
 import com.stringconcat.ddd.common.types.count
-import io.kotest.assertions.arrow.either.shouldBeLeft
-import io.kotest.assertions.arrow.either.shouldBeRight
+import io.kotest.assertions.arrow.core.shouldBeLeft
+import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -14,9 +14,8 @@ internal class CountTest {
     @ValueSource(ints = [0, 1, Int.MAX_VALUE])
     fun `create count - success`(value: Int) {
         val result = Count.from(value)
-        result shouldBeRight {
-            it.value shouldBe value
-        }
+        val count = result.shouldBeRight()
+        count.value shouldBe value
     }
 
     @Test

@@ -11,15 +11,15 @@ import com.stringconcat.ddd.shop.domain.order
 import com.stringconcat.ddd.shop.domain.orderId
 import com.stringconcat.ddd.shop.domain.orderItem
 import com.stringconcat.ddd.shop.domain.price
-import io.kotest.assertions.arrow.either.shouldBeLeft
-import io.kotest.assertions.arrow.either.shouldBeRight
+import io.kotest.assertions.arrow.core.shouldBeLeft
+import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
+import java.math.BigDecimal
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
-import java.math.BigDecimal
 
 class ShopOrderTest {
 
@@ -48,14 +48,14 @@ class ShopOrderTest {
             address = address
         )
 
-        result shouldBeRight {
-            it.forCustomer shouldBe cart.forCustomer
-            it.orderItems shouldContainExactly listOf(OrderItem(mealId, price, count))
-            it.id shouldBe id
-            it.address shouldBe address
-            it.state shouldBe OrderState.WAITING_FOR_PAYMENT
-            it.popEvents() shouldContainExactly listOf(ShopOrderCreatedDomainEvent(id, cart.forCustomer))
-        }
+        val order = result.shouldBeRight()
+
+        order.forCustomer shouldBe cart.forCustomer
+        order.orderItems shouldContainExactly listOf(OrderItem(mealId, price, count))
+        order.id shouldBe id
+        order.address shouldBe address
+        order.state shouldBe OrderState.WAITING_FOR_PAYMENT
+        order.popEvents() shouldContainExactly listOf(ShopOrderCreatedDomainEvent(id, cart.forCustomer))
     }
 
     @Test
