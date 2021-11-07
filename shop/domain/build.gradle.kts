@@ -19,4 +19,5 @@ dependencies {
 
     testFixturesImplementation(testFixtures(project(":common:types")))
     testFixturesImplementation(Libs.arrow)
+    testFixturesImplementation(Libs.faker)
 }

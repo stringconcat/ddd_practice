@@ -12,6 +12,7 @@ object LibVers {
     const val testng = "7.3.0"
     const val commons_net = "3.8.0"
     const val arch_unit = "0.22.0"
+    const val faker = "1.0.2"
 
 }
 
@@ -47,6 +48,7 @@ object Libs {
     const val kotest_junit = "io.kotest:kotest-runner-junit5:${LibVers.kotest}"
     const val kotest_arrow = "io.kotest.extensions:kotest-assertions-arrow-jvm:${LibVers.kotest_arrow}"
     const val arch_unit = "com.tngtech.archunit:archunit-junit5:${LibVers.arch_unit}"
+    const val faker = "com.github.javafaker:javafaker:${LibVers.faker}"
 
     // Telnet deps
     const val testng = "org.testng:testng:${LibVers.testng}"

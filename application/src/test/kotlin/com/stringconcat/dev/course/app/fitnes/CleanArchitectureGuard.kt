@@ -42,8 +42,12 @@ class CleanArchitectureGuard {
 
     @ArchTest
     val `shop business logic should depends only on approved packages` = ArchRuleDefinition.classes()
-        .that().resideInAnyPackage("com.stringconcat.ddd.shop.domain..")
-        .should().onlyDependOnClassesThat()
+        .that()
+        .resideInAnyPackage("com.stringconcat.ddd.shop.domain..")
+        .and()
+        .doNotHaveSimpleName("FixturesKt")
+        .should()
+        .onlyDependOnClassesThat()
         .resideInAnyPackage(
             "com.stringconcat.ddd.shop.domain..",
             "com.stringconcat.ddd.common..",

@@ -5,6 +5,7 @@ import com.stringconcat.ddd.common.types.base.Version
 import com.stringconcat.ddd.common.types.count
 import com.stringconcat.ddd.common.types.common.Address
 import com.stringconcat.ddd.common.types.common.Count
+import com.stringconcat.ddd.common.types.faker
 import com.stringconcat.ddd.shop.domain.cart.Cart
 import com.stringconcat.ddd.shop.domain.cart.CartId
 import com.stringconcat.ddd.shop.domain.cart.CartRestorer
@@ -24,27 +25,26 @@ import com.stringconcat.ddd.shop.domain.order.CustomerHasActiveOrder
 import java.math.BigDecimal
 import java.time.OffsetDateTime
 import java.util.UUID
-import kotlin.math.absoluteValue
 import kotlin.random.Random
 
 fun address(): Address {
 
     val result = Address.from(
-        street = "${Random.nextInt()}th ave",
-        building = Random.nextInt().absoluteValue
+        street = faker.address().streetName(),
+        building = faker.address().streetAddressNumber().toInt()
     )
 
     check(result is Either.Right<Address>)
     return result.value
 }
 
-fun mealName(name: String = "Name ${Random.nextInt()}"): MealName {
+fun mealName(name: String = faker.food().dish()): MealName {
     val result = MealName.from(name)
     check(result is Either.Right<MealName>)
     return result.value
 }
 
-fun mealDescription(description: String = "Description ${Random.nextInt()}"): MealDescription {
+fun mealDescription(description: String = faker.food().ingredient()): MealDescription {
     val result = MealDescription.from(description)
     check(result is Either.Right<MealDescription>)
     return result.value
@@ -58,7 +58,7 @@ fun price(value: BigDecimal = BigDecimal(Random.nextInt(1, 500000))): Price {
 
 fun version() = Version.new()
 
-fun mealId(id: Long = Random.nextLong()) = MealId(id)
+fun mealId(id: Long = faker.number().randomNumber()) = MealId(id)
 
 fun meal(id: MealId = mealId(), removed: Boolean = false): Meal {
 
@@ -74,7 +74,7 @@ fun meal(id: MealId = mealId(), removed: Boolean = false): Meal {
 
 fun customerId() = CustomerId(UUID.randomUUID().toString())
 
-fun cartId() = CartId(Random.nextLong())
+fun cartId() = CartId(faker.number().randomNumber())
 
 fun cart(meals: Map<MealId, Count> = emptyMap(),
          customerId: CustomerId = customerId()): Cart {
@@ -87,7 +87,7 @@ fun cart(meals: Map<MealId, Count> = emptyMap(),
     )
 }
 
-fun orderId() = ShopOrderId(Random.nextLong())
+fun orderId() = ShopOrderId(faker.number().randomNumber())
 
 fun orderItem(
     price: Price = price(),

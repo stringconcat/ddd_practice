@@ -12,4 +12,5 @@ dependencies {
     testImplementation(Libs.junit_params)
 
     testFixturesImplementation(Libs.arrow)
+    testFixturesImplementation(Libs.faker)
 }

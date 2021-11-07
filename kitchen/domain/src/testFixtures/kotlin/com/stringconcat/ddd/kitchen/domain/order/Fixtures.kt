@@ -3,6 +3,7 @@ package com.stringconcat.ddd.kitchen.domain.order
 import arrow.core.Either
 import com.stringconcat.ddd.common.types.base.Version
 import com.stringconcat.ddd.common.types.count
+import com.stringconcat.ddd.common.types.faker
 import kotlin.random.Random
 
 fun orderId() = KitchenOrderId(Random.nextLong())
@@ -10,7 +11,7 @@ fun orderId() = KitchenOrderId(Random.nextLong())
 fun version() = Version.new()
 
 fun meal(): Meal {
-    val result = Meal.from("Meal #${Random.nextInt()}")
+    val result = Meal.from(faker.food().dish())
     check(result is Either.Right<Meal>)
     return result.value
 }
