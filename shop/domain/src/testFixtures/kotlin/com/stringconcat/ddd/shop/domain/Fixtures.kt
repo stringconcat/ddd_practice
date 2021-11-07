@@ -2,6 +2,7 @@ package com.stringconcat.ddd.shop.domain
 
 import arrow.core.Either
 import com.stringconcat.ddd.common.types.base.Version
+import com.stringconcat.ddd.common.types.count
 import com.stringconcat.ddd.common.types.common.Address
 import com.stringconcat.ddd.common.types.common.Count
 import com.stringconcat.ddd.shop.domain.cart.Cart
@@ -37,14 +38,14 @@ fun address(): Address {
     return result.value
 }
 
-fun mealName(): MealName {
-    val result = MealName.from("Name ${Random.nextInt()}")
+fun mealName(name: String = "Name ${Random.nextInt()}"): MealName {
+    val result = MealName.from(name)
     check(result is Either.Right<MealName>)
     return result.value
 }
 
-fun mealDescription(): MealDescription {
-    val result = MealDescription.from("Description ${Random.nextInt()}")
+fun mealDescription(description: String = "Description ${Random.nextInt()}"): MealDescription {
+    val result = MealDescription.from(description)
     check(result is Either.Right<MealDescription>)
     return result.value
 }
@@ -57,12 +58,12 @@ fun price(value: BigDecimal = BigDecimal(Random.nextInt(1, 500000))): Price {
 
 fun version() = Version.new()
 
-fun mealId() = MealId(Random.nextLong())
+fun mealId(id: Long = Random.nextLong()) = MealId(id)
 
-fun meal(removed: Boolean = false): Meal {
+fun meal(id: MealId = mealId(), removed: Boolean = false): Meal {
 
     return MealRestorer.restoreMeal(
-        id = mealId(),
+        id = id,
         name = mealName(),
         removed = removed,
         description = mealDescription(),
@@ -75,16 +76,11 @@ fun customerId() = CustomerId(UUID.randomUUID().toString())
 
 fun cartId() = CartId(Random.nextLong())
 
-fun count(value: Int = Random.nextInt(20, 5000)): Count {
-    val result = Count.from(value)
-    check(result is Either.Right<Count>)
-    return result.value
-}
-
-fun cart(meals: Map<MealId, Count> = emptyMap()): Cart {
+fun cart(meals: Map<MealId, Count> = emptyMap(),
+         customerId: CustomerId = customerId()): Cart {
     return CartRestorer.restoreCart(
         id = cartId(),
-        forCustomer = customerId(),
+        forCustomer = customerId,
         created = OffsetDateTime.now(),
         meals = meals,
         version = version()
@@ -105,13 +101,15 @@ fun orderItem(
 }
 
 fun order(
+    id: ShopOrderId = orderId(),
+    customerId: CustomerId = customerId(),
     state: OrderState = OrderState.COMPLETED,
     orderItems: Set<OrderItem> = setOf(orderItem()),
 ): ShopOrder {
     return ShopOrderRestorer.restoreOrder(
-        id = orderId(),
+        id = id,
         created = OffsetDateTime.now(),
-        forCustomer = customerId(),
+        forCustomer = customerId,
         orderItems = orderItems,
         address = address(),
         state = state,

@@ -1,10 +1,10 @@
 package com.stringconcat.ddd.shop.usecase.order.scenarios
 
 import com.stringconcat.ddd.shop.domain.order.ShopOrderCompletedDomainEvent
+import com.stringconcat.ddd.shop.domain.orderId
 import com.stringconcat.ddd.shop.usecase.TestShopOrderExtractor
 import com.stringconcat.ddd.shop.usecase.TestShopOrderPersister
 import com.stringconcat.ddd.shop.usecase.order.CompleteOrderUseCaseError
-import com.stringconcat.ddd.shop.usecase.orderId
 import com.stringconcat.ddd.shop.usecase.orderNotReadyForComplete
 import com.stringconcat.ddd.shop.usecase.orderReadyForComplete
 import io.kotest.assertions.arrow.core.shouldBeLeft

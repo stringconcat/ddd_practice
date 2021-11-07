@@ -1,6 +1,6 @@
 package com.stringconcat.ddd.shop.domain.menu
 
-import com.stringconcat.ddd.shop.domain.count
+import com.stringconcat.ddd.common.types.count
 import com.stringconcat.ddd.shop.domain.price
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight

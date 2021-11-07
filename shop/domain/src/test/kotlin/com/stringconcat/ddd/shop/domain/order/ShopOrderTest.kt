@@ -1,9 +1,9 @@
 package com.stringconcat.ddd.shop.domain.order
 
+import com.stringconcat.ddd.common.types.count
 import com.stringconcat.ddd.shop.domain.TestCustomerHasActiveOrder
 import com.stringconcat.ddd.shop.domain.address
 import com.stringconcat.ddd.shop.domain.cart
-import com.stringconcat.ddd.shop.domain.count
 import com.stringconcat.ddd.shop.domain.mealId
 import com.stringconcat.ddd.shop.domain.menu.MealId
 import com.stringconcat.ddd.shop.domain.menu.Price

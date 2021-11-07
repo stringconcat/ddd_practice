@@ -1,10 +1,10 @@
 package com.stringconcat.ddd.shop.usecase.order.scenarios
 
 import com.stringconcat.ddd.shop.domain.order.ShopOrderCancelledDomainEvent
+import com.stringconcat.ddd.shop.domain.orderId
 import com.stringconcat.ddd.shop.usecase.TestShopOrderExtractor
 import com.stringconcat.ddd.shop.usecase.TestShopOrderPersister
 import com.stringconcat.ddd.shop.usecase.order.CancelOrderUseCaseError
-import com.stringconcat.ddd.shop.usecase.orderId
 import com.stringconcat.ddd.shop.usecase.orderNotReadyForCancel
 import com.stringconcat.ddd.shop.usecase.orderReadyForCancel
 import io.kotest.assertions.arrow.core.shouldBeLeft

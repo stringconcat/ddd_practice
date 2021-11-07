@@ -1,8 +1,8 @@
 package com.stringconcat.ddd.shop.usecase.order.scenarios
 
+import com.stringconcat.ddd.shop.domain.customerId
+import com.stringconcat.ddd.shop.domain.order
 import com.stringconcat.ddd.shop.usecase.TestShopOrderExtractor
-import com.stringconcat.ddd.shop.usecase.customerId
-import com.stringconcat.ddd.shop.usecase.order
 import com.stringconcat.ddd.shop.usecase.order.GetLastOrderStateUseCaseError
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight

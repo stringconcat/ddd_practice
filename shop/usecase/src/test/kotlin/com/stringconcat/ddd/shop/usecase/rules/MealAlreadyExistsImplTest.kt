@@ -1,8 +1,8 @@
 package com.stringconcat.ddd.shop.usecase.rules
 
+import com.stringconcat.ddd.shop.domain.meal
+import com.stringconcat.ddd.shop.domain.mealName
 import com.stringconcat.ddd.shop.usecase.TestMealExtractor
-import com.stringconcat.ddd.shop.usecase.meal
-import com.stringconcat.ddd.shop.usecase.mealName
 import com.stringconcat.ddd.shop.usecase.removedMeal
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue

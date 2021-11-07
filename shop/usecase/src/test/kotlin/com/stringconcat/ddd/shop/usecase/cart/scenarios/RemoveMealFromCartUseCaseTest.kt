@@ -1,10 +1,10 @@
 package com.stringconcat.ddd.shop.usecase.cart.scenarios
 
+import com.stringconcat.ddd.shop.domain.cart
+import com.stringconcat.ddd.shop.domain.mealId
 import com.stringconcat.ddd.shop.usecase.TestCartExtractor
 import com.stringconcat.ddd.shop.usecase.TestCartPersister
-import com.stringconcat.ddd.shop.usecase.cart
 import com.stringconcat.ddd.shop.usecase.cart.RemoveMealFromCartUseCaseError
-import com.stringconcat.ddd.shop.usecase.mealId
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.matchers.maps.shouldBeEmpty

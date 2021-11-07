@@ -1,8 +1,10 @@
 package com.stringconcat.shop.payment
 
+import com.stringconcat.ddd.shop.domain.orderId
+import com.stringconcat.ddd.shop.domain.price
 import io.kotest.matchers.shouldBe
-import org.junit.jupiter.api.Test
 import java.net.URL
+import org.junit.jupiter.api.Test
 
 class SimplePaymentUrlProviderTest {
 

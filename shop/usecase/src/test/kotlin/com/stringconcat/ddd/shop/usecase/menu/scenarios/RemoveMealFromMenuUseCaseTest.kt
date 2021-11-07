@@ -1,10 +1,10 @@
 package com.stringconcat.ddd.shop.usecase.menu.scenarios
 
+import com.stringconcat.ddd.shop.domain.meal
+import com.stringconcat.ddd.shop.domain.mealId
 import com.stringconcat.ddd.shop.domain.menu.MealRemovedFromMenuDomainEvent
 import com.stringconcat.ddd.shop.usecase.TestMealExtractor
 import com.stringconcat.ddd.shop.usecase.TestMealPersister
-import com.stringconcat.ddd.shop.usecase.meal
-import com.stringconcat.ddd.shop.usecase.mealId
 import com.stringconcat.ddd.shop.usecase.menu.RemoveMealFromMenuUseCaseError
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight

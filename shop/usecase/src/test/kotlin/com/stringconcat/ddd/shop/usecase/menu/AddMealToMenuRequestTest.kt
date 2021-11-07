@@ -1,8 +1,8 @@
 package com.stringconcat.ddd.shop.usecase.menu
 
-import com.stringconcat.ddd.shop.usecase.mealDescription
-import com.stringconcat.ddd.shop.usecase.mealName
-import com.stringconcat.ddd.shop.usecase.price
+import com.stringconcat.ddd.shop.domain.mealDescription
+import com.stringconcat.ddd.shop.domain.mealName
+import com.stringconcat.ddd.shop.domain.price
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
 import java.math.BigDecimal

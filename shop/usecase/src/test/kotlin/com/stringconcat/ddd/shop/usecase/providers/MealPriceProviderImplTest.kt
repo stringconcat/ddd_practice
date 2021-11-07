@@ -1,12 +1,11 @@
 package com.stringconcat.ddd.shop.usecase.providers
 
+import com.stringconcat.ddd.shop.domain.meal
+import com.stringconcat.ddd.shop.domain.mealId
 import com.stringconcat.ddd.shop.usecase.TestMealExtractor
-import com.stringconcat.ddd.shop.usecase.meal
-import com.stringconcat.ddd.shop.usecase.mealId
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
-import java.lang.IllegalStateException
 
 class MealPriceProviderImplTest {
 

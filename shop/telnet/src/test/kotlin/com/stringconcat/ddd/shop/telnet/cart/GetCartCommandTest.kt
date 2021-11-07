@@ -3,18 +3,18 @@ package com.stringconcat.ddd.shop.telnet.cart
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
+import com.stringconcat.ddd.common.types.count
 import com.stringconcat.ddd.shop.domain.cart.CustomerId
-import com.stringconcat.ddd.shop.telnet.count
-import com.stringconcat.ddd.shop.telnet.customerId
-import com.stringconcat.ddd.shop.telnet.mealId
-import com.stringconcat.ddd.shop.telnet.mealName
+import com.stringconcat.ddd.shop.domain.customerId
+import com.stringconcat.ddd.shop.domain.mealId
+import com.stringconcat.ddd.shop.domain.mealName
 import com.stringconcat.ddd.shop.usecase.cart.CartInfo
 import com.stringconcat.ddd.shop.usecase.cart.CartItem
 import com.stringconcat.ddd.shop.usecase.cart.GetCart
 import com.stringconcat.ddd.shop.usecase.cart.GetCartUseCaseError
 import io.kotest.matchers.shouldBe
-import org.junit.jupiter.api.Test
 import java.util.UUID
+import org.junit.jupiter.api.Test
 
 internal class GetCartCommandTest {
 

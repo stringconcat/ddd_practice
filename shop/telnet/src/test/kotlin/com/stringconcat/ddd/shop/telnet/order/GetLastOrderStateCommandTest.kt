@@ -4,15 +4,15 @@ import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
 import com.stringconcat.ddd.shop.domain.cart.CustomerId
+import com.stringconcat.ddd.shop.domain.customerId
 import com.stringconcat.ddd.shop.domain.order.OrderState
-import com.stringconcat.ddd.shop.telnet.customerId
 import com.stringconcat.ddd.shop.usecase.order.GetLastOrderState
 import com.stringconcat.ddd.shop.usecase.order.GetLastOrderStateUseCaseError
 import io.kotest.matchers.shouldBe
+import java.util.UUID
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
-import java.util.UUID
 
 internal class GetLastOrderStateCommandTest {
 

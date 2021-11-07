@@ -1,11 +1,11 @@
 package com.stringconcat.ddd.shop.persistence.order
 
+import com.stringconcat.ddd.shop.domain.customerId
+import com.stringconcat.ddd.shop.domain.order
 import com.stringconcat.ddd.shop.domain.order.ShopOrderCompletedDomainEvent
+import com.stringconcat.ddd.shop.domain.orderId
 import com.stringconcat.ddd.shop.persistence.TestEventPublisher
-import com.stringconcat.ddd.shop.persistence.customerId
-import com.stringconcat.ddd.shop.persistence.order
 import com.stringconcat.ddd.shop.persistence.orderWithEvents
-import com.stringconcat.ddd.shop.persistence.orderId
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldHaveSize

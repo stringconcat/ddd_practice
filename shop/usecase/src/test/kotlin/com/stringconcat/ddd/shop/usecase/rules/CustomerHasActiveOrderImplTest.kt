@@ -1,8 +1,8 @@
 package com.stringconcat.ddd.shop.usecase.rules
 
+import com.stringconcat.ddd.shop.domain.customerId
 import com.stringconcat.ddd.shop.usecase.TestShopOrderExtractor
 import com.stringconcat.ddd.shop.usecase.activeOrder
-import com.stringconcat.ddd.shop.usecase.customerId
 import com.stringconcat.ddd.shop.usecase.nonActiveOrder
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue

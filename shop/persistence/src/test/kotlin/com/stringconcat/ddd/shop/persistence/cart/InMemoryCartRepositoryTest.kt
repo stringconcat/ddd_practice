@@ -1,10 +1,10 @@
 package com.stringconcat.ddd.shop.persistence.cart
 
+import com.stringconcat.ddd.shop.domain.cart
 import com.stringconcat.ddd.shop.domain.cart.MealAddedToCartDomainEvent
+import com.stringconcat.ddd.shop.domain.customerId
 import com.stringconcat.ddd.shop.persistence.TestEventPublisher
-import com.stringconcat.ddd.shop.persistence.cart
 import com.stringconcat.ddd.shop.persistence.cartWithEvents
-import com.stringconcat.ddd.shop.persistence.customerId
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.maps.shouldBeEmpty
 import io.kotest.matchers.nulls.shouldBeNull

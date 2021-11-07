@@ -3,21 +3,21 @@ package com.stringconcat.ddd.shop.telnet.cart
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
-import com.stringconcat.ddd.shop.telnet.customerId
-import com.stringconcat.ddd.shop.telnet.orderId
-import com.stringconcat.ddd.shop.telnet.price
+import com.stringconcat.ddd.shop.domain.customerId
+import com.stringconcat.ddd.shop.domain.orderId
+import com.stringconcat.ddd.shop.domain.price
 import com.stringconcat.ddd.shop.usecase.order.Checkout
 import com.stringconcat.ddd.shop.usecase.order.CheckoutRequest
 import com.stringconcat.ddd.shop.usecase.order.CheckoutUseCaseError
 import com.stringconcat.ddd.shop.usecase.order.PaymentInfo
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.shouldBe
+import java.net.URL
+import java.util.UUID
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
-import java.net.URL
-import java.util.UUID
 
 class CheckoutCommandTest {
 

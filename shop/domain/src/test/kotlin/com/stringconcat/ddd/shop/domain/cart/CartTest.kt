@@ -1,8 +1,8 @@
 package com.stringconcat.ddd.shop.domain.cart
 
+import com.stringconcat.ddd.common.types.count
 import com.stringconcat.ddd.shop.domain.cart
 import com.stringconcat.ddd.shop.domain.cartId
-import com.stringconcat.ddd.shop.domain.count
 import com.stringconcat.ddd.shop.domain.customerId
 import com.stringconcat.ddd.shop.domain.meal
 import io.kotest.matchers.collections.shouldBeEmpty
@@ -11,8 +11,8 @@ import io.kotest.matchers.date.shouldBeBefore
 import io.kotest.matchers.maps.shouldBeEmpty
 import io.kotest.matchers.maps.shouldContainExactly
 import io.kotest.matchers.shouldBe
-import org.junit.jupiter.api.Test
 import java.time.OffsetDateTime
+import org.junit.jupiter.api.Test
 
 internal class CartTest {
 

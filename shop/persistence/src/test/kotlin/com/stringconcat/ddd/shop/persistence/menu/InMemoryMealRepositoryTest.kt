@@ -1,10 +1,10 @@
 package com.stringconcat.ddd.shop.persistence.menu
 
+import com.stringconcat.ddd.shop.domain.meal
+import com.stringconcat.ddd.shop.domain.mealId
+import com.stringconcat.ddd.shop.domain.mealName
 import com.stringconcat.ddd.shop.domain.menu.MealRemovedFromMenuDomainEvent
 import com.stringconcat.ddd.shop.persistence.TestEventPublisher
-import com.stringconcat.ddd.shop.persistence.meal
-import com.stringconcat.ddd.shop.persistence.mealId
-import com.stringconcat.ddd.shop.persistence.mealName
 import com.stringconcat.ddd.shop.persistence.mealWithEvents
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly

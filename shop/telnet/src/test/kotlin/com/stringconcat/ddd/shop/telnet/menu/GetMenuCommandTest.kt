@@ -1,15 +1,15 @@
 package com.stringconcat.ddd.shop.telnet.menu
 
-import com.stringconcat.ddd.shop.telnet.mealDescription
-import com.stringconcat.ddd.shop.telnet.mealId
-import com.stringconcat.ddd.shop.telnet.mealName
-import com.stringconcat.ddd.shop.telnet.price
+import com.stringconcat.ddd.shop.domain.mealDescription
+import com.stringconcat.ddd.shop.domain.mealId
+import com.stringconcat.ddd.shop.domain.mealName
+import com.stringconcat.ddd.shop.domain.price
 import com.stringconcat.ddd.shop.usecase.menu.GetMenu
 import com.stringconcat.ddd.shop.usecase.menu.MealInfo
 import io.kotest.matchers.shouldBe
-import org.junit.jupiter.api.Test
 import java.math.BigDecimal
 import java.util.UUID
+import org.junit.jupiter.api.Test
 
 class GetMenuCommandTest {
 
