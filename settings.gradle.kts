@@ -3,6 +3,7 @@ rootProject.name = "ddd_practice"
 include(":application")
 include(":common:types")
 include(":common:telnet")
+include(":common:events")
 
 include(":shop:domain")
 include(":shop:usecase")

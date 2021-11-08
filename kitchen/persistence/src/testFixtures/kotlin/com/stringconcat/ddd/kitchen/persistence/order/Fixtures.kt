@@ -1,7 +1,7 @@
 package com.stringconcat.ddd.kitchen.persistence.order
 
+import com.stringconcat.ddd.common.events.DomainEventPublisher
 import com.stringconcat.ddd.common.types.base.DomainEvent
-import com.stringconcat.ddd.common.types.base.EventPublisher
 import com.stringconcat.ddd.kitchen.domain.order.KitchenOrder
 import com.stringconcat.ddd.kitchen.domain.order.KitchenOrderId
 import com.stringconcat.ddd.kitchen.domain.order.order
@@ -13,7 +13,7 @@ fun orderWithEvents(id: KitchenOrderId = orderId()): KitchenOrder {
     }
 }
 
-class TestEventPublisher : EventPublisher {
+class TestEventPublisher : DomainEventPublisher {
     val storage = ArrayList<DomainEvent>()
     override fun publish(events: Collection<DomainEvent>) {
         storage.addAll(events)

@@ -1,5 +1,6 @@
 package com.stringconcat.dev.course.app.event
 
+import com.stringconcat.ddd.common.events.DomainEventListener
 import com.stringconcat.ddd.common.types.base.DomainEvent
 import io.kotest.matchers.collections.shouldContainExactly
 import org.junit.jupiter.api.Test

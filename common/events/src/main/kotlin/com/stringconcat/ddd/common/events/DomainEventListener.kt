@@ -1,4 +1,4 @@
-package com.stringconcat.dev.course.app.event
+package com.stringconcat.ddd.common.events
 
 import com.stringconcat.ddd.common.types.base.DomainEvent
 import kotlin.reflect.KClass

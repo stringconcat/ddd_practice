@@ -1,12 +1,12 @@
 package com.stringconcat.dev.course.app.event
 
+import com.stringconcat.ddd.common.events.DomainEventListener
+import com.stringconcat.ddd.common.events.DomainEventPublisher
 import com.stringconcat.ddd.common.types.base.DomainEvent
-import com.stringconcat.ddd.common.types.base.EventPublisher
+import kotlin.reflect.KClass
 import org.slf4j.LoggerFactory
 
-import kotlin.reflect.KClass
-
-class EventPublisherImpl : EventPublisher {
+class EventPublisherImpl : DomainEventPublisher {
 
     private val logger = LoggerFactory.getLogger(EventPublisherImpl::class.java)
     private val listenerMap = HashMap<KClass<*>, MutableList<DomainEventListener<out DomainEvent>>>()

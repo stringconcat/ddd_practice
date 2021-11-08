@@ -1,8 +1,8 @@
 package com.stringconcat.dev.course.app.listeners
 
+import com.stringconcat.ddd.common.events.DomainEventListener
 import com.stringconcat.ddd.shop.domain.order.ShopOrderCreatedDomainEvent
 import com.stringconcat.ddd.shop.usecase.cart.RemoveCart
-import com.stringconcat.dev.course.app.event.DomainEventListener
 import org.slf4j.LoggerFactory
 
 class RemoveCartAfterCheckoutRule(

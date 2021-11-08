@@ -1,6 +1,6 @@
 package com.stringconcat.dev.course.app.configuration
 
-import com.stringconcat.ddd.common.types.base.EventPublisher
+import com.stringconcat.ddd.common.events.DomainEventPublisher
 import com.stringconcat.ddd.shop.domain.cart.CartIdGenerator
 import com.stringconcat.ddd.shop.domain.menu.MealAlreadyExists
 import com.stringconcat.ddd.shop.domain.menu.MealIdGenerator
@@ -19,33 +19,33 @@ import com.stringconcat.ddd.shop.telnet.cart.GetCartCommand
 import com.stringconcat.ddd.shop.telnet.cart.RemoveMealFromCartCommand
 import com.stringconcat.ddd.shop.telnet.menu.GetMenuCommand
 import com.stringconcat.ddd.shop.telnet.order.GetLastOrderStateCommand
+import com.stringconcat.ddd.shop.usecase.cart.GetCart
+import com.stringconcat.ddd.shop.usecase.cart.RemoveMealFromCart
 import com.stringconcat.ddd.shop.usecase.cart.scenarios.AddMealToCartUseCase
 import com.stringconcat.ddd.shop.usecase.cart.scenarios.CartExtractor
 import com.stringconcat.ddd.shop.usecase.cart.scenarios.CartPersister
 import com.stringconcat.ddd.shop.usecase.cart.scenarios.CartRemover
-import com.stringconcat.ddd.shop.usecase.cart.GetCart
 import com.stringconcat.ddd.shop.usecase.cart.scenarios.GetCartUseCase
 import com.stringconcat.ddd.shop.usecase.cart.scenarios.RemoveCartHandler
-import com.stringconcat.ddd.shop.usecase.cart.RemoveMealFromCart
 import com.stringconcat.ddd.shop.usecase.cart.scenarios.RemoveMealFromCartUseCase
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenu
-import com.stringconcat.ddd.shop.usecase.menu.scenarios.AddMealToMenuUseCase
 import com.stringconcat.ddd.shop.usecase.menu.GetMenu
+import com.stringconcat.ddd.shop.usecase.menu.RemoveMealFromMenu
+import com.stringconcat.ddd.shop.usecase.menu.scenarios.AddMealToMenuUseCase
 import com.stringconcat.ddd.shop.usecase.menu.scenarios.GetMenuUseCase
 import com.stringconcat.ddd.shop.usecase.menu.scenarios.MealExtractor
 import com.stringconcat.ddd.shop.usecase.menu.scenarios.MealPersister
-import com.stringconcat.ddd.shop.usecase.menu.RemoveMealFromMenu
 import com.stringconcat.ddd.shop.usecase.menu.scenarios.RemoveMealFromMenuUseCase
 import com.stringconcat.ddd.shop.usecase.order.CancelOrder
-import com.stringconcat.ddd.shop.usecase.order.scenarios.CancelOrderUseCase
 import com.stringconcat.ddd.shop.usecase.order.Checkout
+import com.stringconcat.ddd.shop.usecase.order.ConfirmOrder
+import com.stringconcat.ddd.shop.usecase.order.GetLastOrderState
+import com.stringconcat.ddd.shop.usecase.order.GetOrders
+import com.stringconcat.ddd.shop.usecase.order.scenarios.CancelOrderUseCase
 import com.stringconcat.ddd.shop.usecase.order.scenarios.CheckoutUseCase
 import com.stringconcat.ddd.shop.usecase.order.scenarios.CompleteOrderUseCase
-import com.stringconcat.ddd.shop.usecase.order.ConfirmOrder
 import com.stringconcat.ddd.shop.usecase.order.scenarios.ConfirmOrderUseCase
-import com.stringconcat.ddd.shop.usecase.order.GetLastOrderState
 import com.stringconcat.ddd.shop.usecase.order.scenarios.GetLastOrderStateUseCase
-import com.stringconcat.ddd.shop.usecase.order.GetOrders
 import com.stringconcat.ddd.shop.usecase.order.scenarios.GetOrdersUseCase
 import com.stringconcat.ddd.shop.usecase.order.scenarios.PayOrderHandler
 import com.stringconcat.ddd.shop.usecase.order.scenarios.PaymentUrlProvider
@@ -59,22 +59,22 @@ import com.stringconcat.ddd.shop.web.order.ShopOrderController
 import com.stringconcat.dev.course.app.event.EventPublisherImpl
 import com.stringconcat.dev.course.app.listeners.RemoveCartAfterCheckoutRule
 import com.stringconcat.shop.payment.SimplePaymentUrlProvider
+import java.net.URL
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import java.net.URL
 
 @Suppress("TooManyFunctions")
 @Configuration
 class ShopContextConfiguration {
 
     @Bean
-    fun cartRepository(eventPublisher: EventPublisher) = InMemoryCartRepository(eventPublisher)
+    fun cartRepository(eventPublisher: DomainEventPublisher) = InMemoryCartRepository(eventPublisher)
 
     @Bean
-    fun mealRepository(eventPublisher: EventPublisher) = InMemoryMealRepository(eventPublisher)
+    fun mealRepository(eventPublisher: DomainEventPublisher) = InMemoryMealRepository(eventPublisher)
 
     @Bean
-    fun shopOrderRepository(eventPublisher: EventPublisher) = InMemoryShopOrderRepository(eventPublisher)
+    fun shopOrderRepository(eventPublisher: DomainEventPublisher) = InMemoryShopOrderRepository(eventPublisher)
 
     @Bean
     fun cartIdGenerator() = InMemoryIncrementalCartIdGenerator()

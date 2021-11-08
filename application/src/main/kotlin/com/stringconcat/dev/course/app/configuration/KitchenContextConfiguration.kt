@@ -1,11 +1,11 @@
 package com.stringconcat.dev.course.app.configuration
 
-import com.stringconcat.ddd.common.types.base.EventPublisher
+import com.stringconcat.ddd.common.events.DomainEventPublisher
 import com.stringconcat.ddd.kitchen.persistence.order.InMemoryKitchenOrderRepository
 import com.stringconcat.ddd.kitchen.usecase.order.CookOrder
+import com.stringconcat.ddd.kitchen.usecase.order.GetOrders
 import com.stringconcat.ddd.kitchen.usecase.order.scenarios.CookOrderUseCase
 import com.stringconcat.ddd.kitchen.usecase.order.scenarios.CreateOrderHandler
-import com.stringconcat.ddd.kitchen.usecase.order.GetOrders
 import com.stringconcat.ddd.kitchen.usecase.order.scenarios.GetOrdersUseCase
 import com.stringconcat.ddd.kitchen.usecase.order.scenarios.KitchenOrderExtractor
 import com.stringconcat.ddd.kitchen.usecase.order.scenarios.KitchenOrderPersister
@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Configuration
 class KitchenContextConfiguration {
 
     @Bean
-    fun kitchenOrderRepository(eventPublisher: EventPublisher) = InMemoryKitchenOrderRepository(eventPublisher)
+    fun kitchenOrderRepository(eventPublisher: DomainEventPublisher) = InMemoryKitchenOrderRepository(eventPublisher)
 
     @Bean
     fun cookOrderUseCase(

@@ -3,6 +3,7 @@ project.base.archivesName.set("shop-persistence")
 dependencies {
     // project
     implementation(project(":common:types"))
+    implementation(project(":common:events"))
     implementation(project(":shop:domain"))
     implementation(project(":shop:usecase"))
 
@@ -22,6 +23,7 @@ dependencies {
     testImplementation(testFixtures(project(":shop:domain")))
 
     testFixturesImplementation(testFixtures(project(":common:types")))
+    testFixturesImplementation(testFixtures(project(":common:events")))
     testFixturesImplementation(testFixtures(project(":shop:domain")))
     testFixturesImplementation(Libs.arrow)
 }
