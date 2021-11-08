@@ -10,6 +10,7 @@ include(":shop:persistence")
 include(":shop:telnet")
 include(":shop:web")
 include(":shop:payment")
+include(":shop:rest")
 
 include(":kitchen:domain")
 include(":kitchen:usecase")

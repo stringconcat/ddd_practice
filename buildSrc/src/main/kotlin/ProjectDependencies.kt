@@ -36,6 +36,8 @@ object Libs {
     const val spring_boot_starter_thymeleaf =
         "org.springframework.boot:spring-boot-starter-thymeleaf:${LibVers.spring_boot}"
 
+    const val spring_boot_started_hateoas = "org.springframework.boot:spring-boot-starter-hateoas:${LibVers.spring_boot}"
+
     // Logging
     const val slf4j_api = "org.slf4j:slf4j-api:${LibVers.slf4j}"
 
