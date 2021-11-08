@@ -26,7 +26,7 @@ import com.stringconcat.ddd.shop.usecase.cart.scenarios.CartExtractor
 import com.stringconcat.ddd.shop.usecase.cart.scenarios.CartPersister
 import com.stringconcat.ddd.shop.usecase.cart.scenarios.CartRemover
 import com.stringconcat.ddd.shop.usecase.cart.scenarios.GetCartUseCase
-import com.stringconcat.ddd.shop.usecase.cart.scenarios.RemoveCartHandler
+import com.stringconcat.ddd.shop.usecase.cart.scenarios.RemoveCartAfterCheckoutRule
 import com.stringconcat.ddd.shop.usecase.cart.scenarios.RemoveMealFromCartUseCase
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenu
 import com.stringconcat.ddd.shop.usecase.menu.GetMenu
@@ -57,7 +57,6 @@ import com.stringconcat.ddd.shop.usecase.rules.MealAlreadyExistsImpl
 import com.stringconcat.ddd.shop.web.menu.MenuController
 import com.stringconcat.ddd.shop.web.order.ShopOrderController
 import com.stringconcat.dev.course.app.event.EventPublisherImpl
-import com.stringconcat.dev.course.app.listeners.RemoveCartAfterCheckoutRule
 import com.stringconcat.shop.payment.SimplePaymentUrlProvider
 import java.net.URL
 import org.springframework.context.annotation.Bean
@@ -99,13 +98,18 @@ class ShopContextConfiguration {
     )
 
     @Bean
-    fun removeCartHandler(
+    fun removeCartAfterCheckoutRule(
         cartExtractor: CartExtractor,
-        cartRemover: CartRemover
-    ) = RemoveCartHandler(
-        cartExtractor = cartExtractor,
-        cartRemover = cartRemover
-    )
+        cartRemover: CartRemover,
+        domainEventPublisher: EventPublisherImpl
+    ): RemoveCartAfterCheckoutRule {
+        val rule = RemoveCartAfterCheckoutRule(
+            cartExtractor = cartExtractor,
+            cartRemover = cartRemover
+        )
+        domainEventPublisher.registerListener(rule)
+        return rule
+    }
 
     @Bean
     fun removeMealFromCartUseCase(
@@ -221,16 +225,6 @@ class ShopContextConfiguration {
 
     @Bean
     fun paymentUrlProvider() = SimplePaymentUrlProvider(URL("http://localhost:8080"))
-
-    @Bean
-    fun checkoutListener(
-        removeCartHandler: RemoveCartHandler,
-        domainEventPublisher: EventPublisherImpl
-    ): RemoveCartAfterCheckoutRule {
-        val listener = RemoveCartAfterCheckoutRule(removeCartHandler)
-        domainEventPublisher.registerListener(listener)
-        return listener
-    }
 
     @Bean
     fun menuController(addMealToMenu: AddMealToMenu, removeMealFromMenu: RemoveMealFromMenu, getMenu: GetMenu) =

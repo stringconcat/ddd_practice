@@ -1,12 +1,13 @@
-package com.stringconcat.dev.course.app.listeners
+package com.stringconcat.ddd.shop.usecase.cart.scenarios
 
+import arrow.core.rightIfNotNull
 import com.stringconcat.ddd.common.events.DomainEventListener
 import com.stringconcat.ddd.shop.domain.order.ShopOrderCreatedDomainEvent
-import com.stringconcat.ddd.shop.usecase.cart.RemoveCart
 import org.slf4j.LoggerFactory
 
 class RemoveCartAfterCheckoutRule(
-    private val removeCart: RemoveCart,
+    private val cartExtractor: CartExtractor,
+    private val cartRemover: CartRemover
 ) : DomainEventListener<ShopOrderCreatedDomainEvent> {
 
     private val logger = LoggerFactory.getLogger(RemoveCartAfterCheckoutRule::class.java)
@@ -14,9 +15,12 @@ class RemoveCartAfterCheckoutRule(
     override fun eventType() = ShopOrderCreatedDomainEvent::class
 
     override fun handle(event: ShopOrderCreatedDomainEvent) {
-        val result = removeCart.execute(event.forCustomer)
-        result.mapLeft {
+        cartExtractor.getCart(event.forCustomer).rightIfNotNull {
             logger.warn("Cart for customer #${event.forCustomer} is already removed")
+        }.map {
+            // тут можно не делать никаких методов в самой коризине, потому что
+            // корзина никому не интересна с точки зрения процессов
+            cartRemover.deleteCart(it)
         }
     }
 }
