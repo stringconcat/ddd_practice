@@ -8,7 +8,6 @@ import com.stringconcat.ddd.shop.domain.menu.MealIdGenerator
 import com.stringconcat.ddd.shop.domain.menu.MealName
 import com.stringconcat.ddd.shop.domain.price
 import com.stringconcat.ddd.shop.usecase.TestMealPersister
-import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenuRequest
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenuUseCaseError
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
@@ -34,11 +33,9 @@ internal class AddMealToMenuUseCaseTest {
             idGenerator = TestMealIdGenerator,
             mealExists = MealNotExist
         ).execute(
-            AddMealToMenuRequest(
-                name = name,
-                description = description,
-                price = price
-            )
+            name = name,
+            description = description,
+            price = price
         )
 
         val id = TestMealIdGenerator.id
@@ -70,11 +67,9 @@ internal class AddMealToMenuUseCaseTest {
             idGenerator = TestMealIdGenerator,
             mealExists = MealExist
         ).execute(
-            AddMealToMenuRequest(
-                name = name,
-                description = description,
-                price = price
-            )
+            name = name,
+            description = description,
+            price = price
         )
 
         result shouldBeLeft AddMealToMenuUseCaseError.AlreadyExists

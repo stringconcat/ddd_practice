@@ -23,6 +23,9 @@ dependencies {
     // swagger
     implementation(Libs.swagger)
 
+    // jackson
+    implementation(Libs.jackson_kotlin)
+
     // test
     testImplementation(Libs.spring_boot_starter_test) {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")

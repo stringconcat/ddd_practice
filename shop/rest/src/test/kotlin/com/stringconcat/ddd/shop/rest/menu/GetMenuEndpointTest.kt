@@ -1,10 +1,9 @@
 package com.stringconcat.ddd.shop.rest.menu
 
 import APPLICATION_HAL_JSON
+import MockGetMenu
 import com.stringconcat.ddd.shop.domain.meal
-import com.stringconcat.ddd.shop.domain.menu.Meal
 import com.stringconcat.ddd.shop.usecase.menu.GetMenu
-import com.stringconcat.ddd.shop.usecase.menu.MealInfo
 import endpointUrl
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -23,14 +22,14 @@ class GetMenuEndpointTest {
     lateinit var mockMvc: MockMvc
 
     @Autowired
-    lateinit var getMenu: TestGetMenu
+    lateinit var getMenu: MockGetMenu
 
     @Test
     fun `get menu`() {
         val meal = getMenu.meal
-        mockMvc.get("/menu")
+        mockMvc.get("/rest/v1/menu")
             .andExpect {
-                status { is2xxSuccessful() }
+                status { isOk() }
                 content {
                     contentType(APPLICATION_HAL_JSON)
 
@@ -50,16 +49,9 @@ class GetMenuEndpointTest {
     class TestConfiguration {
 
         @Bean
-        fun getMenu() = TestGetMenu(meal = meal())
+        fun getMenu() = MockGetMenu(meal = meal())
 
         @Bean
         fun getMenuEndpoint(getMenu: GetMenu) = GetMenuEndpoint(getMenu)
-    }
-
-    class TestGetMenu(val meal: Meal) : GetMenu {
-        override fun execute() = listOf(MealInfo(id = meal.id,
-            name = meal.name,
-            description = meal.description,
-            price = meal.price))
     }
 }

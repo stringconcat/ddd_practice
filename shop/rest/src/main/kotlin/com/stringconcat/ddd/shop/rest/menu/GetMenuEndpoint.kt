@@ -20,12 +20,10 @@ class GetMenuEndpoint(private val getMenu: GetMenu) {
 
     @ApiOperation("Get menu")
     @GetMapping(path = ["/rest/v1/menu"])
-    fun getMenu(): ResponseEntity<CollectionModel<MealModel>> {
+    fun execute(): ResponseEntity<CollectionModel<MealModel>> {
         val menuModel = getMenu.execute().map { MealModel.from(it) }
-
         val collectionModel = CollectionModel.of(menuModel)
-            .add(linkTo(methodOn(GetMenuEndpoint::class.java).getMenu()).withSelfRel())
-
+            .add(linkTo(methodOn(GetMenuEndpoint::class.java).execute()).withSelfRel())
         return ResponseEntity.ok(collectionModel)
     }
 }
