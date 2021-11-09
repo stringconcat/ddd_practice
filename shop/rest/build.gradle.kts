@@ -33,4 +33,9 @@ dependencies {
     testImplementation(testFixtures(project(":common:types")))
     testImplementation(testFixtures(project(":shop:domain") ))
     testImplementation(testFixtures(project(":shop:usecase") ))
+
+    testFixturesImplementation(testFixtures(project(":common:types")))
+    testFixturesImplementation(testFixtures(project(":shop:domain")))
+    testFixturesImplementation(testFixtures(project(":shop:usecase")))
+    testFixturesImplementation(Libs.arrow)
 }

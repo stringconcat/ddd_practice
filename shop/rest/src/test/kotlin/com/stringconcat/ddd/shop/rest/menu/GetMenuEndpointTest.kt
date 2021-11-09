@@ -1,9 +1,11 @@
 package com.stringconcat.ddd.shop.rest.menu
 
+import APPLICATION_HAL_JSON
 import com.stringconcat.ddd.shop.domain.meal
 import com.stringconcat.ddd.shop.domain.menu.Meal
 import com.stringconcat.ddd.shop.usecase.menu.GetMenu
 import com.stringconcat.ddd.shop.usecase.menu.MealInfo
+import endpointUrl
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -30,7 +32,12 @@ class GetMenuEndpointTest {
             .andExpect {
                 status { is2xxSuccessful() }
                 content {
-                    jsonPath("$._embedded.meals") { isArray() }
+                    contentType(APPLICATION_HAL_JSON)
+
+                    jsonPath("$._links.self.href") { value(endpointUrl("/menu")) }
+
+                    jsonPath("$._embedded.meals.length()") { value(1) }
+                    jsonPath("$._embedded.meals") { isNotEmpty() }
                     jsonPath("$._embedded.meals[0].id") { value(meal.id.value) }
                     jsonPath("$._embedded.meals[0].name") { value(meal.name.value) }
                     jsonPath("$._embedded.meals[0].description") { value(meal.description.value) }
