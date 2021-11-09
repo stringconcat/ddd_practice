@@ -9,6 +9,7 @@ import com.stringconcat.ddd.shop.domain.menu.MealIdGenerator
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenu
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenuRequest
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenuUseCaseError
+import com.stringconcat.ddd.shop.usecase.menu.access.MealPersister
 
 class AddMealToMenuUseCase(
     private val mealPersister: MealPersister,

@@ -6,6 +6,8 @@ import com.stringconcat.ddd.shop.domain.cart.CustomerId
 import com.stringconcat.ddd.shop.domain.menu.MealId
 import com.stringconcat.ddd.shop.usecase.cart.RemoveMealFromCart
 import com.stringconcat.ddd.shop.usecase.cart.RemoveMealFromCartUseCaseError
+import com.stringconcat.ddd.shop.usecase.cart.access.CartExtractor
+import com.stringconcat.ddd.shop.usecase.cart.access.CartPersister
 
 class RemoveMealFromCartUseCase(
     private val cartExtractor: CartExtractor,

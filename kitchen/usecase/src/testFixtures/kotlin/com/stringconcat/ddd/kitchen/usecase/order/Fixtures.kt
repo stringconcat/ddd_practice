@@ -2,8 +2,8 @@ package com.stringconcat.ddd.kitchen.usecase.order
 
 import com.stringconcat.ddd.kitchen.domain.order.KitchenOrder
 import com.stringconcat.ddd.kitchen.domain.order.KitchenOrderId
-import com.stringconcat.ddd.kitchen.usecase.order.scenarios.KitchenOrderExtractor
-import com.stringconcat.ddd.kitchen.usecase.order.scenarios.KitchenOrderPersister
+import com.stringconcat.ddd.kitchen.usecase.order.access.KitchenOrderExtractor
+import com.stringconcat.ddd.kitchen.usecase.order.access.KitchenOrderPersister
 
 class TestKitchenOrderPersister : KitchenOrderPersister, HashMap<KitchenOrderId, KitchenOrder>() {
     override fun save(order: KitchenOrder) {

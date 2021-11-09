@@ -1,8 +1,8 @@
 package com.stringconcat.dev.course.app.configuration
 
 import com.stringconcat.ddd.kitchen.usecase.order.scenarios.CreateOrderHandler
-import com.stringconcat.ddd.shop.usecase.menu.scenarios.MealExtractor
-import com.stringconcat.ddd.shop.usecase.order.scenarios.ShopOrderExtractor
+import com.stringconcat.ddd.shop.usecase.menu.access.MealExtractor
+import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderExtractor
 import com.stringconcat.dev.course.app.event.EventPublisherImpl
 import com.stringconcat.dev.course.app.listeners.SendOrderToKitchenAfterConfirmationRule
 import org.springframework.context.annotation.Bean

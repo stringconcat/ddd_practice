@@ -7,8 +7,8 @@ import com.stringconcat.ddd.kitchen.usecase.order.GetOrders
 import com.stringconcat.ddd.kitchen.usecase.order.scenarios.CookOrderUseCase
 import com.stringconcat.ddd.kitchen.usecase.order.scenarios.CreateOrderHandler
 import com.stringconcat.ddd.kitchen.usecase.order.scenarios.GetOrdersUseCase
-import com.stringconcat.ddd.kitchen.usecase.order.scenarios.KitchenOrderExtractor
-import com.stringconcat.ddd.kitchen.usecase.order.scenarios.KitchenOrderPersister
+import com.stringconcat.ddd.kitchen.usecase.order.access.KitchenOrderExtractor
+import com.stringconcat.ddd.kitchen.usecase.order.access.KitchenOrderPersister
 import com.stringconcat.ddd.kitchen.web.order.KitchenOrderController
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

@@ -2,6 +2,7 @@ package com.stringconcat.ddd.shop.usecase.menu.scenarios
 
 import com.stringconcat.ddd.shop.usecase.menu.GetMenu
 import com.stringconcat.ddd.shop.usecase.menu.MealInfo
+import com.stringconcat.ddd.shop.usecase.menu.access.MealExtractor
 
 class GetMenuUseCase(private val mealExtractor: MealExtractor) : GetMenu {
 

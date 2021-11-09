@@ -4,8 +4,8 @@ import com.stringconcat.ddd.common.events.DomainEventPublisher
 import com.stringconcat.ddd.shop.domain.menu.Meal
 import com.stringconcat.ddd.shop.domain.menu.MealId
 import com.stringconcat.ddd.shop.domain.menu.MealName
-import com.stringconcat.ddd.shop.usecase.menu.scenarios.MealExtractor
-import com.stringconcat.ddd.shop.usecase.menu.scenarios.MealPersister
+import com.stringconcat.ddd.shop.usecase.menu.access.MealExtractor
+import com.stringconcat.ddd.shop.usecase.menu.access.MealPersister
 
 class InMemoryMealRepository(private val eventPublisher: DomainEventPublisher) : MealExtractor, MealPersister {
 

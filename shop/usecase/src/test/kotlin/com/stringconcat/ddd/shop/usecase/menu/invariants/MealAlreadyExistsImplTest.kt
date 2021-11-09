@@ -1,4 +1,4 @@
-package com.stringconcat.ddd.shop.usecase.rules
+package com.stringconcat.ddd.shop.usecase.menu.invariants
 
 import com.stringconcat.ddd.shop.domain.meal
 import com.stringconcat.ddd.shop.domain.mealName

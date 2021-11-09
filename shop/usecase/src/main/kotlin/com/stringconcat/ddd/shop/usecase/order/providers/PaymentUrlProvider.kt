@@ -1,4 +1,4 @@
-package com.stringconcat.ddd.shop.usecase.order.scenarios
+package com.stringconcat.ddd.shop.usecase.order.providers
 
 import com.stringconcat.ddd.shop.domain.menu.Price
 import com.stringconcat.ddd.shop.domain.order.ShopOrderId

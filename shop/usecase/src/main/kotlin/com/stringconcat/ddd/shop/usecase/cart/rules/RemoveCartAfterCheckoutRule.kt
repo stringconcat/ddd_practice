@@ -1,8 +1,10 @@
-package com.stringconcat.ddd.shop.usecase.cart.scenarios
+package com.stringconcat.ddd.shop.usecase.cart.rules
 
 import arrow.core.rightIfNotNull
 import com.stringconcat.ddd.common.events.DomainEventListener
 import com.stringconcat.ddd.shop.domain.order.ShopOrderCreatedDomainEvent
+import com.stringconcat.ddd.shop.usecase.cart.access.CartExtractor
+import com.stringconcat.ddd.shop.usecase.cart.access.CartRemover
 import org.slf4j.LoggerFactory
 
 class RemoveCartAfterCheckoutRule(

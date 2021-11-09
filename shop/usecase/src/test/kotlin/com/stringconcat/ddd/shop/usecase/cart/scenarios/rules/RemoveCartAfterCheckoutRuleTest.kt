@@ -1,4 +1,4 @@
-package com.stringconcat.ddd.shop.usecase.cart.scenarios
+package com.stringconcat.ddd.shop.usecase.cart.scenarios.rules
 
 import com.stringconcat.ddd.shop.domain.cart
 import com.stringconcat.ddd.shop.domain.customerId
@@ -6,6 +6,7 @@ import com.stringconcat.ddd.shop.domain.order.ShopOrderCreatedDomainEvent
 import com.stringconcat.ddd.shop.domain.orderId
 import com.stringconcat.ddd.shop.usecase.TestCartExtractor
 import com.stringconcat.ddd.shop.usecase.TestCartRemover
+import com.stringconcat.ddd.shop.usecase.cart.rules.RemoveCartAfterCheckoutRule
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import org.junit.jupiter.api.Test

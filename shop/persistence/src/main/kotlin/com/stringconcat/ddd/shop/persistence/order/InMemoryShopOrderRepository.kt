@@ -4,8 +4,8 @@ import com.stringconcat.ddd.common.events.DomainEventPublisher
 import com.stringconcat.ddd.shop.domain.cart.CustomerId
 import com.stringconcat.ddd.shop.domain.order.ShopOrder
 import com.stringconcat.ddd.shop.domain.order.ShopOrderId
-import com.stringconcat.ddd.shop.usecase.order.scenarios.ShopOrderExtractor
-import com.stringconcat.ddd.shop.usecase.order.scenarios.ShopOrderPersister
+import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderExtractor
+import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderPersister
 
 class InMemoryShopOrderRepository(private val eventPublisher: DomainEventPublisher) :
     ShopOrderExtractor,

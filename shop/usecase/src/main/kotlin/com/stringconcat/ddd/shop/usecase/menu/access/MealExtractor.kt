@@ -1,4 +1,4 @@
-package com.stringconcat.ddd.shop.usecase.menu.scenarios
+package com.stringconcat.ddd.shop.usecase.menu.access
 
 import com.stringconcat.ddd.shop.domain.menu.Meal
 import com.stringconcat.ddd.shop.domain.menu.MealId

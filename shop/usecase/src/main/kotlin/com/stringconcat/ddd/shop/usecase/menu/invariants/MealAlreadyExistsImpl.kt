@@ -1,8 +1,8 @@
-package com.stringconcat.ddd.shop.usecase.rules
+package com.stringconcat.ddd.shop.usecase.menu.invariants
 
 import com.stringconcat.ddd.shop.domain.menu.MealName
 import com.stringconcat.ddd.shop.domain.menu.MealAlreadyExists
-import com.stringconcat.ddd.shop.usecase.menu.scenarios.MealExtractor
+import com.stringconcat.ddd.shop.usecase.menu.access.MealExtractor
 
 class MealAlreadyExistsImpl(val extractor: MealExtractor) : MealAlreadyExists {
     override fun check(name: MealName): Boolean {

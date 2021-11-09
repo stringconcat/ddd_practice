@@ -1,4 +1,4 @@
-package com.stringconcat.ddd.shop.usecase.rules
+package com.stringconcat.ddd.shop.usecase.order.invariants
 
 import com.stringconcat.ddd.shop.domain.customerId
 import com.stringconcat.ddd.shop.usecase.TestShopOrderExtractor
