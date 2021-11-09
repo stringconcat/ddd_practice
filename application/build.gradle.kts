@@ -22,6 +22,7 @@ dependencies {
     implementation(project(":shop:telnet"))
     implementation(project(":shop:web"))
     implementation(project(":shop:payment"))
+    implementation(project(":shop:rest"))
 
     // kotlin
     implementation(Libs.kotlin_jdk8)
@@ -32,6 +33,10 @@ dependencies {
     implementation(Libs.spring_boot_starter_web)
     implementation(Libs.spring_boot_starter_thymeleaf)
     implementation(Libs.spring_boot_starter_logging)
+
+    // swagger
+    implementation(Libs.swagger)
+    implementation(Libs.swagger_ui)
 
     // jackson
     implementation(Libs.jackson_kotlin)

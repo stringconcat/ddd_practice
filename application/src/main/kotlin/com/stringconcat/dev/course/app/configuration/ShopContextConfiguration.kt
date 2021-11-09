@@ -13,6 +13,7 @@ import com.stringconcat.ddd.shop.persistence.menu.InMemoryIncrementalMealIdGener
 import com.stringconcat.ddd.shop.persistence.menu.InMemoryMealRepository
 import com.stringconcat.ddd.shop.persistence.order.InMemoryIncrementalShopOrderIdGenerator
 import com.stringconcat.ddd.shop.persistence.order.InMemoryShopOrderRepository
+import com.stringconcat.ddd.shop.rest.menu.GetMenuEndpoint
 import com.stringconcat.ddd.shop.telnet.cart.AddMealToCartCommand
 import com.stringconcat.ddd.shop.telnet.cart.CheckoutCommand
 import com.stringconcat.ddd.shop.telnet.cart.GetCartCommand
@@ -251,4 +252,7 @@ class ShopContextConfiguration {
 
     @Bean
     fun getLastOrderStateCommand(useCase: GetLastOrderState) = GetLastOrderStateCommand(useCase)
+
+    @Bean
+    fun getMenuRest(getMenu: GetMenu) = GetMenuEndpoint(getMenu)
 }

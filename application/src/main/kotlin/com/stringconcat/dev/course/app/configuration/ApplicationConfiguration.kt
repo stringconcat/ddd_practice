@@ -14,7 +14,8 @@ import org.springframework.context.annotation.Import
     ShopContextConfiguration::class,
     KitchenContextConfiguration::class,
     ContextsIntegration::class,
-    TelnetConfiguration::class
+    TelnetConfiguration::class,
+    SwaggerConfiguration::class
 )
 @EnableAutoConfiguration
 class ApplicationConfiguration {

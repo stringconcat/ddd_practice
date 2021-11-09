@@ -16,9 +16,12 @@ dependencies {
     implementation(Libs.kotlin_stdlib)
     implementation(Libs.arrow)
 
-    //spring
+    // spring
     implementation(Libs.spring_boot_starter_web)
     implementation(Libs.spring_boot_started_hateoas)
+
+    // swagger
+    implementation(Libs.swagger)
 
     // test
     testImplementation(Libs.spring_boot_starter_test) {
@@ -31,8 +34,8 @@ dependencies {
     testImplementation(Libs.junit_params)
 
     testImplementation(testFixtures(project(":common:types")))
-    testImplementation(testFixtures(project(":shop:domain") ))
-    testImplementation(testFixtures(project(":shop:usecase") ))
+    testImplementation(testFixtures(project(":shop:domain")))
+    testImplementation(testFixtures(project(":shop:usecase")))
 
     testFixturesImplementation(testFixtures(project(":common:types")))
     testFixturesImplementation(testFixtures(project(":shop:domain")))

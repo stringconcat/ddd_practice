@@ -2,6 +2,8 @@ package com.stringconcat.ddd.shop.rest.menu
 
 import com.stringconcat.ddd.shop.usecase.menu.GetMenu
 import com.stringconcat.ddd.shop.usecase.menu.MealInfo
+import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
 import java.math.BigDecimal
 import org.springframework.hateoas.CollectionModel
 import org.springframework.hateoas.RepresentationModel
@@ -13,10 +15,12 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
+@Api(tags = ["Menu"])
 class GetMenuEndpoint(private val getMenu: GetMenu) {
 
-    @GetMapping(path = ["/menu"])
-    fun getMenu(): ResponseEntity<RepresentationModel<*>> {
+    @ApiOperation("Get menu")
+    @GetMapping(path = ["/rest/v1/menu"])
+    fun getMenu(): ResponseEntity<CollectionModel<MealModel>> {
         val menuModel = getMenu.execute().map { MealModel.from(it) }
 
         val collectionModel = CollectionModel.of(menuModel)

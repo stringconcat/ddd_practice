@@ -1,6 +1,7 @@
 object LibVers {
 
     const val spring_boot = "2.5.6"
+    const val swagger = "3.0.0"
     const val junit = "5.7.1"
     const val kotest = "5.0.0.M3"
     const val kotest_arrow = "1.1.1"
@@ -36,7 +37,11 @@ object Libs {
     const val spring_boot_starter_thymeleaf =
         "org.springframework.boot:spring-boot-starter-thymeleaf:${LibVers.spring_boot}"
 
-    const val spring_boot_started_hateoas = "org.springframework.boot:spring-boot-starter-hateoas:${LibVers.spring_boot}"
+    const val spring_boot_started_hateoas =
+        "org.springframework.boot:spring-boot-starter-hateoas:${LibVers.spring_boot}"
+
+    const val swagger = "io.springfox:springfox-boot-starter:${LibVers.swagger}"
+    const val swagger_ui = "io.springfox:springfox-swagger-ui:${LibVers.swagger}"
 
     // Logging
     const val slf4j_api = "org.slf4j:slf4j-api:${LibVers.slf4j}"
