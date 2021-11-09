@@ -4,6 +4,10 @@ dependencies {
     // project
     implementation(project(":shop:domain"))
     implementation(project(":common:types"))
+    implementation(project(":common:events"))
+
+    // logging
+    implementation(Libs.slf4j_api)
 
     // kotlin
     implementation(Libs.kotlin_jdk8)

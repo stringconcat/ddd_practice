@@ -1,13 +1,14 @@
 package com.stringconcat.ddd.shop.persistence.cart
 
-import com.stringconcat.ddd.common.types.base.EventPublisher
+import com.stringconcat.ddd.common.events.DomainEventPublisher
 import com.stringconcat.ddd.shop.domain.cart.Cart
 import com.stringconcat.ddd.shop.domain.cart.CustomerId
-import com.stringconcat.ddd.shop.usecase.cart.scenarios.CartExtractor
-import com.stringconcat.ddd.shop.usecase.cart.scenarios.CartPersister
-import com.stringconcat.ddd.shop.usecase.cart.scenarios.CartRemover
+import com.stringconcat.ddd.shop.usecase.cart.access.CartExtractor
+import com.stringconcat.ddd.shop.usecase.cart.access.CartPersister
+import com.stringconcat.ddd.shop.usecase.cart.access.CartRemover
 
-class InMemoryCartRepository(private val eventPublisher: EventPublisher) : CartExtractor, CartPersister, CartRemover {
+class InMemoryCartRepository(private val eventPublisher: DomainEventPublisher) :
+    CartExtractor, CartPersister, CartRemover {
 
     internal val storage = HashMap<CustomerId, Cart>()
 

@@ -6,6 +6,8 @@ import arrow.core.right
 import com.stringconcat.ddd.shop.domain.menu.MealId
 import com.stringconcat.ddd.shop.usecase.menu.RemoveMealFromMenu
 import com.stringconcat.ddd.shop.usecase.menu.RemoveMealFromMenuUseCaseError
+import com.stringconcat.ddd.shop.usecase.menu.access.MealExtractor
+import com.stringconcat.ddd.shop.usecase.menu.access.MealPersister
 
 class RemoveMealFromMenuUseCase(
     private val mealExtractor: MealExtractor,

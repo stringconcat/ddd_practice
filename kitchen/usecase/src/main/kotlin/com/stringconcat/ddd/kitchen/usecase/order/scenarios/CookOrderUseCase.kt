@@ -5,6 +5,8 @@ import arrow.core.rightIfNotNull
 import com.stringconcat.ddd.kitchen.domain.order.KitchenOrderId
 import com.stringconcat.ddd.kitchen.usecase.order.CookOrder
 import com.stringconcat.ddd.kitchen.usecase.order.CookOrderUseCaseError
+import com.stringconcat.ddd.kitchen.usecase.order.access.KitchenOrderExtractor
+import com.stringconcat.ddd.kitchen.usecase.order.access.KitchenOrderPersister
 
 class CookOrderUseCase(
     private val kitchenOrderExtractor: KitchenOrderExtractor,

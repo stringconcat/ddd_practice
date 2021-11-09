@@ -3,6 +3,7 @@ project.base.archivesName.set("kitchen-persistence")
 dependencies {
     // project
     implementation(project(":common:types"))
+    implementation(project(":common:events"))
     implementation(project(":kitchen:domain"))
     implementation(project(":kitchen:usecase"))
 
@@ -22,6 +23,7 @@ dependencies {
     testImplementation(testFixtures(project(":kitchen:domain")))
 
     testFixturesImplementation(testFixtures(project(":common:types")))
+    testFixturesImplementation(testFixtures(project(":common:events")))
     testFixturesImplementation(testFixtures(project(":kitchen:domain")))
     testFixturesImplementation(Libs.arrow)
 }

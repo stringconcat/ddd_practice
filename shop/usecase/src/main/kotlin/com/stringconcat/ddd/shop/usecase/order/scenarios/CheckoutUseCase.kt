@@ -8,11 +8,13 @@ import com.stringconcat.ddd.shop.domain.order.ShopOrder
 import com.stringconcat.ddd.shop.domain.order.ShopOrderIdGenerator
 import com.stringconcat.ddd.shop.domain.order.MealPriceProvider
 import com.stringconcat.ddd.shop.domain.order.CustomerHasActiveOrder
-import com.stringconcat.ddd.shop.usecase.cart.scenarios.CartExtractor
+import com.stringconcat.ddd.shop.usecase.cart.access.CartExtractor
 import com.stringconcat.ddd.shop.usecase.order.Checkout
 import com.stringconcat.ddd.shop.usecase.order.CheckoutRequest
 import com.stringconcat.ddd.shop.usecase.order.CheckoutUseCaseError
 import com.stringconcat.ddd.shop.usecase.order.PaymentInfo
+import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderPersister
+import com.stringconcat.ddd.shop.usecase.order.providers.PaymentUrlProvider
 
 class CheckoutUseCase(
     private val idGenerator: ShopOrderIdGenerator,

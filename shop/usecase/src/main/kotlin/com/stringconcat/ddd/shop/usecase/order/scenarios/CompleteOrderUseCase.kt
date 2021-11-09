@@ -6,6 +6,8 @@ import arrow.core.rightIfNotNull
 import com.stringconcat.ddd.shop.domain.order.ShopOrderId
 import com.stringconcat.ddd.shop.usecase.order.CompleteOrder
 import com.stringconcat.ddd.shop.usecase.order.CompleteOrderUseCaseError
+import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderExtractor
+import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderPersister
 
 class CompleteOrderUseCase(
     private val shopOrderExtractor: ShopOrderExtractor,

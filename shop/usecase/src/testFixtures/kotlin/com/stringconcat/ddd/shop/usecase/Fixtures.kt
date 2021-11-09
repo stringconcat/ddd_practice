@@ -12,13 +12,13 @@ import com.stringconcat.ddd.shop.domain.order.CustomerHasActiveOrder
 import com.stringconcat.ddd.shop.domain.order.OrderState
 import com.stringconcat.ddd.shop.domain.order.ShopOrder
 import com.stringconcat.ddd.shop.domain.order.ShopOrderId
-import com.stringconcat.ddd.shop.usecase.cart.scenarios.CartExtractor
-import com.stringconcat.ddd.shop.usecase.cart.scenarios.CartPersister
-import com.stringconcat.ddd.shop.usecase.cart.scenarios.CartRemover
-import com.stringconcat.ddd.shop.usecase.menu.scenarios.MealExtractor
-import com.stringconcat.ddd.shop.usecase.menu.scenarios.MealPersister
-import com.stringconcat.ddd.shop.usecase.order.scenarios.ShopOrderExtractor
-import com.stringconcat.ddd.shop.usecase.order.scenarios.ShopOrderPersister
+import com.stringconcat.ddd.shop.usecase.cart.access.CartExtractor
+import com.stringconcat.ddd.shop.usecase.cart.access.CartPersister
+import com.stringconcat.ddd.shop.usecase.cart.access.CartRemover
+import com.stringconcat.ddd.shop.usecase.menu.access.MealExtractor
+import com.stringconcat.ddd.shop.usecase.menu.access.MealPersister
+import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderExtractor
+import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderPersister
 
 fun removedMeal() = meal(removed = true)
 

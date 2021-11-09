@@ -1,8 +1,8 @@
 package com.stringconcat.ddd.shop.persistence
 
 import arrow.core.Either
+import com.stringconcat.ddd.common.events.DomainEventPublisher
 import com.stringconcat.ddd.common.types.base.DomainEvent
-import com.stringconcat.ddd.common.types.base.EventPublisher
 import com.stringconcat.ddd.shop.domain.cart
 import com.stringconcat.ddd.shop.domain.cart.Cart
 import com.stringconcat.ddd.shop.domain.meal
@@ -36,7 +36,7 @@ fun orderWithEvents(id: ShopOrderId = orderId()): ShopOrder {
     return order
 }
 
-class TestEventPublisher : EventPublisher {
+class TestEventPublisher : DomainEventPublisher {
     val storage = ArrayList<DomainEvent>()
     override fun publish(events: Collection<DomainEvent>) {
         storage.addAll(events)

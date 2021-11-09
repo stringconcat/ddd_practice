@@ -19,6 +19,7 @@ import com.stringconcat.ddd.shop.usecase.TestCustomerHasActiveOrder
 import com.stringconcat.ddd.shop.usecase.TestShopOrderPersister
 import com.stringconcat.ddd.shop.usecase.order.CheckoutRequest
 import com.stringconcat.ddd.shop.usecase.order.CheckoutUseCaseError
+import com.stringconcat.ddd.shop.usecase.order.providers.PaymentUrlProvider
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.matchers.collections.shouldHaveSize

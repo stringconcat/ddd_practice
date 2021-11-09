@@ -7,7 +7,8 @@ import com.stringconcat.ddd.shop.usecase.cart.CartInfo
 import com.stringconcat.ddd.shop.usecase.cart.CartItem
 import com.stringconcat.ddd.shop.usecase.cart.GetCart
 import com.stringconcat.ddd.shop.usecase.cart.GetCartUseCaseError
-import com.stringconcat.ddd.shop.usecase.menu.scenarios.MealExtractor
+import com.stringconcat.ddd.shop.usecase.cart.access.CartExtractor
+import com.stringconcat.ddd.shop.usecase.menu.access.MealExtractor
 
 class GetCartUseCase(
     private val mealExtractor: MealExtractor,

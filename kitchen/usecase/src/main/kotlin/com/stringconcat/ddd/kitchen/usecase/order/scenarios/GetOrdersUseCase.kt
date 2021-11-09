@@ -2,6 +2,7 @@ package com.stringconcat.ddd.kitchen.usecase.order.scenarios
 
 import com.stringconcat.ddd.kitchen.usecase.order.GetOrders
 import com.stringconcat.ddd.kitchen.usecase.order.KitchenOrderInfo
+import com.stringconcat.ddd.kitchen.usecase.order.access.KitchenOrderExtractor
 
 class GetOrdersUseCase(private val orderExtractor: KitchenOrderExtractor) : GetOrders {
 

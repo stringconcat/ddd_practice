@@ -12,7 +12,3 @@ data class EventId internal constructor(val value: UUID, val created: OffsetDate
         fun generate(): EventId = EventId(UUID.randomUUID())
     }
 }
-
-interface EventPublisher {
-    fun publish(events: Collection<DomainEvent>)
-}

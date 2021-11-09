@@ -1,12 +1,12 @@
 package com.stringconcat.ddd.kitchen.persistence.order
 
-import com.stringconcat.ddd.common.types.base.EventPublisher
+import com.stringconcat.ddd.common.events.DomainEventPublisher
 import com.stringconcat.ddd.kitchen.domain.order.KitchenOrder
 import com.stringconcat.ddd.kitchen.domain.order.KitchenOrderId
-import com.stringconcat.ddd.kitchen.usecase.order.scenarios.KitchenOrderExtractor
-import com.stringconcat.ddd.kitchen.usecase.order.scenarios.KitchenOrderPersister
+import com.stringconcat.ddd.kitchen.usecase.order.access.KitchenOrderExtractor
+import com.stringconcat.ddd.kitchen.usecase.order.access.KitchenOrderPersister
 
-class InMemoryKitchenOrderRepository(private val eventPublisher: EventPublisher) :
+class InMemoryKitchenOrderRepository(private val eventPublisher: DomainEventPublisher) :
     KitchenOrderExtractor,
     KitchenOrderPersister {
 

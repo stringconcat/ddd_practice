@@ -9,6 +9,7 @@ dependencies {
     // project
     implementation(project(":common:types"))
     implementation(project(":common:telnet"))
+    implementation(project(":common:events"))
 
     implementation(project(":kitchen:domain"))
     implementation(project(":kitchen:usecase"))

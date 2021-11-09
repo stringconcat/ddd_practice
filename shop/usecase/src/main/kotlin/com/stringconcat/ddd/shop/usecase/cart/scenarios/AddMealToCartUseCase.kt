@@ -8,7 +8,9 @@ import com.stringconcat.ddd.shop.domain.cart.CustomerId
 import com.stringconcat.ddd.shop.domain.menu.MealId
 import com.stringconcat.ddd.shop.usecase.cart.AddMealToCart
 import com.stringconcat.ddd.shop.usecase.cart.AddMealToCartUseCaseError
-import com.stringconcat.ddd.shop.usecase.menu.scenarios.MealExtractor
+import com.stringconcat.ddd.shop.usecase.cart.access.CartExtractor
+import com.stringconcat.ddd.shop.usecase.cart.access.CartPersister
+import com.stringconcat.ddd.shop.usecase.menu.access.MealExtractor
 
 class AddMealToCartUseCase(
     private val cartExtractor: CartExtractor,
