@@ -30,7 +30,7 @@ fun restBusinessError(error: RestBusinessError) =
                 .withTitle(error.title)
         )
 
-fun  Nel<ValidationError>.toInvalidParamsBadRequest() =
+fun Nel<ValidationError>.toInvalidParamsBadRequest() =
     ResponseEntity
         .badRequest()
         .contentType(MediaType.APPLICATION_PROBLEM_JSON)
