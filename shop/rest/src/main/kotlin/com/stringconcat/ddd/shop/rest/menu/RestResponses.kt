@@ -1,12 +1,12 @@
 package com.stringconcat.ddd.shop.rest.menu
 
 import arrow.core.Nel
-import java.net.URI
 import org.springframework.hateoas.mediatype.problem.Problem
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
+import java.net.URI
 
 typealias Message = String
 
@@ -30,11 +30,11 @@ fun restBusinessError(error: RestBusinessError) =
                 .withTitle(error.title)
         )
 
-fun validationError(errors: Nel<ValidationError>) =
+fun  Nel<ValidationError>.toInvalidParamsBadRequest() =
     ResponseEntity
         .badRequest()
         .contentType(MediaType.APPLICATION_PROBLEM_JSON)
-        .body(Problem.create(mapOf("invalid_params" to errors))
+        .body(Problem.create(mapOf("invalid_params" to this))
             .withStatus(HttpStatus.BAD_REQUEST)
             .withType(URI("$baseUrl/bad_request"))
             .withTitle("Bad request")
