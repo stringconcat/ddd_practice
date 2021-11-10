@@ -7,6 +7,8 @@ import com.stringconcat.ddd.shop.domain.menu.Price
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenu
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenuUseCaseError
 import java.math.BigDecimal
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -27,15 +29,16 @@ class AddMealToMenuEndpoint(val addMealToMenu: AddMealToMenu) {
                 validationError(it)
             }, { either ->
                 either.fold(
-                    { ResponseEntity.unprocessableEntity().body(it.toRestError()) },
-                    { ResponseEntity.ok().body("TODO") })
+                    { restBusinessError(it.toRestError()) },
+                    { created(linkTo(methodOn(GetMenuEndpoint::class.java).execute()).toUri()) })
             })
     }
 }
 
-fun AddMealToMenuUseCaseError.toRestError(): String =
+fun AddMealToMenuUseCaseError.toRestError(): RestBusinessError =
     when (this) {
-        is AddMealToMenuUseCaseError.AlreadyExists -> "already_exists"
+        is AddMealToMenuUseCaseError.AlreadyExists ->
+            RestBusinessError(title = "Meal already exists", code = "already_exists")
     }
 
 data class AddMealToMenuRestRequest(

@@ -34,7 +34,6 @@ class AddMealToMenuUseCase(
                 mealPersister.save(meal)
                 meal.id
             }
-
 }
 
 fun AlreadyExistsWithSameNameError.toError() = AddMealToMenuUseCaseError.AlreadyExists

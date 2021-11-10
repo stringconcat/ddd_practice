@@ -1,4 +1,4 @@
-project.base.archivesName.set("shop-web")
+project.base.archivesName.set("shop-rest")
 
 plugins{
     id(Plugins.spring_kotlin) version PluginVers.spring_kotlin
@@ -44,4 +44,5 @@ dependencies {
     testFixturesImplementation(testFixtures(project(":shop:domain")))
     testFixturesImplementation(testFixtures(project(":shop:usecase")))
     testFixturesImplementation(Libs.arrow)
+    testFixturesImplementation(Libs.kotest_junit)
 }

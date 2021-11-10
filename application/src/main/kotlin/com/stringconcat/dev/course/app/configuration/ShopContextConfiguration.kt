@@ -22,26 +22,31 @@ import com.stringconcat.ddd.shop.telnet.menu.GetMenuCommand
 import com.stringconcat.ddd.shop.telnet.order.GetLastOrderStateCommand
 import com.stringconcat.ddd.shop.usecase.cart.GetCart
 import com.stringconcat.ddd.shop.usecase.cart.RemoveMealFromCart
-import com.stringconcat.ddd.shop.usecase.cart.scenarios.AddMealToCartUseCase
 import com.stringconcat.ddd.shop.usecase.cart.access.CartExtractor
 import com.stringconcat.ddd.shop.usecase.cart.access.CartPersister
 import com.stringconcat.ddd.shop.usecase.cart.access.CartRemover
-import com.stringconcat.ddd.shop.usecase.cart.scenarios.GetCartUseCase
 import com.stringconcat.ddd.shop.usecase.cart.rules.RemoveCartAfterCheckoutRule
+import com.stringconcat.ddd.shop.usecase.cart.scenarios.AddMealToCartUseCase
+import com.stringconcat.ddd.shop.usecase.cart.scenarios.GetCartUseCase
 import com.stringconcat.ddd.shop.usecase.cart.scenarios.RemoveMealFromCartUseCase
-import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenu
 import com.stringconcat.ddd.shop.usecase.menu.GetMenu
 import com.stringconcat.ddd.shop.usecase.menu.RemoveMealFromMenu
-import com.stringconcat.ddd.shop.usecase.menu.scenarios.AddMealToMenuUseCase
-import com.stringconcat.ddd.shop.usecase.menu.scenarios.GetMenuUseCase
 import com.stringconcat.ddd.shop.usecase.menu.access.MealExtractor
 import com.stringconcat.ddd.shop.usecase.menu.access.MealPersister
+import com.stringconcat.ddd.shop.usecase.menu.invariants.MealAlreadyExistsImpl
+import com.stringconcat.ddd.shop.usecase.menu.scenarios.AddMealToMenuUseCase
+import com.stringconcat.ddd.shop.usecase.menu.scenarios.GetMenuUseCase
 import com.stringconcat.ddd.shop.usecase.menu.scenarios.RemoveMealFromMenuUseCase
 import com.stringconcat.ddd.shop.usecase.order.CancelOrder
 import com.stringconcat.ddd.shop.usecase.order.Checkout
 import com.stringconcat.ddd.shop.usecase.order.ConfirmOrder
 import com.stringconcat.ddd.shop.usecase.order.GetLastOrderState
 import com.stringconcat.ddd.shop.usecase.order.GetOrders
+import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderExtractor
+import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderPersister
+import com.stringconcat.ddd.shop.usecase.order.invariants.CustomerHasActiveOrderImpl
+import com.stringconcat.ddd.shop.usecase.order.providers.MealPriceProviderImpl
+import com.stringconcat.ddd.shop.usecase.order.providers.PaymentUrlProvider
 import com.stringconcat.ddd.shop.usecase.order.scenarios.CancelOrderUseCase
 import com.stringconcat.ddd.shop.usecase.order.scenarios.CheckoutUseCase
 import com.stringconcat.ddd.shop.usecase.order.scenarios.CompleteOrderUseCase
@@ -49,12 +54,6 @@ import com.stringconcat.ddd.shop.usecase.order.scenarios.ConfirmOrderUseCase
 import com.stringconcat.ddd.shop.usecase.order.scenarios.GetLastOrderStateUseCase
 import com.stringconcat.ddd.shop.usecase.order.scenarios.GetOrdersUseCase
 import com.stringconcat.ddd.shop.usecase.order.scenarios.PayOrderHandler
-import com.stringconcat.ddd.shop.usecase.order.providers.PaymentUrlProvider
-import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderExtractor
-import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderPersister
-import com.stringconcat.ddd.shop.usecase.order.providers.MealPriceProviderImpl
-import com.stringconcat.ddd.shop.usecase.order.invariants.CustomerHasActiveOrderImpl
-import com.stringconcat.ddd.shop.usecase.menu.invariants.MealAlreadyExistsImpl
 import com.stringconcat.ddd.shop.web.menu.MenuController
 import com.stringconcat.ddd.shop.web.order.ShopOrderController
 import com.stringconcat.dev.course.app.event.EventPublisherImpl
@@ -228,8 +227,8 @@ class ShopContextConfiguration {
     fun paymentUrlProvider() = SimplePaymentUrlProvider(URL("http://localhost:8080"))
 
     @Bean
-    fun menuController(addMealToMenu: AddMealToMenu, removeMealFromMenu: RemoveMealFromMenu, getMenu: GetMenu) =
-        MenuController(addMealToMenu, removeMealFromMenu, getMenu)
+    fun menuController(removeMealFromMenu: RemoveMealFromMenu, getMenu: GetMenu) =
+        MenuController(removeMealFromMenu, getMenu)
 
     @Bean
     fun shopOrderController(getOrders: GetOrders, confirmOrder: ConfirmOrder, cancelOrder: CancelOrder) =
