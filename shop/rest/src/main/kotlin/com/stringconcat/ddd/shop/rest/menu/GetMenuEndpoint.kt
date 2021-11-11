@@ -1,7 +1,7 @@
 package com.stringconcat.ddd.shop.rest.menu
 
 import com.stringconcat.ddd.shop.usecase.menu.GetMenu
-import com.stringconcat.ddd.shop.usecase.menu.MealInfo
+import com.stringconcat.ddd.shop.usecase.menu.dto.MealInfo
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import java.math.BigDecimal
@@ -34,6 +34,7 @@ data class MealModel(
     val name: String,
     val description: String,
     val price: BigDecimal,
+    val version: Long,
 ) : RepresentationModel<MealModel>() {
 
     companion object {
@@ -41,6 +42,7 @@ data class MealModel(
             MealModel(id = mealInfo.id.value,
                 name = mealInfo.name.value,
                 price = mealInfo.price.value,
-                description = mealInfo.description.value)
+                description = mealInfo.description.value,
+                version = mealInfo.version.value)
     }
 }

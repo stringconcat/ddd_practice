@@ -41,6 +41,7 @@ class GetMenuEndpointTest {
                     jsonPath("$._embedded.meals[0].name") { value(meal.name.value) }
                     jsonPath("$._embedded.meals[0].description") { value(meal.description.value) }
                     jsonPath("$._embedded.meals[0].price") { value(meal.price.value.setScale(1)) }
+                    jsonPath("$._embedded.meals[0].version") { value(meal.version.value) }
                 }
             }
     }

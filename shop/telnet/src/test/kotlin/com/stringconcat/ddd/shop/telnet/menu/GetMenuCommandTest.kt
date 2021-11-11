@@ -4,8 +4,9 @@ import com.stringconcat.ddd.shop.domain.mealDescription
 import com.stringconcat.ddd.shop.domain.mealId
 import com.stringconcat.ddd.shop.domain.mealName
 import com.stringconcat.ddd.shop.domain.price
+import com.stringconcat.ddd.shop.domain.version
 import com.stringconcat.ddd.shop.usecase.menu.GetMenu
-import com.stringconcat.ddd.shop.usecase.menu.MealInfo
+import com.stringconcat.ddd.shop.usecase.menu.dto.MealInfo
 import io.kotest.matchers.shouldBe
 import java.math.BigDecimal
 import java.util.UUID
@@ -39,7 +40,8 @@ class GetMenuCommandTest {
                     id = mealId(1),
                     name = mealName("meal name"),
                     description = mealDescription("description"),
-                    price = price(BigDecimal.TEN)
+                    price = price(BigDecimal.TEN),
+                    version = version()
                 )
             )
         )

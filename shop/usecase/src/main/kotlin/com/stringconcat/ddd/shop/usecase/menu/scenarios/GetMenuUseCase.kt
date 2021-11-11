@@ -1,8 +1,8 @@
 package com.stringconcat.ddd.shop.usecase.menu.scenarios
 
 import com.stringconcat.ddd.shop.usecase.menu.GetMenu
-import com.stringconcat.ddd.shop.usecase.menu.MealInfo
 import com.stringconcat.ddd.shop.usecase.menu.access.MealExtractor
+import com.stringconcat.ddd.shop.usecase.menu.dto.MealInfo
 
 class GetMenuUseCase(private val mealExtractor: MealExtractor) : GetMenu {
 
@@ -13,7 +13,8 @@ class GetMenuUseCase(private val mealExtractor: MealExtractor) : GetMenu {
                     id = it.id,
                     name = it.name,
                     description = it.description,
-                    price = it.price
+                    price = it.price,
+                    version = it.version
                 )
             }
     }

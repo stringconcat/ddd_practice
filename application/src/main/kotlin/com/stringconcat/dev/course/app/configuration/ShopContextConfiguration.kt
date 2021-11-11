@@ -35,6 +35,7 @@ import com.stringconcat.ddd.shop.usecase.menu.access.MealExtractor
 import com.stringconcat.ddd.shop.usecase.menu.access.MealPersister
 import com.stringconcat.ddd.shop.usecase.menu.invariants.MealAlreadyExistsImpl
 import com.stringconcat.ddd.shop.usecase.menu.scenarios.AddMealToMenuUseCase
+import com.stringconcat.ddd.shop.usecase.menu.scenarios.GetMealByIdUseCase
 import com.stringconcat.ddd.shop.usecase.menu.scenarios.GetMenuUseCase
 import com.stringconcat.ddd.shop.usecase.menu.scenarios.RemoveMealFromMenuUseCase
 import com.stringconcat.ddd.shop.usecase.order.CancelOrder
@@ -85,11 +86,15 @@ class ShopContextConfiguration {
     fun shopOrderIdGenerator() = InMemoryIncrementalShopOrderIdGenerator()
 
     @Bean
+    fun getMealByIdUseCase(mealExtractor: MealExtractor) =
+        GetMealByIdUseCase(mealExtractor)
+
+    @Bean
     fun addMealToCartUseCase(
         cartExtractor: CartExtractor,
         idGenerator: CartIdGenerator,
         mealExtractor: MealExtractor,
-        cartPersister: CartPersister
+        cartPersister: CartPersister,
     ) = AddMealToCartUseCase(
         cartExtractor = cartExtractor,
         idGenerator = idGenerator,
@@ -101,7 +106,7 @@ class ShopContextConfiguration {
     fun removeCartAfterCheckoutRule(
         cartExtractor: CartExtractor,
         cartRemover: CartRemover,
-        domainEventPublisher: EventPublisherImpl
+        domainEventPublisher: EventPublisherImpl,
     ): RemoveCartAfterCheckoutRule {
         val rule = RemoveCartAfterCheckoutRule(
             cartExtractor = cartExtractor,
@@ -114,7 +119,7 @@ class ShopContextConfiguration {
     @Bean
     fun removeMealFromCartUseCase(
         cartExtractor: CartExtractor,
-        cartPersister: CartPersister
+        cartPersister: CartPersister,
     ) = RemoveMealFromCartUseCase(
         cartExtractor = cartExtractor,
         cartPersister = cartPersister
@@ -123,7 +128,7 @@ class ShopContextConfiguration {
     @Bean
     fun getCartUseCase(
         mealExtractor: MealExtractor,
-        cartExtractor: CartExtractor
+        cartExtractor: CartExtractor,
     ) = GetCartUseCase(
         mealExtractor = mealExtractor,
         cartExtractor = cartExtractor
@@ -133,7 +138,7 @@ class ShopContextConfiguration {
     fun addMealToMenuUseCase(
         mealPersister: MealPersister,
         idGenerator: MealIdGenerator,
-        mealExists: MealAlreadyExists
+        mealExists: MealAlreadyExists,
     ) = AddMealToMenuUseCase(
         mealPersister = mealPersister,
         idGenerator = idGenerator,
@@ -143,7 +148,7 @@ class ShopContextConfiguration {
     @Bean
     fun removeMealFromMenuUseCase(
         mealExtractor: MealExtractor,
-        mealPersister: MealPersister
+        mealPersister: MealPersister,
     ) = RemoveMealFromMenuUseCase(
         mealExtractor = mealExtractor,
         mealPersister = mealPersister
@@ -152,7 +157,7 @@ class ShopContextConfiguration {
     @Bean
     fun payOrderHandler(
         shopOrderExtractor: ShopOrderExtractor,
-        shopOrderPersister: ShopOrderPersister
+        shopOrderPersister: ShopOrderPersister,
     ) = PayOrderHandler(
         shopOrderExtractor = shopOrderExtractor,
         shopOrderPersister = shopOrderPersister
@@ -161,7 +166,7 @@ class ShopContextConfiguration {
     @Bean
     fun cancelOrderUseCase(
         shopOrderExtractor: ShopOrderExtractor,
-        shopOrderPersister: ShopOrderPersister
+        shopOrderPersister: ShopOrderPersister,
     ) = CancelOrderUseCase(
         shopOrderExtractor = shopOrderExtractor,
         shopOrderPersister = shopOrderPersister
@@ -170,7 +175,7 @@ class ShopContextConfiguration {
     @Bean
     fun completeOrderUseCase(
         shopOrderExtractor: ShopOrderExtractor,
-        shopOrderPersister: ShopOrderPersister
+        shopOrderPersister: ShopOrderPersister,
     ) = CompleteOrderUseCase(
         shopOrderExtractor = shopOrderExtractor,
         shopOrderPersister = shopOrderPersister
@@ -183,7 +188,7 @@ class ShopContextConfiguration {
         activeOrder: CustomerHasActiveOrder,
         priceProvider: MealPriceProvider,
         paymentUrlProvider: PaymentUrlProvider,
-        shopOrderPersister: ShopOrderPersister
+        shopOrderPersister: ShopOrderPersister,
     ) = CheckoutUseCase(
         idGenerator = idGenerator,
         cartExtractor = cartExtractor,
@@ -196,7 +201,7 @@ class ShopContextConfiguration {
     @Bean
     fun confirmOrderUseCase(
         shopOrderExtractor: ShopOrderExtractor,
-        shopOrderPersister: ShopOrderPersister
+        shopOrderPersister: ShopOrderPersister,
     ) = ConfirmOrderUseCase(
         shopOrderExtractor = shopOrderExtractor,
         shopOrderPersister = shopOrderPersister

@@ -7,7 +7,7 @@ import com.stringconcat.ddd.shop.domain.menu.Price
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenu
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenuUseCaseError
 import com.stringconcat.ddd.shop.usecase.menu.GetMenu
-import com.stringconcat.ddd.shop.usecase.menu.MealInfo
+import com.stringconcat.ddd.shop.usecase.menu.dto.MealInfo
 import io.kotest.matchers.shouldBe
 
 const val APPLICATION_HAL_JSON = "application/hal+json"
@@ -19,7 +19,8 @@ class MockGetMenu(val meal: Meal) : GetMenu {
     override fun execute() = listOf(MealInfo(id = meal.id,
         name = meal.name,
         description = meal.description,
-        price = meal.price))
+        price = meal.price,
+        version = meal.version))
 }
 
 class MockAddMealToMenu : AddMealToMenu {
