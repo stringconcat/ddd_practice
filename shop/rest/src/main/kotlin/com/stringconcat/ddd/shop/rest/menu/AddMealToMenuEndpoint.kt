@@ -29,16 +29,18 @@ class AddMealToMenuEndpoint(val addMealToMenu: AddMealToMenu) {
                 validationErrors.toInvalidParamsBadRequest()
             }, { addingMealToMenuResult ->
                 addingMealToMenuResult.fold(
-                    { restBusinessError(it.toRestError()) },
+                    { it.toRestError() },
                     { created(linkTo(methodOn(GetMenuEndpoint::class.java).execute()).toUri()) })
             })
     }
 }
 
-fun AddMealToMenuUseCaseError.toRestError(): RestBusinessError =
+fun AddMealToMenuUseCaseError.toRestError() =
     when (this) {
         is AddMealToMenuUseCaseError.AlreadyExists ->
-            RestBusinessError(title = "Meal already exists", code = "already_exists")
+            restBusinessError(
+                RestBusinessError(title = "Meal already exists", code = "already_exists")
+            )
     }
 
 data class AddMealToMenuRestRequest(
