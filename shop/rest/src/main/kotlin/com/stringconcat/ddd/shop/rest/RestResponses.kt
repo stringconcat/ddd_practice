@@ -30,6 +30,15 @@ fun restBusinessError(error: RestBusinessError) =
                 .withTitle(error.title)
         )
 
+fun resourceNotFound() =
+    ResponseEntity
+        .status(HttpStatus.NOT_FOUND)
+        .contentType(MediaType.APPLICATION_PROBLEM_JSON)
+        .body(
+            Problem.create().withStatus(HttpStatus.NOT_FOUND)
+                .withType(URI("$baseUrl/resource_not_found"))
+                .withTitle("Resource not found"))
+
 fun Nel<ValidationError>.toInvalidParamsBadRequest() =
     ResponseEntity
         .badRequest()

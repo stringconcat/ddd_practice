@@ -5,9 +5,9 @@ import com.stringconcat.ddd.shop.domain.menu.MealId
 import com.stringconcat.ddd.shop.usecase.menu.dto.MealInfo
 
 interface GetMealById {
-    fun execute(id: MealId): Either<GetMealByIdError, MealInfo>
+    fun execute(id: MealId): Either<GetMealByIdUseCaseError, MealInfo>
 }
 
-sealed class GetMealByIdError {
-    object MealNotFound : GetMealByIdError()
+sealed class GetMealByIdUseCaseError {
+    object MealNotFound : GetMealByIdUseCaseError()
 }

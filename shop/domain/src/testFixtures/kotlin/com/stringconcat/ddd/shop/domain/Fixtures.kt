@@ -51,7 +51,7 @@ fun mealDescription(description: String = faker.food().ingredient()): MealDescri
 }
 
 fun price(value: BigDecimal = BigDecimal(Random.nextInt(1, 500000))): Price {
-    val result = Price.from(value)
+    val result = Price.from(value.setScale(2))
     check(result is Either.Right<Price>)
     return result.value
 }

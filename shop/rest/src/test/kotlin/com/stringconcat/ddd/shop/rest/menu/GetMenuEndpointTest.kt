@@ -2,9 +2,9 @@ package com.stringconcat.ddd.shop.rest.menu
 
 import APPLICATION_HAL_JSON
 import MockGetMenu
-import com.stringconcat.ddd.shop.domain.meal
+import apiV1Url
 import com.stringconcat.ddd.shop.usecase.menu.GetMenu
-import endpointApiV1Url
+import mealInfo
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -26,14 +26,14 @@ class GetMenuEndpointTest {
 
     @Test
     fun `get menu`() {
-        val meal = getMenu.meal
+        val meal = getMenu.mealInfo
         mockMvc.get("/rest/v1/menu")
             .andExpect {
                 status { isOk() }
                 content {
                     contentType(APPLICATION_HAL_JSON)
 
-                    jsonPath("$._links.self.href") { value(endpointApiV1Url("/menu")) }
+                    jsonPath("$._links.self.href") { value(apiV1Url("/menu")) }
 
                     jsonPath("$._embedded.meals.length()") { value(1) }
                     jsonPath("$._embedded.meals") { isNotEmpty() }
@@ -50,7 +50,7 @@ class GetMenuEndpointTest {
     class TestConfiguration {
 
         @Bean
-        fun getMenu() = MockGetMenu(meal = meal())
+        fun getMenu() = MockGetMenu(mealInfo = mealInfo())
 
         @Bean
         fun getMenuEndpoint(getMenu: GetMenu) = GetMenuEndpoint(getMenu)

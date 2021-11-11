@@ -3,6 +3,7 @@ package com.stringconcat.ddd.shop.rest.menu
 import MockAddMealToMenu
 import arrow.core.left
 import arrow.core.right
+import badRequestTypeUrl
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.stringconcat.ddd.shop.domain.mealDescription
 import com.stringconcat.ddd.shop.domain.mealId
@@ -10,7 +11,7 @@ import com.stringconcat.ddd.shop.domain.mealName
 import com.stringconcat.ddd.shop.domain.price
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenu
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenuUseCaseError
-import endpointApiV1Url
+import apiV1Url
 import java.math.BigDecimal
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,7 +22,7 @@ import org.springframework.http.MediaType
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
-import typeApiV1Url
+import errorTypeUrl
 
 @WebMvcTest
 @ContextConfiguration(classes = [AddMealToMenuEndpointTest.TestConfiguration::class])
@@ -51,7 +52,7 @@ internal class AddMealToMenuEndpointTest {
                     contentType(MediaType.APPLICATION_PROBLEM_JSON)
                     status { isBadRequest() }
                     content {
-                        jsonPath("$.type") { value(typeApiV1Url("bad_request")) }
+                        jsonPath("$.type") { value(badRequestTypeUrl()) }
                         jsonPath("$.status") { value(400) }
                         jsonPath("$.invalid_params.length()") { value(3) }
                     }
@@ -81,7 +82,7 @@ internal class AddMealToMenuEndpointTest {
                     contentType(MediaType.APPLICATION_PROBLEM_JSON)
                     status { isUnprocessableEntity() }
                     content {
-                        jsonPath("$.type") { value(typeApiV1Url("already_exists")) }
+                        jsonPath("$.type") { value(errorTypeUrl("already_exists")) }
                         jsonPath("$.status") { value(422) }
                     }
                 }
@@ -113,7 +114,7 @@ internal class AddMealToMenuEndpointTest {
                     content {
                         string("")
                     }
-                    header { string("Location", endpointApiV1Url("/menu")) }
+                    header { string("Location", apiV1Url("/menu")) }
                 }
             }
         mockAddMealToMenu.verifyInvoked(name, description, price)

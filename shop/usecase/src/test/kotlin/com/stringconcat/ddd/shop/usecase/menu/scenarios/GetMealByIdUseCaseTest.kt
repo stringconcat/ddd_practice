@@ -3,7 +3,7 @@ package com.stringconcat.ddd.shop.usecase.menu.scenarios
 import com.stringconcat.ddd.shop.domain.meal
 import com.stringconcat.ddd.shop.domain.mealId
 import com.stringconcat.ddd.shop.usecase.TestMealExtractor
-import com.stringconcat.ddd.shop.usecase.menu.GetMealByIdError
+import com.stringconcat.ddd.shop.usecase.menu.GetMealByIdUseCaseError
 import com.stringconcat.ddd.shop.usecase.menu.dto.MealInfo
 import com.stringconcat.ddd.shop.usecase.removedMeal
 import io.kotest.assertions.arrow.core.shouldBeLeft
@@ -18,7 +18,7 @@ internal class GetMealByIdUseCaseTest {
         val mealExtractor = TestMealExtractor()
         val useCase = GetMealByIdUseCase(mealExtractor)
         val result = useCase.execute(mealId())
-        result shouldBeLeft GetMealByIdError.MealNotFound
+        result shouldBeLeft GetMealByIdUseCaseError.MealNotFound
     }
 
     @Test
@@ -29,7 +29,7 @@ internal class GetMealByIdUseCaseTest {
         val useCase = GetMealByIdUseCase(mealExtractor)
 
         val result = useCase.execute(meal.id)
-        result shouldBeLeft GetMealByIdError.MealNotFound
+        result shouldBeLeft GetMealByIdUseCaseError.MealNotFound
     }
 
     @Test
