@@ -14,18 +14,16 @@ import org.springframework.web.bind.annotation.RestController
 class GetMealByIdEndpoint(private val getMealById: GetMealById) {
 
     @GetMapping(path = ["$API_V1_MENU/{id}"])
-    fun execute(@PathVariable("id") mealId: Long): ResponseEntity<*> {
-        return getMealById.execute(MealId(mealId))
+    fun execute(@PathVariable("id") mealId: Long) =
+        getMealById.execute(MealId(mealId))
             .fold({
-                when (it) {
-                    is GetMealByIdUseCaseError.MealNotFound -> resourceNotFound()
-                }
+                it.toRestError()
             }, { mealInfo ->
-                ResponseEntity.ok(MealModel(id = mealInfo.id.value,
-                    name = mealInfo.name.value,
-                    price = mealInfo.price.value,
-                    description = mealInfo.description.value,
-                    version = mealInfo.version.value))
+                ResponseEntity.ok(MealModel.from(mealInfo))
             })
-    }
 }
+
+fun GetMealByIdUseCaseError.toRestError() =
+    when (this) {
+        is GetMealByIdUseCaseError.MealNotFound -> resourceNotFound()
+    }

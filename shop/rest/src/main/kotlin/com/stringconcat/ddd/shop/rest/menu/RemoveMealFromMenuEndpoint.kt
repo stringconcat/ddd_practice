@@ -15,10 +15,13 @@ class RemoveMealFromMenuEndpoint(private val removeMealFromMenu: RemoveMealFromM
     fun execute(@PathVariable("id") mealId: Long) =
         removeMealFromMenu.execute(MealId(mealId))
             .fold({
-                when (it) {
-                    is RemoveMealFromMenuUseCaseError.MealNotFound -> resourceNotFound()
-                }
+                it.toRestError()
             }, {
                 noContent()
             })
 }
+
+fun RemoveMealFromMenuUseCaseError.toRestError() =
+    when (this) {
+        is RemoveMealFromMenuUseCaseError.MealNotFound -> resourceNotFound()
+    }
