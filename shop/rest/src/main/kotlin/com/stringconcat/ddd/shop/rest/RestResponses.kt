@@ -50,3 +50,5 @@ fun Nel<ValidationError>.toInvalidParamsBadRequest() =
         )
 
 fun created(location: URI) = ResponseEntity.created(location).build<Any>()
+
+fun noContent() = ResponseEntity.noContent().build<Any>()

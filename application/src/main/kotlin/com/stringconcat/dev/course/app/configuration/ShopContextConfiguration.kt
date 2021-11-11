@@ -13,7 +13,10 @@ import com.stringconcat.ddd.shop.persistence.menu.InMemoryIncrementalMealIdGener
 import com.stringconcat.ddd.shop.persistence.menu.InMemoryMealRepository
 import com.stringconcat.ddd.shop.persistence.order.InMemoryIncrementalShopOrderIdGenerator
 import com.stringconcat.ddd.shop.persistence.order.InMemoryShopOrderRepository
+import com.stringconcat.ddd.shop.rest.menu.AddMealToMenuEndpoint
+import com.stringconcat.ddd.shop.rest.menu.GetMealByIdEndpoint
 import com.stringconcat.ddd.shop.rest.menu.GetMenuEndpoint
+import com.stringconcat.ddd.shop.rest.menu.RemoveMealFromMenuEndpoint
 import com.stringconcat.ddd.shop.telnet.cart.AddMealToCartCommand
 import com.stringconcat.ddd.shop.telnet.cart.CheckoutCommand
 import com.stringconcat.ddd.shop.telnet.cart.GetCartCommand
@@ -29,6 +32,8 @@ import com.stringconcat.ddd.shop.usecase.cart.rules.RemoveCartAfterCheckoutRule
 import com.stringconcat.ddd.shop.usecase.cart.scenarios.AddMealToCartUseCase
 import com.stringconcat.ddd.shop.usecase.cart.scenarios.GetCartUseCase
 import com.stringconcat.ddd.shop.usecase.cart.scenarios.RemoveMealFromCartUseCase
+import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenu
+import com.stringconcat.ddd.shop.usecase.menu.GetMealById
 import com.stringconcat.ddd.shop.usecase.menu.GetMenu
 import com.stringconcat.ddd.shop.usecase.menu.RemoveMealFromMenu
 import com.stringconcat.ddd.shop.usecase.menu.access.MealExtractor
@@ -259,4 +264,14 @@ class ShopContextConfiguration {
 
     @Bean
     fun getMenuRest(getMenu: GetMenu) = GetMenuEndpoint(getMenu)
+
+    @Bean
+    fun addMealToMenuEndpoint(addMealToMenu: AddMealToMenu) = AddMealToMenuEndpoint(addMealToMenu)
+
+    @Bean
+    fun removeMealFromMenuEndpoint(removeMealFromMenu: RemoveMealFromMenu) =
+        RemoveMealFromMenuEndpoint(removeMealFromMenu)
+
+    @Bean
+    fun getMenuEndpoint(getMealById: GetMealById) = GetMealByIdEndpoint(getMealById)
 }

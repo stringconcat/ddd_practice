@@ -9,6 +9,8 @@ import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenuUseCaseError
 import com.stringconcat.ddd.shop.usecase.menu.GetMealById
 import com.stringconcat.ddd.shop.usecase.menu.GetMealByIdUseCaseError
 import com.stringconcat.ddd.shop.usecase.menu.GetMenu
+import com.stringconcat.ddd.shop.usecase.menu.RemoveMealFromMenu
+import com.stringconcat.ddd.shop.usecase.menu.RemoveMealFromMenuUseCaseError
 import com.stringconcat.ddd.shop.usecase.menu.dto.MealInfo
 import io.kotest.matchers.shouldBe
 
@@ -69,6 +71,21 @@ class MockGetMealById : GetMealById {
     lateinit var id: MealId
 
     override fun execute(id: MealId): Either<GetMealByIdUseCaseError, MealInfo> {
+        this.id = id
+        return response
+    }
+
+    fun verifyInvoked(id: MealId) {
+        this.id shouldBe id
+    }
+}
+
+class MockRemoveMealFromMenu : RemoveMealFromMenu {
+
+    lateinit var response: Either<RemoveMealFromMenuUseCaseError, Unit>
+    lateinit var id: MealId
+
+    override fun execute(id: MealId): Either<RemoveMealFromMenuUseCaseError, Unit> {
         this.id = id
         return response
     }
