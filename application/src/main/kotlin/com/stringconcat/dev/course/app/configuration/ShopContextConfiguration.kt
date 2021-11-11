@@ -58,6 +58,7 @@ import com.stringconcat.ddd.shop.usecase.order.scenarios.CheckoutUseCase
 import com.stringconcat.ddd.shop.usecase.order.scenarios.CompleteOrderUseCase
 import com.stringconcat.ddd.shop.usecase.order.scenarios.ConfirmOrderUseCase
 import com.stringconcat.ddd.shop.usecase.order.scenarios.GetLastOrderStateUseCase
+import com.stringconcat.ddd.shop.usecase.order.scenarios.GetOrderByIdUseCase
 import com.stringconcat.ddd.shop.usecase.order.scenarios.GetOrdersUseCase
 import com.stringconcat.ddd.shop.usecase.order.scenarios.PayOrderHandler
 import com.stringconcat.ddd.shop.web.menu.MenuController
@@ -219,6 +220,10 @@ class ShopContextConfiguration {
     @Bean
     fun getOrders(shopOrderExtractor: ShopOrderExtractor) =
         GetOrdersUseCase(orderExtractor = shopOrderExtractor)
+
+    @Bean
+    fun getOrderById(shopOrderExtractor: ShopOrderExtractor) =
+        GetOrderByIdUseCase(shopOrderExtractor)
 
     @Bean
     fun getMenuUseCase(mealExtractor: MealExtractor) = GetMenuUseCase(mealExtractor)
