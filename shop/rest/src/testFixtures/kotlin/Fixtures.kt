@@ -4,6 +4,8 @@ import com.stringconcat.ddd.shop.domain.menu.MealDescription
 import com.stringconcat.ddd.shop.domain.menu.MealId
 import com.stringconcat.ddd.shop.domain.menu.MealName
 import com.stringconcat.ddd.shop.domain.menu.Price
+import com.stringconcat.ddd.shop.domain.order
+import com.stringconcat.ddd.shop.domain.order.ShopOrderId
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenu
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenuUseCaseError
 import com.stringconcat.ddd.shop.usecase.menu.GetMealById
@@ -12,12 +14,16 @@ import com.stringconcat.ddd.shop.usecase.menu.GetMenu
 import com.stringconcat.ddd.shop.usecase.menu.RemoveMealFromMenu
 import com.stringconcat.ddd.shop.usecase.menu.RemoveMealFromMenuUseCaseError
 import com.stringconcat.ddd.shop.usecase.menu.dto.MealInfo
+import com.stringconcat.ddd.shop.usecase.order.GetOrderById
+import com.stringconcat.ddd.shop.usecase.order.GetOrderByIdUseCaseError
+import com.stringconcat.ddd.shop.usecase.order.OrderDetails
+import com.stringconcat.ddd.shop.usecase.order.OrderItemDetails
 import io.kotest.matchers.shouldBe
 
 const val APPLICATION_HAL_JSON = "application/hal+json"
 const val API_V1_TYPE_BASE_URL = "http://localhost"
 
-fun apiV1Url(suffix: String) = "http://localhost/rest/v1$suffix"
+fun apiV1Url(suffix: String) = "http://localhost/rest/shop/v1$suffix"
 fun errorTypeUrl(suffix: String) = "$API_V1_TYPE_BASE_URL/$suffix"
 fun notFoundTypeUrl() = errorTypeUrl("not_found")
 fun badRequestTypeUrl() = errorTypeUrl("bad_request")
@@ -29,6 +35,20 @@ fun mealInfo(): MealInfo {
         description = meal.description,
         price = meal.price,
         version = meal.version)
+}
+
+fun orderDetails() = order().let { order ->
+    val items =
+        order.orderItems
+            .map { OrderItemDetails(mealId = it.mealId, count = it.count) }
+    OrderDetails(
+        id = order.id,
+        items = items,
+        total = order.totalPrice(),
+        state = order.state,
+        address = order.address,
+        version = order.version
+    )
 }
 
 class MockGetMenu(val mealInfo: MealInfo) : GetMenu {
@@ -91,6 +111,21 @@ class MockRemoveMealFromMenu : RemoveMealFromMenu {
     }
 
     fun verifyInvoked(id: MealId) {
+        this.id shouldBe id
+    }
+}
+
+class MockGetOrderById : GetOrderById {
+
+    lateinit var response: Either<GetOrderByIdUseCaseError, OrderDetails>
+    lateinit var id: ShopOrderId
+
+    override fun execute(id: ShopOrderId): Either<GetOrderByIdUseCaseError, OrderDetails> {
+        this.id = id
+        return response
+    }
+
+    fun verifyInvoked(id: ShopOrderId) {
         this.id shouldBe id
     }
 }

@@ -27,7 +27,7 @@ class GetMenuEndpointTest {
     @Test
     fun `get menu`() {
         val meal = getMenu.mealInfo
-        mockMvc.get("/rest/v1/menu")
+        mockMvc.get("/rest/shop/v1/menu")
             .andExpect {
                 status { isOk() }
                 content {

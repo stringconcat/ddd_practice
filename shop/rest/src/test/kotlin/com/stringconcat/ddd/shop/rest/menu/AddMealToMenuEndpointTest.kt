@@ -39,7 +39,7 @@ internal class AddMealToMenuEndpointTest {
     @Test
     fun `validation error`() {
         mockMvc
-            .post("/rest/v1/menu") {
+            .post("/rest/shop/v1/menu") {
                 contentType = MediaType.APPLICATION_JSON
                 content =
                     mapper.writeValueAsString(
@@ -69,7 +69,7 @@ internal class AddMealToMenuEndpointTest {
         val price = price()
 
         mockMvc
-            .post("/rest/v1/menu") {
+            .post("/rest/shop/v1/menu") {
                 contentType = MediaType.APPLICATION_JSON
                 content =
                     mapper.writeValueAsString(
@@ -100,7 +100,7 @@ internal class AddMealToMenuEndpointTest {
         val price = price()
 
         mockMvc
-            .post("/rest/v1/menu") {
+            .post("/rest/shop/v1/menu") {
                 contentType = MediaType.APPLICATION_JSON
                 content =
                     mapper.writeValueAsString(

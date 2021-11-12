@@ -34,7 +34,7 @@ class GetMealByIdEndpointTest {
     fun `meal not found`() {
         getMealById.response = GetMealByIdUseCaseError.MealNotFound.left()
 
-        val url = "/rest/v1/menu/${mealId().value}"
+        val url = "/rest/shop/v1/menu/${mealId().value}"
         mockMvc.get(url)
             .andExpect {
                 content {
@@ -52,7 +52,7 @@ class GetMealByIdEndpointTest {
     fun `returned successfully`() {
         val mealInfo = mealInfo()
         getMealById.response = mealInfo.right()
-        val url = "/rest/v1/menu/${mealId().value}"
+        val url = "/rest/shop/v1/menu/${mealInfo.id.value}"
         mockMvc.get(url)
             .andExpect {
                 status { isOk() }
@@ -66,6 +66,8 @@ class GetMealByIdEndpointTest {
                     jsonPath("$.version") { value(mealInfo.version.value) }
                 }
             }
+
+        getMealById.verifyInvoked(mealInfo.id)
     }
 
     @Configuration

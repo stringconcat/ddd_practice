@@ -1,6 +1,7 @@
 package com.stringconcat.ddd.shop.usecase.order
 
 import arrow.core.Either
+import com.stringconcat.ddd.common.types.base.Version
 import com.stringconcat.ddd.common.types.common.Address
 import com.stringconcat.ddd.common.types.common.Count
 import com.stringconcat.ddd.shop.domain.menu.MealId
@@ -22,6 +23,7 @@ data class OrderDetails(
     val address: Address,
     val items: List<OrderItemDetails>,
     val total: Price,
+    val version: Version
 )
 
 data class OrderItemDetails(

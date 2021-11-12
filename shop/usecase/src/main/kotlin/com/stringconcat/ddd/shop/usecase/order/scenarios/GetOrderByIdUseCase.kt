@@ -21,7 +21,8 @@ class GetOrderByIdUseCase(private val orderExtractor: ShopOrderExtractor) : GetO
                     items = items,
                     total = order.totalPrice(),
                     state = order.state,
-                    address = order.address
+                    address = order.address,
+                    version = order.version
                 )
             }
 }
