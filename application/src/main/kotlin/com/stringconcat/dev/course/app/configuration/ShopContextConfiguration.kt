@@ -17,6 +17,7 @@ import com.stringconcat.ddd.shop.rest.menu.AddMealToMenuEndpoint
 import com.stringconcat.ddd.shop.rest.menu.GetMealByIdEndpoint
 import com.stringconcat.ddd.shop.rest.menu.GetMenuEndpoint
 import com.stringconcat.ddd.shop.rest.menu.RemoveMealFromMenuEndpoint
+import com.stringconcat.ddd.shop.rest.order.GetOrderByIdEndpoint
 import com.stringconcat.ddd.shop.telnet.cart.AddMealToCartCommand
 import com.stringconcat.ddd.shop.telnet.cart.CheckoutCommand
 import com.stringconcat.ddd.shop.telnet.cart.GetCartCommand
@@ -47,6 +48,7 @@ import com.stringconcat.ddd.shop.usecase.order.CancelOrder
 import com.stringconcat.ddd.shop.usecase.order.Checkout
 import com.stringconcat.ddd.shop.usecase.order.ConfirmOrder
 import com.stringconcat.ddd.shop.usecase.order.GetLastOrderState
+import com.stringconcat.ddd.shop.usecase.order.GetOrderById
 import com.stringconcat.ddd.shop.usecase.order.GetOrders
 import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderExtractor
 import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderPersister
@@ -268,7 +270,7 @@ class ShopContextConfiguration {
     fun getLastOrderStateCommand(useCase: GetLastOrderState) = GetLastOrderStateCommand(useCase)
 
     @Bean
-    fun getMenuRest(getMenu: GetMenu) = GetMenuEndpoint(getMenu)
+    fun getMenuEndpoint(getMenu: GetMenu) = GetMenuEndpoint(getMenu)
 
     @Bean
     fun addMealToMenuEndpoint(addMealToMenu: AddMealToMenu) = AddMealToMenuEndpoint(addMealToMenu)
@@ -279,4 +281,7 @@ class ShopContextConfiguration {
 
     @Bean
     fun getMenuEndpoint(getMealById: GetMealById) = GetMealByIdEndpoint(getMealById)
+
+    @Bean
+    fun getOrderByIdEndpoint(getOrderById: GetOrderById) = GetOrderByIdEndpoint(getOrderById)
 }

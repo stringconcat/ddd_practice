@@ -32,7 +32,7 @@ internal class RemoveMealFromMenuEndpointTest {
     fun `meal not found`() {
         removeMealFromMenu.response = RemoveMealFromMenuUseCaseError.MealNotFound.left()
 
-        val url = "/rest/v1/menu/${mealId().value}"
+        val url = "/rest/shop/v1/menu/${mealId().value}"
         mockMvc.delete(url)
             .andExpect {
                 content {
@@ -50,7 +50,7 @@ internal class RemoveMealFromMenuEndpointTest {
     fun `removed successfully`() {
         removeMealFromMenu.response = Unit.right()
 
-        val url = "/rest/v1/menu/${mealId().value}"
+        val url = "/rest/shop/v1/menu/${mealId().value}"
         mockMvc.delete(url)
             .andExpect {
                 content {
