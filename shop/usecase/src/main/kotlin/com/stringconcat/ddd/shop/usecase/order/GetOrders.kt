@@ -6,7 +6,7 @@ import com.stringconcat.ddd.shop.domain.order.ShopOrderId
 import com.stringconcat.ddd.shop.domain.order.OrderState
 
 interface GetOrders {
-    fun execute(): List<ShopOrderInfo>
+    fun execute(startId: ShopOrderId): List<ShopOrderInfo>
 }
 
 data class ShopOrderInfo(

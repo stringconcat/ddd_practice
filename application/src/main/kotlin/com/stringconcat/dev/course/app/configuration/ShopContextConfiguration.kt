@@ -45,12 +45,10 @@ import com.stringconcat.ddd.shop.usecase.menu.scenarios.AddMealToMenuUseCase
 import com.stringconcat.ddd.shop.usecase.menu.scenarios.GetMealByIdUseCase
 import com.stringconcat.ddd.shop.usecase.menu.scenarios.GetMenuUseCase
 import com.stringconcat.ddd.shop.usecase.menu.scenarios.RemoveMealFromMenuUseCase
-import com.stringconcat.ddd.shop.usecase.order.CancelOrder
 import com.stringconcat.ddd.shop.usecase.order.Checkout
 import com.stringconcat.ddd.shop.usecase.order.ConfirmOrder
 import com.stringconcat.ddd.shop.usecase.order.GetLastOrderState
 import com.stringconcat.ddd.shop.usecase.order.GetOrderById
-import com.stringconcat.ddd.shop.usecase.order.GetOrders
 import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderExtractor
 import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderPersister
 import com.stringconcat.ddd.shop.usecase.order.invariants.CustomerHasActiveOrderImpl
@@ -65,16 +63,19 @@ import com.stringconcat.ddd.shop.usecase.order.scenarios.GetOrderByIdUseCase
 import com.stringconcat.ddd.shop.usecase.order.scenarios.GetOrdersUseCase
 import com.stringconcat.ddd.shop.usecase.order.scenarios.PayOrderHandler
 import com.stringconcat.ddd.shop.web.menu.MenuController
-import com.stringconcat.ddd.shop.web.order.ShopOrderController
 import com.stringconcat.dev.course.app.event.EventPublisherImpl
 import com.stringconcat.shop.payment.SimplePaymentUrlProvider
 import java.net.URL
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Suppress("TooManyFunctions")
 @Configuration
-class ShopContextConfiguration {
+class ShopContextConfiguration(
+    @Value("\${paging.limit:10}")
+    val limit: Int,
+) {
 
     @Bean
     fun cartRepository(eventPublisher: DomainEventPublisher) = InMemoryCartRepository(eventPublisher)
@@ -222,7 +223,7 @@ class ShopContextConfiguration {
 
     @Bean
     fun getOrders(shopOrderExtractor: ShopOrderExtractor) =
-        GetOrdersUseCase(orderExtractor = shopOrderExtractor)
+        GetOrdersUseCase(orderExtractor = shopOrderExtractor) { limit }
 
     @Bean
     fun getOrderById(shopOrderExtractor: ShopOrderExtractor) =
@@ -247,10 +248,6 @@ class ShopContextConfiguration {
     @Bean
     fun menuController(removeMealFromMenu: RemoveMealFromMenu, getMenu: GetMenu) =
         MenuController(removeMealFromMenu, getMenu)
-
-    @Bean
-    fun shopOrderController(getOrders: GetOrders, confirmOrder: ConfirmOrder, cancelOrder: CancelOrder) =
-        ShopOrderController(getOrders, confirmOrder, cancelOrder)
 
     @Bean
     fun getMenuCommand(useCase: GetMenu) = GetMenuCommand(useCase)

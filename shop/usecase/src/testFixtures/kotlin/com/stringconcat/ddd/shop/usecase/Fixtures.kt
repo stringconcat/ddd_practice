@@ -19,6 +19,8 @@ import com.stringconcat.ddd.shop.usecase.menu.access.MealExtractor
 import com.stringconcat.ddd.shop.usecase.menu.access.MealPersister
 import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderExtractor
 import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderPersister
+import java.util.SortedMap
+import java.util.TreeMap
 
 fun removedMeal() = meal(removed = true)
 
@@ -80,14 +82,16 @@ class TestShopOrderPersister : ShopOrderPersister, HashMap<ShopOrderId, ShopOrde
     }
 }
 
-class TestShopOrderExtractor : ShopOrderExtractor, LinkedHashMap<ShopOrderId, ShopOrder>() {
+class TestShopOrderExtractor : ShopOrderExtractor,
+    TreeMap<ShopOrderId, ShopOrder>({ k1, k2 -> k1.value.compareTo(k2.value) }) {
     override fun getById(orderId: ShopOrderId) = this[orderId]
 
     override fun getLastOrder(forCustomer: CustomerId): ShopOrder? {
         return this.values.lastOrNull { it.forCustomer == forCustomer }
     }
 
-    override fun getAll() = values.toList()
+    override fun getAll(startId: ShopOrderId, limit: Int) =
+        tailMap(startId).toList().take(limit).map { it.second }
 }
 
 class TestCartRemover : CartRemover {
