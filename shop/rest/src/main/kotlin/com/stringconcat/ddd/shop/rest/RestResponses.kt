@@ -1,4 +1,4 @@
-package com.stringconcat.ddd.shop.rest.menu
+package com.stringconcat.ddd.shop.rest
 
 import arrow.core.Nel
 import org.springframework.hateoas.mediatype.problem.Problem
@@ -12,22 +12,16 @@ typealias Message = String
 
 data class ValidationError(val message: Message)
 
-data class RestBusinessError(val title: String, val code: String) {
-    init {
-        check(code.isNotBlank()) { "Code is empty" }
-    }
-}
-
 val baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString()
 
-fun restBusinessError(error: RestBusinessError) =
+fun restBusinessError(title: String, code: String) =
     ResponseEntity
         .unprocessableEntity()
         .contentType(MediaType.APPLICATION_PROBLEM_JSON)
         .body(
             Problem.create().withStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-                .withType(URI("$baseUrl/${error.code}"))
-                .withTitle(error.title)
+                .withType(URI("$baseUrl/$code"))
+                .withTitle(title)
         )
 
 fun resourceNotFound() =

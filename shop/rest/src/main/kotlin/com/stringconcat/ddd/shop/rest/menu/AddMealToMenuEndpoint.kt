@@ -5,6 +5,9 @@ import com.stringconcat.ddd.shop.domain.menu.MealDescription
 import com.stringconcat.ddd.shop.domain.menu.MealName
 import com.stringconcat.ddd.shop.domain.menu.Price
 import com.stringconcat.ddd.shop.rest.API_V1_MENU
+import com.stringconcat.ddd.shop.rest.created
+import com.stringconcat.ddd.shop.rest.restBusinessError
+import com.stringconcat.ddd.shop.rest.toInvalidParamsBadRequest
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenu
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenuUseCaseError
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo
@@ -39,9 +42,7 @@ class AddMealToMenuEndpoint(val addMealToMenu: AddMealToMenu) {
 fun AddMealToMenuUseCaseError.toRestError() =
     when (this) {
         is AddMealToMenuUseCaseError.AlreadyExists ->
-            restBusinessError(
-                RestBusinessError(title = "Meal already exists", code = "already_exists")
-            )
+            restBusinessError(title = "Meal already exists", code = "already_exists")
     }
 
 data class AddMealToMenuRestRequest(

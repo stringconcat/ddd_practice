@@ -7,6 +7,7 @@ import com.stringconcat.ddd.shop.domain.menu.CreatePriceError
 import com.stringconcat.ddd.shop.domain.menu.MealDescription
 import com.stringconcat.ddd.shop.domain.menu.MealName
 import com.stringconcat.ddd.shop.domain.menu.Price
+import com.stringconcat.ddd.shop.rest.ValidationError
 import java.math.BigDecimal
 
 fun MealName.Companion.validated(name: String): ValidatedNel<ValidationError, MealName> {

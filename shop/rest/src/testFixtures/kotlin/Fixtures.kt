@@ -14,6 +14,8 @@ import com.stringconcat.ddd.shop.usecase.menu.GetMenu
 import com.stringconcat.ddd.shop.usecase.menu.RemoveMealFromMenu
 import com.stringconcat.ddd.shop.usecase.menu.RemoveMealFromMenuUseCaseError
 import com.stringconcat.ddd.shop.usecase.menu.dto.MealInfo
+import com.stringconcat.ddd.shop.usecase.order.ConfirmOrder
+import com.stringconcat.ddd.shop.usecase.order.ConfirmOrderUseCaseError
 import com.stringconcat.ddd.shop.usecase.order.GetOrderById
 import com.stringconcat.ddd.shop.usecase.order.GetOrderByIdUseCaseError
 import com.stringconcat.ddd.shop.usecase.order.OrderDetails
@@ -122,6 +124,21 @@ class MockGetOrderById : GetOrderById {
 
     override fun execute(id: ShopOrderId): Either<GetOrderByIdUseCaseError, OrderDetails> {
         this.id = id
+        return response
+    }
+
+    fun verifyInvoked(id: ShopOrderId) {
+        this.id shouldBe id
+    }
+}
+
+class MockConfirmOrder : ConfirmOrder {
+
+    lateinit var response: Either<ConfirmOrderUseCaseError, Unit>
+    lateinit var id: ShopOrderId
+
+    override fun execute(orderId: ShopOrderId): Either<ConfirmOrderUseCaseError, Unit> {
+        this.id = orderId
         return response
     }
 

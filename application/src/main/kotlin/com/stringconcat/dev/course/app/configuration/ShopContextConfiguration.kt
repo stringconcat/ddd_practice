@@ -17,6 +17,7 @@ import com.stringconcat.ddd.shop.rest.menu.AddMealToMenuEndpoint
 import com.stringconcat.ddd.shop.rest.menu.GetMealByIdEndpoint
 import com.stringconcat.ddd.shop.rest.menu.GetMenuEndpoint
 import com.stringconcat.ddd.shop.rest.menu.RemoveMealFromMenuEndpoint
+import com.stringconcat.ddd.shop.rest.order.ConfirmOrderEndpoint
 import com.stringconcat.ddd.shop.rest.order.GetOrderByIdEndpoint
 import com.stringconcat.ddd.shop.telnet.cart.AddMealToCartCommand
 import com.stringconcat.ddd.shop.telnet.cart.CheckoutCommand
@@ -284,4 +285,7 @@ class ShopContextConfiguration {
 
     @Bean
     fun getOrderByIdEndpoint(getOrderById: GetOrderById) = GetOrderByIdEndpoint(getOrderById)
+
+    @Bean
+    fun confirmOrderEndpoint(confirmOrder: ConfirmOrder) = ConfirmOrderEndpoint(confirmOrder)
 }
