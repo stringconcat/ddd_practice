@@ -14,7 +14,14 @@ import com.stringconcat.ddd.shop.usecase.menu.GetMenu
 import com.stringconcat.ddd.shop.usecase.menu.RemoveMealFromMenu
 import com.stringconcat.ddd.shop.usecase.menu.RemoveMealFromMenuUseCaseError
 import com.stringconcat.ddd.shop.usecase.menu.dto.MealInfo
-import com.stringconcat.ddd.shop.usecase.order.*
+import com.stringconcat.ddd.shop.usecase.order.CancelOrder
+import com.stringconcat.ddd.shop.usecase.order.CancelOrderUseCaseError
+import com.stringconcat.ddd.shop.usecase.order.ConfirmOrder
+import com.stringconcat.ddd.shop.usecase.order.ConfirmOrderUseCaseError
+import com.stringconcat.ddd.shop.usecase.order.GetOrderById
+import com.stringconcat.ddd.shop.usecase.order.GetOrderByIdUseCaseError
+import com.stringconcat.ddd.shop.usecase.order.OrderDetails
+import com.stringconcat.ddd.shop.usecase.order.OrderItemDetails
 import io.kotest.matchers.shouldBe
 
 const val APPLICATION_HAL_JSON = "application/hal+json"
