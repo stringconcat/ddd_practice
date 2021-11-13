@@ -14,12 +14,7 @@ import com.stringconcat.ddd.shop.usecase.menu.GetMenu
 import com.stringconcat.ddd.shop.usecase.menu.RemoveMealFromMenu
 import com.stringconcat.ddd.shop.usecase.menu.RemoveMealFromMenuUseCaseError
 import com.stringconcat.ddd.shop.usecase.menu.dto.MealInfo
-import com.stringconcat.ddd.shop.usecase.order.ConfirmOrder
-import com.stringconcat.ddd.shop.usecase.order.ConfirmOrderUseCaseError
-import com.stringconcat.ddd.shop.usecase.order.GetOrderById
-import com.stringconcat.ddd.shop.usecase.order.GetOrderByIdUseCaseError
-import com.stringconcat.ddd.shop.usecase.order.OrderDetails
-import com.stringconcat.ddd.shop.usecase.order.OrderItemDetails
+import com.stringconcat.ddd.shop.usecase.order.*
 import io.kotest.matchers.shouldBe
 
 const val APPLICATION_HAL_JSON = "application/hal+json"
@@ -32,11 +27,13 @@ fun badRequestTypeUrl() = errorTypeUrl("bad_request")
 
 fun mealInfo(): MealInfo {
     val meal = meal()
-    return MealInfo(id = meal.id,
+    return MealInfo(
+        id = meal.id,
         name = meal.name,
         description = meal.description,
         price = meal.price,
-        version = meal.version)
+        version = meal.version
+    )
 }
 
 fun orderDetails() = order().let { order ->
@@ -138,6 +135,21 @@ class MockConfirmOrder : ConfirmOrder {
     lateinit var id: ShopOrderId
 
     override fun execute(orderId: ShopOrderId): Either<ConfirmOrderUseCaseError, Unit> {
+        this.id = orderId
+        return response
+    }
+
+    fun verifyInvoked(id: ShopOrderId) {
+        this.id shouldBe id
+    }
+}
+
+class MockCancelOrder : CancelOrder {
+
+    lateinit var response: Either<CancelOrderUseCaseError, Unit>
+    lateinit var id: ShopOrderId
+
+    override fun execute(orderId: ShopOrderId): Either<CancelOrderUseCaseError, Unit> {
         this.id = orderId
         return response
     }
