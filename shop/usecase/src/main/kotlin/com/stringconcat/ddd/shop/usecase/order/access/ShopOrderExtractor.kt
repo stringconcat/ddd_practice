@@ -9,5 +9,5 @@ interface ShopOrderExtractor {
 
     fun getLastOrder(forCustomer: CustomerId): ShopOrder?
 
-    fun getAll(): List<ShopOrder>
+    fun getAll(startId: ShopOrderId, limit: Int): List<ShopOrder>
 }

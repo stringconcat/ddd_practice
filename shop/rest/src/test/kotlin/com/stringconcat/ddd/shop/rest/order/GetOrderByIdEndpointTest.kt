@@ -34,7 +34,7 @@ internal class GetOrderByIdEndpointTest {
     @Test
     fun `order not found`() {
         getOrderById.response = GetOrderByIdUseCaseError.OrderNotFound.left()
-        val url = "/rest/shop/v1/order/${orderId().value}"
+        val url = "/rest/shop/v1/orders/${orderId().value}"
         mockMvc.get(url)
             .andExpect {
                 content {
@@ -55,7 +55,7 @@ internal class GetOrderByIdEndpointTest {
         val itemDetails = details.items[0]
 
         getOrderById.response = details.right()
-        val url = "/rest/shop/v1/order/${details.id.value}"
+        val url = "/rest/shop/v1/orders/${details.id.value}"
 
         mockMvc.get(url)
             .andExpect {

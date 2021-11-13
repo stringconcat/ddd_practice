@@ -23,6 +23,7 @@ import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
 import errorTypeUrl
+import org.springframework.http.HttpStatus
 
 @WebMvcTest
 @ContextConfiguration(classes = [AddMealToMenuEndpointTest.TestConfiguration::class])
@@ -53,7 +54,7 @@ internal class AddMealToMenuEndpointTest {
                     status { isBadRequest() }
                     content {
                         jsonPath("$.type") { value(badRequestTypeUrl()) }
-                        jsonPath("$.status") { value(400) }
+                        jsonPath("$.status") { value(HttpStatus.BAD_REQUEST.value()) }
                         jsonPath("$.invalid_params.length()") { value(3) }
                     }
                 }
@@ -83,7 +84,7 @@ internal class AddMealToMenuEndpointTest {
                     status { isUnprocessableEntity() }
                     content {
                         jsonPath("$.type") { value(errorTypeUrl("already_exists")) }
-                        jsonPath("$.status") { value(422) }
+                        jsonPath("$.status") { value(HttpStatus.UNPROCESSABLE_ENTITY.value()) }
                     }
                 }
             }

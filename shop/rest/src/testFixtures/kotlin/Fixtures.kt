@@ -20,8 +20,11 @@ import com.stringconcat.ddd.shop.usecase.order.ConfirmOrder
 import com.stringconcat.ddd.shop.usecase.order.ConfirmOrderUseCaseError
 import com.stringconcat.ddd.shop.usecase.order.GetOrderById
 import com.stringconcat.ddd.shop.usecase.order.GetOrderByIdUseCaseError
+import com.stringconcat.ddd.shop.usecase.order.GetOrders
+import com.stringconcat.ddd.shop.usecase.order.GetOrdersUseCaseError
 import com.stringconcat.ddd.shop.usecase.order.OrderDetails
 import com.stringconcat.ddd.shop.usecase.order.OrderItemDetails
+import com.stringconcat.ddd.shop.usecase.order.ShopOrderInfo
 import io.kotest.matchers.shouldBe
 
 const val APPLICATION_HAL_JSON = "application/hal+json"
@@ -54,6 +57,16 @@ fun orderDetails() = order().let { order ->
         state = order.state,
         address = order.address,
         version = order.version
+    )
+}
+
+fun shopOrderInfo(): ShopOrderInfo {
+    val order = order()
+    return ShopOrderInfo(
+        id = order.id,
+        state = order.state,
+        total = order.totalPrice(),
+        address = order.address
     )
 }
 
@@ -148,6 +161,25 @@ class MockConfirmOrder : ConfirmOrder {
 
     fun verifyInvoked(id: ShopOrderId) {
         this.id shouldBe id
+    }
+}
+
+class MockGetOrders : GetOrders {
+
+    lateinit var response: Either<GetOrdersUseCaseError, List<ShopOrderInfo>>
+
+    lateinit var startId: ShopOrderId
+    var limit: Int = Int.MIN_VALUE
+
+    override fun execute(startId: ShopOrderId, limit: Int): Either<GetOrdersUseCaseError, List<ShopOrderInfo>> {
+        this.startId = startId
+        this.limit = limit
+        return response
+    }
+
+    fun verifyInvoked(startId: ShopOrderId, limit: Int) {
+        this.startId shouldBe startId
+        this.limit shouldBe limit
     }
 }
 
