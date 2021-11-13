@@ -46,6 +46,7 @@ import com.stringconcat.ddd.shop.usecase.menu.scenarios.AddMealToMenuUseCase
 import com.stringconcat.ddd.shop.usecase.menu.scenarios.GetMealByIdUseCase
 import com.stringconcat.ddd.shop.usecase.menu.scenarios.GetMenuUseCase
 import com.stringconcat.ddd.shop.usecase.menu.scenarios.RemoveMealFromMenuUseCase
+import com.stringconcat.ddd.shop.usecase.order.CancelOrder
 import com.stringconcat.ddd.shop.usecase.order.Checkout
 import com.stringconcat.ddd.shop.usecase.order.ConfirmOrder
 import com.stringconcat.ddd.shop.usecase.order.GetLastOrderState
