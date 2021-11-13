@@ -34,7 +34,7 @@ internal class ConfirmOrderEndpointTest {
         val orderId = orderId()
         mockConfirmOrder.response = ConfirmOrderUseCaseError.OrderNotFound.left()
 
-        mockMvc.put("/rest/shop/v1/order/${orderId.value}/confirm")
+        mockMvc.put("/rest/shop/v1/orders/${orderId.value}/confirm")
             .andExpect {
                 content {
                     contentType(MediaType.APPLICATION_PROBLEM_JSON)
@@ -54,7 +54,7 @@ internal class ConfirmOrderEndpointTest {
         val orderId = orderId()
         mockConfirmOrder.response = ConfirmOrderUseCaseError.InvalidOrderState.left()
 
-        mockMvc.put("/rest/shop/v1/order/${orderId.value}/confirm")
+        mockMvc.put("/rest/shop/v1/orders/${orderId.value}/confirm")
             .andExpect {
                 content {
                     contentType(MediaType.APPLICATION_PROBLEM_JSON)
@@ -74,7 +74,7 @@ internal class ConfirmOrderEndpointTest {
         val orderId = orderId()
         mockConfirmOrder.response = Unit.right()
 
-        mockMvc.put("/rest/shop/v1/order/${orderId.value}/confirm")
+        mockMvc.put("/rest/shop/v1/orders/${orderId.value}/confirm")
             .andExpect {
                 content {
                     status { isNoContent() }
