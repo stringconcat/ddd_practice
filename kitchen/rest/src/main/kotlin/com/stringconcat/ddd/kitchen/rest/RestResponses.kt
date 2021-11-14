@@ -1,4 +1,4 @@
-package com.stringconcat.dds.kitchen.rest
+package com.stringconcat.ddd.kitchen.rest
 
 import org.springframework.hateoas.mediatype.problem.Problem
 import org.springframework.http.HttpStatus

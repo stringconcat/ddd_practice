@@ -27,6 +27,7 @@ class CleanArchitectureGuard {
             .applicationServices("com.stringconcat.ddd.kitchen.usecase..")
             .adapter("persistence", "com.stringconcat.ddd.kitchen.persistence..")
             .adapter("web", "com.stringconcat.ddd.kitchen.web..")
+            .adapter("rest", "com.stringconcat.ddd.kitchen.rest..")
 
     @ArchTest
     val `kitchen business logic should depends only on approved packages` = ArchRuleDefinition.classes()

@@ -1,4 +1,4 @@
-package com.stringconcat.dds.kitchen.rest.order
+package com.stringconcat.ddd.kitchen.rest.order
 
 import MockCookOrder
 import arrow.core.left

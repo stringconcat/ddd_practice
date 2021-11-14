@@ -10,7 +10,7 @@ import com.stringconcat.ddd.kitchen.usecase.order.scenarios.CookOrderUseCase
 import com.stringconcat.ddd.kitchen.usecase.order.scenarios.CreateOrderHandler
 import com.stringconcat.ddd.kitchen.usecase.order.scenarios.GetOrdersUseCase
 import com.stringconcat.ddd.kitchen.web.order.KitchenOrderController
-import com.stringconcat.dds.kitchen.rest.order.CookOrderEndpoint
+import com.stringconcat.ddd.kitchen.rest.order.CookOrderEndpoint
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
