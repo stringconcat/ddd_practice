@@ -2,9 +2,9 @@ package com.stringconcat.ddd.shop.usecase.order.scenarios
 
 import com.stringconcat.ddd.shop.domain.order
 import com.stringconcat.ddd.shop.domain.order.ShopOrderId
-import com.stringconcat.ddd.shop.usecase.order.dto.OrderDetails
 import com.stringconcat.ddd.shop.usecase.TestShopOrderExtractor
 import com.stringconcat.ddd.shop.usecase.order.GetOrdersUseCaseError
+import com.stringconcat.ddd.shop.usecase.order.dto.toDetails
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.matchers.collections.shouldBeEmpty
@@ -41,7 +41,7 @@ internal class GetOrdersUseCaseTest {
         val list = result.shouldBeRight()
 
         list shouldContainExactly listOf(
-           OrderDetails.from(order)
+           order.toDetails()
         )
     }
 

@@ -18,7 +18,7 @@ class GetOrdersEndpoint(private val getOrders: GetOrders) {
     fun execute(@RequestParam("startId") startId: Long, @RequestParam("limit") limit: Int) =
         getOrders.execute(ShopOrderId(startId), limit + 1)
             .fold({ it.toRestError() },
-                { it.toPagedModel(limit) })
+                { it.toPagedModelResponse(limit) })
 }
 
 fun GetOrdersUseCaseError.toRestError() =

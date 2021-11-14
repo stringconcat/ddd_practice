@@ -5,8 +5,10 @@ import com.stringconcat.ddd.shop.rest.CursorPagedModel
 import com.stringconcat.ddd.shop.usecase.order.dto.OrderDetails
 import com.stringconcat.ddd.shop.usecase.order.dto.OrderItemDetails
 import org.springframework.hateoas.RepresentationModel
+import org.springframework.hateoas.server.core.Relation
 import org.springframework.http.ResponseEntity
 
+@Relation(collectionRelation = "orders")
 data class OrderModel(
     val id: Long,
     val address: AddressModel,
@@ -15,23 +17,22 @@ data class OrderModel(
     val version: Long,
 ) : RepresentationModel<OrderModel>()
 
-fun OrderDetails.toOrderModel() {
-    ResponseEntity.ok(
-        OrderModel(id = this.id.value,
-            totalPrice = this.total.value.toString(),
-            address = this.address.toModel(),
-            items = this.items.toModel(),
-            version = this.version.value
-        )
+fun OrderDetails.toOrderModel() =
+    OrderModel(id = this.id.value,
+        totalPrice = this.total.value.toString(),
+        address = this.address.toModel(),
+        items = this.items.toModel(),
+        version = this.version.value
     )
-}
+
+fun OrderDetails.toOrderModelEntity() = ResponseEntity.ok(this.toOrderModel())
 
 data class OrderItemModel(val mealId: Long, val count: Int)
 
 fun List<OrderItemDetails>.toModel() =
     this.map { OrderItemModel(mealId = it.mealId.value, count = it.count.value) }
 
-fun List<OrderDetails>.toPagedModel(originalLimit: Int): ResponseEntity<*> {
+fun List<OrderDetails>.toPagedModelResponse(originalLimit: Int): ResponseEntity<*> {
     return if (size > originalLimit) {
         ResponseEntity.ok(CursorPagedModel.from(
             this.subList(0, originalLimit).map { it.toOrderModel() })

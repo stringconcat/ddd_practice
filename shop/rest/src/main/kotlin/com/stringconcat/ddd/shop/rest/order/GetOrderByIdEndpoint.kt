@@ -16,7 +16,7 @@ class GetOrderByIdEndpoint(private val getOrderById: GetOrderById) {
     fun execute(@PathVariable("id") id: Long) =
         getOrderById.execute(ShopOrderId(id))
             .fold({ it.toRestError() },
-                { it.toOrderModel() })
+                { it.toOrderModelEntity() })
 }
 
 fun GetOrderByIdUseCaseError.toRestError() =
