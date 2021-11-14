@@ -19,7 +19,6 @@ import com.stringconcat.ddd.shop.usecase.menu.access.MealExtractor
 import com.stringconcat.ddd.shop.usecase.menu.access.MealPersister
 import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderExtractor
 import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderPersister
-import java.util.SortedMap
 import java.util.TreeMap
 
 fun removedMeal() = meal(removed = true)

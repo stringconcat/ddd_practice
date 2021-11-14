@@ -22,9 +22,8 @@ import com.stringconcat.ddd.shop.usecase.order.GetOrderById
 import com.stringconcat.ddd.shop.usecase.order.GetOrderByIdUseCaseError
 import com.stringconcat.ddd.shop.usecase.order.GetOrders
 import com.stringconcat.ddd.shop.usecase.order.GetOrdersUseCaseError
-import com.stringconcat.ddd.shop.usecase.order.OrderDetails
-import com.stringconcat.ddd.shop.usecase.order.OrderItemDetails
-import com.stringconcat.ddd.shop.usecase.order.ShopOrderInfo
+import com.stringconcat.ddd.shop.usecase.order.dto.OrderDetails
+import com.stringconcat.ddd.shop.usecase.order.dto.toDetails
 import io.kotest.matchers.shouldBe
 
 const val APPLICATION_HAL_JSON = "application/hal+json"
@@ -46,29 +45,7 @@ fun mealInfo(): MealInfo {
     )
 }
 
-fun orderDetails() = order().let { order ->
-    val items =
-        order.orderItems
-            .map { OrderItemDetails(mealId = it.mealId, count = it.count) }
-    OrderDetails(
-        id = order.id,
-        items = items,
-        total = order.totalPrice(),
-        state = order.state,
-        address = order.address,
-        version = order.version
-    )
-}
-
-fun shopOrderInfo(): ShopOrderInfo {
-    val order = order()
-    return ShopOrderInfo(
-        id = order.id,
-        state = order.state,
-        total = order.totalPrice(),
-        address = order.address
-    )
-}
+fun orderDetails() = order().toDetails()
 
 class MockGetMenu(val mealInfo: MealInfo) : GetMenu {
     override fun execute() = listOf(mealInfo)
@@ -166,12 +143,12 @@ class MockConfirmOrder : ConfirmOrder {
 
 class MockGetOrders : GetOrders {
 
-    lateinit var response: Either<GetOrdersUseCaseError, List<ShopOrderInfo>>
+    lateinit var response: Either<GetOrdersUseCaseError, List<OrderDetails>>
 
     lateinit var startId: ShopOrderId
     var limit: Int = Int.MIN_VALUE
 
-    override fun execute(startId: ShopOrderId, limit: Int): Either<GetOrdersUseCaseError, List<ShopOrderInfo>> {
+    override fun execute(startId: ShopOrderId, limit: Int): Either<GetOrdersUseCaseError, List<OrderDetails>> {
         this.startId = startId
         this.limit = limit
         return response

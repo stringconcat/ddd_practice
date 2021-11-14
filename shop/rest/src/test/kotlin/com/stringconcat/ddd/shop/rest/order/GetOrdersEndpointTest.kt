@@ -8,6 +8,7 @@ import badRequestTypeUrl
 import com.stringconcat.ddd.shop.domain.orderId
 import com.stringconcat.ddd.shop.usecase.order.GetOrders
 import com.stringconcat.ddd.shop.usecase.order.GetOrdersUseCaseError
+import orderDetails
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -17,7 +18,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
-import shopOrderInfo
 
 @WebMvcTest
 internal class GetOrdersEndpointTest {
@@ -56,8 +56,8 @@ internal class GetOrdersEndpointTest {
     fun `returned successfully`() {
         val limit = 1
 
-        val first = shopOrderInfo()
-        val second = shopOrderInfo()
+        val first = orderDetails()
+        val second = orderDetails()
 
         getOrders.response = listOf(first, second).right()
 

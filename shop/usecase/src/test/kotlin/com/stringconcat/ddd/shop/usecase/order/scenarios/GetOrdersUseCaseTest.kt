@@ -2,9 +2,9 @@ package com.stringconcat.ddd.shop.usecase.order.scenarios
 
 import com.stringconcat.ddd.shop.domain.order
 import com.stringconcat.ddd.shop.domain.order.ShopOrderId
+import com.stringconcat.ddd.shop.usecase.order.dto.OrderDetails
 import com.stringconcat.ddd.shop.usecase.TestShopOrderExtractor
 import com.stringconcat.ddd.shop.usecase.order.GetOrdersUseCaseError
-import com.stringconcat.ddd.shop.usecase.order.ShopOrderInfo
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.matchers.collections.shouldBeEmpty
@@ -31,7 +31,7 @@ internal class GetOrdersUseCaseTest {
         val orderId = ShopOrderId(0)
         val limit = 10
 
-        val order = order()
+        val order = order(id = orderId)
         val extractor = TestShopOrderExtractor().apply {
             this[order.id] = order
         }
@@ -41,12 +41,7 @@ internal class GetOrdersUseCaseTest {
         val list = result.shouldBeRight()
 
         list shouldContainExactly listOf(
-            ShopOrderInfo(
-                id = order.id,
-                state = order.state,
-                address = order.address,
-                total = order.totalPrice()
-            )
+           OrderDetails.from(order)
         )
     }
 

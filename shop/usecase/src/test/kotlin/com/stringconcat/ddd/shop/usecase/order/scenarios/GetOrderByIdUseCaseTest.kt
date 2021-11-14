@@ -37,7 +37,7 @@ internal class GetOrderByIdUseCaseTest {
         details.state shouldBe order.state
         details.total shouldBe order.totalPrice()
         details.version shouldBe order.version
-
+        details.readyForConfirmOrCancel shouldBe order.readyForConfirmOrCancel()
         details.items.shouldNotBeEmpty()
         details.items.size shouldBe order.orderItems.size
 

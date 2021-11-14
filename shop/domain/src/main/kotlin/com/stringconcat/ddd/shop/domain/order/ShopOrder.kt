@@ -96,9 +96,7 @@ class ShopOrder internal constructor(
 
     fun isActive(): Boolean = state.active
 
-    fun canBeConfirmed(): Boolean = state.canChangeTo(OrderState.CONFIRMED)
-
-    fun canBeCancelled(): Boolean = state.canChangeTo(OrderState.CANCELLED)
+    fun readyForConfirmOrCancel() = state == OrderState.PAID
 }
 
 class OrderItem constructor(
