@@ -2,8 +2,10 @@ package com.stringconcat.ddd.shop.rest.order
 
 import APPLICATION_HAL_JSON
 import MockGetOrderById
+import apiV1Url
 import arrow.core.left
 import arrow.core.right
+import com.stringconcat.ddd.shop.domain.order.OrderState
 import com.stringconcat.ddd.shop.domain.orderId
 import com.stringconcat.ddd.shop.usecase.order.GetOrderById
 import com.stringconcat.ddd.shop.usecase.order.GetOrderByIdUseCaseError
@@ -49,8 +51,8 @@ internal class GetOrderByIdEndpointTest {
     }
 
     @Test
-    fun `returned successfully`() {
-        val details = orderDetails()
+    fun `returned successfully - order is ready for confirm or cancel`() {
+        val details = orderDetails(orderState = OrderState.PAID)
         details.items.shouldHaveSize(1)
         val itemDetails = details.items[0]
 
@@ -70,6 +72,48 @@ internal class GetOrderByIdEndpointTest {
                     jsonPath("$.items[0].mealId") { value(itemDetails.mealId.value) }
                     jsonPath("$.items[0].count") { value(itemDetails.count.value) }
                     jsonPath("$.version") { value(details.version.value) }
+                    jsonPath("$._links.self.href") {
+                        value(apiV1Url("/orders/${details.id.value}"))
+                    }
+                    jsonPath("$._links.confirm.href") {
+                        value(apiV1Url("/orders/${details.id.value}/confirm"))
+                    }
+                    jsonPath("$._links.cancel.href") {
+                        value(apiV1Url("/orders/${details.id.value}/cancel"))
+                    }
+                }
+            }
+        getOrderById.verifyInvoked(details.id)
+    }
+
+    @Test
+    fun `returned successfully - order isn't ready for confirm or cancel`() {
+        val details = orderDetails(orderState = OrderState.CANCELLED)
+        details.items.shouldHaveSize(1)
+        val itemDetails = details.items[0]
+
+        getOrderById.response = details.right()
+        val url = "/rest/shop/v1/orders/${details.id.value}"
+
+        mockMvc.get(url)
+            .andExpect {
+                status { isOk() }
+                content {
+                    contentType(APPLICATION_HAL_JSON)
+                    jsonPath("$.id") { value(details.id.value) }
+                    jsonPath("$.address.street") { value(details.address.street) }
+                    jsonPath("$.address.building") { value(details.address.building) }
+                    jsonPath("$.totalPrice") { value(details.total.value) }
+                    jsonPath("$.items.length()") { value(1) }
+                    jsonPath("$.items[0].mealId") { value(itemDetails.mealId.value) }
+                    jsonPath("$.items[0].count") { value(itemDetails.count.value) }
+                    jsonPath("$.version") { value(details.version.value) }
+                    jsonPath("$._links.self.href") {
+                        value(apiV1Url("/orders/${details.id.value}"))
+                    }
+                    jsonPath("$._links.confirm.href") { doesNotExist() }
+
+                    jsonPath("$._links.cancel.href") { doesNotExist() }
                 }
             }
         getOrderById.verifyInvoked(details.id)

@@ -5,6 +5,7 @@ import com.stringconcat.ddd.shop.domain.menu.MealId
 import com.stringconcat.ddd.shop.domain.menu.MealName
 import com.stringconcat.ddd.shop.domain.menu.Price
 import com.stringconcat.ddd.shop.domain.order
+import com.stringconcat.ddd.shop.domain.order.OrderState
 import com.stringconcat.ddd.shop.domain.order.ShopOrderId
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenu
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenuUseCaseError
@@ -45,7 +46,7 @@ fun mealInfo(): MealInfo {
     )
 }
 
-fun orderDetails() = order().toDetails()
+fun orderDetails(orderState: OrderState = OrderState.PAID) = order(state = orderState).toDetails()
 
 class MockGetMenu(val mealInfo: MealInfo) : GetMenu {
     override fun execute() = listOf(mealInfo)
