@@ -1,7 +1,6 @@
 package com.stringconcat.ddd.shop.rest.menu
 
 import com.stringconcat.ddd.shop.rest.API_V1_MENU
-import com.stringconcat.ddd.shop.rest.menu.views.MealModel
 import com.stringconcat.ddd.shop.usecase.menu.GetMenu
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation

@@ -42,6 +42,14 @@ class GetMenuEndpointTest {
                     jsonPath("$._embedded.meals[0].description") { value(meal.description.value) }
                     jsonPath("$._embedded.meals[0].price") { value(meal.price.value.setScale(1)) }
                     jsonPath("$._embedded.meals[0].version") { value(meal.version.value) }
+
+                    jsonPath("$._embedded.meals[0]._links.self.href") {
+                        value(apiV1Url("/menu/${meal.id.value}"))
+                    }
+
+                    jsonPath("$._embedded.meals[0]._links.remove.href") {
+                        value(apiV1Url("/menu/${meal.id.value}"))
+                    }
                 }
             }
     }
