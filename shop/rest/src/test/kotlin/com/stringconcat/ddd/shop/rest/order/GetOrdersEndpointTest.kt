@@ -8,6 +8,7 @@ import badRequestTypeUrl
 import com.stringconcat.ddd.shop.domain.orderId
 import com.stringconcat.ddd.shop.usecase.order.GetOrders
 import com.stringconcat.ddd.shop.usecase.order.GetOrdersUseCaseError
+import orderDetails
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -17,7 +18,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
-import shopOrderInfo
 
 @WebMvcTest
 internal class GetOrdersEndpointTest {
@@ -56,8 +56,9 @@ internal class GetOrdersEndpointTest {
     fun `returned successfully`() {
         val limit = 1
 
-        val first = shopOrderInfo()
-        val second = shopOrderInfo()
+        val first = orderDetails()
+        val firstItem = first.items[0]
+        val second = orderDetails()
 
         getOrders.response = listOf(first, second).right()
 
@@ -71,6 +72,12 @@ internal class GetOrdersEndpointTest {
                     jsonPath("$._embedded.orders.length()") { value(1) }
                     jsonPath("$._embedded.orders[0].id") { value(first.id.value) }
                     jsonPath("$._embedded.orders[0].totalPrice") { value(first.total.value.toString()) }
+                    jsonPath("$._embedded.orders[0].version") { value(first.version.value) }
+                    jsonPath("$._embedded.orders[0].address.street") { value(first.address.street) }
+                    jsonPath("$._embedded.orders[0].address.building") { value(first.address.building) }
+                    jsonPath("$._embedded.orders[0].items.length()") { value(1) }
+                    jsonPath("$._embedded.orders[0].items[0].mealId") { value(firstItem.mealId.value) }
+                    jsonPath("$._embedded.orders[0].items[0].count") { value(firstItem.count.value) }
                 }
             }
         getOrders.verifyInvoked(first.id, limit + 1)

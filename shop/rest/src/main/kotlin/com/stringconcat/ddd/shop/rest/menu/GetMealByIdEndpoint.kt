@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 class GetMealByIdEndpoint(private val getMealById: GetMealById) {
 
     @GetMapping(path = ["$API_V1_MENU/{id}"])
-    fun execute(@PathVariable("id") mealId: Long) =
+    fun execute(@PathVariable("id") mealId: Long): ResponseEntity<*> =
         getMealById.execute(MealId(mealId))
             .fold({
                 it.toRestError()

@@ -2,6 +2,7 @@ package com.stringconcat.ddd.shop.rest.menu
 
 import APPLICATION_HAL_JSON
 import MockGetMealById
+import apiV1Url
 import arrow.core.left
 import arrow.core.right
 import com.stringconcat.ddd.shop.domain.mealId
@@ -64,6 +65,8 @@ class GetMealByIdEndpointTest {
                     jsonPath("$.description") { value(mealInfo.description.value) }
                     jsonPath("$.price") { value(mealInfo.price.value.setScale(1)) }
                     jsonPath("$.version") { value(mealInfo.version.value) }
+                    jsonPath("$._links.self.href") { value(apiV1Url("/menu/${mealInfo.id.value}")) }
+                    jsonPath("$._links.remove.href") { value(apiV1Url("/menu/${mealInfo.id.value}")) }
                 }
             }
 

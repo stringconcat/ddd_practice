@@ -94,7 +94,8 @@ internal class AddMealToMenuEndpointTest {
 
     @Test
     fun `created successfully`() {
-        mockAddMealToMenu.response = mealId().right()
+        val mealId = mealId()
+        mockAddMealToMenu.response = mealId.right()
 
         val name = mealName()
         val description = mealDescription()
@@ -115,7 +116,7 @@ internal class AddMealToMenuEndpointTest {
                     content {
                         string("")
                     }
-                    header { string("Location", apiV1Url("/menu")) }
+                    header { string("Location", apiV1Url("/menu/${mealId.value}")) }
                 }
             }
         mockAddMealToMenu.verifyInvoked(name, description, price)

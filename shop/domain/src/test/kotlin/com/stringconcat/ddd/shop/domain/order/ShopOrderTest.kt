@@ -13,6 +13,8 @@ import com.stringconcat.ddd.shop.domain.orderItem
 import com.stringconcat.ddd.shop.domain.price
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
+import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
@@ -155,6 +157,19 @@ class ShopOrderTest {
         order.pay() shouldBeLeft InvalidState
         order.state shouldBe state
         order.popEvents().shouldBeEmpty()
+    }
+
+    @Test
+    fun `order is ready for confirm or cancell`() {
+        val order = order(state = OrderState.PAID)
+        order.readyForConfirmOrCancel().shouldBeTrue()
+    }
+
+    @ParameterizedTest
+    @EnumSource(names = ["CONFIRMED", "COMPLETED", "WAITING_FOR_PAYMENT", "CANCELLED"])
+    fun `order cannot be cancelled`(state: OrderState) {
+        val order = order(state = state)
+        order.readyForConfirmOrCancel().shouldBeFalse()
     }
 
     @Test

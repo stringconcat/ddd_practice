@@ -21,7 +21,7 @@ class ShopOrder internal constructor(
     val forCustomer: CustomerId,
     val address: Address,
     val orderItems: Set<OrderItem>,
-    version: Version
+    version: Version,
 ) : AggregateRoot<ShopOrderId>(id, version) {
 
     var state: OrderState = OrderState.WAITING_FOR_PAYMENT
@@ -34,7 +34,7 @@ class ShopOrder internal constructor(
             idGenerator: ShopOrderIdGenerator,
             activeOrder: CustomerHasActiveOrder,
             address: Address,
-            priceProvider: MealPriceProvider
+            priceProvider: MealPriceProvider,
         ): Either<CheckoutError, ShopOrder> {
 
             if (activeOrder.check(cart.forCustomer)) {
@@ -91,16 +91,18 @@ class ShopOrder internal constructor(
     fun totalPrice(): Price {
         return orderItems
             .map { it.price.multiple(it.count) }
-            .fold(Price.zero(), { acc, it -> acc.add(it) })
+            .fold(Price.zero()) { acc, it -> acc.add(it) }
     }
 
     fun isActive(): Boolean = state.active
+
+    fun readyForConfirmOrCancel() = state == OrderState.PAID
 }
 
 class OrderItem constructor(
     val mealId: MealId,
     val price: Price,
-    val count: Count
+    val count: Count,
 ) {
 
     override fun equals(other: Any?): Boolean {
@@ -121,7 +123,7 @@ class OrderItem constructor(
 
 enum class OrderState(
     val active: Boolean,
-    private val nextStates: Set<OrderState> = emptySet()
+    private val nextStates: Set<OrderState> = emptySet(),
 ) {
 
     CANCELLED(active = false),

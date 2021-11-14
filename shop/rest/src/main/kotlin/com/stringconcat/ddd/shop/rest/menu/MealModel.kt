@@ -1,9 +1,11 @@
-package com.stringconcat.ddd.shop.rest.menu.views
+package com.stringconcat.ddd.shop.rest.menu
 
 import com.stringconcat.ddd.shop.usecase.menu.dto.MealInfo
 import java.math.BigDecimal
 import org.springframework.hateoas.RepresentationModel
 import org.springframework.hateoas.server.core.Relation
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn
 
 @Relation(collectionRelation = "meals")
 data class MealModel(
@@ -21,5 +23,13 @@ data class MealModel(
                 price = mealInfo.price.value,
                 description = mealInfo.description.value,
                 version = mealInfo.version.value)
+
+                .add(linkTo(methodOn(GetMealByIdEndpoint::class.java)
+                    .execute(mealInfo.id.value))
+                    .withSelfRel())
+
+                .add(linkTo(methodOn(RemoveMealFromMenuEndpoint::class.java)
+                    .execute(mealInfo.id.value))
+                    .withRel("remove"))
     }
 }
