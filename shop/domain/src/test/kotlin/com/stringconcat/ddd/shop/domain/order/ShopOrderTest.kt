@@ -118,19 +118,6 @@ class ShopOrderTest {
     }
 
     @Test
-    fun `order can be completed`() {
-        val order = order(state = OrderState.CONFIRMED)
-        order.canBeCompleted().shouldBeTrue()
-    }
-
-    @ParameterizedTest
-    @EnumSource(names = ["WAITING_FOR_PAYMENT", "PAID", "CANCELLED"])
-    fun `order cannot be completed`(state: OrderState) {
-        val order = order(state = state)
-        order.canBeCompleted().shouldBeFalse()
-    }
-
-    @Test
     fun `complete order - already`() {
         val order = order(state = OrderState.COMPLETED)
         order.complete() shouldBeRight Unit
@@ -219,6 +206,12 @@ class ShopOrderTest {
     }
 
     @Test
+    fun `order can be confirmed`() {
+        val order = order(state = OrderState.PAID)
+        order.canBeConfirmed().shouldBeTrue()
+    }
+
+    @Test
     fun `confirm order - already`() {
         val order = order(state = OrderState.CONFIRMED)
         order.confirm() shouldBeRight Unit
@@ -233,6 +226,13 @@ class ShopOrderTest {
         order.confirm() shouldBeLeft InvalidState
         order.state shouldBe state
         order.popEvents().shouldBeEmpty()
+    }
+
+    @ParameterizedTest
+    @EnumSource(names = ["CANCELLED", "COMPLETED", "WAITING_FOR_PAYMENT"])
+    fun `order cannot be confirmed`(state: OrderState) {
+        val order = order(state = state)
+        order.canBeConfirmed().shouldBeFalse()
     }
 
     @Test
