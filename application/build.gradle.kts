@@ -15,6 +15,7 @@ dependencies {
     implementation(project(":kitchen:usecase"))
     implementation(project(":kitchen:persistence"))
     implementation(project(":kitchen:web"))
+    implementation(project(":kitchen:rest"))
 
     implementation(project(":shop:domain"))
     implementation(project(":shop:usecase"))

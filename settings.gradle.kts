@@ -17,5 +17,6 @@ include(":kitchen:domain")
 include(":kitchen:usecase")
 include(":kitchen:persistence")
 include(":kitchen:web")
+include(":kitchen:rest")
 
 include(":delivery") // should be empty
