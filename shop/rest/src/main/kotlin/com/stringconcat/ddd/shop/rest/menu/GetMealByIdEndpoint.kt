@@ -3,7 +3,6 @@ package com.stringconcat.ddd.shop.rest.menu
 import com.stringconcat.ddd.common.rest.resourceNotFound
 import com.stringconcat.ddd.shop.domain.menu.MealId
 import com.stringconcat.ddd.shop.rest.API_V1_MENU
-import com.stringconcat.ddd.shop.rest.menu.views.MealModel
 import com.stringconcat.ddd.shop.usecase.menu.GetMealById
 import com.stringconcat.ddd.shop.usecase.menu.GetMealByIdUseCaseError
 import org.springframework.http.ResponseEntity

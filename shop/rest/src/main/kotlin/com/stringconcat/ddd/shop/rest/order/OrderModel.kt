@@ -1,7 +1,7 @@
 package com.stringconcat.ddd.shop.rest.order
 
+import com.stringconcat.ddd.common.rest.CursorPagedModel
 import com.stringconcat.ddd.common.types.common.Address
-import com.stringconcat.ddd.shop.rest.CursorPagedModel
 import com.stringconcat.ddd.shop.usecase.order.dto.OrderDetails
 import com.stringconcat.ddd.shop.usecase.order.dto.OrderItemDetails
 import org.springframework.hateoas.RepresentationModel

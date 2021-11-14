@@ -1,7 +1,6 @@
 package com.stringconcat.ddd.shop.rest.order
 
 import arrow.core.nel
-import com.stringconcat.ddd.common.rest.CursorPagedModel
 import com.stringconcat.ddd.common.rest.ValidationError
 import com.stringconcat.ddd.common.rest.toInvalidParamsBadRequest
 import com.stringconcat.ddd.shop.domain.order.ShopOrderId
