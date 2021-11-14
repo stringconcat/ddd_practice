@@ -20,3 +20,5 @@ include(":kitchen:web")
 include(":kitchen:rest")
 
 include(":delivery") // should be empty
+include("common:rest")
+findProject(":common:rest")?.name = "rest"

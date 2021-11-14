@@ -2,9 +2,9 @@ package com.stringconcat.ddd.shop.rest.order
 
 import com.stringconcat.ddd.shop.domain.order.ShopOrderId
 import com.stringconcat.ddd.shop.rest.API_V1_ORDER
-import com.stringconcat.ddd.shop.rest.noContent
-import com.stringconcat.ddd.shop.rest.resourceNotFound
-import com.stringconcat.ddd.shop.rest.restBusinessError
+import com.stringconcat.ddd.common.rest.noContent
+import com.stringconcat.ddd.common.rest.resourceNotFound
+import com.stringconcat.ddd.common.rest.restBusinessError
 import com.stringconcat.ddd.shop.usecase.order.ConfirmOrder
 import com.stringconcat.ddd.shop.usecase.order.ConfirmOrderUseCaseError
 import org.springframework.web.bind.annotation.PathVariable

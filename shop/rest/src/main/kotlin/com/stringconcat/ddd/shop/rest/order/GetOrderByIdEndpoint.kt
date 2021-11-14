@@ -1,9 +1,9 @@
 package com.stringconcat.ddd.shop.rest.order
 
+import com.stringconcat.ddd.common.rest.resourceNotFound
 import com.stringconcat.ddd.common.types.common.Address
 import com.stringconcat.ddd.shop.domain.order.ShopOrderId
 import com.stringconcat.ddd.shop.rest.API_V1_ORDER
-import com.stringconcat.ddd.shop.rest.resourceNotFound
 import com.stringconcat.ddd.shop.usecase.order.GetOrderById
 import com.stringconcat.ddd.shop.usecase.order.GetOrderByIdUseCaseError
 import com.stringconcat.ddd.shop.usecase.order.OrderDetails

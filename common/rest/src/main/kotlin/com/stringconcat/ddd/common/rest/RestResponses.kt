@@ -1,4 +1,4 @@
-package com.stringconcat.ddd.shop.rest
+package com.stringconcat.ddd.common.rest
 
 import arrow.core.Nel
 import java.net.URI
@@ -41,16 +41,18 @@ fun resourceNotFound() =
         .body(
             Problem.create().withStatus(HttpStatus.NOT_FOUND)
                 .withType(URI("$baseUrl/resource_not_found"))
-                .withTitle("Resource not found"))
+                .withTitle("Resource not found")
+        )
 
 fun Nel<ValidationError>.toInvalidParamsBadRequest() =
     ResponseEntity
         .badRequest()
         .contentType(MediaType.APPLICATION_PROBLEM_JSON)
-        .body(Problem.create(mapOf("invalid_params" to this))
-            .withStatus(HttpStatus.BAD_REQUEST)
-            .withType(URI("$baseUrl/bad_request"))
-            .withTitle("Bad request")
+        .body(
+            Problem.create(mapOf("invalid_params" to this))
+                .withStatus(HttpStatus.BAD_REQUEST)
+                .withType(URI("$baseUrl/bad_request"))
+                .withTitle("Bad request")
         )
 
 fun created(location: URI) = ResponseEntity.created(location).build<Any>()

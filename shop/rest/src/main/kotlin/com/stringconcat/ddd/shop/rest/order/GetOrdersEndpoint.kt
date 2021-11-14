@@ -1,11 +1,11 @@
 package com.stringconcat.ddd.shop.rest.order
 
 import arrow.core.nel
+import com.stringconcat.ddd.common.rest.CursorPagedModel
+import com.stringconcat.ddd.common.rest.ValidationError
+import com.stringconcat.ddd.common.rest.toInvalidParamsBadRequest
 import com.stringconcat.ddd.shop.domain.order.ShopOrderId
 import com.stringconcat.ddd.shop.rest.API_V1_ORDER
-import com.stringconcat.ddd.shop.rest.CursorPagedModel
-import com.stringconcat.ddd.shop.rest.ValidationError
-import com.stringconcat.ddd.shop.rest.toInvalidParamsBadRequest
 import com.stringconcat.ddd.shop.usecase.order.GetOrders
 import com.stringconcat.ddd.shop.usecase.order.GetOrdersUseCaseError
 import com.stringconcat.ddd.shop.usecase.order.ShopOrderInfo
@@ -38,8 +38,9 @@ fun GetOrdersUseCaseError.toRestError() =
 
 fun List<ShopOrderInfo>.toPagedModel(originalLimit: Int): ResponseEntity<*> {
     return if (size > originalLimit) {
-        ResponseEntity.ok(CursorPagedModel.from(
-            this.subList(0, originalLimit).map { it.toModel() })
+        ResponseEntity.ok(
+            CursorPagedModel.from(
+                this.subList(0, originalLimit).map { it.toModel() })
         )
     } else {
         ResponseEntity.ok(CursorPagedModel.from(this.map { it.toModel() }))

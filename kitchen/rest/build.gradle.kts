@@ -7,6 +7,7 @@ plugins{
 dependencies {
     // project
     implementation(project(":common:types"))
+    implementation(project(":common:rest"))
     implementation(project(":kitchen:domain"))
     implementation(project(":kitchen:usecase"))
 
@@ -37,10 +38,12 @@ dependencies {
     testImplementation(Libs.junit_params)
 
     testImplementation(testFixtures(project(":common:types")))
+    testImplementation(testFixtures(project(":common:rest")))
     testImplementation(testFixtures(project(":kitchen:domain")))
     testImplementation(testFixtures(project(":kitchen:usecase")))
 
     testFixturesImplementation(testFixtures(project(":common:types")))
+    testFixturesImplementation(testFixtures(project(":common:rest")))
     testFixturesImplementation(testFixtures(project(":kitchen:domain")))
     testFixturesImplementation(testFixtures(project(":kitchen:usecase")))
     testFixturesImplementation(Libs.arrow)
