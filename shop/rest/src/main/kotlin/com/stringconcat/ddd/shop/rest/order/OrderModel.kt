@@ -1,6 +1,5 @@
 package com.stringconcat.ddd.shop.rest.order
 
-import com.stringconcat.ddd.common.rest.CursorPagedModel
 import com.stringconcat.ddd.common.types.common.Address
 import com.stringconcat.ddd.shop.usecase.order.dto.OrderDetails
 import com.stringconcat.ddd.shop.usecase.order.dto.OrderItemDetails
@@ -43,16 +42,6 @@ fun OrderDetails.toOrderModelEntity(): ResponseEntity<OrderModel> = ResponseEnti
 
 fun List<OrderItemDetails>.toModel() =
     this.map { OrderItemModel(mealId = it.mealId.value, count = it.count.value) }
-
-fun List<OrderDetails>.toPagedModelResponse(originalLimit: Int): ResponseEntity<*> {
-    return if (size > originalLimit) {
-        ResponseEntity.ok(CursorPagedModel.from(
-            this.subList(0, originalLimit).map { it.toOrderModel() })
-        )
-    } else {
-        ResponseEntity.ok(CursorPagedModel.from(this.map { it.toOrderModel() }))
-    }
-}
 
 fun Address.toModel() = AddressModel(street = this.street, building = this.building)
 data class AddressModel(val street: String, val building: Int)

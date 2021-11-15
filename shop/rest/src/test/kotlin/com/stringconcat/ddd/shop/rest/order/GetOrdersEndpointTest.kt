@@ -2,6 +2,7 @@ package com.stringconcat.ddd.shop.rest.order
 
 import APPLICATION_HAL_JSON
 import MockGetOrders
+import apiV1Url
 import arrow.core.left
 import arrow.core.right
 import badRequestTypeUrl
@@ -53,7 +54,48 @@ internal class GetOrdersEndpointTest {
     }
 
     @Test
-    fun `returned successfully`() {
+    fun `returned successfully without next page`() {
+        val limit = 1
+
+        val single = orderDetails()
+        val firstItem = single.items[0]
+
+        getOrders.response = listOf(single).right()
+
+        val url = "/rest/shop/v1/orders?startId=${single.id.value}&limit=$limit"
+        mockMvc.get(url)
+            .andExpect {
+                status { isOk() }
+                content {
+                    contentType(APPLICATION_HAL_JSON)
+                    jsonPath("$.count") { value(limit) }
+                    jsonPath("$._links.self.href") {
+                        value(apiV1Url("/orders?startId=${single.id.value}&limit=$limit"))
+                    }
+                    jsonPath("$._links.first.href") {
+                        value(apiV1Url("/orders?startId=0&limit=$limit"))
+                    }
+                    jsonPath("$._links.next.href") {
+                        doesNotExist()
+                    }
+
+                    jsonPath("$._embedded.orders.length()") { value(limit) }
+                    jsonPath("$._embedded.orders[0].id") { value(single.id.value) }
+                    jsonPath("$._embedded.orders[0].totalPrice") { value(single.total.value.toString()) }
+                    jsonPath("$._embedded.orders[0].version") { value(single.version.value) }
+                    jsonPath("$._embedded.orders[0].address.street") { value(single.address.street) }
+                    jsonPath("$._embedded.orders[0].address.building") { value(single.address.building) }
+                    jsonPath("$._embedded.orders[0].items.length()") { value(1) }
+                    jsonPath("$._embedded.orders[0].items[0].mealId") { value(firstItem.mealId.value) }
+                    jsonPath("$._embedded.orders[0].items[0].count") { value(firstItem.count.value) }
+                    jsonPath("$._embedded.orders[0]._links.self.href") { exists() }
+                }
+            }
+        getOrders.verifyInvoked(single.id, limit + 1)
+    }
+
+    @Test
+    fun `returned successfully with next page`() {
         val limit = 1
 
         val first = orderDetails()
@@ -69,7 +111,17 @@ internal class GetOrdersEndpointTest {
                 content {
                     contentType(APPLICATION_HAL_JSON)
                     jsonPath("$.count") { value(limit) }
-                    jsonPath("$._embedded.orders.length()") { value(1) }
+                    jsonPath("$._links.self.href") {
+                        value(apiV1Url("/orders?startId=${first.id.value}&limit=$limit"))
+                    }
+                    jsonPath("$._links.first.href") {
+                        value(apiV1Url("/orders?startId=0&limit=$limit"))
+                    }
+                    jsonPath("$._links.next.href") {
+                        value(apiV1Url("/orders?startId=${second.id.value}&limit=$limit"))
+                    }
+
+                    jsonPath("$._embedded.orders.length()") { value(limit) }
                     jsonPath("$._embedded.orders[0].id") { value(first.id.value) }
                     jsonPath("$._embedded.orders[0].totalPrice") { value(first.total.value.toString()) }
                     jsonPath("$._embedded.orders[0].version") { value(first.version.value) }
@@ -78,6 +130,7 @@ internal class GetOrdersEndpointTest {
                     jsonPath("$._embedded.orders[0].items.length()") { value(1) }
                     jsonPath("$._embedded.orders[0].items[0].mealId") { value(firstItem.mealId.value) }
                     jsonPath("$._embedded.orders[0].items[0].count") { value(firstItem.count.value) }
+                    jsonPath("$._embedded.orders[0]._links.self.href") { exists() }
                 }
             }
         getOrders.verifyInvoked(first.id, limit + 1)
