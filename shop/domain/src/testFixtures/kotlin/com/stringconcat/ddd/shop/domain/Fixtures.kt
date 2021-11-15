@@ -31,7 +31,7 @@ fun address(): Address {
 
     val result = Address.from(
         street = faker.address().streetName(),
-        building = faker.address().streetAddressNumber().toInt()
+        building = faker.address().streetAddressNumber().toInt() + 1
     )
 
     check(result is Either.Right<Address>)
@@ -76,8 +76,10 @@ fun customerId() = CustomerId(UUID.randomUUID().toString())
 
 fun cartId() = CartId(faker.number().randomNumber())
 
-fun cart(meals: Map<MealId, Count> = emptyMap(),
-         customerId: CustomerId = customerId()): Cart {
+fun cart(
+    meals: Map<MealId, Count> = emptyMap(),
+    customerId: CustomerId = customerId()
+): Cart {
     return CartRestorer.restoreCart(
         id = cartId(),
         forCustomer = customerId,
