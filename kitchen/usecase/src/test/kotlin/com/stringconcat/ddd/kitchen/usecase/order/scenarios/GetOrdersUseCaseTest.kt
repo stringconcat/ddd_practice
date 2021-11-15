@@ -1,8 +1,8 @@
 package com.stringconcat.ddd.kitchen.usecase.order.scenarios
 
 import com.stringconcat.ddd.kitchen.domain.order.order
-import com.stringconcat.ddd.kitchen.usecase.order.KitchenOrderInfo
 import com.stringconcat.ddd.kitchen.usecase.order.TestKitchenOrderExtractor
+import com.stringconcat.ddd.kitchen.usecase.order.dto.OrderDetails
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldNotBeEmpty
@@ -29,7 +29,7 @@ class GetOrdersUseCaseTest {
         val useCase = GetOrdersUseCase(extractor)
         val result = useCase.execute()
         result shouldContainExactly listOf(
-            KitchenOrderInfo(
+            OrderDetails(
                 id = order.id,
                 meals = order.meals,
                 cooked = order.cooked

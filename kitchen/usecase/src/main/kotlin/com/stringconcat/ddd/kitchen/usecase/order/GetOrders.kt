@@ -1,15 +1,8 @@
 package com.stringconcat.ddd.kitchen.usecase.order
 
-import com.stringconcat.ddd.kitchen.domain.order.KitchenOrderId
-import com.stringconcat.ddd.kitchen.domain.order.OrderItem
+import com.stringconcat.ddd.kitchen.usecase.order.dto.OrderDetails
 
 interface GetOrders {
 
-    fun execute(): List<KitchenOrderInfo>
+    fun execute(): List<OrderDetails>
 }
-
-data class KitchenOrderInfo(
-    val id: KitchenOrderId,
-    val cooked: Boolean,
-    val meals: List<OrderItem>
-)
