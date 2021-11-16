@@ -11,6 +11,9 @@ import com.stringconcat.ddd.kitchen.usecase.order.scenarios.CreateOrderHandler
 import com.stringconcat.ddd.kitchen.usecase.order.scenarios.GetOrdersUseCase
 import com.stringconcat.ddd.kitchen.web.order.KitchenOrderController
 import com.stringconcat.ddd.kitchen.rest.order.CookOrderEndpoint
+import com.stringconcat.ddd.kitchen.rest.order.GetOrderByIdEndpoint
+import com.stringconcat.ddd.kitchen.usecase.order.GetOrderById
+import com.stringconcat.ddd.kitchen.usecase.order.scenarios.GetOrderByIdUseCase
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -37,9 +40,15 @@ class KitchenContextConfiguration {
     fun getOrdersUseCase(kitchenOrderExtractor: KitchenOrderExtractor) = GetOrdersUseCase(kitchenOrderExtractor)
 
     @Bean
+    fun getOrderById(kitchenOrderExtractor: KitchenOrderExtractor) = GetOrderByIdUseCase(kitchenOrderExtractor)
+
+    @Bean
     fun kitchenOrderController(getOrders: GetOrders, cookOrder: CookOrder) =
         KitchenOrderController(getOrders, cookOrder)
 
     @Bean
     fun cookOrderEndpoint(cookOrder: CookOrder) = CookOrderEndpoint(cookOrder)
+
+    @Bean
+    fun getOrderByIdEndpoint(getOrderById: GetOrderById) = GetOrderByIdEndpoint(getOrderById)
 }

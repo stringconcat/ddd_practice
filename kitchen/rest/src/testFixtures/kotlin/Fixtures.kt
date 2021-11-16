@@ -3,6 +3,8 @@ import com.stringconcat.ddd.kitchen.domain.order.KitchenOrderId
 import com.stringconcat.ddd.kitchen.domain.order.order
 import com.stringconcat.ddd.kitchen.usecase.order.CookOrder
 import com.stringconcat.ddd.kitchen.usecase.order.CookOrderUseCaseError
+import com.stringconcat.ddd.kitchen.usecase.order.GetOrderById
+import com.stringconcat.ddd.kitchen.usecase.order.GetOrderByIdUseCaseError
 import com.stringconcat.ddd.kitchen.usecase.order.GetOrders
 import com.stringconcat.ddd.kitchen.usecase.order.dto.OrderDetails
 import com.stringconcat.ddd.kitchen.usecase.order.dto.toDetails
@@ -16,7 +18,7 @@ fun errorTypeUrl(suffix: String) = "$API_V1_TYPE_BASE_URL/$suffix"
 
 fun notFoundTypeUrl() = errorTypeUrl("not_found")
 
-fun orderInfo() = order().toDetails()
+fun orderDetails() = order().toDetails()
 
 class MockCookOrder : CookOrder {
 
@@ -39,5 +41,20 @@ class MockGetOrders : GetOrders {
 
     override fun execute(): List<OrderDetails> {
         return response
+    }
+}
+
+class MockGetOrderById : GetOrderById {
+
+    lateinit var response: Either<GetOrderByIdUseCaseError, OrderDetails>
+    lateinit var id: KitchenOrderId
+
+    override fun execute(id: KitchenOrderId): Either<GetOrderByIdUseCaseError, OrderDetails> {
+        this.id = id
+        return response
+    }
+
+    fun verifyInvoked(id: KitchenOrderId) {
+        this.id shouldBe id
     }
 }
