@@ -6,6 +6,7 @@ import org.springframework.hateoas.RepresentationModel
 import org.springframework.hateoas.server.core.Relation
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn
+import org.springframework.http.ResponseEntity
 
 @Relation(collectionRelation = "orders")
 data class OrderModel(
@@ -23,11 +24,13 @@ fun OrderDetails.toOrderModel(): OrderModel {
         meals = meals.toModel()
     ).add(
         linkTo(
-            methodOn(GetOrdersEndpoint::class.java)
-                .execute()
+            methodOn(GetOrderByIdEndpoint::class.java)
+                .execute(this.id.value)
         ).withSelfRel()
     )
 }
 
 fun List<OrderItem>.toModel() =
     this.map { OrderItemModel(meal = it.meal.value, count = it.count.value) }
+
+fun OrderDetails.toOrderModelEntity(): ResponseEntity<OrderModel> = ResponseEntity.ok(this.toOrderModel())

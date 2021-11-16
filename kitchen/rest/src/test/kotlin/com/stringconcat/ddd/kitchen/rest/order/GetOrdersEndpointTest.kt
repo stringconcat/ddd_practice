@@ -4,7 +4,7 @@ import APPLICATION_HAL_JSON
 import MockGetOrders
 import apiV1Url
 import com.stringconcat.ddd.kitchen.usecase.order.GetOrders
-import orderInfo
+import orderDetails
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -24,7 +24,7 @@ internal class GetOrdersEndpointTest {
     @Test
     fun `returned successfully`() {
 
-        val single = orderInfo()
+        val single = orderDetails()
         val firstItem = single.meals[0]
 
         getOrders.response = listOf(single)
@@ -39,9 +39,8 @@ internal class GetOrdersEndpointTest {
                     jsonPath("$._embedded.orders[0].meals.length()") { value(single.meals.size) }
                     jsonPath("$._embedded.orders[0].meals[0].meal") { value(firstItem.meal.value) }
                     jsonPath("$._embedded.orders[0].meals[0].count") { value(firstItem.count.value) }
-                    jsonPath("$._embedded.orders[0]._links.self.href") { exists() }
                     jsonPath("$._embedded.orders[0]._links.self.href") {
-                        value(apiV1Url("/orders"))
+                        value(apiV1Url("/orders/${single.id.value}"))
                     }
                 }
             }
