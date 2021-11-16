@@ -17,7 +17,7 @@ internal class DomainEntityTest {
         entity.doSomething()
 
         entity.id shouldBe id
-        entity.version shouldBe version.increment()
+        entity.version shouldBe version.next()
 
         val firstInvocationEvents = entity.popEvents()
         firstInvocationEvents.size shouldBeExactly 1
@@ -40,7 +40,7 @@ internal class DomainEntityTest {
             entity.doSomething()
         }
 
-        entity.version shouldBe version.increment()
+        entity.version shouldBe version.next()
     }
 
     @Test
@@ -53,7 +53,7 @@ internal class DomainEntityTest {
 
         entity.doSomething()
 
-        entity.version shouldBe version.increment().increment()
+        entity.version shouldBe version.next().next()
     }
 }
 

@@ -9,7 +9,7 @@ open class DomainEntity<T> protected constructor(
 
     protected fun addEvent(event: DomainEvent) {
         if (events.isEmpty()) {
-            version = version.increment()
+            version = version.next()
         }
         events.add(event)
     }
@@ -23,7 +23,9 @@ open class DomainEntity<T> protected constructor(
 
 data class Version internal constructor(val value: Long) : ValueObject {
 
-    fun increment() = Version(value + 1)
+    fun next() = Version(value + 1)
+
+    fun previous() = Version(value - 1)
 
     companion object {
         fun new() = Version(0)
