@@ -28,4 +28,12 @@ internal class VersionTest {
         val incremented = version.increment()
         incremented.value shouldBe long + 1
     }
+
+    @Test
+    fun `the same value should be equals`() {
+        val long = Random.nextLong()
+        val first = Version.from(long)
+        val second = Version.from(long)
+        first shouldBe second
+    }
 }

@@ -2,12 +2,15 @@ package com.stringconcat.ddd.common.types.base
 
 open class DomainEntity<T> protected constructor(
     val id: T,
-    val version: Version
+    var version: Version,
 ) {
 
     private var events = ArrayList<DomainEvent>()
 
     protected fun addEvent(event: DomainEvent) {
+        if (events.isEmpty()) {
+            version = version.increment()
+        }
         events.add(event)
     }
 
@@ -18,7 +21,7 @@ open class DomainEntity<T> protected constructor(
     }
 }
 
-class Version internal constructor(val value: Long) : ValueObject {
+data class Version internal constructor(val value: Long) : ValueObject {
 
     fun increment() = Version(value + 1)
 

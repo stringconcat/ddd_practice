@@ -17,7 +17,7 @@ internal class DomainEntityTest {
         entity.doSomething()
 
         entity.id shouldBe id
-        entity.version shouldBe version
+        entity.version shouldBe version.increment()
 
         val firstInvocationEvents = entity.popEvents()
         firstInvocationEvents.size shouldBeExactly 1
@@ -29,6 +29,31 @@ internal class DomainEntityTest {
         val secondInvocationEvent = secondInvocationEvents.first()
 
         firstInvocationEvent shouldNotBe secondInvocationEvent
+    }
+
+    @Test
+    fun `version is incremented olny single times after altering entity`() {
+        val id = 1L
+        val version = Version.new()
+        val entity = TestEntity(id, version)
+        repeat(10) {
+            entity.doSomething()
+        }
+
+        entity.version shouldBe version.increment()
+    }
+
+    @Test
+    fun `version is incremented after poping events`() {
+        val id = 1L
+        val version = Version.new()
+        val entity = TestEntity(id, version)
+        entity.doSomething()
+        entity.popEvents()
+
+        entity.doSomething()
+
+        entity.version shouldBe version.increment().increment()
     }
 }
 
