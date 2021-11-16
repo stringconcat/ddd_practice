@@ -11,6 +11,7 @@ import io.kotest.matchers.shouldBe
 const val APPLICATION_HAL_JSON = "application/hal+json"
 const val API_V1_TYPE_BASE_URL = "http://localhost"
 
+fun apiV1Url(suffix: String) = "http://localhost/rest/kitchen/v1$suffix"
 fun errorTypeUrl(suffix: String) = "$API_V1_TYPE_BASE_URL/$suffix"
 
 fun notFoundTypeUrl() = errorTypeUrl("not_found")

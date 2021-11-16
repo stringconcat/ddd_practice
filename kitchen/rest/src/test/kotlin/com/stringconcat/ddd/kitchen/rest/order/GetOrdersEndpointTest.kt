@@ -2,6 +2,7 @@ package com.stringconcat.ddd.kitchen.rest.order
 
 import APPLICATION_HAL_JSON
 import MockGetOrders
+import apiV1Url
 import com.stringconcat.ddd.kitchen.usecase.order.GetOrders
 import orderInfo
 import org.junit.jupiter.api.Test
@@ -39,6 +40,9 @@ internal class GetOrdersEndpointTest {
                     jsonPath("$._embedded.orders[0].meals[0].meal") { value(firstItem.meal.value) }
                     jsonPath("$._embedded.orders[0].meals[0].count") { value(firstItem.count.value) }
                     jsonPath("$._embedded.orders[0]._links.self.href") { exists() }
+                    jsonPath("$._embedded.orders[0]._links.self.href") {
+                        value(apiV1Url("/orders"))
+                    }
                 }
             }
     }
