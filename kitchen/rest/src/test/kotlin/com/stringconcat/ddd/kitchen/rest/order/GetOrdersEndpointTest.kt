@@ -34,6 +34,9 @@ internal class GetOrdersEndpointTest {
                 status { isOk() }
                 content {
                     contentType(APPLICATION_HAL_JSON)
+                    jsonPath("$._links.self.href") {
+                        value(apiV1Url("/orders"))
+                    }
                     jsonPath("$._embedded.orders[0].id") { value(single.id.value) }
                     jsonPath("$._embedded.orders[0].cooked") { value(single.cooked) }
                     jsonPath("$._embedded.orders[0].meals.length()") { value(single.meals.size) }
