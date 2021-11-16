@@ -38,7 +38,7 @@ internal class VersionTest {
     }
 
     @Test
-    fun `previous version should be current - 1`(){
+    fun `previous version should be current - 1`() {
         val long = Random.nextLong()
         val version = Version.from(long)
 
