@@ -27,8 +27,13 @@ data class Version internal constructor(val value: Long) : ValueObject {
 
     fun previous() = Version(value - 1)
 
+    fun isNew() = value == START
+
     companion object {
-        fun new() = Version(0)
+
+        private const val START = 0L
+
+        fun new() = Version(START)
         fun from(value: Long) = Version(value)
     }
 }

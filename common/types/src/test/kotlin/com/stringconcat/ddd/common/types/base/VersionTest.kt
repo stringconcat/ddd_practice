@@ -1,8 +1,12 @@
 package com.stringconcat.ddd.common.types.base
 
+import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import kotlin.random.Random
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 
 internal class VersionTest {
 
@@ -12,6 +16,14 @@ internal class VersionTest {
         val secondVersion = Version.new()
         firstVersion.value shouldBe secondVersion.value
         firstVersion.value shouldBe 0
+        firstVersion.isNew().shouldBeTrue()
+    }
+
+    @ParameterizedTest
+    @ValueSource(longs = [-1, 12, Long.MAX_VALUE, Long.MIN_VALUE])
+    fun `non-zero value isn't the new version`(value: Long) {
+        val version = Version.from(value)
+        version.isNew().shouldBeFalse()
     }
 
     @Test
