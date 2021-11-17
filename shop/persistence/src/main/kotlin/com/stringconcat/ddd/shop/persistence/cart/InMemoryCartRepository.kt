@@ -4,7 +4,6 @@ import com.stringconcat.ddd.common.events.DomainEventPublisher
 import com.stringconcat.ddd.shop.domain.cart.Cart
 import com.stringconcat.ddd.shop.domain.cart.CartRestorer
 import com.stringconcat.ddd.shop.domain.cart.CustomerId
-import com.stringconcat.ddd.shop.persistence.RaceConditionException
 import com.stringconcat.ddd.shop.usecase.cart.access.CartExtractor
 import com.stringconcat.ddd.shop.usecase.cart.access.CartPersister
 import com.stringconcat.ddd.shop.usecase.cart.access.CartRemover
@@ -17,21 +16,12 @@ class InMemoryCartRepository(private val eventPublisher: DomainEventPublisher) :
     override fun getCart(forCustomer: CustomerId) = storage[forCustomer]?.copy()
 
     override fun save(cart: Cart) {
-        checkForRaceCondition(cart)
         eventPublisher.publish(cart.popEvents())
         storage[cart.forCustomer] = cart.copy()
     }
 
     override fun deleteCart(cart: Cart) {
         storage.remove(cart.forCustomer)
-    }
-
-    private fun checkForRaceCondition(cart: Cart) {
-        val stored = storage[cart.forCustomer]
-        if (stored != null && stored.version != cart.version.previous()) {
-            throw RaceConditionException("Cart #${stored.id} is already " +
-                    "stored with version ${stored.version.value}")
-        }
     }
 }
 
