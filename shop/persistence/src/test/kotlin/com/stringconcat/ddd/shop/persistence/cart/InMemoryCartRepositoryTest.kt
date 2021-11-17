@@ -7,10 +7,13 @@ import com.stringconcat.ddd.shop.persistence.TestEventPublisher
 import com.stringconcat.ddd.shop.persistence.cartWithEvents
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.maps.shouldBeEmpty
+import io.kotest.matchers.maps.shouldContainExactly
+import io.kotest.matchers.maps.shouldNotBeEmpty
 import io.kotest.matchers.nulls.shouldBeNull
+import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
-import io.kotest.matchers.types.shouldBeSameInstanceAs
+import io.kotest.matchers.types.shouldNotBeSameInstanceAs
 import org.junit.jupiter.api.Test
 
 class InMemoryCartRepositoryTest {
@@ -24,7 +27,7 @@ class InMemoryCartRepositoryTest {
         repository.save(cart)
 
         val storedCart = repository.storage[cart.forCustomer]
-        storedCart shouldBeSameInstanceAs cart
+        storedCart shouldNotBeSameInstanceAs cart
         eventPublisher.storage.shouldHaveSize(1)
 
         val event = eventPublisher.storage.first()
@@ -61,7 +64,14 @@ class InMemoryCartRepositoryTest {
         repository.storage[customerId] = existingCart
 
         val cart = repository.getCart(customerId)
-        cart shouldBeSameInstanceAs existingCart
+
+        cart.shouldNotBeNull()
+
+        cart shouldNotBeSameInstanceAs existingCart
+        cart.id shouldBe existingCart.id
+        cart.forCustomer shouldBe existingCart.forCustomer
+        cart.created shouldBe existingCart.created
+        cart.meals() shouldContainExactly existingCart.meals()
     }
 
     @Test
@@ -87,11 +97,26 @@ class InMemoryCartRepositoryTest {
     @Test
     fun `delete cart - cart doesn't exist`() {
 
-        val existingCart = cart()
+        val cart = cart()
         val eventPublisher = TestEventPublisher()
         val repository = InMemoryCartRepository(eventPublisher)
 
-        repository.deleteCart(existingCart)
+        repository.deleteCart(cart)
         repository.storage.shouldBeEmpty()
+    }
+
+    @Test
+    fun `copy cart test`() {
+        val src = cartWithEvents()
+        src.meals().shouldNotBeEmpty()
+
+        val copy = src.copy()
+
+        src shouldNotBeSameInstanceAs copy
+        src.id shouldBe copy.id
+        src.forCustomer shouldBe copy.forCustomer
+        src.created shouldBe copy.created
+        src.meals() shouldContainExactly copy.meals()
+        src.meals() shouldNotBeSameInstanceAs copy.meals()
     }
 }
