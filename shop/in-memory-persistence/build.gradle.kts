@@ -1,4 +1,4 @@
-project.base.archivesName.set("shop-persistence")
+project.base.archivesName.set("shop-in-memory-persistence")
 
 dependencies {
     // project

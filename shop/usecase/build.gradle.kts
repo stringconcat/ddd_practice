@@ -27,4 +27,5 @@ dependencies {
     testFixturesImplementation(testFixtures(project(":common:types")))
     testFixturesImplementation(testFixtures(project(":shop:domain")))
     testFixturesImplementation(Libs.arrow)
+    testFixturesImplementation(Libs.kotest_junit)
 }

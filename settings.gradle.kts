@@ -7,7 +7,7 @@ include(":common:events")
 
 include(":shop:domain")
 include(":shop:usecase")
-include(":shop:persistence")
+include(":shop:in-memory-persistence")
 include(":shop:telnet")
 include(":shop:web")
 include(":shop:payment")
