@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.jdbc.datasource.SingleConnectionDataSource
 import org.testcontainers.containers.PostgreSQLContainer
 
-
 @Configuration
 class TestConfiguration {
 
@@ -30,5 +29,4 @@ class TestConfiguration {
 
     @Bean(initMethod = "start")
     fun postgresqlContainer() = PostgreSQLContainer<Nothing>("postgres:14.1")
-
 }

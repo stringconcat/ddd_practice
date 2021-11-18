@@ -8,18 +8,27 @@
       http://www.liquibase.org/xml/ns/pro
       http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.6.xsd">
 
-<changeSet  id="create-meal-sequence"  author="elukianov" runOnChange="false" failOnError="true">
+    <changeSet id="create-shop-schema" author="elukianov" runOnChange="false" failOnError="true">
         <sql>
             <![CDATA[
-                CREATE SEQUENCE IF NOT EXISTS meal_id_seq;
+                CREATE SCHEMA IF NOT EXISTS shop;
             ]]>
         </sql>
     </changeSet>
 
-    <changeSet  id="create-meal-table"  author="elukianov" runOnChange="false" failOnError="true">
+
+    <changeSet id="create-meal-sequence" author="elukianov" runOnChange="false" failOnError="true">
         <sql>
             <![CDATA[
-                CREATE TABLE IF NOT EXISTS meal (
+                CREATE SEQUENCE IF NOT EXISTS shop.meal_id_seq;
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="create-meal-table" author="elukianov" runOnChange="false" failOnError="true">
+        <sql>
+            <![CDATA[
+                CREATE TABLE IF NOT EXISTS shop.meal (
                  id BIGINT PRIMARY KEY NOT NULL,
                  name TEXT NOT NULL UNIQUE,
                  description TEXT,
@@ -28,7 +37,6 @@
             ]]>
         </sql>
     </changeSet>
-
 
 
 </databaseChangeLog>
