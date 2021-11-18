@@ -4,6 +4,7 @@ import MockCancelOrder
 import arrow.core.left
 import arrow.core.right
 import com.stringconcat.ddd.shop.domain.orderId
+import com.stringconcat.ddd.shop.rest.API_V1_ORDER_CANCEL_BY_ID
 import com.stringconcat.ddd.shop.usecase.order.CancelOrder
 import com.stringconcat.ddd.shop.usecase.order.CancelOrderUseCaseError
 import errorTypeUrl
@@ -18,6 +19,8 @@ import org.springframework.http.MediaType
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.put
+import withHost
+import withId
 
 @WebMvcTest
 @ContextConfiguration(classes = [CancelOrderEndpointTest.TestConfiguration::class])
@@ -33,7 +36,7 @@ internal class CancelOrderEndpointTest {
         val orderId = orderId()
         mockCancelOrder.response = CancelOrderUseCaseError.OrderNotFound.left()
 
-        mockMvc.put("/rest/shop/v1/orders/${orderId.value}/cancel")
+        mockMvc.put(API_V1_ORDER_CANCEL_BY_ID.withId(orderId.value).withHost())
             .andExpect {
                 content {
                     contentType(MediaType.APPLICATION_PROBLEM_JSON)
@@ -53,7 +56,7 @@ internal class CancelOrderEndpointTest {
         val orderId = orderId()
         mockCancelOrder.response = CancelOrderUseCaseError.InvalidOrderState.left()
 
-        mockMvc.put("/rest/shop/v1/orders/${orderId.value}/cancel")
+        mockMvc.put(API_V1_ORDER_CANCEL_BY_ID.withId(orderId.value).withHost())
             .andExpect {
                 content {
                     contentType(MediaType.APPLICATION_PROBLEM_JSON)
@@ -74,7 +77,7 @@ internal class CancelOrderEndpointTest {
         val orderId = orderId()
         mockCancelOrder.response = Unit.right()
 
-        mockMvc.put("/rest/shop/v1/orders/${orderId.value}/cancel")
+        mockMvc.put(API_V1_ORDER_CANCEL_BY_ID.withId(orderId.value).withHost())
             .andExpect {
                 content {
                     status { isNoContent() }

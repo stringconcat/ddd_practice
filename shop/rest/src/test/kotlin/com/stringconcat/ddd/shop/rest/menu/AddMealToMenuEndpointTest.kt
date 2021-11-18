@@ -11,7 +11,8 @@ import com.stringconcat.ddd.shop.domain.mealName
 import com.stringconcat.ddd.shop.domain.price
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenu
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenuUseCaseError
-import apiV1Url
+import com.stringconcat.ddd.shop.rest.API_V1_MENU_ADD_TO_MENU
+import com.stringconcat.ddd.shop.rest.API_V1_MENU_GET_BY_ID
 import java.math.BigDecimal
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -24,6 +25,8 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
 import errorTypeUrl
 import org.springframework.http.HttpStatus
+import withHost
+import withId
 
 @WebMvcTest
 @ContextConfiguration(classes = [AddMealToMenuEndpointTest.TestConfiguration::class])
@@ -40,13 +43,15 @@ internal class AddMealToMenuEndpointTest {
     @Test
     fun `validation error`() {
         mockMvc
-            .post("/rest/shop/v1/menu") {
+            .post(API_V1_MENU_ADD_TO_MENU) {
                 contentType = MediaType.APPLICATION_JSON
                 content =
                     mapper.writeValueAsString(
-                        AddMealToMenuRestRequest(name = "",
+                        AddMealToMenuRestRequest(
+                            name = "",
                             description = "",
-                            price = BigDecimal.ONE.setScale(20))
+                            price = BigDecimal.ONE.setScale(20)
+                        )
                     )
             }.andExpect {
                 content {
@@ -70,13 +75,15 @@ internal class AddMealToMenuEndpointTest {
         val price = price()
 
         mockMvc
-            .post("/rest/shop/v1/menu") {
+            .post(API_V1_MENU_ADD_TO_MENU) {
                 contentType = MediaType.APPLICATION_JSON
                 content =
                     mapper.writeValueAsString(
-                        AddMealToMenuRestRequest(name = name.value,
+                        AddMealToMenuRestRequest(
+                            name = name.value,
                             description = description.value,
-                            price = price.value)
+                            price = price.value
+                        )
                     )
             }.andExpect {
                 content {
@@ -101,14 +108,18 @@ internal class AddMealToMenuEndpointTest {
         val description = mealDescription()
         val price = price()
 
+        val url = API_V1_MENU_ADD_TO_MENU
+
         mockMvc
-            .post("/rest/shop/v1/menu") {
+            .post(url) {
                 contentType = MediaType.APPLICATION_JSON
                 content =
                     mapper.writeValueAsString(
-                        AddMealToMenuRestRequest(name = name.value,
+                        AddMealToMenuRestRequest(
+                            name = name.value,
                             description = description.value,
-                            price = price.value)
+                            price = price.value
+                        )
                     )
             }.andExpect {
                 content {
@@ -116,7 +127,7 @@ internal class AddMealToMenuEndpointTest {
                     content {
                         string("")
                     }
-                    header { string("Location", apiV1Url("/menu/${mealId.value}")) }
+                    header { string("Location", API_V1_MENU_GET_BY_ID.withId(mealId.value).withHost()) }
                 }
             }
         mockAddMealToMenu.verifyInvoked(name, description, price)

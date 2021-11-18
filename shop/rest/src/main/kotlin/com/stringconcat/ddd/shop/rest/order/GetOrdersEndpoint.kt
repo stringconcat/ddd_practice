@@ -5,7 +5,7 @@ import com.stringconcat.ddd.common.rest.CursorPagedModel
 import com.stringconcat.ddd.common.rest.ValidationError
 import com.stringconcat.ddd.common.rest.toInvalidParamsBadRequest
 import com.stringconcat.ddd.shop.domain.order.ShopOrderId
-import com.stringconcat.ddd.shop.rest.API_V1_ORDER
+import com.stringconcat.ddd.shop.rest.API_V1_ORDER_GET_ALL
 import com.stringconcat.ddd.shop.usecase.order.GetOrders
 import com.stringconcat.ddd.shop.usecase.order.GetOrdersUseCaseError
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class GetOrdersEndpoint(private val getOrders: GetOrders) {
 
-    @GetMapping(path = [API_V1_ORDER])
+    @GetMapping(path = [API_V1_ORDER_GET_ALL])
     fun execute(@RequestParam("startId") startId: Long, @RequestParam("limit") limit: Int): ResponseEntity<*> =
         getOrders.execute(ShopOrderId(startId), limit + 1)
             .fold({ it.toRestError() },
@@ -32,18 +32,30 @@ class GetOrdersEndpoint(private val getOrders: GetOrders) {
                         CursorPagedModel.from(it.map { it.toOrderModel() })
                     }
 
-                    model.add(linkTo(methodOn(GetOrdersEndpoint::class.java)
-                        .execute(startId, limit))
-                        .withSelfRel())
+                    model.add(
+                        linkTo(
+                            methodOn(GetOrdersEndpoint::class.java)
+                                .execute(startId, limit)
+                        )
+                            .withSelfRel()
+                    )
 
-                    model.add(linkTo(methodOn(GetOrdersEndpoint::class.java)
-                        .execute(0L, limit))
-                        .withRel("first"))
+                    model.add(
+                        linkTo(
+                            methodOn(GetOrdersEndpoint::class.java)
+                                .execute(0L, limit)
+                        )
+                            .withRel("first")
+                    )
 
                     if (nextId != null) {
-                        model.add(linkTo(methodOn(GetOrdersEndpoint::class.java)
-                            .execute(nextId, limit))
-                            .withRel("next"))
+                        model.add(
+                            linkTo(
+                                methodOn(GetOrdersEndpoint::class.java)
+                                    .execute(nextId, limit)
+                            )
+                                .withRel("next")
+                        )
                     }
                     ResponseEntity.ok(model)
                 })

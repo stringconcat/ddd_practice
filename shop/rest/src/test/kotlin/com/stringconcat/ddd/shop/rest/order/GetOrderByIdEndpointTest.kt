@@ -2,11 +2,13 @@ package com.stringconcat.ddd.shop.rest.order
 
 import APPLICATION_HAL_JSON
 import MockGetOrderById
-import apiV1Url
 import arrow.core.left
 import arrow.core.right
 import com.stringconcat.ddd.shop.domain.order.OrderState
 import com.stringconcat.ddd.shop.domain.orderId
+import com.stringconcat.ddd.shop.rest.API_V1_ORDER_CANCEL_BY_ID
+import com.stringconcat.ddd.shop.rest.API_V1_ORDER_CONFIRM_BY_ID
+import com.stringconcat.ddd.shop.rest.API_V1_ORDER_GET_BY_ID
 import com.stringconcat.ddd.shop.usecase.order.GetOrderById
 import com.stringconcat.ddd.shop.usecase.order.GetOrderByIdUseCaseError
 import io.kotest.matchers.collections.shouldHaveSize
@@ -22,6 +24,8 @@ import org.springframework.http.MediaType
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
+import withHost
+import withId
 
 @WebMvcTest
 @ContextConfiguration(classes = [GetOrderByIdEndpointTest.TestConfiguration::class])
@@ -36,7 +40,7 @@ internal class GetOrderByIdEndpointTest {
     @Test
     fun `order not found`() {
         getOrderById.response = GetOrderByIdUseCaseError.OrderNotFound.left()
-        val url = "/rest/shop/v1/orders/${orderId().value}"
+        val url = API_V1_ORDER_GET_BY_ID.withId(orderId().value).withHost()
         mockMvc.get(url)
             .andExpect {
                 content {
@@ -57,7 +61,7 @@ internal class GetOrderByIdEndpointTest {
         val itemDetails = details.items[0]
 
         getOrderById.response = details.right()
-        val url = "/rest/shop/v1/orders/${details.id.value}"
+        val url = API_V1_ORDER_GET_BY_ID.withId(details.id.value).withHost()
 
         mockMvc.get(url)
             .andExpect {
@@ -73,13 +77,13 @@ internal class GetOrderByIdEndpointTest {
                     jsonPath("$.items[0].count") { value(itemDetails.count.value) }
                     jsonPath("$.version") { value(details.version.value) }
                     jsonPath("$._links.self.href") {
-                        value(apiV1Url("/orders/${details.id.value}"))
+                        value(API_V1_ORDER_GET_BY_ID.withId(details.id.value).withHost())
                     }
                     jsonPath("$._links.confirm.href") {
-                        value(apiV1Url("/orders/${details.id.value}/confirm"))
+                        value(API_V1_ORDER_CONFIRM_BY_ID.withId(details.id.value).withHost())
                     }
                     jsonPath("$._links.cancel.href") {
-                        value(apiV1Url("/orders/${details.id.value}/cancel"))
+                        value(API_V1_ORDER_CANCEL_BY_ID.withId(details.id.value).withHost())
                     }
                 }
             }
@@ -93,7 +97,7 @@ internal class GetOrderByIdEndpointTest {
         val itemDetails = details.items[0]
 
         getOrderById.response = details.right()
-        val url = "/rest/shop/v1/orders/${details.id.value}"
+        val url = API_V1_ORDER_GET_BY_ID.withId(details.id.value).withHost()
 
         mockMvc.get(url)
             .andExpect {
@@ -108,9 +112,7 @@ internal class GetOrderByIdEndpointTest {
                     jsonPath("$.items[0].mealId") { value(itemDetails.mealId.value) }
                     jsonPath("$.items[0].count") { value(itemDetails.count.value) }
                     jsonPath("$.version") { value(details.version.value) }
-                    jsonPath("$._links.self.href") {
-                        value(apiV1Url("/orders/${details.id.value}"))
-                    }
+                    jsonPath("$._links.self.href") { value(url) }
                     jsonPath("$._links.confirm.href") { doesNotExist() }
 
                     jsonPath("$._links.cancel.href") { doesNotExist() }

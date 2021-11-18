@@ -4,6 +4,7 @@ import MockCookOrder
 import arrow.core.left
 import arrow.core.right
 import com.stringconcat.ddd.kitchen.domain.order.orderId
+import com.stringconcat.ddd.kitchen.rest.API_V1_ORDERS_COOK
 import com.stringconcat.ddd.kitchen.usecase.order.CookOrder
 import com.stringconcat.ddd.kitchen.usecase.order.CookOrderUseCaseError
 import notFoundTypeUrl
@@ -17,6 +18,8 @@ import org.springframework.http.MediaType
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.put
+import withHost
+import withId
 
 @WebMvcTest
 @ContextConfiguration(classes = [CookOrderEndpointTest.TestConfiguration::class])
@@ -33,7 +36,7 @@ internal class CookOrderEndpointTest {
         val orderId = orderId()
         mockCookOrder.response = CookOrderUseCaseError.OrderNotFound.left()
 
-        mockMvc.put("/rest/kitchen/v1/orders/${orderId.value}/cook")
+        mockMvc.put(API_V1_ORDERS_COOK.withId(orderId.value).withHost())
             .andExpect {
                 content {
                     contentType(MediaType.APPLICATION_PROBLEM_JSON)
@@ -54,7 +57,7 @@ internal class CookOrderEndpointTest {
         val orderId = orderId()
         mockCookOrder.response = Unit.right()
 
-        mockMvc.put("/rest/kitchen/v1/orders/${orderId.value}/cook")
+        mockMvc.put(API_V1_ORDERS_COOK.withId(orderId.value).withHost())
             .andExpect {
                 content {
                     status { isNoContent() }

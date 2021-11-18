@@ -2,10 +2,10 @@ package com.stringconcat.ddd.kitchen.rest.order
 
 import APPLICATION_HAL_JSON
 import MockGetOrderById
-import apiV1Url
 import arrow.core.left
 import arrow.core.right
 import com.stringconcat.ddd.kitchen.domain.order.orderId
+import com.stringconcat.ddd.kitchen.rest.API_V1_ORDERS_GET_BY_ID
 import com.stringconcat.ddd.kitchen.usecase.order.GetOrderById
 import com.stringconcat.ddd.kitchen.usecase.order.GetOrderByIdUseCaseError
 import io.kotest.matchers.collections.shouldHaveSize
@@ -21,6 +21,8 @@ import org.springframework.http.MediaType
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
+import withHost
+import withId
 
 @WebMvcTest
 @ContextConfiguration(classes = [GetOrderByIdEndpointTest.TestConfiguration::class])
@@ -35,8 +37,8 @@ internal class GetOrderByIdEndpointTest {
     @Test
     fun `order not found`() {
         getOrderById.response = GetOrderByIdUseCaseError.OrderNotFound.left()
-        val url = "/rest/kitchen/v1/orders/${orderId().value}"
-        mockMvc.get(url)
+
+        mockMvc.get(API_V1_ORDERS_GET_BY_ID.withId(orderId().value).withHost())
             .andExpect {
                 content {
                     contentType(MediaType.APPLICATION_PROBLEM_JSON)
@@ -56,7 +58,7 @@ internal class GetOrderByIdEndpointTest {
         val itemDetails = details.meals[0]
 
         getOrderById.response = details.right()
-        val url = "/rest/kitchen/v1/orders/${details.id.value}"
+        val url = API_V1_ORDERS_GET_BY_ID.withId(details.id.value).withHost()
 
         mockMvc.get(url)
             .andExpect {
@@ -68,9 +70,7 @@ internal class GetOrderByIdEndpointTest {
                     jsonPath("$.meals.length()") { value(1) }
                     jsonPath("$.meals[0].meal") { value(itemDetails.meal.value) }
                     jsonPath("$.meals[0].count") { value(itemDetails.count.value) }
-                    jsonPath("$._links.self.href") {
-                        value(apiV1Url("/orders/${details.id.value}"))
-                    }
+                    jsonPath("$._links.self.href") { value(url) }
                 }
             }
         getOrderById.verifyInvoked(details.id)

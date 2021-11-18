@@ -2,7 +2,9 @@ package com.stringconcat.ddd.shop.rest.menu
 
 import APPLICATION_HAL_JSON
 import MockGetMenu
-import apiV1Url
+import com.stringconcat.ddd.shop.rest.API_V1_MENU_DELETE_BY_ID
+import com.stringconcat.ddd.shop.rest.API_V1_MENU_GET_ALL
+import com.stringconcat.ddd.shop.rest.API_V1_MENU_GET_BY_ID
 import com.stringconcat.ddd.shop.usecase.menu.GetMenu
 import mealInfo
 import org.junit.jupiter.api.Test
@@ -13,6 +15,8 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
+import withHost
+import withId
 
 @WebMvcTest
 @ContextConfiguration(classes = [GetMenuEndpointTest.TestConfiguration::class])
@@ -27,13 +31,15 @@ class GetMenuEndpointTest {
     @Test
     fun `get menu`() {
         val meal = getMenu.mealInfo
-        mockMvc.get("/rest/shop/v1/menu")
+
+        val url = API_V1_MENU_GET_ALL.withHost()
+        mockMvc.get(url)
             .andExpect {
                 status { isOk() }
                 content {
                     contentType(APPLICATION_HAL_JSON)
 
-                    jsonPath("$._links.self.href") { value(apiV1Url("/menu")) }
+                    jsonPath("$._links.self.href") { value(url) }
 
                     jsonPath("$._embedded.meals.length()") { value(1) }
                     jsonPath("$._embedded.meals") { isNotEmpty() }
@@ -44,11 +50,11 @@ class GetMenuEndpointTest {
                     jsonPath("$._embedded.meals[0].version") { value(meal.version.value) }
 
                     jsonPath("$._embedded.meals[0]._links.self.href") {
-                        value(apiV1Url("/menu/${meal.id.value}"))
+                        value(API_V1_MENU_GET_BY_ID.withId(meal.id.value).withHost())
                     }
 
                     jsonPath("$._embedded.meals[0]._links.remove.href") {
-                        value(apiV1Url("/menu/${meal.id.value}"))
+                        value(API_V1_MENU_DELETE_BY_ID.withId(meal.id.value).withHost())
                     }
                 }
             }

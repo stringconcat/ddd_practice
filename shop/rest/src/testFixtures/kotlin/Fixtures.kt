@@ -30,10 +30,16 @@ import io.kotest.matchers.shouldBe
 const val APPLICATION_HAL_JSON = "application/hal+json"
 const val API_V1_TYPE_BASE_URL = "http://localhost"
 
-fun apiV1Url(suffix: String) = "http://localhost/rest/shop/v1$suffix"
 fun errorTypeUrl(suffix: String) = "$API_V1_TYPE_BASE_URL/$suffix"
 fun notFoundTypeUrl() = errorTypeUrl("not_found")
 fun badRequestTypeUrl() = errorTypeUrl("bad_request")
+
+fun String.withHost() = API_V1_TYPE_BASE_URL.plus(this)
+fun String.withParameter(name: String, value: Any) = this.replace("{$name}", value.toString())
+
+fun String.withId(id: Long) = this.withParameter("id", id)
+fun String.withStartId(startId: Long) = this.withParameter("startId", startId)
+fun String.withLimit(limit: Int) = this.withParameter("limit", limit)
 
 fun mealInfo(): MealInfo {
     val meal = meal()

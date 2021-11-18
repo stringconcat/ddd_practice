@@ -2,10 +2,10 @@ package com.stringconcat.ddd.shop.rest.menu
 
 import APPLICATION_HAL_JSON
 import MockGetMealById
-import apiV1Url
 import arrow.core.left
 import arrow.core.right
 import com.stringconcat.ddd.shop.domain.mealId
+import com.stringconcat.ddd.shop.rest.API_V1_MENU_GET_BY_ID
 import com.stringconcat.ddd.shop.usecase.menu.GetMealById
 import com.stringconcat.ddd.shop.usecase.menu.GetMealByIdUseCaseError
 import mealInfo
@@ -20,6 +20,8 @@ import org.springframework.http.MediaType
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
+import withHost
+import withId
 
 @WebMvcTest
 @ContextConfiguration(classes = [GetMealByIdEndpointTest.TestConfiguration::class])
@@ -35,7 +37,7 @@ class GetMealByIdEndpointTest {
     fun `meal not found`() {
         getMealById.response = GetMealByIdUseCaseError.MealNotFound.left()
 
-        val url = "/rest/shop/v1/menu/${mealId().value}"
+        val url = API_V1_MENU_GET_BY_ID.withId(mealId().value).withHost()
         mockMvc.get(url)
             .andExpect {
                 content {
@@ -53,7 +55,8 @@ class GetMealByIdEndpointTest {
     fun `returned successfully`() {
         val mealInfo = mealInfo()
         getMealById.response = mealInfo.right()
-        val url = "/rest/shop/v1/menu/${mealInfo.id.value}"
+
+        val url = API_V1_MENU_GET_BY_ID.withId(mealInfo.id.value).withHost()
         mockMvc.get(url)
             .andExpect {
                 status { isOk() }
@@ -65,8 +68,8 @@ class GetMealByIdEndpointTest {
                     jsonPath("$.description") { value(mealInfo.description.value) }
                     jsonPath("$.price") { value(mealInfo.price.value.setScale(1)) }
                     jsonPath("$.version") { value(mealInfo.version.value) }
-                    jsonPath("$._links.self.href") { value(apiV1Url("/menu/${mealInfo.id.value}")) }
-                    jsonPath("$._links.remove.href") { value(apiV1Url("/menu/${mealInfo.id.value}")) }
+                    jsonPath("$._links.self.href") { value(url) }
+                    jsonPath("$._links.remove.href") { value(url) }
                 }
             }
 

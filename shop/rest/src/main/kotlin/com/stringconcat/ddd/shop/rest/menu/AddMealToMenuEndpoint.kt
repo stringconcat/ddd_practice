@@ -7,7 +7,7 @@ import com.stringconcat.ddd.common.rest.toInvalidParamsBadRequest
 import com.stringconcat.ddd.shop.domain.menu.MealDescription
 import com.stringconcat.ddd.shop.domain.menu.MealName
 import com.stringconcat.ddd.shop.domain.menu.Price
-import com.stringconcat.ddd.shop.rest.API_V1_MENU
+import com.stringconcat.ddd.shop.rest.API_V1_MENU_ADD_TO_MENU
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenu
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenuUseCaseError
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo
@@ -21,7 +21,7 @@ import java.math.BigDecimal
 @RestController
 class AddMealToMenuEndpoint(val addMealToMenu: AddMealToMenu) {
 
-    @PostMapping(path = [API_V1_MENU])
+    @PostMapping(path = [API_V1_MENU_ADD_TO_MENU])
     fun execute(@RequestBody request: AddMealToMenuRestRequest): ResponseEntity<*> {
         return MealName.validated(request.name)
             .zip(

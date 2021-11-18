@@ -1,6 +1,6 @@
 package com.stringconcat.ddd.shop.rest.menu
 
-import com.stringconcat.ddd.shop.rest.API_V1_MENU
+import com.stringconcat.ddd.shop.rest.API_V1_MENU_GET_ALL
 import com.stringconcat.ddd.shop.usecase.menu.GetMenu
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController
 class GetMenuEndpoint(private val getMenu: GetMenu) {
 
     @ApiOperation("Get menu")
-    @GetMapping(path = [API_V1_MENU])
+    @GetMapping(path = [API_V1_MENU_GET_ALL])
     fun execute(): ResponseEntity<CollectionModel<MealModel>> {
         val menuModel = getMenu.execute().map { MealModel.from(it) }
         val collectionModel = CollectionModel.of(menuModel)

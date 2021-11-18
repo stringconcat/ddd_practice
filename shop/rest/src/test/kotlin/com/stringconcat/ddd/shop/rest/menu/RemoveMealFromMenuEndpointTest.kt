@@ -4,6 +4,7 @@ import MockRemoveMealFromMenu
 import arrow.core.left
 import arrow.core.right
 import com.stringconcat.ddd.shop.domain.mealId
+import com.stringconcat.ddd.shop.rest.API_V1_MENU_DELETE_BY_ID
 import com.stringconcat.ddd.shop.usecase.menu.RemoveMealFromMenu
 import com.stringconcat.ddd.shop.usecase.menu.RemoveMealFromMenuUseCaseError
 import notFoundTypeUrl
@@ -17,6 +18,8 @@ import org.springframework.http.MediaType
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.delete
+import withHost
+import withId
 
 @WebMvcTest
 @ContextConfiguration(classes = [RemoveMealFromMenuEndpointTest.TestConfiguration::class])
@@ -32,7 +35,7 @@ internal class RemoveMealFromMenuEndpointTest {
     fun `meal not found`() {
         removeMealFromMenu.response = RemoveMealFromMenuUseCaseError.MealNotFound.left()
 
-        val url = "/rest/shop/v1/menu/${mealId().value}"
+        val url = API_V1_MENU_DELETE_BY_ID.withId(mealId().value).withHost()
         mockMvc.delete(url)
             .andExpect {
                 content {
@@ -50,7 +53,7 @@ internal class RemoveMealFromMenuEndpointTest {
     fun `removed successfully`() {
         removeMealFromMenu.response = Unit.right()
 
-        val url = "/rest/shop/v1/menu/${mealId().value}"
+        val url = API_V1_MENU_DELETE_BY_ID.withId(mealId().value).withHost()
         mockMvc.delete(url)
             .andExpect {
                 content {

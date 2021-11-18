@@ -2,7 +2,8 @@ package com.stringconcat.ddd.kitchen.rest.order
 
 import APPLICATION_HAL_JSON
 import MockGetOrders
-import apiV1Url
+import com.stringconcat.ddd.kitchen.rest.API_V1_ORDERS_GET_ALL
+import com.stringconcat.ddd.kitchen.rest.API_V1_ORDERS_GET_BY_ID
 import com.stringconcat.ddd.kitchen.usecase.order.GetOrders
 import orderDetails
 import org.junit.jupiter.api.Test
@@ -12,6 +13,8 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
+import withHost
+import withId
 
 @WebMvcTest
 internal class GetOrdersEndpointTest {
@@ -29,21 +32,21 @@ internal class GetOrdersEndpointTest {
 
         getOrders.response = listOf(single)
 
-        mockMvc.get("/rest/kitchen/v1/orders")
+        val url = API_V1_ORDERS_GET_ALL.withHost()
+
+        mockMvc.get(url)
             .andExpect {
                 status { isOk() }
                 content {
                     contentType(APPLICATION_HAL_JSON)
-                    jsonPath("$._links.self.href") {
-                        value(apiV1Url("/orders"))
-                    }
+                    jsonPath("$._links.self.href") { value(url) }
                     jsonPath("$._embedded.orders[0].id") { value(single.id.value) }
                     jsonPath("$._embedded.orders[0].cooked") { value(single.cooked) }
                     jsonPath("$._embedded.orders[0].meals.length()") { value(single.meals.size) }
                     jsonPath("$._embedded.orders[0].meals[0].meal") { value(firstItem.meal.value) }
                     jsonPath("$._embedded.orders[0].meals[0].count") { value(firstItem.count.value) }
                     jsonPath("$._embedded.orders[0]._links.self.href") {
-                        value(apiV1Url("/orders/${single.id.value}"))
+                        value(API_V1_ORDERS_GET_BY_ID.withId(single.id.value).withHost())
                     }
                 }
             }

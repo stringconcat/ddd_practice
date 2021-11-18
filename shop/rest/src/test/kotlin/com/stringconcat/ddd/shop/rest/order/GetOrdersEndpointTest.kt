@@ -2,11 +2,11 @@ package com.stringconcat.ddd.shop.rest.order
 
 import APPLICATION_HAL_JSON
 import MockGetOrders
-import apiV1Url
 import arrow.core.left
 import arrow.core.right
 import badRequestTypeUrl
 import com.stringconcat.ddd.shop.domain.orderId
+import com.stringconcat.ddd.shop.rest.API_V1_ORDER_GET_WITH_PAGINATION
 import com.stringconcat.ddd.shop.usecase.order.GetOrders
 import com.stringconcat.ddd.shop.usecase.order.GetOrdersUseCaseError
 import orderDetails
@@ -19,6 +19,9 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
+import withHost
+import withLimit
+import withStartId
 
 @WebMvcTest
 internal class GetOrdersEndpointTest {
@@ -35,7 +38,7 @@ internal class GetOrdersEndpointTest {
         val limit = 10
         getOrders.response = GetOrdersUseCaseError.LimitExceed(limit + 1).left()
 
-        val url = "/rest/shop/v1/orders?startId=${startId.value}&limit=$limit"
+        val url = API_V1_ORDER_GET_WITH_PAGINATION.withStartId(startId.value).withLimit(limit)
         mockMvc.get(url)
             .andExpect {
                 content {
@@ -62,18 +65,16 @@ internal class GetOrdersEndpointTest {
 
         getOrders.response = listOf(single).right()
 
-        val url = "/rest/shop/v1/orders?startId=${single.id.value}&limit=$limit"
+        val url = API_V1_ORDER_GET_WITH_PAGINATION.withStartId(single.id.value).withLimit(limit).withHost()
         mockMvc.get(url)
             .andExpect {
                 status { isOk() }
                 content {
                     contentType(APPLICATION_HAL_JSON)
                     jsonPath("$.count") { value(limit) }
-                    jsonPath("$._links.self.href") {
-                        value(apiV1Url("/orders?startId=${single.id.value}&limit=$limit"))
-                    }
+                    jsonPath("$._links.self.href") { value(url) }
                     jsonPath("$._links.first.href") {
-                        value(apiV1Url("/orders?startId=0&limit=$limit"))
+                        value(API_V1_ORDER_GET_WITH_PAGINATION.withStartId(0).withLimit(limit).withHost())
                     }
                     jsonPath("$._links.next.href") {
                         doesNotExist()
@@ -104,7 +105,8 @@ internal class GetOrdersEndpointTest {
 
         getOrders.response = listOf(first, second).right()
 
-        val url = "/rest/shop/v1/orders?startId=${first.id.value}&limit=$limit"
+        val url = API_V1_ORDER_GET_WITH_PAGINATION.withStartId(first.id.value).withLimit(limit).withHost()
+
         mockMvc.get(url)
             .andExpect {
                 status { isOk() }
@@ -112,13 +114,13 @@ internal class GetOrdersEndpointTest {
                     contentType(APPLICATION_HAL_JSON)
                     jsonPath("$.count") { value(limit) }
                     jsonPath("$._links.self.href") {
-                        value(apiV1Url("/orders?startId=${first.id.value}&limit=$limit"))
+                        value(url)
                     }
                     jsonPath("$._links.first.href") {
-                        value(apiV1Url("/orders?startId=0&limit=$limit"))
+                        value(API_V1_ORDER_GET_WITH_PAGINATION.withStartId(0).withLimit(limit).withHost())
                     }
                     jsonPath("$._links.next.href") {
-                        value(apiV1Url("/orders?startId=${second.id.value}&limit=$limit"))
+                        value(API_V1_ORDER_GET_WITH_PAGINATION.withStartId(second.id.value).withLimit(limit).withHost())
                     }
 
                     jsonPath("$._embedded.orders.length()") { value(limit) }
