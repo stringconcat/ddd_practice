@@ -1,13 +1,11 @@
-project.base.archivesName.set("shop-usecase")
+project.base.archivesName.set("shop-in-memory-persistence")
 
 dependencies {
     // project
-    implementation(project(":shop:domain"))
     implementation(project(":common:types"))
     implementation(project(":common:events"))
-
-    // logging
-    implementation(Libs.slf4j_api)
+    implementation(project(":shop:domain"))
+    implementation(project(":shop:usecase"))
 
     // kotlin
     implementation(Libs.kotlin_jdk8)
@@ -25,7 +23,7 @@ dependencies {
     testImplementation(testFixtures(project(":shop:domain")))
 
     testFixturesImplementation(testFixtures(project(":common:types")))
+    testFixturesImplementation(testFixtures(project(":common:events")))
     testFixturesImplementation(testFixtures(project(":shop:domain")))
     testFixturesImplementation(Libs.arrow)
-    testFixturesImplementation(Libs.kotest_junit)
 }

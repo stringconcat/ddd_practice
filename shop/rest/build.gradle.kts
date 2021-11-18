@@ -1,6 +1,6 @@
 project.base.archivesName.set("shop-rest")
 
-plugins{
+plugins {
     id(Plugins.spring_kotlin) version PluginVers.spring_kotlin
 }
 

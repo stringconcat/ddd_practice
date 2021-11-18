@@ -20,7 +20,7 @@ dependencies {
 
     implementation(project(":shop:domain"))
     implementation(project(":shop:usecase"))
-    implementation(project(":shop:persistence"))
+    implementation(project(":shop:in-memory-persistence"))
     implementation(project(":shop:telnet"))
     implementation(project(":shop:web"))
     implementation(project(":shop:payment"))

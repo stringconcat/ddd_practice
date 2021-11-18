@@ -10,10 +10,13 @@ object LibVers {
     const val telnet = "1.1"
     const val slf4j = "1.7.32"
     const val ascii_table = "1.2.0"
+    const val postgresql = "42.3.1"
+    const val liquibase = "4.6.1"
     const val testng = "7.3.0"
     const val commons_net = "3.8.0"
     const val arch_unit = "0.22.0"
     const val faker = "1.0.2"
+    const val testcontainers = "1.16.2"
 
 }
 
@@ -30,6 +33,7 @@ object Libs {
 
     // Spring
     const val spring_boot_starter_web = "org.springframework.boot:spring-boot-starter-web:${LibVers.spring_boot}"
+    const val spring_boot_starter_jdbc = "org.springframework.boot:spring-boot-starter-jdbc:${LibVers.spring_boot}"
     const val spring_boot_starter_logging = "org.springframework.boot:spring-boot-starter-logging:${
         LibVers.spring_boot
     }"
@@ -56,11 +60,15 @@ object Libs {
     const val kotest_arrow = "io.kotest.extensions:kotest-assertions-arrow-jvm:${LibVers.kotest_arrow}"
     const val arch_unit = "com.tngtech.archunit:archunit-junit5:${LibVers.arch_unit}"
     const val faker = "com.github.javafaker:javafaker:${LibVers.faker}"
+    const val testcontainers = "org.testcontainers:postgresql:${LibVers.testcontainers}"
 
     // Telnet deps
     const val testng = "org.testng:testng:${LibVers.testng}"
     const val commons_net = "commons-net:commons-net:${LibVers.commons_net}"
 
+    // Database
+    const val postgresql = "org.postgresql:postgresql:${LibVers.postgresql}"
+    const val liquibase = ("org.liquibase:liquibase-core:${LibVers.liquibase}")
 }
 
 object PluginVers {
