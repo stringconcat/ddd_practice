@@ -15,14 +15,12 @@ dependencies {
     implementation(project(":kitchen:domain"))
     implementation(project(":kitchen:usecase"))
     implementation(project(":kitchen:persistence"))
-    implementation(project(":kitchen:web"))
     implementation(project(":kitchen:rest"))
 
     implementation(project(":shop:domain"))
     implementation(project(":shop:usecase"))
     implementation(project(":shop:in-memory-persistence"))
     implementation(project(":shop:telnet"))
-    implementation(project(":shop:web"))
     implementation(project(":shop:payment"))
     implementation(project(":shop:rest"))
 

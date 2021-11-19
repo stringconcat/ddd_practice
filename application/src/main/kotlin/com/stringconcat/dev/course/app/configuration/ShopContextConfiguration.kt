@@ -64,7 +64,6 @@ import com.stringconcat.ddd.shop.usecase.order.scenarios.GetLastOrderStateUseCas
 import com.stringconcat.ddd.shop.usecase.order.scenarios.GetOrderByIdUseCase
 import com.stringconcat.ddd.shop.usecase.order.scenarios.GetOrdersUseCase
 import com.stringconcat.ddd.shop.usecase.order.scenarios.PayOrderHandler
-import com.stringconcat.ddd.shop.web.menu.MenuController
 import com.stringconcat.dev.course.app.event.EventPublisherImpl
 import com.stringconcat.shop.payment.SimplePaymentUrlProvider
 import java.net.URL
@@ -246,10 +245,6 @@ class ShopContextConfiguration(
 
     @Bean
     fun paymentUrlProvider() = SimplePaymentUrlProvider(URL("http://localhost:8080"))
-
-    @Bean
-    fun menuController(removeMealFromMenu: RemoveMealFromMenu, getMenu: GetMenu) =
-        MenuController(removeMealFromMenu, getMenu)
 
     @Bean
     fun getMenuCommand(useCase: GetMenu) = GetMenuCommand(useCase)

@@ -15,7 +15,7 @@ class MetricsGuard {
     val SHOP_DOMAIN = "com.stringconcat.ddd.shop.domain"
     val SHOP_PERSISTANCE = "com.stringconcat.ddd.shop.persistence"
     val SHOP_USECASE = "com.stringconcat.ddd.shop.usecase"
-    val SHOP_WEB = "com.stringconcat.ddd.shop.web"
+    val SHOP_WEB = "com.stringconcat.ddd.shop.rest"
 
     @ArchTest
     fun `uncle bob metrics for shop`(importedClasses: JavaClasses) {

@@ -16,7 +16,6 @@ class CleanArchitectureGuard {
             .applicationServices("com.stringconcat.ddd.shop.usecase..")
             .adapter("persistence", "com.stringconcat.ddd.shop.persistence..")
             .adapter("telnet", "com.stringconcat.ddd.shop.telnet..")
-            .adapter("web", "com.stringconcat.ddd.shop.web..")
             .adapter("rest", "com.stringconcat.ddd.shop.rest..")
 
     @ArchTest
@@ -26,7 +25,6 @@ class CleanArchitectureGuard {
             .domainServices("com.stringconcat.ddd.kitchen.domain..")
             .applicationServices("com.stringconcat.ddd.kitchen.usecase..")
             .adapter("persistence", "com.stringconcat.ddd.kitchen.persistence..")
-            .adapter("web", "com.stringconcat.ddd.kitchen.web..")
             .adapter("rest", "com.stringconcat.ddd.kitchen.rest..")
 
     @ArchTest
