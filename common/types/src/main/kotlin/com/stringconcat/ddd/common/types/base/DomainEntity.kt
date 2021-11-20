@@ -3,9 +3,10 @@ package com.stringconcat.ddd.common.types.base
 open class DomainEntity<T> protected constructor(
     val id: T,
     var version: Version,
+    events: List<DomainEvent>
 ) {
 
-    private var events = ArrayList<DomainEvent>()
+    private var events = ArrayList<DomainEvent>(events)
 
     protected fun addEvent(event: DomainEvent) {
         if (events.isEmpty()) {

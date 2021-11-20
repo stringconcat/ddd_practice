@@ -43,5 +43,6 @@ dependencies {
     testFixturesImplementation(Libs.testcontainers)
     testFixturesImplementation(Libs.spring_boot_starter_jdbc)
     testFixturesImplementation(Libs.arrow)
+    testFixturesImplementation(Libs.kotest_junit)
     testFixturesImplementation(Libs.liquibase)
 }

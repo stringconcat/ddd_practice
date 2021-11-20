@@ -32,6 +32,7 @@
                  id BIGINT PRIMARY KEY NOT NULL,
                  name TEXT NOT NULL UNIQUE,
                  description TEXT,
+                 removed BOOLEAN NOT NULL,
                  price NUMERIC NOT NULL,
                  version BIGINT NOT NULL);
             ]]>

@@ -57,7 +57,7 @@ internal class DomainEntityTest {
     }
 }
 
-internal class TestEntity(id: Long, version: Version) : DomainEntity<Long>(id, version) {
+internal class TestEntity(id: Long, version: Version) : DomainEntity<Long>(id, version, emptyList()) {
 
     fun doSomething() {
         addEvent(TestEvent())
