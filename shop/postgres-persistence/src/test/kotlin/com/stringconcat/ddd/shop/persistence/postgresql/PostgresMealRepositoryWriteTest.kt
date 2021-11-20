@@ -1,10 +1,9 @@
 package com.stringconcat.ddd.shop.persistence.postgresql
 
+import com.stringconcat.ddd.shop.domain.mealId
 import com.stringconcat.ddd.shop.domain.mealName
-import com.stringconcat.ddd.shop.domain.menu.Meal
 import com.stringconcat.ddd.shop.domain.menu.MealAddedToMenuDomainEvent
 import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.matchers.shouldBe
 import javax.sql.DataSource
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -12,7 +11,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
 
 @SpringJUnitConfig(classes = [TestConfiguration::class])
-class PostgresMealRepositoryTest {
+class PostgresMealRepositoryWriteTest {
 
     @Autowired
     private lateinit var dataSource: DataSource
@@ -29,7 +28,7 @@ class PostgresMealRepositoryTest {
 
         postgresMealRepository.save(meal)
 
-        checkExistsInDatabase(meal)
+        meal.checkExistsInDatabase(jdbcTemplate)
         publisher.verifyContains(listOf(MealAddedToMenuDomainEvent(mealId = meal.id)))
     }
 
@@ -38,11 +37,13 @@ class PostgresMealRepositoryTest {
         val publisher = MockEventPublisher()
         val postgresMealRepository = PostgresMealRepository(dataSource, publisher)
 
-        val meal = newMeal()
-        postgresMealRepository.save(meal)
+        val mealId = mealId()
+        val first = newMeal(mealId = mealId)
+        val second = newMeal(mealId = mealId)
+        postgresMealRepository.save(first)
 
-        shouldThrow<RaceConditionException> {
-            postgresMealRepository.save(meal)
+        shouldThrow<StorageConflictException> {
+            postgresMealRepository.save(second)
         }
     }
 
@@ -57,7 +58,7 @@ class PostgresMealRepositoryTest {
 
         val second = newMeal(mealName = mealName)
 
-        shouldThrow<RaceConditionException> {
+        shouldThrow<StorageConflictException> {
             postgresMealRepository.save(second)
         }
     }
@@ -71,31 +72,35 @@ class PostgresMealRepositoryTest {
         meal.removeMealFromMenu()
         postgresMealRepository.save(meal)
 
-        checkExistsInDatabase(meal)
+        meal.checkExistsInDatabase(jdbcTemplate)
     }
 
-    // saving failed if version is outdated
-    private fun checkExistsInDatabase(meal: Meal) {
+    @Test
+    fun `save again without changes`() {
+        val publisher = MockEventPublisher()
+        val postgresMealRepository = PostgresMealRepository(dataSource, publisher)
+        val meal = newMeal()
+        postgresMealRepository.save(meal)
 
-        val params = mapOf(
-            "id" to meal.id.value,
-            "name" to meal.name.value,
-            "description" to meal.description.value,
-            "removed" to meal.removed,
-            "price" to meal.price.value,
-            "version" to meal.version.value)
+        postgresMealRepository.save(meal)
 
-        val exists = jdbcTemplate.queryForObject("""
-            SELECT EXISTS(SELECT 1 FROM shop.meal 
-                WHERE id=:id 
-                AND name = :name 
-                AND description = :description
-                AND price = :price
-                AND removed = :removed
-                AND version = :version)
-            
-        """.trimIndent(), params, Boolean::class.java)
+        meal.checkExistsInDatabase(jdbcTemplate)
+        publisher.verifyContains(listOf(MealAddedToMenuDomainEvent(mealId = meal.id)))
+    }
 
-        exists shouldBe true
+    @Test
+    fun `saving failed if version is outdated`() {
+        val postgresMealRepository = PostgresMealRepository(dataSource, MockEventPublisher())
+        val meal = newMeal()
+        postgresMealRepository.save(meal)
+
+        val copyOfMeal = meal.copy()
+        meal.removeMealFromMenu()
+        postgresMealRepository.save(meal)
+        copyOfMeal.removeMealFromMenu()
+
+        shouldThrow<StorageConflictException> {
+            postgresMealRepository.save(copyOfMeal)
+        }
     }
 }

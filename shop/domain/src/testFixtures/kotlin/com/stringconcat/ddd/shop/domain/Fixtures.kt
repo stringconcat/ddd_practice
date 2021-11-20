@@ -25,6 +25,7 @@ import com.stringconcat.ddd.shop.domain.order.CustomerHasActiveOrder
 import java.math.BigDecimal
 import java.time.OffsetDateTime
 import java.util.UUID
+import kotlin.math.absoluteValue
 import kotlin.random.Random
 
 fun address(): Address {
@@ -38,7 +39,7 @@ fun address(): Address {
     return result.value
 }
 
-fun mealName(name: String = faker.food().dish()): MealName {
+fun mealName(name: String = "${faker.food().dish()} [${Random.nextInt()}]"): MealName {
     val result = MealName.from(name)
     check(result is Either.Right<MealName>)
     return result.value
@@ -58,7 +59,7 @@ fun price(value: BigDecimal = BigDecimal(Random.nextInt(1, 500000))): Price {
 
 fun version() = Version.new()
 
-fun mealId(id: Long = faker.number().randomNumber()) = MealId(id)
+fun mealId(id: Long = faker.number().randomNumber().absoluteValue) = MealId(id)
 
 fun meal(id: MealId = mealId(), removed: Boolean = false): Meal {
 

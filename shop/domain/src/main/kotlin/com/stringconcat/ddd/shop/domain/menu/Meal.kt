@@ -4,7 +4,6 @@ import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
 import com.stringconcat.ddd.common.types.base.AggregateRoot
-import com.stringconcat.ddd.common.types.base.DomainEvent
 import com.stringconcat.ddd.common.types.base.Version
 import com.stringconcat.ddd.common.types.error.BusinessError
 
@@ -14,8 +13,7 @@ class Meal internal constructor(
     val description: MealDescription,
     val price: Price,
     version: Version,
-    events: List<DomainEvent> = emptyList(),
-) : AggregateRoot<MealId>(id, version, events) {
+) : AggregateRoot<MealId>(id, version) {
 
     var removed: Boolean = false
         internal set
@@ -49,9 +47,10 @@ class Meal internal constructor(
                     name = name,
                     description = description,
                     price = price,
-                    version = Version.new(),
-                    events = listOf(MealAddedToMenuDomainEvent(id))
-                ).right()
+                    version = Version.new()
+                ).apply {
+                    addEvent(MealAddedToMenuDomainEvent(id))
+                }.right()
             }
     }
 }

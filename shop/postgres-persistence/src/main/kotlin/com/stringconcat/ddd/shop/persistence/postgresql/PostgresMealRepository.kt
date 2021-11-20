@@ -2,6 +2,7 @@ package com.stringconcat.ddd.shop.persistence.postgresql
 
 import com.stringconcat.ddd.common.events.DomainEventPublisher
 import com.stringconcat.ddd.shop.domain.menu.Meal
+import com.stringconcat.ddd.shop.domain.menu.MealAddedToMenuDomainEvent
 import com.stringconcat.ddd.shop.usecase.menu.access.MealPersister
 import javax.sql.DataSource
 import org.springframework.dao.DuplicateKeyException
@@ -13,21 +14,20 @@ class PostgresMealRepository(
 ) : MealPersister {
     private val jdbcTemplate = NamedParameterJdbcTemplate(dataSource)
 
-    @Suppress("SwallowedException") // временно, потом уберу
     override fun save(meal: Meal) {
-
-        try {
-            if (meal.version.isNew()) {
-                insert(meal)
-            } else {
-                update(meal)
-            }
-        } catch (ex: DuplicateKeyException) {
-            throw RaceConditionException(ex.message)
-        }
-
         val events = meal.popEvents()
-        eventPublisher.publish(events)
+        if (events.isNotEmpty()) {
+            try {
+                if (events.contains(MealAddedToMenuDomainEvent(meal.id))) {
+                    insert(meal)
+                } else {
+                    update(meal)
+                }
+            } catch (ex: DuplicateKeyException) {
+                throw StorageConflictException(cause = ex)
+            }
+            eventPublisher.publish(events)
+        }
     }
 
     private fun update(meal: Meal) {
@@ -50,7 +50,7 @@ class PostgresMealRepository(
         """.trimIndent(), params)
 
         if (updated == 0) {
-            throw RaceConditionException("Meal #${meal.id.value} [version = ${meal.version.value}] is outdated")
+            throw StorageConflictException("Meal #${meal.id.value} [version = ${meal.version.value}] is outdated")
         }
     }
 
