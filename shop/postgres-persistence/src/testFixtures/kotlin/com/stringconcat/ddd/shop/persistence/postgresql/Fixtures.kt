@@ -1,7 +1,6 @@
 package com.stringconcat.ddd.shop.persistence.postgresql
 
 import arrow.core.Either
-import arrow.core.leftIor
 import com.stringconcat.ddd.common.events.DomainEventPublisher
 import com.stringconcat.ddd.common.types.base.DomainEvent
 import com.stringconcat.ddd.shop.domain.mealDescription
@@ -17,7 +16,6 @@ import com.stringconcat.ddd.shop.domain.price
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.kotest.matchers.shouldBe
-import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 
 fun newMeal(mealId: MealId = mealId(), mealName: MealName = mealName()): Meal {
@@ -70,6 +68,10 @@ class MockEventPublisher : DomainEventPublisher {
     }
 }
 
+fun cleanMealTable(jdbcTemplate: NamedParameterJdbcTemplate) {
+    jdbcTemplate.jdbcTemplate.execute("TRUNCATE TABLE shop.meal")
+}
+
 fun Meal.checkExistsInDatabase(jdbcTemplate: NamedParameterJdbcTemplate) {
 
     val params = mapOf(
@@ -92,4 +94,13 @@ fun Meal.checkExistsInDatabase(jdbcTemplate: NamedParameterJdbcTemplate) {
         """.trimIndent(), params, Boolean::class.java)
 
     exists shouldBe true
+}
+
+fun Meal.checkEquals(meal: Meal) {
+    this.id shouldBe meal.id
+    this.name shouldBe meal.name
+    this.description shouldBe meal.description
+    this.price shouldBe meal.price
+    this.version shouldBe meal.version
+    this.removed shouldBe meal.removed
 }
