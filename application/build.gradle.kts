@@ -20,6 +20,7 @@ dependencies {
     implementation(project(":shop:domain"))
     implementation(project(":shop:usecase"))
     implementation(project(":shop:in-memory-persistence"))
+    implementation(project(":shop:postgres-persistence"))
     implementation(project(":shop:telnet"))
     implementation(project(":shop:payment"))
     implementation(project(":shop:rest"))

@@ -4,9 +4,10 @@ import com.stringconcat.ddd.common.events.DomainEventPublisher
 import com.stringconcat.ddd.shop.persistence.cart.InMemoryCartRepository
 import com.stringconcat.ddd.shop.persistence.cart.InMemoryIncrementalCartIdGenerator
 import com.stringconcat.ddd.shop.persistence.menu.InMemoryIncrementalMealIdGenerator
-import com.stringconcat.ddd.shop.persistence.menu.InMemoryMealRepository
 import com.stringconcat.ddd.shop.persistence.order.InMemoryIncrementalShopOrderIdGenerator
 import com.stringconcat.ddd.shop.persistence.order.InMemoryShopOrderRepository
+import com.stringconcat.ddd.shop.persistence.postgresql.PostgresMealRepository
+import javax.sql.DataSource
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -16,7 +17,8 @@ class ShopPersistenceConfiguration {
     fun cartRepository(eventPublisher: DomainEventPublisher) = InMemoryCartRepository(eventPublisher)
 
     @Bean
-    fun mealRepository(eventPublisher: DomainEventPublisher) = InMemoryMealRepository(eventPublisher)
+    fun mealRepository(dataSource: DataSource, eventPublisher: DomainEventPublisher) =
+        PostgresMealRepository(dataSource, eventPublisher)
 
     @Bean
     fun shopOrderRepository(eventPublisher: DomainEventPublisher) = InMemoryShopOrderRepository(eventPublisher)
