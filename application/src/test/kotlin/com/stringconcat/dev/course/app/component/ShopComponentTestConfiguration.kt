@@ -13,8 +13,10 @@ import com.stringconcat.dev.course.app.configuration.shop.ShopRestConfiguration
 import com.stringconcat.dev.course.app.configuration.shop.ShopTelnetConfiguration
 import com.stringconcat.dev.course.app.configuration.shop.ShopUseCaseConfiguration
 import com.stringconcat.dev.course.app.event.EventPublisherImpl
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.DependsOn
 import org.springframework.context.annotation.Import
 
 @Configuration
@@ -25,9 +27,20 @@ import org.springframework.context.annotation.Import
     ShopUseCaseConfiguration::class,
     ShopComponentTestPersistenceConfiguration::class,
     TelnetConfiguration::class)
-class ShopComponentTestConfiguration {
+class ShopComponentTestConfiguration(
+    @Value("\${telnet.port}")
+    private val telnetPort: Int,
+) {
     @Bean
     fun eventPublisher() = EventPublisherImpl()
+
+    @Bean(destroyMethod = "disconnect")
+    @DependsOn("telnetServer")
+    fun telnetTelnetClient(): TestTelnetClient {
+        val telnetClient = TestTelnetClient()
+        telnetClient.connect("localhost", telnetPort)
+        return telnetClient
+    }
 }
 
 @Configuration

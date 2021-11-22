@@ -60,6 +60,7 @@ dependencies {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
     testImplementation(Libs.arch_unit)
+    testImplementation(Libs.commons_net)
 
     testImplementation(testFixtures(project(":common:types")))
     testImplementation(testFixtures(project(":shop:domain")))
