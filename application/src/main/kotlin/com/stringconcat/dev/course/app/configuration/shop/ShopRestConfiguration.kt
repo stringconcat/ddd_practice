@@ -33,7 +33,7 @@ class ShopRestConfiguration {
         RemoveMealFromMenuEndpoint(removeMealFromMenu)
 
     @Bean
-    fun getMenuEndpoint(getMealById: GetMealById) = GetMealByIdEndpoint(getMealById)
+    fun getMealByIdEndpoint(getMealById: GetMealById) = GetMealByIdEndpoint(getMealById)
 
     @Bean
     fun getOrderByIdEndpoint(getOrderById: GetOrderById) = GetOrderByIdEndpoint(getOrderById)

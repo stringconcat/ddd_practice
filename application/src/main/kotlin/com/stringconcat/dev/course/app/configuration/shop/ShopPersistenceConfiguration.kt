@@ -3,7 +3,6 @@ package com.stringconcat.dev.course.app.configuration.shop
 import com.stringconcat.ddd.common.events.DomainEventPublisher
 import com.stringconcat.ddd.shop.persistence.cart.InMemoryCartRepository
 import com.stringconcat.ddd.shop.persistence.cart.InMemoryIncrementalCartIdGenerator
-import com.stringconcat.ddd.shop.persistence.menu.InMemoryIncrementalMealIdGenerator
 import com.stringconcat.ddd.shop.persistence.order.InMemoryIncrementalShopOrderIdGenerator
 import com.stringconcat.ddd.shop.persistence.order.InMemoryShopOrderRepository
 import com.stringconcat.ddd.shop.persistence.postgresql.PostgresMealIdGenerator
