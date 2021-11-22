@@ -6,6 +6,7 @@ import com.stringconcat.ddd.shop.persistence.cart.InMemoryIncrementalCartIdGener
 import com.stringconcat.ddd.shop.persistence.menu.InMemoryIncrementalMealIdGenerator
 import com.stringconcat.ddd.shop.persistence.order.InMemoryIncrementalShopOrderIdGenerator
 import com.stringconcat.ddd.shop.persistence.order.InMemoryShopOrderRepository
+import com.stringconcat.ddd.shop.persistence.postgresql.PostgresMealIdGenerator
 import com.stringconcat.ddd.shop.persistence.postgresql.PostgresMealRepository
 import javax.sql.DataSource
 import org.springframework.context.annotation.Bean
@@ -27,7 +28,7 @@ class ShopPersistenceConfiguration {
     fun cartIdGenerator() = InMemoryIncrementalCartIdGenerator()
 
     @Bean
-    fun mealIdGenerator() = InMemoryIncrementalMealIdGenerator()
+    fun mealIdGenerator(dataSource: DataSource) = PostgresMealIdGenerator(dataSource)
 
     @Bean
     fun shopOrderIdGenerator() = InMemoryIncrementalShopOrderIdGenerator()
