@@ -1,12 +1,16 @@
 package com.stringconcat.ddd.shop.usecase
 
+import com.stringconcat.ddd.common.types.count
 import com.stringconcat.ddd.shop.domain.cart.Cart
 import com.stringconcat.ddd.shop.domain.cart.CartId
 import com.stringconcat.ddd.shop.domain.cart.CustomerId
 import com.stringconcat.ddd.shop.domain.meal
 import com.stringconcat.ddd.shop.domain.menu.Meal
+import com.stringconcat.ddd.shop.domain.menu.MealDescription
 import com.stringconcat.ddd.shop.domain.menu.MealId
 import com.stringconcat.ddd.shop.domain.menu.MealName
+import com.stringconcat.ddd.shop.domain.menu.MealRemovedFromMenuDomainEvent
+import com.stringconcat.ddd.shop.domain.menu.Price
 import com.stringconcat.ddd.shop.domain.order
 import com.stringconcat.ddd.shop.domain.order.CustomerHasActiveOrder
 import com.stringconcat.ddd.shop.domain.order.OrderState
@@ -19,6 +23,9 @@ import com.stringconcat.ddd.shop.usecase.menu.access.MealExtractor
 import com.stringconcat.ddd.shop.usecase.menu.access.MealPersister
 import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderExtractor
 import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderPersister
+import io.kotest.matchers.collections.shouldContainExactly
+import io.kotest.matchers.maps.shouldContainExactly
+import io.kotest.matchers.shouldBe
 import java.util.TreeMap
 
 fun removedMeal() = meal(removed = true)
@@ -43,15 +50,59 @@ fun activeOrder() = order(state = OrderState.CONFIRMED)
 
 fun nonActiveOrder() = order(state = OrderState.CANCELLED)
 
-class TestMealPersister : HashMap<MealId, Meal>(), MealPersister {
+class MockMealPersister : MealPersister {
+
+    lateinit var meal: Meal
+
     override fun save(meal: Meal) {
-        this[meal.id] = meal
+        this.meal = meal
+    }
+
+    fun verifyInvoked(meal: Meal) {
+        this.meal shouldBe meal
+    }
+
+    fun verifyInvoked(id: MealId, name: MealName, description: MealDescription, price: Price) {
+        this.meal.id shouldBe id
+        this.meal.name shouldBe name
+        this.meal.description shouldBe description
+        this.meal.price shouldBe price
+    }
+
+    fun verifyEventsAfterRemoving(id: MealId) {
+        this.meal.popEvents() shouldContainExactly listOf(MealRemovedFromMenuDomainEvent(id))
+    }
+
+    fun verifyEmpty() {
+        ::meal.isInitialized shouldBe false
     }
 }
 
-class TestCartPersister : HashMap<CustomerId, Cart>(), CartPersister {
+class MockCartPersister : CartPersister {
+
+    lateinit var cart: Cart
+
     override fun save(cart: Cart) {
-        this[cart.forCustomer] = cart
+        this.cart = cart
+    }
+
+    fun verifyInvoked(cart: Cart) {
+        this.cart shouldBe cart
+    }
+
+    fun verifyInvoked(cart: Cart, idMeal: MealId) {
+        this.cart shouldBe cart
+        this.cart.meals() shouldContainExactly mapOf(idMeal to count(1))
+    }
+
+    fun verifyInvoked(id: CartId, customerId: CustomerId, idMeal: MealId) {
+        this.cart.id shouldBe id
+        this.cart.forCustomer shouldBe customerId
+        this.cart.meals() shouldContainExactly mapOf(idMeal to count(1))
+    }
+
+    fun verifyEmpty() {
+        ::cart.isInitialized shouldBe false
     }
 }
 

@@ -7,12 +7,10 @@ import com.stringconcat.ddd.shop.domain.menu.MealAlreadyExists
 import com.stringconcat.ddd.shop.domain.menu.MealIdGenerator
 import com.stringconcat.ddd.shop.domain.menu.MealName
 import com.stringconcat.ddd.shop.domain.price
-import com.stringconcat.ddd.shop.usecase.TestMealPersister
+import com.stringconcat.ddd.shop.usecase.MockMealPersister
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenuUseCaseError
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
-import io.kotest.matchers.maps.shouldBeEmpty
-import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
@@ -26,7 +24,7 @@ internal class AddMealToMenuUseCaseTest {
         val description = mealDescription()
         val price = price()
 
-        val persister = TestMealPersister()
+        val persister = MockMealPersister()
 
         val result = AddMealToMenuUseCase(
             mealPersister = persister,
@@ -44,13 +42,7 @@ internal class AddMealToMenuUseCaseTest {
             it shouldBe id
         }
 
-        val meal = persister[id]
-        meal.shouldNotBeNull()
-
-        meal.id shouldBe id
-        meal.name shouldBe name
-        meal.description shouldBe description
-        meal.price shouldBe price
+        persister.verifyInvoked(id, name, description, price)
     }
 
     @Test
@@ -60,7 +52,7 @@ internal class AddMealToMenuUseCaseTest {
         val description = mealDescription()
         val price = price()
 
-        val persister = TestMealPersister()
+        val persister = MockMealPersister()
 
         val result = AddMealToMenuUseCase(
             mealPersister = persister,
@@ -73,7 +65,7 @@ internal class AddMealToMenuUseCaseTest {
         )
 
         result shouldBeLeft AddMealToMenuUseCaseError.AlreadyExists
-        persister.shouldBeEmpty()
+        persister.verifyEmpty()
     }
 
     object TestMealIdGenerator : MealIdGenerator {
