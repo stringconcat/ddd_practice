@@ -277,14 +277,55 @@ class MockMealExtractor : MealExtractor {
     }
 }
 
-class TestShopOrderExtractor : ShopOrderExtractor,
-    TreeMap<ShopOrderId, ShopOrder>({ k1, k2 -> k1.value.compareTo(k2.value) }) {
-    override fun getById(orderId: ShopOrderId) = this[orderId]
+class MockShopOrderExtractor : ShopOrderExtractor {
 
-    override fun getLastOrder(forCustomer: CustomerId): ShopOrder? {
-        return this.values.lastOrNull { it.forCustomer == forCustomer }
+    lateinit var order: ShopOrder
+
+    lateinit var id: ShopOrderId
+    lateinit var forCustomer: CustomerId
+    var all: Boolean = false
+
+    constructor()
+    constructor(order: ShopOrder) {
+        this.order = order
     }
 
-    override fun getAll(startId: ShopOrderId, limit: Int) =
-        tailMap(startId).toList().take(limit).map { it.second }
+    override fun getById(orderId: ShopOrderId): ShopOrder? {
+        this.id = orderId
+        return if (::order.isInitialized && this.order.id == id) this.order else null
+    }
+
+    override fun getLastOrder(forCustomer: CustomerId): ShopOrder? {
+        this.forCustomer = forCustomer
+        return if (::order.isInitialized && this.order.forCustomer == forCustomer) this.order else null
+    }
+
+    override fun getAll(startId: ShopOrderId, limit: Int): List<ShopOrder> {
+        this.all = true
+        return if (::order.isInitialized) return listOf(this.order) else emptyList()
+    }
+
+    fun verifyInvokedGetById(id: ShopOrderId) {
+        this.id shouldBe id
+        this.all shouldBe false
+        ::forCustomer.isInitialized shouldBe false
+    }
+
+    fun verifyInvokedGetLastOrder(forCustomer: CustomerId) {
+        this.forCustomer shouldBe forCustomer
+        this.all shouldBe false
+        ::id.isInitialized shouldBe false
+    }
+
+    fun verifyInvokedGetAll() {
+        this.all shouldBe true
+        ::id.isInitialized shouldBe false
+        ::forCustomer.isInitialized shouldBe false
+    }
+
+    fun verifyEmpty() {
+        this.all shouldBe false
+        ::id.isInitialized shouldBe false
+        ::forCustomer.isInitialized shouldBe false
+    }
 }

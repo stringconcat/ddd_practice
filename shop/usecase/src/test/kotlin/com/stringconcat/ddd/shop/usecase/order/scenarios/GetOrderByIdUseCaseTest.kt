@@ -2,7 +2,7 @@ package com.stringconcat.ddd.shop.usecase.order.scenarios
 
 import com.stringconcat.ddd.shop.domain.order
 import com.stringconcat.ddd.shop.domain.orderId
-import com.stringconcat.ddd.shop.usecase.TestShopOrderExtractor
+import com.stringconcat.ddd.shop.usecase.MockShopOrderExtractor
 import com.stringconcat.ddd.shop.usecase.order.GetOrderByIdUseCaseError
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
@@ -15,18 +15,20 @@ internal class GetOrderByIdUseCaseTest {
 
     @Test
     fun `order not found`() {
-        val extractor = TestShopOrderExtractor()
+        val extractor = MockShopOrderExtractor()
         val useCase = GetOrderByIdUseCase(extractor)
-        val result = useCase.execute(orderId())
+
+        val orderId = orderId()
+        val result = useCase.execute(orderId)
+
         result shouldBeLeft GetOrderByIdUseCaseError.OrderNotFound
+        extractor.verifyInvokedGetById(orderId)
     }
 
     @Test
     fun `order extracted successfully`() {
         val order = order()
-        val extractor = TestShopOrderExtractor().apply {
-            this[order.id] = order
-        }
+        val extractor = MockShopOrderExtractor(order)
         val useCase = GetOrderByIdUseCase(extractor)
 
         val result = useCase.execute(order.id)
@@ -48,5 +50,6 @@ internal class GetOrderByIdUseCaseTest {
             }
             srcItems.shouldHaveSize(1)
         }
+        extractor.verifyInvokedGetById(order.id)
     }
 }

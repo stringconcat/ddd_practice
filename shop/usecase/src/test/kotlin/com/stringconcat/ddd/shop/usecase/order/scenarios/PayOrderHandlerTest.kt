@@ -1,7 +1,7 @@
 package com.stringconcat.ddd.shop.usecase.order.scenarios
 
 import com.stringconcat.ddd.shop.domain.orderId
-import com.stringconcat.ddd.shop.usecase.TestShopOrderExtractor
+import com.stringconcat.ddd.shop.usecase.MockShopOrderExtractor
 import com.stringconcat.ddd.shop.usecase.MockShopOrderPersister
 import com.stringconcat.ddd.shop.usecase.order.PayOrderHandlerError
 import com.stringconcat.ddd.shop.usecase.orderNotReadyForPay
@@ -16,9 +16,7 @@ internal class PayOrderHandlerTest {
     fun `successfully payed`() {
 
         val order = orderReadyForPay()
-        val extractor = TestShopOrderExtractor().apply {
-            this[order.id] = order
-        }
+        val extractor = MockShopOrderExtractor(order)
         val persister = MockShopOrderPersister()
 
         val handler = PayOrderHandler(extractor, persister)
@@ -27,6 +25,7 @@ internal class PayOrderHandlerTest {
         result.shouldBeRight()
 
         persister.verifyInvoked(order)
+        extractor.verifyInvokedGetById(order.id)
         persister.verifyEventsAfterPayment(order.id)
     }
 
@@ -34,27 +33,28 @@ internal class PayOrderHandlerTest {
     fun `invalid state`() {
 
         val order = orderNotReadyForPay()
-        val extractor = TestShopOrderExtractor().apply {
-            this[order.id] = order
-        }
+        val extractor = MockShopOrderExtractor(order)
         val persister = MockShopOrderPersister()
 
         val handler = PayOrderHandler(extractor, persister)
         val result = handler.execute(orderId = order.id)
 
         persister.verifyEmpty()
+        extractor.verifyInvokedGetById(order.id)
         result shouldBeLeft PayOrderHandlerError.InvalidOrderState
     }
 
     @Test
     fun `order not found`() {
-        val extractor = TestShopOrderExtractor()
+        val extractor = MockShopOrderExtractor()
         val persister = MockShopOrderPersister()
 
         val handler = PayOrderHandler(extractor, persister)
-        val result = handler.execute(orderId = orderId())
+        val orderId = orderId()
+        val result = handler.execute(orderId = orderId)
 
         persister.verifyEmpty()
+        extractor.verifyInvokedGetById(orderId)
         result shouldBeLeft PayOrderHandlerError.OrderNotFound
     }
 }

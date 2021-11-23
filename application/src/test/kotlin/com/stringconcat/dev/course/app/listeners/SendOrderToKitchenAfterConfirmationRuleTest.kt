@@ -14,7 +14,7 @@ import com.stringconcat.ddd.shop.domain.order.ShopOrderConfirmedDomainEvent
 import com.stringconcat.ddd.shop.domain.orderId
 import com.stringconcat.ddd.shop.domain.price
 import com.stringconcat.ddd.shop.usecase.MockMealExtractor
-import com.stringconcat.ddd.shop.usecase.TestShopOrderExtractor
+import com.stringconcat.ddd.shop.usecase.MockShopOrderExtractor
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.collections.shouldContainExactly
@@ -31,9 +31,7 @@ class SendOrderToKitchenAfterConfirmationRuleTest {
         val count = count()
         val order = order(orderItems = setOf(OrderItem(meal.id, price, count)))
 
-        val orderExtractor = TestShopOrderExtractor().apply {
-            this[order.id] = order
-        }
+        val orderExtractor = MockShopOrderExtractor(order)
 
         val mealExtractor = MockMealExtractor(meal)
 
@@ -55,12 +53,13 @@ class SendOrderToKitchenAfterConfirmationRuleTest {
                 count.value
             )
         )
+        orderExtractor.verifyInvokedGetById(order.id)
         mealExtractor.verifyInvokedGetById(meal.id)
     }
 
     @Test
     fun `order not found`() {
-        val orderExtractor = TestShopOrderExtractor()
+        val orderExtractor = MockShopOrderExtractor()
 
         val mealExtractor = MockMealExtractor()
 
@@ -72,12 +71,14 @@ class SendOrderToKitchenAfterConfirmationRuleTest {
             createOrder = useCase
         )
 
-        val event = ShopOrderConfirmedDomainEvent(orderId())
+        val orderId = orderId()
+        val event = ShopOrderConfirmedDomainEvent(orderId)
 
         shouldThrow<IllegalStateException> {
             rule.handle(event)
         }
 
+        orderExtractor.verifyInvokedGetById(orderId)
         mealExtractor.verifyEmpty()
         useCase.verifyZeroInteraction()
     }
@@ -90,9 +91,7 @@ class SendOrderToKitchenAfterConfirmationRuleTest {
         val count = count()
         val order = order(orderItems = setOf(OrderItem(meal.id, price, count)))
 
-        val orderExtractor = TestShopOrderExtractor().apply {
-            this[order.id] = order
-        }
+        val orderExtractor = MockShopOrderExtractor(order)
 
         val mealExtractor = MockMealExtractor()
 
@@ -110,6 +109,7 @@ class SendOrderToKitchenAfterConfirmationRuleTest {
             rule.handle(event)
         }
 
+        orderExtractor.verifyInvokedGetById(order.id)
         mealExtractor.verifyInvokedGetById(meal.id)
         useCase.verifyZeroInteraction()
     }
@@ -122,9 +122,7 @@ class SendOrderToKitchenAfterConfirmationRuleTest {
         val count = count()
         val order = order(orderItems = setOf(OrderItem(meal.id, price, count)))
 
-        val orderExtractor = TestShopOrderExtractor().apply {
-            this[order.id] = order
-        }
+        val orderExtractor = MockShopOrderExtractor(order)
 
         val mealExtractor = MockMealExtractor(meal)
 
@@ -149,6 +147,7 @@ class SendOrderToKitchenAfterConfirmationRuleTest {
                 count.value
             )
         )
+        orderExtractor.verifyInvokedGetById(order.id)
         mealExtractor.verifyInvokedGetById(meal.id)
     }
 
