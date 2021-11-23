@@ -86,11 +86,13 @@ internal class InMemoryShopOrderRepositoryTest {
         val customerId = customerId()
         val firstOrder = order(customerId = customerId)
         val lastOrder = order(customerId = customerId)
+        val oneMoreOrder = order(customerId = customerId())
 
         val eventPublisher = TestEventPublisher()
         val repository = InMemoryShopOrderRepository(eventPublisher)
         repository.save(firstOrder)
         repository.save(lastOrder)
+        repository.save(oneMoreOrder)
 
         val order = repository.getLastOrder(customerId)
         order shouldBeSameInstanceAs lastOrder

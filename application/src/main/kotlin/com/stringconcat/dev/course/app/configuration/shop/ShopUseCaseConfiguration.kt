@@ -24,7 +24,9 @@ import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderExtractor
 import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderPersister
 import com.stringconcat.ddd.shop.usecase.order.invariants.CustomerHasActiveOrderImpl
 import com.stringconcat.ddd.shop.usecase.order.providers.MealPriceProviderImpl
+import com.stringconcat.ddd.shop.usecase.order.providers.OrderExporter
 import com.stringconcat.ddd.shop.usecase.order.providers.PaymentUrlProvider
+import com.stringconcat.ddd.shop.usecase.order.rules.ExportOrderAfterCheckoutRule
 import com.stringconcat.ddd.shop.usecase.order.scenarios.CancelOrderUseCase
 import com.stringconcat.ddd.shop.usecase.order.scenarios.CheckoutUseCase
 import com.stringconcat.ddd.shop.usecase.order.scenarios.CompleteOrderUseCase
@@ -190,4 +192,14 @@ class ShopUseCaseConfiguration(
 
     @Bean
     fun mealAlreadyExistsRule(mealExtractor: MealExtractor) = MealAlreadyExistsImpl(mealExtractor)
+
+    @Bean
+    fun exportOrderAfterCheckoutRule(
+        orderExporter: OrderExporter,
+        domainEventPublisher: EventPublisherImpl,
+    ): ExportOrderAfterCheckoutRule {
+        val rule = ExportOrderAfterCheckoutRule(orderExporter)
+        domainEventPublisher.registerListener(rule)
+        return rule
+    }
 }
