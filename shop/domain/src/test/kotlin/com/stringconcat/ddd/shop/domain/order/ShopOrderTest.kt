@@ -57,7 +57,8 @@ class ShopOrderTest {
         order.id shouldBe id
         order.address shouldBe address
         order.state shouldBe OrderState.WAITING_FOR_PAYMENT
-        order.popEvents() shouldContainExactly listOf(ShopOrderCreatedDomainEvent(id, cart.forCustomer))
+        order.popEvents() shouldContainExactly
+                listOf(ShopOrderCreatedDomainEvent(id, cart.forCustomer, order.totalPrice()))
     }
 
     @Test

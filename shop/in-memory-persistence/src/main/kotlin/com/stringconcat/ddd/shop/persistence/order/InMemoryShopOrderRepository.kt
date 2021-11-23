@@ -17,7 +17,10 @@ class InMemoryShopOrderRepository(private val eventPublisher: DomainEventPublish
     override fun getById(orderId: ShopOrderId) = storage[orderId]
 
     override fun getLastOrder(forCustomer: CustomerId) =
-        storage.values.toSortedSet { o1, o2 -> o1.created.compareTo(o2.created) }.lastOrNull()
+        storage.values
+            .filter { it.forCustomer == forCustomer }
+            .toSortedSet { o1, o2 -> o1.created.compareTo(o2.created) }
+            .lastOrNull()
 
     override fun getAll(startId: ShopOrderId, limit: Int) =
         storage.tailMap(startId).toList().take(limit).map { it.second }

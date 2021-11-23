@@ -1,36 +1,38 @@
-package com.stringconcat.dev.course.app.component
+package com.stringconcat.dev.course.app
 
-import java.io.BufferedReader
-import java.io.InputStreamReader
+import io.kotest.matchers.shouldBe
 import java.io.OutputStreamWriter
 import java.io.Writer
 import org.apache.commons.net.telnet.TelnetClient
 
-class TestTelnetClient : TelnetClient() {
+class TestTelnetClient(hostname: String, port: Int) : TelnetClient() {
 
-    private val prompt = "\r\n>"
+    private val writer: Writer
 
-    lateinit var reader: BufferedReader
-        private set
-    lateinit var writer: Writer
-        private set
+    companion object {
+        const val PROMPT = "\r\n>"
+        const val OK_RESPONSE = "\r\nOK"
+    }
 
-    override fun connect(hostname: String?, port: Int) {
+    init {
         super.connect(hostname, port)
-        reader = BufferedReader(InputStreamReader(inputStream))
         writer = OutputStreamWriter(outputStream)
         readMessage() // приветствие
+    }
+
+    fun lastMessageShouldBeOk() {
+        readMessage() shouldBe OK_RESPONSE
     }
 
     fun readMessage(): String {
         var buffer = ""
         var cValue = inputStream.read()
-        while (!buffer.endsWith(prompt) && cValue != -1) {
+        while (!buffer.endsWith(PROMPT) && cValue != -1) {
             val c = Char(cValue)
             buffer += c
             cValue = inputStream.read()
         }
-        return buffer.removeSuffix(prompt)
+        return buffer.removeSuffix(PROMPT)
     }
 
     fun writeCommand(command: String) {

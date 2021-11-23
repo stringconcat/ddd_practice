@@ -4,6 +4,11 @@ import com.stringconcat.ddd.shop.domain.cart
 import com.stringconcat.ddd.shop.domain.customerId
 import com.stringconcat.ddd.shop.domain.order.ShopOrderCreatedDomainEvent
 import com.stringconcat.ddd.shop.domain.orderId
+import com.stringconcat.ddd.shop.domain.price
+import com.stringconcat.ddd.shop.usecase.TestCartExtractor
+import com.stringconcat.ddd.shop.usecase.TestCartRemover
+import io.kotest.matchers.collections.shouldBeEmpty
+import io.kotest.matchers.collections.shouldContainExactly
 import com.stringconcat.ddd.shop.usecase.MockCartExtractor
 import com.stringconcat.ddd.shop.usecase.MockCartRemover
 import org.junit.jupiter.api.Test
@@ -19,7 +24,7 @@ internal class RemoveCartAfterCheckoutRuleTest {
         val cartExtractor = MockCartExtractor(cart)
 
         val rule = RemoveCartAfterCheckoutRule(cartExtractor, cartRemover)
-        val event = ShopOrderCreatedDomainEvent(orderId(), cart.forCustomer)
+        val event = ShopOrderCreatedDomainEvent(orderId(), cart.forCustomer, price())
 
         rule.handle(event)
 
@@ -34,7 +39,7 @@ internal class RemoveCartAfterCheckoutRuleTest {
         val cartExtractor = MockCartExtractor()
         val rule = RemoveCartAfterCheckoutRule(cartExtractor, cartRemover)
         val customerId = customerId()
-        val event = ShopOrderCreatedDomainEvent(orderId(), customerId)
+        val event = ShopOrderCreatedDomainEvent(orderId(), customerId(), price())
 
         rule.handle(event)
 

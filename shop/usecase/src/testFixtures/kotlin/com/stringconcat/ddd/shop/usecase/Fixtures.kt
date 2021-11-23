@@ -33,6 +33,8 @@ import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.maps.shouldContainExactly
 import io.kotest.matchers.shouldBe
+import com.stringconcat.ddd.shop.usecase.order.providers.OrderExporter
+import io.kotest.matchers.shouldBe
 import java.util.TreeMap
 
 fun removedMeal() = meal(removed = true)
@@ -327,5 +329,23 @@ class MockShopOrderExtractor : ShopOrderExtractor {
         this.all shouldBe false
         ::id.isInitialized shouldBe false
         ::forCustomer.isInitialized shouldBe false
+    }
+}
+
+class MockOrderExporter : OrderExporter {
+    lateinit var id: ShopOrderId
+    lateinit var customerId: CustomerId
+    lateinit var totalPrice: Price
+
+    override fun exportOrder(id: ShopOrderId, customerId: CustomerId, totalPrice: Price) {
+        this.id = id
+        this.customerId = customerId
+        this.totalPrice = totalPrice
+    }
+
+    fun verifyInvoked(id: ShopOrderId, customerId: CustomerId, totalPrice: Price) {
+        this.id shouldBe id
+        this.customerId shouldBe customerId
+        this.totalPrice shouldBe totalPrice
     }
 }
