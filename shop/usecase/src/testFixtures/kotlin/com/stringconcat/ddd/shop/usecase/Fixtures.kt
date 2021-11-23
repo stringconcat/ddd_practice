@@ -165,6 +165,23 @@ class MockShopOrderPersister : ShopOrderPersister {
     }
 }
 
+class MockCartRemover : CartRemover {
+
+    lateinit var id: CartId
+
+    override fun deleteCart(cart: Cart) {
+        this.id = cart.id
+    }
+
+    fun verifyInvoked(cartId: CartId) {
+        this.id shouldBe cartId
+    }
+
+    fun verifyEmpty() {
+        ::id.isInitialized shouldBe false
+    }
+}
+
 class TestMealExtractor : HashMap<MealId, Meal>(), MealExtractor {
     override fun getById(id: MealId) = this[id]
 
@@ -185,13 +202,6 @@ class TestShopOrderExtractor : ShopOrderExtractor,
 
     override fun getAll(startId: ShopOrderId, limit: Int) =
         tailMap(startId).toList().take(limit).map { it.second }
-}
-
-class TestCartRemover : CartRemover {
-    val deleted = ArrayList<CartId>()
-    override fun deleteCart(cart: Cart) {
-        deleted.add(cart.id)
-    }
 }
 
 class TestCustomerHasActiveOrder(val hasActive: Boolean) : CustomerHasActiveOrder {
