@@ -182,6 +182,30 @@ class MockCartRemover : CartRemover {
     }
 }
 
+class MockCartExtractor : CartExtractor {
+
+    lateinit var cart: Cart
+    lateinit var forCustomer: CustomerId
+
+    constructor()
+    constructor(cart: Cart) {
+        this.cart = cart
+    }
+
+    override fun getCart(forCustomer: CustomerId): Cart? {
+        this.forCustomer = forCustomer
+        return if (::cart.isInitialized) this.cart else null
+    }
+
+    fun verifyInvoked(forCustomer: CustomerId) {
+        this.forCustomer shouldBe forCustomer
+    }
+
+    fun verifyEmpty() {
+        ::forCustomer.isInitialized shouldBe false
+    }
+}
+
 class TestMealExtractor : HashMap<MealId, Meal>(), MealExtractor {
     override fun getById(id: MealId) = this[id]
 
@@ -208,8 +232,4 @@ class TestCustomerHasActiveOrder(val hasActive: Boolean) : CustomerHasActiveOrde
     override fun check(forCustomer: CustomerId): Boolean {
         return hasActive
     }
-}
-
-class TestCartExtractor : HashMap<CustomerId, Cart>(), CartExtractor {
-    override fun getCart(forCustomer: CustomerId): Cart? = this[forCustomer]
 }

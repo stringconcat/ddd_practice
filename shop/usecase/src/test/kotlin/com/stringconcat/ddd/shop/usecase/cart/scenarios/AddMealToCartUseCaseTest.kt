@@ -6,7 +6,7 @@ import com.stringconcat.ddd.shop.domain.cart.CustomerId
 import com.stringconcat.ddd.shop.domain.cartId
 import com.stringconcat.ddd.shop.domain.customerId
 import com.stringconcat.ddd.shop.domain.meal
-import com.stringconcat.ddd.shop.usecase.TestCartExtractor
+import com.stringconcat.ddd.shop.usecase.MockCartExtractor
 import com.stringconcat.ddd.shop.usecase.MockCartPersister
 import com.stringconcat.ddd.shop.usecase.TestMealExtractor
 import com.stringconcat.ddd.shop.usecase.cart.AddMealToCartUseCaseError
@@ -22,7 +22,7 @@ internal class AddMealToCartUseCaseTest {
 
         val meal = meal()
         val cartPersister = MockCartPersister()
-        val cartExtractor = TestCartExtractor()
+        val cartExtractor = MockCartExtractor()
         val mealExtractor = TestMealExtractor().apply {
             this[meal.id] = meal
         }
@@ -52,9 +52,7 @@ internal class AddMealToCartUseCaseTest {
         val mealExtractor = TestMealExtractor().apply {
             this[meal.id] = meal
         }
-        val cartExtractor = TestCartExtractor().apply {
-            this[customerId] = existingCart
-        }
+        val cartExtractor = MockCartExtractor(existingCart)
 
         val useCase = AddMealToCartUseCase(
             mealExtractor = mealExtractor,
@@ -67,6 +65,7 @@ internal class AddMealToCartUseCaseTest {
         result.shouldBeRight()
 
         cartPersister.verifyInvoked(existingCart, meal.id)
+        cartExtractor.verifyInvoked(existingCart.forCustomer)
     }
 
     @Test
@@ -74,7 +73,7 @@ internal class AddMealToCartUseCaseTest {
 
         val meal = meal()
         val cartPersister = MockCartPersister()
-        val cartExtractor = TestCartExtractor()
+        val cartExtractor = MockCartExtractor()
         val mealExtractor = TestMealExtractor()
 
         val useCase = AddMealToCartUseCase(
@@ -85,8 +84,10 @@ internal class AddMealToCartUseCaseTest {
         )
 
         val result = useCase.execute(CustomerId(UUID.randomUUID().toString()), meal.id)
-        result shouldBeLeft AddMealToCartUseCaseError.MealNotFound
+
         cartPersister.verifyEmpty()
+        cartExtractor.verifyEmpty()
+        result shouldBeLeft AddMealToCartUseCaseError.MealNotFound
     }
 
     object TestCartIdGenerator : CartIdGenerator {

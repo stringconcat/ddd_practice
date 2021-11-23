@@ -4,7 +4,7 @@ import com.stringconcat.ddd.shop.domain.cart
 import com.stringconcat.ddd.shop.domain.customerId
 import com.stringconcat.ddd.shop.domain.order.ShopOrderCreatedDomainEvent
 import com.stringconcat.ddd.shop.domain.orderId
-import com.stringconcat.ddd.shop.usecase.TestCartExtractor
+import com.stringconcat.ddd.shop.usecase.MockCartExtractor
 import com.stringconcat.ddd.shop.usecase.MockCartRemover
 import org.junit.jupiter.api.Test
 
@@ -15,14 +15,15 @@ internal class RemoveCartAfterCheckoutRuleTest {
 
         val cartRemover = MockCartRemover()
         val cart = cart()
-        val cartExtractor = TestCartExtractor().apply {
-            this[cart.forCustomer] = cart
-        }
+
+        val cartExtractor = MockCartExtractor(cart)
 
         val rule = RemoveCartAfterCheckoutRule(cartExtractor, cartRemover)
         val event = ShopOrderCreatedDomainEvent(orderId(), cart.forCustomer)
 
         rule.handle(event)
+
+        cartExtractor.verifyInvoked(cart.forCustomer)
         cartRemover.verifyInvoked(cart.id)
     }
 
@@ -30,11 +31,14 @@ internal class RemoveCartAfterCheckoutRuleTest {
     fun `cart not found`() {
 
         val cartRemover = MockCartRemover()
-        val cartExtractor = TestCartExtractor()
+        val cartExtractor = MockCartExtractor()
         val rule = RemoveCartAfterCheckoutRule(cartExtractor, cartRemover)
-        val event = ShopOrderCreatedDomainEvent(orderId(), customerId())
+        val customerId = customerId()
+        val event = ShopOrderCreatedDomainEvent(orderId(), customerId)
 
         rule.handle(event)
+
+        cartExtractor.verifyInvoked(customerId)
         cartRemover.verifyEmpty()
     }
 }

@@ -2,7 +2,7 @@ package com.stringconcat.ddd.shop.usecase.cart.scenarios
 
 import com.stringconcat.ddd.shop.domain.cart
 import com.stringconcat.ddd.shop.domain.mealId
-import com.stringconcat.ddd.shop.usecase.TestCartExtractor
+import com.stringconcat.ddd.shop.usecase.MockCartExtractor
 import com.stringconcat.ddd.shop.usecase.MockCartPersister
 import com.stringconcat.ddd.shop.usecase.cart.RemoveMealFromCartUseCaseError
 import io.kotest.assertions.arrow.core.shouldBeLeft
@@ -16,14 +16,14 @@ class RemoveMealFromCartUseCaseTest {
 
         val cart = cart()
         val cartPersister = MockCartPersister()
-        val cartExtractor = TestCartExtractor().apply {
-            this[cart.forCustomer] = cart
-        }
+        val cartExtractor = MockCartExtractor(cart)
 
         val useCase = RemoveMealFromCartUseCase(cartExtractor, cartPersister)
         val result = useCase.execute(cart.forCustomer, mealId())
-        result.shouldBeRight()
+
+        cartExtractor.verifyInvoked(cart.forCustomer)
         cartPersister.verifyInvoked(cart)
+        result.shouldBeRight()
     }
 
     @Test
@@ -31,11 +31,13 @@ class RemoveMealFromCartUseCaseTest {
 
         val cart = cart()
         val cartPersister = MockCartPersister()
-        val cartExtractor = TestCartExtractor()
+        val cartExtractor = MockCartExtractor()
 
         val useCase = RemoveMealFromCartUseCase(cartExtractor, cartPersister)
         val result = useCase.execute(cart.forCustomer, mealId())
-        result shouldBeLeft RemoveMealFromCartUseCaseError.CartNotFound
+
         cartPersister.verifyEmpty()
+        cartExtractor.verifyInvoked(cart.forCustomer)
+        result shouldBeLeft RemoveMealFromCartUseCaseError.CartNotFound
     }
 }
