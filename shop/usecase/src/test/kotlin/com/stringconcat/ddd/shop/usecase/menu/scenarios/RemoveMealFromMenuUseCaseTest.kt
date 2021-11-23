@@ -25,7 +25,7 @@ internal class RemoveMealFromMenuUseCaseTest {
         result shouldBeRight Unit
 
         mealPersister.verifyInvoked(meal)
-        mealPersister.verifyEventsAfterRemoving(meal.id)
+        mealPersister.verifyEventsAfterDeletion(meal.id)
     }
 
     @Test

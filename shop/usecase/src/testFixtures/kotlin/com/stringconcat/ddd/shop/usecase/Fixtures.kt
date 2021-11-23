@@ -1,5 +1,7 @@
 package com.stringconcat.ddd.shop.usecase
 
+import com.stringconcat.ddd.common.types.common.Address
+import com.stringconcat.ddd.common.types.common.Count
 import com.stringconcat.ddd.common.types.count
 import com.stringconcat.ddd.shop.domain.cart.Cart
 import com.stringconcat.ddd.shop.domain.cart.CartId
@@ -15,7 +17,11 @@ import com.stringconcat.ddd.shop.domain.order
 import com.stringconcat.ddd.shop.domain.order.CustomerHasActiveOrder
 import com.stringconcat.ddd.shop.domain.order.OrderState
 import com.stringconcat.ddd.shop.domain.order.ShopOrder
+import com.stringconcat.ddd.shop.domain.order.ShopOrderCancelledDomainEvent
+import com.stringconcat.ddd.shop.domain.order.ShopOrderCompletedDomainEvent
+import com.stringconcat.ddd.shop.domain.order.ShopOrderConfirmedDomainEvent
 import com.stringconcat.ddd.shop.domain.order.ShopOrderId
+import com.stringconcat.ddd.shop.domain.order.ShopOrderPaidDomainEvent
 import com.stringconcat.ddd.shop.usecase.cart.access.CartExtractor
 import com.stringconcat.ddd.shop.usecase.cart.access.CartPersister
 import com.stringconcat.ddd.shop.usecase.cart.access.CartRemover
@@ -24,6 +30,7 @@ import com.stringconcat.ddd.shop.usecase.menu.access.MealPersister
 import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderExtractor
 import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderPersister
 import io.kotest.matchers.collections.shouldContainExactly
+import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.maps.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import java.util.TreeMap
@@ -69,7 +76,7 @@ class MockMealPersister : MealPersister {
         this.meal.price shouldBe price
     }
 
-    fun verifyEventsAfterRemoving(id: MealId) {
+    fun verifyEventsAfterDeletion(id: MealId) {
         this.meal.popEvents() shouldContainExactly listOf(MealRemovedFromMenuDomainEvent(id))
     }
 
@@ -106,6 +113,58 @@ class MockCartPersister : CartPersister {
     }
 }
 
+class MockShopOrderPersister : ShopOrderPersister {
+
+    lateinit var order: ShopOrder
+
+    override fun save(order: ShopOrder) {
+        this.order = order
+    }
+
+    fun verifyInvoked(order: ShopOrder) {
+        this.order shouldBe order
+    }
+
+    fun verifyInvoked(
+        orderId: ShopOrderId, address: Address, customerId: CustomerId,
+        mealId: MealId, countItems: Count, priceItems: Price
+    ) {
+        this.order.id shouldBe orderId
+        this.order.address shouldBe address
+        this.order.forCustomer shouldBe customerId
+        this.order.orderItems.shouldHaveSize(1)
+
+        val orderItem = this.order.orderItems.first()
+        orderItem.mealId shouldBe mealId
+        orderItem.count shouldBe countItems
+        orderItem.price shouldBe priceItems
+    }
+
+    fun verifyEventsAfterCancellation(id: ShopOrderId) {
+        this.order.popEvents() shouldContainExactly listOf(ShopOrderCancelledDomainEvent(id))
+    }
+
+    fun verifyEventsAfterCompletion(id: ShopOrderId) {
+        this.order.popEvents() shouldContainExactly listOf(ShopOrderCompletedDomainEvent(id))
+    }
+
+    fun verifyEventsAfterConfirmation(id: ShopOrderId) {
+        this.order.popEvents() shouldContainExactly listOf(ShopOrderConfirmedDomainEvent(id))
+    }
+
+    fun verifyEventsAfterPayment(id: ShopOrderId) {
+        this.order.popEvents() shouldContainExactly listOf(ShopOrderPaidDomainEvent(id))
+    }
+
+    fun verifyPrice(price: Price) {
+        this.order.totalPrice() shouldBe price
+    }
+
+    fun verifyEmpty() {
+        ::order.isInitialized shouldBe false
+    }
+}
+
 class TestMealExtractor : HashMap<MealId, Meal>(), MealExtractor {
     override fun getById(id: MealId) = this[id]
 
@@ -114,22 +173,6 @@ class TestMealExtractor : HashMap<MealId, Meal>(), MealExtractor {
     }
 
     override fun getAll() = this.values.toList()
-}
-
-class TestCustomerHasActiveOrder(val hasActive: Boolean) : CustomerHasActiveOrder {
-    override fun check(forCustomer: CustomerId): Boolean {
-        return hasActive
-    }
-}
-
-class TestCartExtractor : HashMap<CustomerId, Cart>(), CartExtractor {
-    override fun getCart(forCustomer: CustomerId): Cart? = this[forCustomer]
-}
-
-class TestShopOrderPersister : ShopOrderPersister, HashMap<ShopOrderId, ShopOrder>() {
-    override fun save(order: ShopOrder) {
-        this[order.id] = order
-    }
 }
 
 class TestShopOrderExtractor : ShopOrderExtractor,
@@ -149,4 +192,14 @@ class TestCartRemover : CartRemover {
     override fun deleteCart(cart: Cart) {
         deleted.add(cart.id)
     }
+}
+
+class TestCustomerHasActiveOrder(val hasActive: Boolean) : CustomerHasActiveOrder {
+    override fun check(forCustomer: CustomerId): Boolean {
+        return hasActive
+    }
+}
+
+class TestCartExtractor : HashMap<CustomerId, Cart>(), CartExtractor {
+    override fun getCart(forCustomer: CustomerId): Cart? = this[forCustomer]
 }
