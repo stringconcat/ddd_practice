@@ -17,7 +17,7 @@ object LibVers {
     const val arch_unit = "0.22.0"
     const val faker = "1.0.2"
     const val testcontainers = "1.16.2"
-
+    const val pact = "4.3.1"
 }
 
 object Libs {
@@ -65,6 +65,7 @@ object Libs {
     // Telnet deps
     const val testng = "org.testng:testng:${LibVers.testng}"
     const val commons_net = "commons-net:commons-net:${LibVers.commons_net}"
+    const val pact = "au.com.dius.pact.consumer:junit5:${LibVers.pact}"
 
     // Database
     const val postgresql = "org.postgresql:postgresql:${LibVers.postgresql}"

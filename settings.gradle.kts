@@ -12,6 +12,7 @@ include(":shop:postgres-persistence")
 include(":shop:telnet")
 include(":shop:payment")
 include(":shop:rest")
+include(":shop:crm")
 
 include(":kitchen:domain")
 include(":kitchen:usecase")
