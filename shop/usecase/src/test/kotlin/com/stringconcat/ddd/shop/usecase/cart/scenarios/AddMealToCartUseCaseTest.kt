@@ -8,7 +8,7 @@ import com.stringconcat.ddd.shop.domain.customerId
 import com.stringconcat.ddd.shop.domain.meal
 import com.stringconcat.ddd.shop.usecase.MockCartExtractor
 import com.stringconcat.ddd.shop.usecase.MockCartPersister
-import com.stringconcat.ddd.shop.usecase.TestMealExtractor
+import com.stringconcat.ddd.shop.usecase.MockMealExtractor
 import com.stringconcat.ddd.shop.usecase.cart.AddMealToCartUseCaseError
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
@@ -23,9 +23,7 @@ internal class AddMealToCartUseCaseTest {
         val meal = meal()
         val cartPersister = MockCartPersister()
         val cartExtractor = MockCartExtractor()
-        val mealExtractor = TestMealExtractor().apply {
-            this[meal.id] = meal
-        }
+        val mealExtractor = MockMealExtractor(meal)
 
         val useCase = AddMealToCartUseCase(
             mealExtractor = mealExtractor,
@@ -36,8 +34,9 @@ internal class AddMealToCartUseCaseTest {
 
         val customerId = customerId()
         val result = useCase.execute(customerId, meal.id)
-        result.shouldBeRight()
 
+        result.shouldBeRight()
+        mealExtractor.verifyInvokedGetById(meal.id)
         cartPersister.verifyInvoked(TestCartIdGenerator.id, customerId, meal.id)
     }
 
@@ -49,9 +48,7 @@ internal class AddMealToCartUseCaseTest {
         val existingCart = cart(customerId = customerId)
 
         val cartPersister = MockCartPersister()
-        val mealExtractor = TestMealExtractor().apply {
-            this[meal.id] = meal
-        }
+        val mealExtractor = MockMealExtractor(meal)
         val cartExtractor = MockCartExtractor(existingCart)
 
         val useCase = AddMealToCartUseCase(
@@ -64,6 +61,7 @@ internal class AddMealToCartUseCaseTest {
         val result = useCase.execute(customerId, meal.id)
         result.shouldBeRight()
 
+        mealExtractor.verifyInvokedGetById(meal.id)
         cartPersister.verifyInvoked(existingCart, meal.id)
         cartExtractor.verifyInvoked(existingCart.forCustomer)
     }
@@ -74,7 +72,7 @@ internal class AddMealToCartUseCaseTest {
         val meal = meal()
         val cartPersister = MockCartPersister()
         val cartExtractor = MockCartExtractor()
-        val mealExtractor = TestMealExtractor()
+        val mealExtractor = MockMealExtractor()
 
         val useCase = AddMealToCartUseCase(
             mealExtractor = mealExtractor,
@@ -85,6 +83,7 @@ internal class AddMealToCartUseCaseTest {
 
         val result = useCase.execute(CustomerId(UUID.randomUUID().toString()), meal.id)
 
+        mealExtractor.verifyInvokedGetById(meal.id)
         cartPersister.verifyEmpty()
         cartExtractor.verifyEmpty()
         result shouldBeLeft AddMealToCartUseCaseError.MealNotFound

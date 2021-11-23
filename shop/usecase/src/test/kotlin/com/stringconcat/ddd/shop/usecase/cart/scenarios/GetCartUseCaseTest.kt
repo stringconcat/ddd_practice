@@ -5,7 +5,7 @@ import com.stringconcat.ddd.shop.domain.cart
 import com.stringconcat.ddd.shop.domain.customerId
 import com.stringconcat.ddd.shop.domain.meal
 import com.stringconcat.ddd.shop.usecase.MockCartExtractor
-import com.stringconcat.ddd.shop.usecase.TestMealExtractor
+import com.stringconcat.ddd.shop.usecase.MockMealExtractor
 import com.stringconcat.ddd.shop.usecase.cart.CartItem
 import com.stringconcat.ddd.shop.usecase.cart.GetCartUseCaseError
 import io.kotest.assertions.arrow.core.shouldBeLeft
@@ -19,42 +19,33 @@ class GetCartUseCaseTest {
 
     @Test
     fun `cart successfully extracted`() {
-        val meal1 = meal()
-        val meal2 = meal()
+        val meal = meal()
 
-        val count1 = count()
-        val count2 = count()
+        val count = count()
 
         val customerId = customerId()
 
         val cart = cart(
             customerId = customerId,
-            meals = mapOf(meal1.id to count1, meal2.id to count2)
+            meals = mapOf(meal.id to count)
         )
 
         val cartExtractor = MockCartExtractor(cart)
 
-        val mealExtractor = TestMealExtractor().apply {
-            this[meal1.id] = meal1
-            this[meal2.id] = meal2
-        }
+        val mealExtractor = MockMealExtractor(meal)
 
         val useCase = GetCartUseCase(mealExtractor, cartExtractor)
         val result = useCase.execute(customerId)
 
         cartExtractor.verifyInvoked(cart.forCustomer)
+        mealExtractor.verifyInvokedGetById(meal.id)
         val extractedCart = result.shouldBeRight()
         extractedCart.forCustomer shouldBe customerId
         extractedCart.items shouldContainExactlyInAnyOrder listOf(
             CartItem(
-                mealId = meal1.id,
-                mealName = meal1.name,
-                count = count1
-            ),
-            CartItem(
-                mealId = meal2.id,
-                mealName = meal2.name,
-                count = count2
+                mealId = meal.id,
+                mealName = meal.name,
+                count = count
             )
         )
     }
@@ -62,20 +53,21 @@ class GetCartUseCaseTest {
     @Test
     fun `cart not found`() {
         val cartExtractor = MockCartExtractor()
-        val mealExtractor = TestMealExtractor()
+        val mealExtractor = MockMealExtractor()
         val useCase = GetCartUseCase(mealExtractor, cartExtractor)
         val customerId = customerId()
 
         val result = useCase.execute(customerId)
 
         cartExtractor.verifyInvoked(customerId)
+        mealExtractor.verifyEmpty()
         result shouldBeLeft GetCartUseCaseError.CartNotFound
     }
 
     @Test
     fun `meal not found`() {
 
-        val mealExtractor = TestMealExtractor()
+        val mealExtractor = MockMealExtractor()
 
         val customerId = customerId()
         val meal = meal()
@@ -93,5 +85,6 @@ class GetCartUseCaseTest {
         shouldThrow<IllegalStateException> {
             useCase.execute(customerId)
         }
+        mealExtractor.verifyInvokedGetById(meal.id)
     }
 }

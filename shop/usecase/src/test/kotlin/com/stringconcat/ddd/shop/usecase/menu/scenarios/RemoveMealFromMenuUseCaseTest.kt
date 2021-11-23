@@ -2,7 +2,7 @@ package com.stringconcat.ddd.shop.usecase.menu.scenarios
 
 import com.stringconcat.ddd.shop.domain.meal
 import com.stringconcat.ddd.shop.domain.mealId
-import com.stringconcat.ddd.shop.usecase.TestMealExtractor
+import com.stringconcat.ddd.shop.usecase.MockMealExtractor
 import com.stringconcat.ddd.shop.usecase.MockMealPersister
 import com.stringconcat.ddd.shop.usecase.menu.RemoveMealFromMenuUseCaseError
 import io.kotest.assertions.arrow.core.shouldBeLeft
@@ -16,15 +16,14 @@ internal class RemoveMealFromMenuUseCaseTest {
 
         val meal = meal()
         val mealPersister = MockMealPersister()
-        val mealExtractor = TestMealExtractor().apply {
-            this[meal.id] = meal
-        }
+        val mealExtractor = MockMealExtractor(meal)
 
         val useCase = RemoveMealFromMenuUseCase(mealExtractor, mealPersister)
         val result = useCase.execute(meal.id)
-        result shouldBeRight Unit
 
+        result shouldBeRight Unit
         mealPersister.verifyInvoked(meal)
+        mealExtractor.verifyInvokedGetById(meal.id)
         mealPersister.verifyEventsAfterDeletion(meal.id)
     }
 
@@ -32,11 +31,14 @@ internal class RemoveMealFromMenuUseCaseTest {
     fun `meal not found`() {
 
         val mealPersister = MockMealPersister()
-        val mealExtractor = TestMealExtractor()
+        val mealExtractor = MockMealExtractor()
         val useCase = RemoveMealFromMenuUseCase(mealExtractor, mealPersister)
 
-        val result = useCase.execute(mealId())
+        val mealId = mealId()
+        val result = useCase.execute(mealId)
+
         result shouldBeLeft RemoveMealFromMenuUseCaseError.MealNotFound
         mealPersister.verifyEmpty()
+        mealExtractor.verifyInvokedGetById(mealId)
     }
 }

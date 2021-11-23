@@ -224,14 +224,57 @@ class MockCustomerHasActiveOrder(val hasActive: Boolean) : CustomerHasActiveOrde
     }
 }
 
-class TestMealExtractor : HashMap<MealId, Meal>(), MealExtractor {
-    override fun getById(id: MealId) = this[id]
+class MockMealExtractor : MealExtractor {
 
-    override fun getByName(name: MealName): Meal? {
-        return values.firstOrNull { it.name == name }
+    lateinit var meal: Meal
+
+    lateinit var id: MealId
+    lateinit var name: MealName
+    var all: Boolean = false
+
+    constructor()
+    constructor(meal: Meal) {
+        this.meal = meal
     }
 
-    override fun getAll() = this.values.toList()
+    override fun getById(id: MealId): Meal? {
+        this.id = id
+        return if (::meal.isInitialized && this.meal.id == id) this.meal else null
+    }
+
+    override fun getByName(name: MealName): Meal? {
+        this.name = name
+        return if (::meal.isInitialized && this.meal.name == name) this.meal else null
+    }
+
+    override fun getAll(): List<Meal> {
+        this.all = true
+        return if (::meal.isInitialized) return listOf(this.meal) else emptyList()
+    }
+
+    fun verifyInvokedGetById(id: MealId) {
+        this.id shouldBe id
+        this.all shouldBe false
+        ::name.isInitialized shouldBe false
+    }
+
+    fun verifyInvokedGetByName(name: MealName) {
+        this.name shouldBe name
+        this.all shouldBe false
+        ::id.isInitialized shouldBe false
+    }
+
+    fun verifyInvokedGetAll() {
+        this.all shouldBe true
+        ::id.isInitialized shouldBe false
+        ::name.isInitialized shouldBe false
+    }
+
+    fun verifyEmpty() {
+        this.all shouldBe false
+        ::id.isInitialized shouldBe false
+        ::name.isInitialized shouldBe false
+    }
 }
 
 class TestShopOrderExtractor : ShopOrderExtractor,

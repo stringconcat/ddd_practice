@@ -13,7 +13,7 @@ import com.stringconcat.ddd.shop.domain.order.OrderItem
 import com.stringconcat.ddd.shop.domain.order.ShopOrderConfirmedDomainEvent
 import com.stringconcat.ddd.shop.domain.orderId
 import com.stringconcat.ddd.shop.domain.price
-import com.stringconcat.ddd.shop.usecase.TestMealExtractor
+import com.stringconcat.ddd.shop.usecase.MockMealExtractor
 import com.stringconcat.ddd.shop.usecase.TestShopOrderExtractor
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.booleans.shouldBeFalse
@@ -35,9 +35,7 @@ class SendOrderToKitchenAfterConfirmationRuleTest {
             this[order.id] = order
         }
 
-        val mealExtractor = TestMealExtractor().apply {
-            this[meal.id] = meal
-        }
+        val mealExtractor = MockMealExtractor(meal)
 
         val useCase = TestCreateOrder(Unit.right())
 
@@ -57,13 +55,14 @@ class SendOrderToKitchenAfterConfirmationRuleTest {
                 count.value
             )
         )
+        mealExtractor.verifyInvokedGetById(meal.id)
     }
 
     @Test
     fun `order not found`() {
         val orderExtractor = TestShopOrderExtractor()
 
-        val mealExtractor = TestMealExtractor()
+        val mealExtractor = MockMealExtractor()
 
         val useCase = TestCreateOrder(Unit.right())
 
@@ -79,6 +78,7 @@ class SendOrderToKitchenAfterConfirmationRuleTest {
             rule.handle(event)
         }
 
+        mealExtractor.verifyEmpty()
         useCase.verifyZeroInteraction()
     }
 
@@ -94,7 +94,7 @@ class SendOrderToKitchenAfterConfirmationRuleTest {
             this[order.id] = order
         }
 
-        val mealExtractor = TestMealExtractor()
+        val mealExtractor = MockMealExtractor()
 
         val useCase = TestCreateOrder(Unit.right())
 
@@ -110,6 +110,7 @@ class SendOrderToKitchenAfterConfirmationRuleTest {
             rule.handle(event)
         }
 
+        mealExtractor.verifyInvokedGetById(meal.id)
         useCase.verifyZeroInteraction()
     }
 
@@ -125,9 +126,7 @@ class SendOrderToKitchenAfterConfirmationRuleTest {
             this[order.id] = order
         }
 
-        val mealExtractor = TestMealExtractor().apply {
-            this[meal.id] = meal
-        }
+        val mealExtractor = MockMealExtractor(meal)
 
         val useCase = TestCreateOrder(CreateOrderUseCaseError.EmptyOrder.left())
 
@@ -150,6 +149,7 @@ class SendOrderToKitchenAfterConfirmationRuleTest {
                 count.value
             )
         )
+        mealExtractor.verifyInvokedGetById(meal.id)
     }
 
     private class TestCreateOrder(val response: Either<CreateOrderUseCaseError, Unit>) : CreateOrder {
