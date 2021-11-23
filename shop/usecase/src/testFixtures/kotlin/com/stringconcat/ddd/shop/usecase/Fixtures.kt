@@ -206,6 +206,24 @@ class MockCartExtractor : CartExtractor {
     }
 }
 
+class MockCustomerHasActiveOrder(val hasActive: Boolean) : CustomerHasActiveOrder {
+
+    lateinit var forCustomer: CustomerId
+
+    override fun check(forCustomer: CustomerId): Boolean {
+        this.forCustomer = forCustomer
+        return hasActive
+    }
+
+    fun verifyInvoked(forCustomer: CustomerId) {
+        this.forCustomer shouldBe forCustomer
+    }
+
+    fun verifyEmpty() {
+        ::forCustomer.isInitialized shouldBe false
+    }
+}
+
 class TestMealExtractor : HashMap<MealId, Meal>(), MealExtractor {
     override fun getById(id: MealId) = this[id]
 
@@ -226,10 +244,4 @@ class TestShopOrderExtractor : ShopOrderExtractor,
 
     override fun getAll(startId: ShopOrderId, limit: Int) =
         tailMap(startId).toList().take(limit).map { it.second }
-}
-
-class TestCustomerHasActiveOrder(val hasActive: Boolean) : CustomerHasActiveOrder {
-    override fun check(forCustomer: CustomerId): Boolean {
-        return hasActive
-    }
 }

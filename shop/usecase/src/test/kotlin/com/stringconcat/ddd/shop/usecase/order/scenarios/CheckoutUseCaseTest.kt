@@ -15,7 +15,7 @@ import com.stringconcat.ddd.shop.domain.order.ShopOrderIdGenerator
 import com.stringconcat.ddd.shop.domain.orderId
 import com.stringconcat.ddd.shop.domain.price
 import com.stringconcat.ddd.shop.usecase.MockCartExtractor
-import com.stringconcat.ddd.shop.usecase.TestCustomerHasActiveOrder
+import com.stringconcat.ddd.shop.usecase.MockCustomerHasActiveOrder
 import com.stringconcat.ddd.shop.usecase.MockShopOrderPersister
 import com.stringconcat.ddd.shop.usecase.order.CheckoutRequest
 import com.stringconcat.ddd.shop.usecase.order.CheckoutUseCaseError
@@ -40,7 +40,7 @@ internal class CheckoutUseCaseTest {
 
         val cartExtractor = MockCartExtractor(cart)
 
-        val activeOrderRule = TestCustomerHasActiveOrder(false)
+        val activeOrderRule = MockCustomerHasActiveOrder(false)
         val orderPersister = MockShopOrderPersister()
 
         val useCase = CheckoutUseCase(
@@ -57,6 +57,7 @@ internal class CheckoutUseCaseTest {
 
         val orderId = TestShopOrderIdGenerator.id
 
+        activeOrderRule.verifyInvoked(cart.forCustomer)
         cartExtractor.verifyInvoked(cart.forCustomer)
         orderPersister.verifyInvoked(
             orderId, address, customerId,
@@ -72,7 +73,7 @@ internal class CheckoutUseCaseTest {
     @Test
     fun `cart not found`() {
 
-        val activeOrderRule = TestCustomerHasActiveOrder(false)
+        val activeOrderRule = MockCustomerHasActiveOrder(false)
         val orderPersister = MockShopOrderPersister()
 
         val cartExtractor = MockCartExtractor()
@@ -89,6 +90,7 @@ internal class CheckoutUseCaseTest {
         val result = useCase.execute(checkoutRequest)
 
         orderPersister.verifyEmpty()
+        activeOrderRule.verifyEmpty()
         cartExtractor.verifyInvoked(checkoutRequest.forCustomer)
         result shouldBeLeft CheckoutUseCaseError.CartNotFound
     }
@@ -99,7 +101,7 @@ internal class CheckoutUseCaseTest {
         val customerId = customerId()
 
         val cart = cart(customerId = customerId)
-        val activeOrderRule = TestCustomerHasActiveOrder(false)
+        val activeOrderRule = MockCustomerHasActiveOrder(false)
         val orderPersister = MockShopOrderPersister()
 
         val cartExtractor = MockCartExtractor(cart)
@@ -117,6 +119,7 @@ internal class CheckoutUseCaseTest {
         val result = useCase.execute(checkoutRequest)
 
         orderPersister.verifyEmpty()
+        activeOrderRule.verifyInvoked(checkoutRequest.forCustomer)
         cartExtractor.verifyInvoked(checkoutRequest.forCustomer)
         result shouldBeLeft CheckoutUseCaseError.EmptyCart
     }
@@ -126,7 +129,7 @@ internal class CheckoutUseCaseTest {
 
         val cart = cart()
         val cartExtractor = MockCartExtractor(cart)
-        val activeOrderRule = TestCustomerHasActiveOrder(true)
+        val activeOrderRule = MockCustomerHasActiveOrder(true)
         val orderPersister = MockShopOrderPersister()
 
         val useCase = CheckoutUseCase(
@@ -140,6 +143,7 @@ internal class CheckoutUseCaseTest {
 
         orderPersister.verifyEmpty()
         cartExtractor.verifyEmpty()
+        activeOrderRule.verifyEmpty()
         useCase
             .execute(checkoutRequest(customerId = cart.forCustomer))
             .shouldBeLeft(CheckoutUseCaseError.AlreadyHasActiveOrder)
