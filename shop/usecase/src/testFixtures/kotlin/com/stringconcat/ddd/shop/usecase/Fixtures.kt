@@ -7,6 +7,7 @@ import com.stringconcat.ddd.shop.domain.meal
 import com.stringconcat.ddd.shop.domain.menu.Meal
 import com.stringconcat.ddd.shop.domain.menu.MealId
 import com.stringconcat.ddd.shop.domain.menu.MealName
+import com.stringconcat.ddd.shop.domain.menu.Price
 import com.stringconcat.ddd.shop.domain.order
 import com.stringconcat.ddd.shop.domain.order.CustomerHasActiveOrder
 import com.stringconcat.ddd.shop.domain.order.OrderState
@@ -19,6 +20,8 @@ import com.stringconcat.ddd.shop.usecase.menu.access.MealExtractor
 import com.stringconcat.ddd.shop.usecase.menu.access.MealPersister
 import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderExtractor
 import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderPersister
+import com.stringconcat.ddd.shop.usecase.order.providers.OrderExporter
+import io.kotest.matchers.shouldBe
 import java.util.TreeMap
 
 fun removedMeal() = meal(removed = true)
@@ -97,5 +100,23 @@ class TestCartRemover : CartRemover {
     val deleted = ArrayList<CartId>()
     override fun deleteCart(cart: Cart) {
         deleted.add(cart.id)
+    }
+}
+
+class MockOrderExporter : OrderExporter {
+    lateinit var id: ShopOrderId
+    lateinit var customerId: CustomerId
+    lateinit var totalPrice: Price
+
+    override fun exportOrder(id: ShopOrderId, customerId: CustomerId, totalPrice: Price) {
+        this.id = id
+        this.customerId = customerId
+        this.totalPrice = totalPrice
+    }
+
+    fun verifyInvoked(id: ShopOrderId, customerId: CustomerId, totalPrice: Price) {
+        this.id shouldBe id
+        this.customerId shouldBe customerId
+        this.totalPrice shouldBe totalPrice
     }
 }

@@ -60,7 +60,7 @@ class ShopOrder internal constructor(
                     address = address,
                     version = Version.new()
                 ).apply {
-                    addEvent(ShopOrderCreatedDomainEvent(id, cart.forCustomer))
+                    addEvent(ShopOrderCreatedDomainEvent(id, cart.forCustomer, totalPrice()))
                 }.right()
             } else {
                 CheckoutError.EmptyCart.left()

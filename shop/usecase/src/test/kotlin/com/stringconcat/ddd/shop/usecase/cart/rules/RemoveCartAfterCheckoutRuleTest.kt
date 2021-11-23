@@ -4,6 +4,7 @@ import com.stringconcat.ddd.shop.domain.cart
 import com.stringconcat.ddd.shop.domain.customerId
 import com.stringconcat.ddd.shop.domain.order.ShopOrderCreatedDomainEvent
 import com.stringconcat.ddd.shop.domain.orderId
+import com.stringconcat.ddd.shop.domain.price
 import com.stringconcat.ddd.shop.usecase.TestCartExtractor
 import com.stringconcat.ddd.shop.usecase.TestCartRemover
 import io.kotest.matchers.collections.shouldBeEmpty
@@ -22,7 +23,7 @@ internal class RemoveCartAfterCheckoutRuleTest {
         }
 
         val rule = RemoveCartAfterCheckoutRule(cartExtractor, cartRemover)
-        val event = ShopOrderCreatedDomainEvent(orderId(), cart.forCustomer)
+        val event = ShopOrderCreatedDomainEvent(orderId(), cart.forCustomer, price())
 
         rule.handle(event)
         cartRemover.deleted shouldContainExactly listOf(cart.id)
@@ -34,7 +35,7 @@ internal class RemoveCartAfterCheckoutRuleTest {
         val cartRemover = TestCartRemover()
         val cartExtractor = TestCartExtractor()
         val rule = RemoveCartAfterCheckoutRule(cartExtractor, cartRemover)
-        val event = ShopOrderCreatedDomainEvent(orderId(), customerId())
+        val event = ShopOrderCreatedDomainEvent(orderId(), customerId(), price())
 
         rule.handle(event)
         cartRemover.deleted.shouldBeEmpty()
