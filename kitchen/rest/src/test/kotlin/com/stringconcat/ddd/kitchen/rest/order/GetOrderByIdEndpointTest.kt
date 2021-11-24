@@ -69,7 +69,7 @@ internal class GetOrderByIdEndpointTest {
                     jsonPath("$.cooked") { value(details.cooked) }
                     jsonPath("$.meals.length()") { value(1) }
                     jsonPath("$.meals[0].meal") { value(itemDetails.meal.value) }
-                    jsonPath("$.meals[0].count") { value(itemDetails.count.value) }
+                    jsonPath("$.meals[0].count") { value(itemDetails.count.toIntValue()) }
                     jsonPath("$._links.self.href") { value(url) }
                 }
             }

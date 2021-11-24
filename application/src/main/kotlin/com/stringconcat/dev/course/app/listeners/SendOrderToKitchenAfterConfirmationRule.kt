@@ -29,7 +29,7 @@ class SendOrderToKitchenAfterConfirmationRule(
 
             CreateOrderRequest.OrderItemData(
                 mealName = meal.name.value,
-                count = it.count.value
+                count = it.count.toIntValue()
             )
         }
         val request = CreateOrderRequest(id = order.id.value, items = itemData)

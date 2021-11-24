@@ -31,6 +31,6 @@ fun OrderDetails.toOrderModel(): OrderModel {
 }
 
 fun List<OrderItem>.toModel() =
-    this.map { OrderItemModel(meal = it.meal.value, count = it.count.value) }
+    this.map { OrderItemModel(meal = it.meal.value, count = it.count.toIntValue()) }
 
 fun OrderDetails.toOrderModelEntity(): ResponseEntity<OrderModel> = ResponseEntity.ok(this.toOrderModel())

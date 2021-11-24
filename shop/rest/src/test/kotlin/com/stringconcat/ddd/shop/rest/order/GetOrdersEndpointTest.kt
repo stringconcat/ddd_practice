@@ -88,7 +88,7 @@ internal class GetOrdersEndpointTest {
                     jsonPath("$._embedded.orders[0].address.building") { value(single.address.building) }
                     jsonPath("$._embedded.orders[0].items.length()") { value(1) }
                     jsonPath("$._embedded.orders[0].items[0].mealId") { value(firstItem.mealId.value) }
-                    jsonPath("$._embedded.orders[0].items[0].count") { value(firstItem.count.value) }
+                    jsonPath("$._embedded.orders[0].items[0].count") { value(firstItem.count.toIntValue()) }
                     jsonPath("$._embedded.orders[0]._links.self.href") { exists() }
                 }
             }
@@ -131,7 +131,7 @@ internal class GetOrdersEndpointTest {
                     jsonPath("$._embedded.orders[0].address.building") { value(first.address.building) }
                     jsonPath("$._embedded.orders[0].items.length()") { value(1) }
                     jsonPath("$._embedded.orders[0].items[0].mealId") { value(firstItem.mealId.value) }
-                    jsonPath("$._embedded.orders[0].items[0].count") { value(firstItem.count.value) }
+                    jsonPath("$._embedded.orders[0].items[0].count") { value(firstItem.count.toIntValue()) }
                     jsonPath("$._embedded.orders[0]._links.self.href") { exists() }
                 }
             }

@@ -74,7 +74,7 @@ internal class GetOrderByIdEndpointTest {
                     jsonPath("$.totalPrice") { value(details.total.toBigDecimalValue()) }
                     jsonPath("$.items.length()") { value(1) }
                     jsonPath("$.items[0].mealId") { value(itemDetails.mealId.value) }
-                    jsonPath("$.items[0].count") { value(itemDetails.count.value) }
+                    jsonPath("$.items[0].count") { value(itemDetails.count.toIntValue()) }
                     jsonPath("$.version") { value(details.version.value) }
                     jsonPath("$._links.self.href") {
                         value(API_V1_ORDER_GET_BY_ID.withId(details.id.value).withHost())
@@ -110,7 +110,7 @@ internal class GetOrderByIdEndpointTest {
                     jsonPath("$.totalPrice") { value(details.total.toBigDecimalValue()) }
                     jsonPath("$.items.length()") { value(1) }
                     jsonPath("$.items[0].mealId") { value(itemDetails.mealId.value) }
-                    jsonPath("$.items[0].count") { value(itemDetails.count.value) }
+                    jsonPath("$.items[0].count") { value(itemDetails.count.toIntValue()) }
                     jsonPath("$.version") { value(details.version.value) }
                     jsonPath("$._links.self.href") { value(url) }
                     jsonPath("$._links.confirm.href") { doesNotExist() }

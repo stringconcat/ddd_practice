@@ -5,7 +5,7 @@ import arrow.core.left
 import arrow.core.right
 import com.stringconcat.ddd.common.types.base.ValueObject
 
-data class Count(val value: Int) : ValueObject {
+data class Count(private val value: Int) : ValueObject {
 
     companion object {
         fun from(count: Int): Either<NegativeValueError, Count> {
@@ -42,6 +42,8 @@ data class Count(val value: Int) : ValueObject {
     fun isMin() = value == 0
 
     fun isMax() = value == Int.MAX_VALUE
+
+    fun toIntValue() = value
 }
 
 object NegativeValueError

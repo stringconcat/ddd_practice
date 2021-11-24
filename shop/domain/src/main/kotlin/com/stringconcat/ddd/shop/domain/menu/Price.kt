@@ -35,7 +35,7 @@ data class Price internal constructor(
         Price(additional.value.add(this.value))
 
     fun multiple(multiplicator: Count): Price =
-        Price(this.value.multiply(BigDecimal(multiplicator.value)))
+        Price(this.value.multiply(BigDecimal(multiplicator.toIntValue())))
 
     fun toBigDecimalValue() = value
 

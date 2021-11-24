@@ -15,13 +15,13 @@ internal class CountTest {
     fun `create count - success`(value: Int) {
         val result = Count.from(value)
         val count = result.shouldBeRight()
-        count.value shouldBe value
+        count.toIntValue() shouldBe value
     }
 
     @Test
     fun `create count - one`() {
         val result = Count.one()
-        result.value shouldBe 1
+        result.toIntValue() shouldBe 1
     }
 
     @Test
@@ -34,7 +34,7 @@ internal class CountTest {
     fun `increment - success`() {
         val count = count(1)
         val increment = count.increment()
-        increment shouldBeRight count(count.value + 1)
+        increment shouldBeRight count(count.toIntValue() + 1)
     }
 
     @Test
@@ -49,7 +49,7 @@ internal class CountTest {
     fun `decrement - success`(value: Int) {
         val count = count(value)
         val increment = count.decrement()
-        increment shouldBeRight count(count.value - 1)
+        increment shouldBeRight count(count.toIntValue() - 1)
     }
 
     @Test

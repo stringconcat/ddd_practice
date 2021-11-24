@@ -34,7 +34,7 @@ internal class CreateOrderHandlerTest {
 
         val itemData = CreateOrderRequest.OrderItemData(
             mealName = meal.value,
-            count = count.value
+            count = count.toIntValue()
         )
 
         val request = CreateOrderRequest(
@@ -130,7 +130,7 @@ internal class CreateOrderHandlerTest {
 
         val itemData = CreateOrderRequest.OrderItemData(
             mealName = "",
-            count = count.value
+            count = count.toIntValue()
         )
 
         val request = CreateOrderRequest(

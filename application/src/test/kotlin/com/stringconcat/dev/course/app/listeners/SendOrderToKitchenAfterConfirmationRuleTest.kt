@@ -50,7 +50,7 @@ class SendOrderToKitchenAfterConfirmationRuleTest {
         useCase.request.items shouldContainExactly listOf(
             CreateOrderRequest.OrderItemData(
                 meal.name.value,
-                count.value
+                count.toIntValue()
             )
         )
         orderExtractor.verifyInvokedGetById(order.id)
@@ -144,7 +144,7 @@ class SendOrderToKitchenAfterConfirmationRuleTest {
         useCase.request.items shouldContainExactly listOf(
             CreateOrderRequest.OrderItemData(
                 meal.name.value,
-                count.value
+                count.toIntValue()
             )
         )
         orderExtractor.verifyInvokedGetById(order.id)

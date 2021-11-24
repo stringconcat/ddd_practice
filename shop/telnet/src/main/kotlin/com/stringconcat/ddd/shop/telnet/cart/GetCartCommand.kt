@@ -20,7 +20,7 @@ class GetCartCommand(private val useCase: GetCart) : ApplicationTelnetCommand() 
                                 AsciiTable.FANCY_ASCII, ci.items, listOf(
                                     Column().header("Meal id").with { item -> item.mealId.value.toString() },
                                     Column().header("Name").with { item -> item.mealName.value },
-                                    Column().header("Count").with { item -> item.count.value.toString() },
+                                    Column().header("Count").with { item -> item.count.toIntValue().toString() },
                                 )
                             )
                 })
