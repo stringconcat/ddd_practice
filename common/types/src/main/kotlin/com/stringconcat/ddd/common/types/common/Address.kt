@@ -6,9 +6,13 @@ import arrow.core.right
 import com.stringconcat.ddd.common.types.base.ValueObject
 
 data class Address internal constructor(
-    val street: String,
-    val building: Int
+    private val street: String,
+    private val building: Int,
 ) : ValueObject {
+
+    fun streetToStringValue() = street
+
+    fun buildingToIntValue() = building
 
     companion object {
 

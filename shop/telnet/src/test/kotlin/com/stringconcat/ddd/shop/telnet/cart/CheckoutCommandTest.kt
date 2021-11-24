@@ -42,8 +42,8 @@ class CheckoutCommandTest {
         )
 
         checkout.request.forCustomer shouldBe customerId
-        checkout.request.deliveryTo.street shouldBe street
-        checkout.request.deliveryTo.building shouldBe building
+        checkout.request.deliveryTo.streetToStringValue() shouldBe street
+        checkout.request.deliveryTo.buildingToIntValue() shouldBe building
 
         result shouldBe "Please follow this URL for payment $url"
     }
@@ -80,8 +80,8 @@ class CheckoutCommandTest {
         result shouldBe response.message
 
         checkout.request.forCustomer shouldBe customerId
-        checkout.request.deliveryTo.street shouldBe street
-        checkout.request.deliveryTo.building shouldBe building
+        checkout.request.deliveryTo.streetToStringValue() shouldBe street
+        checkout.request.deliveryTo.buildingToIntValue() shouldBe building
     }
 
     class TestCheckout(private val response: Either<CheckoutUseCaseError, PaymentInfo>) : Checkout {

@@ -69,8 +69,8 @@ internal class GetOrderByIdEndpointTest {
                 content {
                     contentType(APPLICATION_HAL_JSON)
                     jsonPath("$.id") { value(details.id.value) }
-                    jsonPath("$.address.street") { value(details.address.street) }
-                    jsonPath("$.address.building") { value(details.address.building) }
+                    jsonPath("$.address.street") { value(details.address.streetToStringValue()) }
+                    jsonPath("$.address.building") { value(details.address.buildingToIntValue()) }
                     jsonPath("$.totalPrice") { value(details.total.toBigDecimalValue()) }
                     jsonPath("$.items.length()") { value(1) }
                     jsonPath("$.items[0].mealId") { value(itemDetails.mealId.value) }
@@ -105,8 +105,8 @@ internal class GetOrderByIdEndpointTest {
                 content {
                     contentType(APPLICATION_HAL_JSON)
                     jsonPath("$.id") { value(details.id.value) }
-                    jsonPath("$.address.street") { value(details.address.street) }
-                    jsonPath("$.address.building") { value(details.address.building) }
+                    jsonPath("$.address.street") { value(details.address.streetToStringValue()) }
+                    jsonPath("$.address.building") { value(details.address.buildingToIntValue()) }
                     jsonPath("$.totalPrice") { value(details.total.toBigDecimalValue()) }
                     jsonPath("$.items.length()") { value(1) }
                     jsonPath("$.items[0].mealId") { value(itemDetails.mealId.value) }

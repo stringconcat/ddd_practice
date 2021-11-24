@@ -17,8 +17,8 @@ internal class AddressTest {
 
         val result = Address.from(street, building)
         val address = result.shouldBeRight()
-        address.building shouldBe building
-        address.street shouldBe street
+        address.buildingToIntValue() shouldBe building
+        address.streetToStringValue() shouldBe street
     }
 
     @ParameterizedTest

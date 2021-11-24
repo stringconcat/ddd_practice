@@ -154,7 +154,7 @@ internal class CheckoutUseCaseTest {
         customerId: CustomerId = customerId()
     ): CheckoutRequest {
         return Address
-            .from(address.street, address.building)
+            .from(address.streetToStringValue(), address.buildingToIntValue())
             .map { CheckoutRequest(customerId, address) }
             .fold(
                 ifLeft = { throw IllegalStateException() },

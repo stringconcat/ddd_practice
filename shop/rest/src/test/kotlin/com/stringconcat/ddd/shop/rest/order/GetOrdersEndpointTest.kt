@@ -84,8 +84,12 @@ internal class GetOrdersEndpointTest {
                     jsonPath("$._embedded.orders[0].id") { value(single.id.value) }
                     jsonPath("$._embedded.orders[0].totalPrice") { value(single.total.toStringValue()) }
                     jsonPath("$._embedded.orders[0].version") { value(single.version.value) }
-                    jsonPath("$._embedded.orders[0].address.street") { value(single.address.street) }
-                    jsonPath("$._embedded.orders[0].address.building") { value(single.address.building) }
+                    jsonPath("$._embedded.orders[0].address.street") {
+                        value(single.address.streetToStringValue())
+                    }
+                    jsonPath("$._embedded.orders[0].address.building") {
+                        value(single.address.buildingToIntValue())
+                    }
                     jsonPath("$._embedded.orders[0].items.length()") { value(1) }
                     jsonPath("$._embedded.orders[0].items[0].mealId") { value(firstItem.mealId.value) }
                     jsonPath("$._embedded.orders[0].items[0].count") { value(firstItem.count.toIntValue()) }
@@ -127,8 +131,12 @@ internal class GetOrdersEndpointTest {
                     jsonPath("$._embedded.orders[0].id") { value(first.id.value) }
                     jsonPath("$._embedded.orders[0].totalPrice") { value(first.total.toStringValue()) }
                     jsonPath("$._embedded.orders[0].version") { value(first.version.value) }
-                    jsonPath("$._embedded.orders[0].address.street") { value(first.address.street) }
-                    jsonPath("$._embedded.orders[0].address.building") { value(first.address.building) }
+                    jsonPath("$._embedded.orders[0].address.street") {
+                        value(first.address.streetToStringValue())
+                    }
+                    jsonPath("$._embedded.orders[0].address.building") {
+                        value(first.address.buildingToIntValue())
+                    }
                     jsonPath("$._embedded.orders[0].items.length()") { value(1) }
                     jsonPath("$._embedded.orders[0].items[0].mealId") { value(firstItem.mealId.value) }
                     jsonPath("$._embedded.orders[0].items[0].count") { value(firstItem.count.toIntValue()) }

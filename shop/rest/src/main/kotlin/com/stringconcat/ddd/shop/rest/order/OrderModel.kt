@@ -43,5 +43,7 @@ fun OrderDetails.toOrderModelEntity(): ResponseEntity<OrderModel> = ResponseEnti
 fun List<OrderItemDetails>.toModel() =
     this.map { OrderItemModel(mealId = it.mealId.value, count = it.count.toIntValue()) }
 
-fun Address.toModel() = AddressModel(street = this.street, building = this.building)
+fun Address.toModel() = AddressModel(
+    street = this.streetToStringValue(),
+    building = this.buildingToIntValue())
 data class AddressModel(val street: String, val building: Int)
