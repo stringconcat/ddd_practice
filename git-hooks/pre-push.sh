@@ -1,0 +1,22 @@
+#!/bin/sh
+
+DIFFS_COUNT=$(git diff --name-only | wc -l)
+
+# stash any unstaged changes if it's exists
+if [ "$DIFFS_COUNT" -ne 0 ]; then
+  git stash -q --keep-index
+fi
+
+# build
+./build.sh
+
+# store the last exit code in a variable
+RESULT=$?
+
+# unstash the unstashed changes if it's exists
+if [ "$DIFFS_COUNT" -ne 0 ]; then
+  git stash pop -q
+fi
+
+# return the './gradlew test' exit code
+exit $RESULT
