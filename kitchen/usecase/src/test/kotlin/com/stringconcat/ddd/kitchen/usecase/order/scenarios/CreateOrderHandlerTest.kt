@@ -33,12 +33,12 @@ internal class CreateOrderHandlerTest {
         val count = count()
 
         val itemData = CreateOrderRequest.OrderItemData(
-            mealName = meal.value,
+            mealName = meal.toStringValue(),
             count = count.toIntValue()
         )
 
         val request = CreateOrderRequest(
-            id = orderId.value,
+            id = orderId.toLongValue(),
             items = listOf(itemData)
         )
 
@@ -65,7 +65,7 @@ internal class CreateOrderHandlerTest {
         val handler = CreateOrderHandler(extractor, persister)
 
         val request = CreateOrderRequest(
-            id = existingOrder.id.value,
+            id = existingOrder.id.toLongValue(),
             items = emptyList()
         )
 
@@ -86,7 +86,7 @@ internal class CreateOrderHandlerTest {
         val orderId = orderId()
 
         val request = CreateOrderRequest(
-            id = orderId.value,
+            id = orderId.toLongValue(),
             items = emptyList()
         )
 
@@ -105,12 +105,12 @@ internal class CreateOrderHandlerTest {
         val meal = meal()
 
         val itemData = CreateOrderRequest.OrderItemData(
-            mealName = meal.value,
+            mealName = meal.toStringValue(),
             count = -1
         )
 
         val request = CreateOrderRequest(
-            id = orderId.value,
+            id = orderId.toLongValue(),
             items = listOf(itemData)
         )
 
@@ -134,7 +134,7 @@ internal class CreateOrderHandlerTest {
         )
 
         val request = CreateOrderRequest(
-            id = orderId.value,
+            id = orderId.toLongValue(),
             items = listOf(itemData)
         )
 

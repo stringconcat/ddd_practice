@@ -40,13 +40,13 @@ internal class GetOrdersEndpointTest {
                 content {
                     contentType(APPLICATION_HAL_JSON)
                     jsonPath("$._links.self.href") { value(url) }
-                    jsonPath("$._embedded.orders[0].id") { value(single.id.value) }
+                    jsonPath("$._embedded.orders[0].id") { value(single.id.toLongValue()) }
                     jsonPath("$._embedded.orders[0].cooked") { value(single.cooked) }
                     jsonPath("$._embedded.orders[0].meals.length()") { value(single.meals.size) }
-                    jsonPath("$._embedded.orders[0].meals[0].meal") { value(firstItem.meal.value) }
+                    jsonPath("$._embedded.orders[0].meals[0].meal") { value(firstItem.meal.toStringValue()) }
                     jsonPath("$._embedded.orders[0].meals[0].count") { value(firstItem.count.toIntValue()) }
                     jsonPath("$._embedded.orders[0]._links.self.href") {
-                        value(API_V1_ORDERS_GET_BY_ID.withId(single.id.value).withHost())
+                        value(API_V1_ORDERS_GET_BY_ID.withId(single.id.toLongValue()).withHost())
                     }
                 }
             }

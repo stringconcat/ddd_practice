@@ -38,7 +38,7 @@ internal class GetOrderByIdEndpointTest {
     fun `order not found`() {
         getOrderById.response = GetOrderByIdUseCaseError.OrderNotFound.left()
 
-        mockMvc.get(API_V1_ORDERS_GET_BY_ID.withId(orderId().value).withHost())
+        mockMvc.get(API_V1_ORDERS_GET_BY_ID.withId(orderId().toLongValue()).withHost())
             .andExpect {
                 content {
                     contentType(MediaType.APPLICATION_PROBLEM_JSON)
@@ -58,17 +58,17 @@ internal class GetOrderByIdEndpointTest {
         val itemDetails = details.meals[0]
 
         getOrderById.response = details.right()
-        val url = API_V1_ORDERS_GET_BY_ID.withId(details.id.value).withHost()
+        val url = API_V1_ORDERS_GET_BY_ID.withId(details.id.toLongValue()).withHost()
 
         mockMvc.get(url)
             .andExpect {
                 status { isOk() }
                 content {
                     contentType(APPLICATION_HAL_JSON)
-                    jsonPath("$.id") { value(details.id.value) }
+                    jsonPath("$.id") { value(details.id.toLongValue()) }
                     jsonPath("$.cooked") { value(details.cooked) }
                     jsonPath("$.meals.length()") { value(1) }
-                    jsonPath("$.meals[0].meal") { value(itemDetails.meal.value) }
+                    jsonPath("$.meals[0].meal") { value(itemDetails.meal.toStringValue()) }
                     jsonPath("$.meals[0].count") { value(itemDetails.count.toIntValue()) }
                     jsonPath("$._links.self.href") { value(url) }
                 }

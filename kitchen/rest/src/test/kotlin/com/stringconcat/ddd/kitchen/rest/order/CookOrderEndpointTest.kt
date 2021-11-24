@@ -36,7 +36,7 @@ internal class CookOrderEndpointTest {
         val orderId = orderId()
         mockCookOrder.response = CookOrderUseCaseError.OrderNotFound.left()
 
-        mockMvc.put(API_V1_ORDERS_COOK.withId(orderId.value).withHost())
+        mockMvc.put(API_V1_ORDERS_COOK.withId(orderId.toLongValue()).withHost())
             .andExpect {
                 content {
                     contentType(MediaType.APPLICATION_PROBLEM_JSON)
@@ -57,7 +57,7 @@ internal class CookOrderEndpointTest {
         val orderId = orderId()
         mockCookOrder.response = Unit.right()
 
-        mockMvc.put(API_V1_ORDERS_COOK.withId(orderId.value).withHost())
+        mockMvc.put(API_V1_ORDERS_COOK.withId(orderId.toLongValue()).withHost())
             .andExpect {
                 content {
                     status { isNoContent() }

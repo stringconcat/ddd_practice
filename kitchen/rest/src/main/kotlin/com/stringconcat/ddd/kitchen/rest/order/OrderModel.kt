@@ -19,18 +19,18 @@ data class OrderItemModel(val meal: String, val count: Int)
 
 fun OrderDetails.toOrderModel(): OrderModel {
     return OrderModel(
-        id = id.value,
+        id = id.toLongValue(),
         cooked = cooked,
         meals = meals.toModel()
     ).add(
         linkTo(
             methodOn(GetOrderByIdEndpoint::class.java)
-                .execute(this.id.value)
+                .execute(this.id.toLongValue())
         ).withSelfRel()
     )
 }
 
 fun List<OrderItem>.toModel() =
-    this.map { OrderItemModel(meal = it.meal.value, count = it.count.toIntValue()) }
+    this.map { OrderItemModel(meal = it.meal.toStringValue(), count = it.count.toIntValue()) }
 
 fun OrderDetails.toOrderModelEntity(): ResponseEntity<OrderModel> = ResponseEntity.ok(this.toOrderModel())

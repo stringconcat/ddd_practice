@@ -15,6 +15,6 @@ class KitchenOrderIdTest {
         val kitchenOrderId2 = KitchenOrderId(id)
         kitchenOrderId1 shouldBe kitchenOrderId2
         kitchenOrderId1 shouldNotBeSameInstanceAs kitchenOrderId2
-        kitchenOrderId1.value shouldBe kitchenOrderId2.value
+        kitchenOrderId1.toLongValue() shouldBe kitchenOrderId2.toLongValue()
     }
 }

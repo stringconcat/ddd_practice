@@ -9,12 +9,14 @@ import com.stringconcat.ddd.common.types.base.Version
 import com.stringconcat.ddd.common.types.common.Count
 import com.stringconcat.ddd.common.types.error.BusinessError
 
-data class KitchenOrderId(val value: Long)
+data class KitchenOrderId(private val value: Long) {
+    fun toLongValue() = value
+}
 
 class KitchenOrder internal constructor(
     id: KitchenOrderId,
     val meals: List<OrderItem>,
-    version: Version
+    version: Version,
 ) : AggregateRoot<KitchenOrderId>(id, version) {
 
     var cooked = false
@@ -30,7 +32,7 @@ class KitchenOrder internal constructor(
     companion object {
         fun create(
             id: KitchenOrderId,
-            orderItems: List<OrderItem>
+            orderItems: List<OrderItem>,
         ): Either<EmptyOrder, KitchenOrder> {
             return if (orderItems.isNotEmpty()) {
 
@@ -52,5 +54,5 @@ object EmptyOrder : BusinessError
 
 data class OrderItem(
     val meal: Meal,
-    val count: Count
+    val count: Count,
 ) : ValueObject
