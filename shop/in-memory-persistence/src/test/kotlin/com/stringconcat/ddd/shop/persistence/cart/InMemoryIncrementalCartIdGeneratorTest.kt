@@ -10,6 +10,6 @@ internal class InMemoryIncrementalCartIdGeneratorTest {
         val generator = InMemoryIncrementalCartIdGenerator()
         val cartId1 = generator.generate()
         val cartId2 = generator.generate()
-        cartId1.value shouldBe cartId2.value - 1
+        cartId1.toLongValue() shouldBe cartId2.toLongValue() - 1
     }
 }

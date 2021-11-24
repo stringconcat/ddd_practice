@@ -36,7 +36,7 @@ internal class CancelOrderEndpointTest {
         val orderId = orderId()
         mockCancelOrder.response = CancelOrderUseCaseError.OrderNotFound.left()
 
-        mockMvc.put(API_V1_ORDER_CANCEL_BY_ID.withId(orderId.value).withHost())
+        mockMvc.put(API_V1_ORDER_CANCEL_BY_ID.withId(orderId.toLongValue()).withHost())
             .andExpect {
                 content {
                     contentType(MediaType.APPLICATION_PROBLEM_JSON)
@@ -56,7 +56,7 @@ internal class CancelOrderEndpointTest {
         val orderId = orderId()
         mockCancelOrder.response = CancelOrderUseCaseError.InvalidOrderState.left()
 
-        mockMvc.put(API_V1_ORDER_CANCEL_BY_ID.withId(orderId.value).withHost())
+        mockMvc.put(API_V1_ORDER_CANCEL_BY_ID.withId(orderId.toLongValue()).withHost())
             .andExpect {
                 content {
                     contentType(MediaType.APPLICATION_PROBLEM_JSON)
@@ -77,7 +77,7 @@ internal class CancelOrderEndpointTest {
         val orderId = orderId()
         mockCancelOrder.response = Unit.right()
 
-        mockMvc.put(API_V1_ORDER_CANCEL_BY_ID.withId(orderId.value).withHost())
+        mockMvc.put(API_V1_ORDER_CANCEL_BY_ID.withId(orderId.toLongValue()).withHost())
             .andExpect {
                 content {
                     status { isNoContent() }

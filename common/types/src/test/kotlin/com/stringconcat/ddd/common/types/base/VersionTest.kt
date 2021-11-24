@@ -10,15 +10,15 @@ internal class VersionTest {
     fun `new id - check version is zero`() {
         val firstVersion = Version.new()
         val secondVersion = Version.new()
-        firstVersion.value shouldBe secondVersion.value
-        firstVersion.value shouldBe 0
+        firstVersion.toLongValue() shouldBe secondVersion.toLongValue()
+        firstVersion.toLongValue() shouldBe 0
     }
 
     @Test
     fun `restore from long`() {
         val long = Random.nextLong()
         val version = Version.from(long)
-        version.value shouldBe long
+        version.toLongValue() shouldBe long
     }
 
     @Test
@@ -26,7 +26,7 @@ internal class VersionTest {
         val long = Random.nextLong()
         val version = Version.from(long)
         val incremented = version.next()
-        incremented.value shouldBe long + 1
+        incremented.toLongValue() shouldBe long + 1
     }
 
     @Test
@@ -44,6 +44,6 @@ internal class VersionTest {
 
         val previous = version.previous()
 
-        previous.value shouldBe version.value - 1
+        previous.toLongValue() shouldBe version.toLongValue() - 1
     }
 }

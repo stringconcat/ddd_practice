@@ -10,6 +10,6 @@ internal class InMemoryIncrementalShopOrderIdGeneratorTest {
         val generator = InMemoryIncrementalShopOrderIdGenerator()
         val orderId1 = generator.generate()
         val orderId2 = generator.generate()
-        orderId1.value shouldBe orderId2.value - 1
+        orderId1.toLongValue() shouldBe orderId2.toLongValue() - 1
     }
 }

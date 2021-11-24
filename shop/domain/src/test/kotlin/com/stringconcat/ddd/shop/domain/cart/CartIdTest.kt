@@ -16,6 +16,6 @@ internal class CartIdTest {
         val shopOrderId2 = ShopOrderId(id)
         shopOrderId1 shouldBe shopOrderId2
         shopOrderId1 shouldNotBeSameInstanceAs shopOrderId2
-        shopOrderId1.value shouldBe shopOrderId2.value
+        shopOrderId1.toLongValue() shouldBe shopOrderId2.toLongValue()
     }
 }

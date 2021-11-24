@@ -13,9 +13,9 @@ class GetMenuCommand(private val useCase: GetMenu) : ApplicationTelnetCommand() 
 
         return AsciiTable.getTable(
             AsciiTable.FANCY_ASCII, menu, listOf(
-                Column().with { meal -> meal.id.value.toString() },
-                Column().header("Name").with { meal -> meal.name.value },
-                Column().header("Description").with { meal -> meal.description.value },
+                Column().with { meal -> meal.id.toLongValue().toString() },
+                Column().header("Name").with { meal -> meal.name.toStringValue() },
+                Column().header("Description").with { meal -> meal.description.toStringValue() },
                 Column().header("Price").with { meal -> meal.price.toStringValue() },
             )
         )

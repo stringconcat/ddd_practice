@@ -21,11 +21,11 @@ internal class PostgresMealIdGeneratorTest {
     @Test
     fun `generate id`() {
         val id = mealId()
-        jdbcTemplate.jdbcTemplate.execute("SELECT setval('shop.meal_id_seq', ${id.value});")
+        jdbcTemplate.jdbcTemplate.execute("SELECT setval('shop.meal_id_seq', ${id.toLongValue()});")
         val generator = PostgresMealIdGenerator(dataSource)
 
         val mealId = generator.generate()
 
-        mealId shouldBe MealId(id.value + 1)
+        mealId shouldBe MealId(id.toLongValue() + 1)
     }
 }

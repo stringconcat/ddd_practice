@@ -14,6 +14,7 @@ class SimplePaymentUrlProviderTest {
         val orderId = orderId()
         val price = price()
         val url = provider.provideUrl(orderId, price)
-        url shouldBe URL("http://localhost/payment?orderId=${orderId.value}&price=${price.toBigDecimalValue()}")
+        url shouldBe URL("http://localhost/payment?orderId=${orderId.toLongValue()}" +
+                "&price=${price.toBigDecimalValue()}")
     }
 }

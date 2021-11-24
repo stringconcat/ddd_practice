@@ -38,7 +38,7 @@ internal class GetOrdersEndpointTest {
         val limit = 10
         getOrders.response = GetOrdersUseCaseError.LimitExceed(limit + 1).left()
 
-        val url = API_V1_ORDER_GET_WITH_PAGINATION.withStartId(startId.value).withLimit(limit)
+        val url = API_V1_ORDER_GET_WITH_PAGINATION.withStartId(startId.toLongValue()).withLimit(limit)
         mockMvc.get(url)
             .andExpect {
                 content {
@@ -65,7 +65,7 @@ internal class GetOrdersEndpointTest {
 
         getOrders.response = listOf(single).right()
 
-        val url = API_V1_ORDER_GET_WITH_PAGINATION.withStartId(single.id.value).withLimit(limit).withHost()
+        val url = API_V1_ORDER_GET_WITH_PAGINATION.withStartId(single.id.toLongValue()).withLimit(limit).withHost()
         mockMvc.get(url)
             .andExpect {
                 status { isOk() }
@@ -81,9 +81,9 @@ internal class GetOrdersEndpointTest {
                     }
 
                     jsonPath("$._embedded.orders.length()") { value(limit) }
-                    jsonPath("$._embedded.orders[0].id") { value(single.id.value) }
+                    jsonPath("$._embedded.orders[0].id") { value(single.id.toLongValue()) }
                     jsonPath("$._embedded.orders[0].totalPrice") { value(single.total.toStringValue()) }
-                    jsonPath("$._embedded.orders[0].version") { value(single.version.value) }
+                    jsonPath("$._embedded.orders[0].version") { value(single.version.toLongValue()) }
                     jsonPath("$._embedded.orders[0].address.street") {
                         value(single.address.streetToStringValue())
                     }
@@ -91,7 +91,7 @@ internal class GetOrdersEndpointTest {
                         value(single.address.buildingToIntValue())
                     }
                     jsonPath("$._embedded.orders[0].items.length()") { value(1) }
-                    jsonPath("$._embedded.orders[0].items[0].mealId") { value(firstItem.mealId.value) }
+                    jsonPath("$._embedded.orders[0].items[0].mealId") { value(firstItem.mealId.toLongValue()) }
                     jsonPath("$._embedded.orders[0].items[0].count") { value(firstItem.count.toIntValue()) }
                     jsonPath("$._embedded.orders[0]._links.self.href") { exists() }
                 }
@@ -109,7 +109,7 @@ internal class GetOrdersEndpointTest {
 
         getOrders.response = listOf(first, second).right()
 
-        val url = API_V1_ORDER_GET_WITH_PAGINATION.withStartId(first.id.value).withLimit(limit).withHost()
+        val url = API_V1_ORDER_GET_WITH_PAGINATION.withStartId(first.id.toLongValue()).withLimit(limit).withHost()
 
         mockMvc.get(url)
             .andExpect {
@@ -124,13 +124,13 @@ internal class GetOrdersEndpointTest {
                         value(API_V1_ORDER_GET_WITH_PAGINATION.withStartId(0).withLimit(limit).withHost())
                     }
                     jsonPath("$._links.next.href") {
-                        value(API_V1_ORDER_GET_WITH_PAGINATION.withStartId(second.id.value).withLimit(limit).withHost())
+                        value(API_V1_ORDER_GET_WITH_PAGINATION.withStartId(second.id.toLongValue()).withLimit(limit).withHost())
                     }
 
                     jsonPath("$._embedded.orders.length()") { value(limit) }
-                    jsonPath("$._embedded.orders[0].id") { value(first.id.value) }
+                    jsonPath("$._embedded.orders[0].id") { value(first.id.toLongValue()) }
                     jsonPath("$._embedded.orders[0].totalPrice") { value(first.total.toStringValue()) }
-                    jsonPath("$._embedded.orders[0].version") { value(first.version.value) }
+                    jsonPath("$._embedded.orders[0].version") { value(first.version.toLongValue()) }
                     jsonPath("$._embedded.orders[0].address.street") {
                         value(first.address.streetToStringValue())
                     }
@@ -138,7 +138,7 @@ internal class GetOrdersEndpointTest {
                         value(first.address.buildingToIntValue())
                     }
                     jsonPath("$._embedded.orders[0].items.length()") { value(1) }
-                    jsonPath("$._embedded.orders[0].items[0].mealId") { value(firstItem.mealId.value) }
+                    jsonPath("$._embedded.orders[0].items[0].mealId") { value(firstItem.mealId.toLongValue()) }
                     jsonPath("$._embedded.orders[0].items[0].count") { value(firstItem.count.toIntValue()) }
                     jsonPath("$._embedded.orders[0]._links.self.href") { exists() }
                 }

@@ -28,11 +28,11 @@ class SendOrderToKitchenAfterConfirmationRule(
             }
 
             CreateOrderRequest.OrderItemData(
-                mealName = meal.name.value,
+                mealName = meal.name.toStringValue(),
                 count = it.count.toIntValue()
             )
         }
-        val request = CreateOrderRequest(id = order.id.value, items = itemData)
+        val request = CreateOrderRequest(id = order.id.toLongValue(), items = itemData)
         createOrder.execute(request).mapLeft {
             error("Cannot create order #${order.id} for kitchen: $it")
         }

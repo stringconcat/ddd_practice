@@ -35,13 +35,13 @@ class PostgresMealRepository(
 
     private fun update(meal: Meal) {
         val params = mapOf(
-            "id" to meal.id.value,
-            "name" to meal.name.value,
-            "description" to meal.description.value,
+            "id" to meal.id.toLongValue(),
+            "name" to meal.name.toStringValue(),
+            "description" to meal.description.toStringValue(),
             "price" to meal.price.toBigDecimalValue(),
             "removed" to meal.removed,
-            "previousVersion" to meal.version.previous().value,
-            "currentVersion" to meal.version.value)
+            "previousVersion" to meal.version.previous().toLongValue(),
+            "currentVersion" to meal.version.toLongValue())
 
         val updated = jdbcTemplate.update("""
             UPDATE shop.meal SET name = :name,
@@ -53,18 +53,19 @@ class PostgresMealRepository(
         """.trimIndent(), params)
 
         if (updated == 0) {
-            throw StorageConflictException("Meal #${meal.id.value} [version = ${meal.version.value}] is outdated")
+            throw StorageConflictException("Meal #${meal.id.toLongValue()}" +
+                    " [version = ${meal.version.toLongValue()}] is outdated")
         }
     }
 
     private fun insert(meal: Meal) {
         val params = mapOf(
-            "id" to meal.id.value,
-            "name" to meal.name.value,
-            "description" to meal.description.value,
+            "id" to meal.id.toLongValue(),
+            "name" to meal.name.toStringValue(),
+            "description" to meal.description.toStringValue(),
             "price" to meal.price.toBigDecimalValue(),
             "removed" to meal.removed,
-            "version" to meal.version.value)
+            "version" to meal.version.toLongValue())
 
         jdbcTemplate.update("""INSERT INTO shop.meal (id, name, description, price, removed, version)
             VALUES (:id, :name, :description, :price, :removed, :version)
@@ -72,13 +73,13 @@ class PostgresMealRepository(
     }
 
     override fun getById(id: MealId): Meal? {
-        val params = mapOf("id" to id.value)
+        val params = mapOf("id" to id.toLongValue())
         return jdbcTemplate.query("SELECT * FROM shop.meal WHERE id = :id", params,
             MealResultSetExtractor())
     }
 
     override fun getByName(name: MealName): Meal? {
-        val params = mapOf("name" to name.value)
+        val params = mapOf("name" to name.toStringValue())
         return jdbcTemplate.query("SELECT * FROM shop.meal WHERE name = :name",
             params, MealResultSetExtractor())
     }

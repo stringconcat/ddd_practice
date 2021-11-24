@@ -18,8 +18,10 @@ class GetCartCommand(private val useCase: GetCart) : ApplicationTelnetCommand() 
                     "Cart for customer [${ci.forCustomer.value}] \n" +
                             AsciiTable.getTable(
                                 AsciiTable.FANCY_ASCII, ci.items, listOf(
-                                    Column().header("Meal id").with { item -> item.mealId.value.toString() },
-                                    Column().header("Name").with { item -> item.mealName.value },
+                                    Column().header("Meal id").with { item ->
+                                        item.mealId.toLongValue().toString()
+                                    },
+                                    Column().header("Name").with { item -> item.mealName.toStringValue() },
                                     Column().header("Count").with { item -> item.count.toIntValue().toString() },
                                 )
                             )

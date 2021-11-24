@@ -26,7 +26,7 @@ class RemoveMealFromCartCommandTest {
         val useCase = TestRemoveMealFromCart(Unit.right())
         val command = RemoveMealFromCartCommand(useCase)
         val result = command.execute(
-            line = "remove ${mealId.value}",
+            line = "remove ${mealId.toLongValue()}",
             sessionParameters = emptyMap(),
             sessionId = UUID.fromString(customerId.value)
         )
@@ -45,7 +45,7 @@ class RemoveMealFromCartCommandTest {
 
         val command = RemoveMealFromCartCommand(useCase)
         val result = command.execute(
-            line = "remove ${mealId.value}",
+            line = "remove ${mealId.toLongValue()}",
             sessionParameters = emptyMap(),
             sessionId = UUID.fromString(customerId.value)
         )

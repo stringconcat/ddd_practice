@@ -35,7 +35,7 @@ class AddMealToMenuEndpoint(val addMealToMenu: AddMealToMenu) {
                 addingMealToMenuResult.fold(
                     { it.toRestError() },
                     { created(linkTo(methodOn(GetMealByIdEndpoint::class.java)
-                        .execute(it.value)).toUri()) })
+                        .execute(it.toLongValue())).toUri()) })
             })
     }
 }

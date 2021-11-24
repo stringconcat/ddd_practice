@@ -12,7 +12,7 @@ class InMemoryShopOrderRepository(private val eventPublisher: DomainEventPublish
     ShopOrderExtractor,
     ShopOrderPersister {
 
-    internal val storage = TreeMap<ShopOrderId, ShopOrder> { k1, k2 -> k1.value.compareTo(k2.value) }
+    internal val storage = TreeMap<ShopOrderId, ShopOrder> { k1, k2 -> k1.toLongValue().compareTo(k2.toLongValue()) }
 
     override fun getById(orderId: ShopOrderId) = storage[orderId]
 

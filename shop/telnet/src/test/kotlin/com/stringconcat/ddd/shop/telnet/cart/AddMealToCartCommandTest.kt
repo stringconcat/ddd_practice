@@ -26,7 +26,7 @@ class AddMealToCartCommandTest {
 
         val command = AddMealToCartCommand(useCase)
         val result = command.execute(
-            line = "add ${mealId.value}",
+            line = "add ${mealId.toLongValue()}",
             sessionParameters = emptyMap(),
             sessionId = UUID.fromString(customerId.value)
         )
@@ -46,7 +46,7 @@ class AddMealToCartCommandTest {
         val command = AddMealToCartCommand(useCase)
 
         val result = command.execute(
-            line = "add ${mealId.value}",
+            line = "add ${mealId.toLongValue()}",
             sessionParameters = emptyMap(),
             sessionId = UUID.fromString(customerId.value)
         )

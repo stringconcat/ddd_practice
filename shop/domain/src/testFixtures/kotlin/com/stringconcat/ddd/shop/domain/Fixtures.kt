@@ -1,11 +1,10 @@
 package com.stringconcat.ddd.shop.domain
 
-import arrow.core.Either
 import arrow.core.getOrElse
 import com.stringconcat.ddd.common.types.base.Version
-import com.stringconcat.ddd.common.types.count
 import com.stringconcat.ddd.common.types.common.Address
 import com.stringconcat.ddd.common.types.common.Count
+import com.stringconcat.ddd.common.types.count
 import com.stringconcat.ddd.common.types.faker
 import com.stringconcat.ddd.shop.domain.cart.Cart
 import com.stringconcat.ddd.shop.domain.cart.CartId
@@ -17,44 +16,31 @@ import com.stringconcat.ddd.shop.domain.menu.MealId
 import com.stringconcat.ddd.shop.domain.menu.MealName
 import com.stringconcat.ddd.shop.domain.menu.MealRestorer
 import com.stringconcat.ddd.shop.domain.menu.Price
+import com.stringconcat.ddd.shop.domain.order.CustomerHasActiveOrder
+import com.stringconcat.ddd.shop.domain.order.OrderItem
+import com.stringconcat.ddd.shop.domain.order.OrderState
 import com.stringconcat.ddd.shop.domain.order.ShopOrder
 import com.stringconcat.ddd.shop.domain.order.ShopOrderId
-import com.stringconcat.ddd.shop.domain.order.OrderItem
 import com.stringconcat.ddd.shop.domain.order.ShopOrderRestorer
-import com.stringconcat.ddd.shop.domain.order.OrderState
-import com.stringconcat.ddd.shop.domain.order.CustomerHasActiveOrder
 import java.math.BigDecimal
 import java.time.OffsetDateTime
 import java.util.UUID
 import kotlin.math.absoluteValue
 import kotlin.random.Random
 
-fun address(): Address {
+fun address() = Address.from(
+    street = faker.address().streetName(),
+    building = faker.address().streetAddressNumber().toInt() + 1
+).getOrElse { error("Address should be right") }
 
-    val result = Address.from(
-        street = faker.address().streetName(),
-        building = faker.address().streetAddressNumber().toInt() + 1
-    )
+fun mealName(name: String = "${faker.food().dish()} [${Random.nextInt()}]") =
+    MealName.from(name).getOrElse { error("MealName should be right") }
 
-    check(result is Either.Right<Address>)
-    return result.value
-}
+fun mealDescription(description: String = faker.food().ingredient()) =
+    MealDescription.from(description).getOrElse { error("MealDescription should be right") }
 
-fun mealName(name: String = "${faker.food().dish()} [${Random.nextInt()}]"): MealName {
-    val result = MealName.from(name)
-    check(result is Either.Right<MealName>)
-    return result.value
-}
-
-fun mealDescription(description: String = faker.food().ingredient()): MealDescription {
-    val result = MealDescription.from(description)
-    check(result is Either.Right<MealDescription>)
-    return result.value
-}
-
-fun price(value: BigDecimal = BigDecimal(Random.nextInt(1, 500000))): Price {
-    return Price.from(value.setScale(2)).getOrElse { error("price must be right") }
-}
+fun price(value: BigDecimal = BigDecimal(Random.nextInt(1, 500000))) =
+    Price.from(value.setScale(2)).getOrElse { error("price must be right") }
 
 fun version() = Version.new()
 
@@ -78,7 +64,7 @@ fun cartId() = CartId(faker.number().randomNumber())
 
 fun cart(
     meals: Map<MealId, Count> = emptyMap(),
-    customerId: CustomerId = customerId()
+    customerId: CustomerId = customerId(),
 ): Cart {
     return CartRestorer.restoreCart(
         id = cartId(),
@@ -93,7 +79,7 @@ fun orderId() = ShopOrderId(faker.number().randomNumber())
 
 fun orderItem(
     price: Price = price(),
-    count: Count = count()
+    count: Count = count(),
 ): OrderItem {
     return OrderItem(
         mealId = mealId(),

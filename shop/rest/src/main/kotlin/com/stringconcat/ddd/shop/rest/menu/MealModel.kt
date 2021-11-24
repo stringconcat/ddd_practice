@@ -18,18 +18,18 @@ data class MealModel(
 
     companion object {
         fun from(mealInfo: MealInfo): MealModel =
-            MealModel(id = mealInfo.id.value,
-                name = mealInfo.name.value,
+            MealModel(id = mealInfo.id.toLongValue(),
+                name = mealInfo.name.toStringValue(),
                 price = mealInfo.price.toBigDecimalValue(),
-                description = mealInfo.description.value,
-                version = mealInfo.version.value)
+                description = mealInfo.description.toStringValue(),
+                version = mealInfo.version.toLongValue())
 
                 .add(linkTo(methodOn(GetMealByIdEndpoint::class.java)
-                    .execute(mealInfo.id.value))
+                    .execute(mealInfo.id.toLongValue()))
                     .withSelfRel())
 
                 .add(linkTo(methodOn(RemoveMealFromMenuEndpoint::class.java)
-                    .execute(mealInfo.id.value))
+                    .execute(mealInfo.id.toLongValue()))
                     .withRel("remove"))
     }
 }

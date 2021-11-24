@@ -40,7 +40,7 @@ internal class GetOrderByIdEndpointTest {
     @Test
     fun `order not found`() {
         getOrderById.response = GetOrderByIdUseCaseError.OrderNotFound.left()
-        val url = API_V1_ORDER_GET_BY_ID.withId(orderId().value).withHost()
+        val url = API_V1_ORDER_GET_BY_ID.withId(orderId().toLongValue()).withHost()
         mockMvc.get(url)
             .andExpect {
                 content {
@@ -61,29 +61,29 @@ internal class GetOrderByIdEndpointTest {
         val itemDetails = details.items[0]
 
         getOrderById.response = details.right()
-        val url = API_V1_ORDER_GET_BY_ID.withId(details.id.value).withHost()
+        val url = API_V1_ORDER_GET_BY_ID.withId(details.id.toLongValue()).withHost()
 
         mockMvc.get(url)
             .andExpect {
                 status { isOk() }
                 content {
                     contentType(APPLICATION_HAL_JSON)
-                    jsonPath("$.id") { value(details.id.value) }
+                    jsonPath("$.id") { value(details.id.toLongValue()) }
                     jsonPath("$.address.street") { value(details.address.streetToStringValue()) }
                     jsonPath("$.address.building") { value(details.address.buildingToIntValue()) }
                     jsonPath("$.totalPrice") { value(details.total.toBigDecimalValue()) }
                     jsonPath("$.items.length()") { value(1) }
-                    jsonPath("$.items[0].mealId") { value(itemDetails.mealId.value) }
+                    jsonPath("$.items[0].mealId") { value(itemDetails.mealId.toLongValue()) }
                     jsonPath("$.items[0].count") { value(itemDetails.count.toIntValue()) }
-                    jsonPath("$.version") { value(details.version.value) }
+                    jsonPath("$.version") { value(details.version.toLongValue()) }
                     jsonPath("$._links.self.href") {
-                        value(API_V1_ORDER_GET_BY_ID.withId(details.id.value).withHost())
+                        value(API_V1_ORDER_GET_BY_ID.withId(details.id.toLongValue()).withHost())
                     }
                     jsonPath("$._links.confirm.href") {
-                        value(API_V1_ORDER_CONFIRM_BY_ID.withId(details.id.value).withHost())
+                        value(API_V1_ORDER_CONFIRM_BY_ID.withId(details.id.toLongValue()).withHost())
                     }
                     jsonPath("$._links.cancel.href") {
-                        value(API_V1_ORDER_CANCEL_BY_ID.withId(details.id.value).withHost())
+                        value(API_V1_ORDER_CANCEL_BY_ID.withId(details.id.toLongValue()).withHost())
                     }
                 }
             }
@@ -97,21 +97,21 @@ internal class GetOrderByIdEndpointTest {
         val itemDetails = details.items[0]
 
         getOrderById.response = details.right()
-        val url = API_V1_ORDER_GET_BY_ID.withId(details.id.value).withHost()
+        val url = API_V1_ORDER_GET_BY_ID.withId(details.id.toLongValue()).withHost()
 
         mockMvc.get(url)
             .andExpect {
                 status { isOk() }
                 content {
                     contentType(APPLICATION_HAL_JSON)
-                    jsonPath("$.id") { value(details.id.value) }
+                    jsonPath("$.id") { value(details.id.toLongValue()) }
                     jsonPath("$.address.street") { value(details.address.streetToStringValue()) }
                     jsonPath("$.address.building") { value(details.address.buildingToIntValue()) }
                     jsonPath("$.totalPrice") { value(details.total.toBigDecimalValue()) }
                     jsonPath("$.items.length()") { value(1) }
-                    jsonPath("$.items[0].mealId") { value(itemDetails.mealId.value) }
+                    jsonPath("$.items[0].mealId") { value(itemDetails.mealId.toLongValue()) }
                     jsonPath("$.items[0].count") { value(itemDetails.count.toIntValue()) }
-                    jsonPath("$.version") { value(details.version.value) }
+                    jsonPath("$.version") { value(details.version.toLongValue()) }
                     jsonPath("$._links.self.href") { value(url) }
                     jsonPath("$._links.confirm.href") { doesNotExist() }
 

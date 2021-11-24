@@ -15,6 +15,6 @@ internal class MealIdTest {
         val mealId2 = MealId(id)
         mealId1 shouldBe mealId2
         mealId1 shouldNotBeSameInstanceAs mealId2
-        mealId1.value shouldBe mealId2.value
+        mealId1.toLongValue() shouldBe mealId2.toLongValue()
     }
 }

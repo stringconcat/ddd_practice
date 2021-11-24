@@ -75,12 +75,12 @@ fun cleanMealTable(jdbcTemplate: NamedParameterJdbcTemplate) {
 fun Meal.checkExistsInDatabase(jdbcTemplate: NamedParameterJdbcTemplate) {
 
     val params = mapOf(
-        "id" to this.id.value,
-        "name" to this.name.value,
-        "description" to this.description.value,
+        "id" to this.id.toLongValue(),
+        "name" to this.name.toStringValue(),
+        "description" to this.description.toStringValue(),
         "removed" to this.removed,
         "price" to this.price.toBigDecimalValue(),
-        "version" to this.version.value)
+        "version" to this.version.toLongValue())
 
     val exists = jdbcTemplate.queryForObject("""
             SELECT EXISTS(SELECT 1 FROM shop.meal 

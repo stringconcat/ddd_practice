@@ -25,7 +25,7 @@ class GetOrdersEndpoint(private val getOrders: GetOrders) {
                 {
                     var nextId: Long? = null
                     val model = if (it.size > limit) {
-                        nextId = it[limit].id.value
+                        nextId = it[limit].id.toLongValue()
                         CursorPagedModel.from(
                             it.subList(0, limit).map { it.toOrderModel() })
                     } else {

@@ -13,7 +13,7 @@ fun prepareCart(client: TestTelnetClient, mealRepository: MealPersister): Custom
     val meal = meal()
     mealRepository.save(meal)
 
-    client.writeCommand("add ${meal.id.value}")
+    client.writeCommand("add ${meal.id.toLongValue()}")
     client.lastMessageShouldBeOk()
 
     client.writeCommand("cart")

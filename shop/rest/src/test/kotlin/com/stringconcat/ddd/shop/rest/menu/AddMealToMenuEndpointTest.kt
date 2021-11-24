@@ -80,8 +80,8 @@ internal class AddMealToMenuEndpointTest {
                 content =
                     mapper.writeValueAsString(
                         AddMealToMenuRestRequest(
-                            name = name.value,
-                            description = description.value,
+                            name = name.toStringValue(),
+                            description = description.toStringValue(),
                             price = price.toBigDecimalValue()
                         )
                     )
@@ -116,8 +116,8 @@ internal class AddMealToMenuEndpointTest {
                 content =
                     mapper.writeValueAsString(
                         AddMealToMenuRestRequest(
-                            name = name.value,
-                            description = description.value,
+                            name = name.toStringValue(),
+                            description = description.toStringValue(),
                             price = price.toBigDecimalValue()
                         )
                     )
@@ -127,7 +127,7 @@ internal class AddMealToMenuEndpointTest {
                     content {
                         string("")
                     }
-                    header { string("Location", API_V1_MENU_GET_BY_ID.withId(mealId.value).withHost()) }
+                    header { string("Location", API_V1_MENU_GET_BY_ID.withId(mealId.toLongValue()).withHost()) }
                 }
             }
         mockAddMealToMenu.verifyInvoked(name, description, price)

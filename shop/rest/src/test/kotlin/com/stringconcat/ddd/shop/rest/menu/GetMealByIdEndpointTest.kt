@@ -37,7 +37,7 @@ class GetMealByIdEndpointTest {
     fun `meal not found`() {
         getMealById.response = GetMealByIdUseCaseError.MealNotFound.left()
 
-        val url = API_V1_MENU_GET_BY_ID.withId(mealId().value).withHost()
+        val url = API_V1_MENU_GET_BY_ID.withId(mealId().toLongValue()).withHost()
         mockMvc.get(url)
             .andExpect {
                 content {
@@ -56,18 +56,18 @@ class GetMealByIdEndpointTest {
         val mealInfo = mealInfo()
         getMealById.response = mealInfo.right()
 
-        val url = API_V1_MENU_GET_BY_ID.withId(mealInfo.id.value).withHost()
+        val url = API_V1_MENU_GET_BY_ID.withId(mealInfo.id.toLongValue()).withHost()
         mockMvc.get(url)
             .andExpect {
                 status { isOk() }
                 content {
                     contentType(APPLICATION_HAL_JSON)
 
-                    jsonPath("$.id") { value(mealInfo.id.value) }
-                    jsonPath("$.name") { value(mealInfo.name.value) }
-                    jsonPath("$.description") { value(mealInfo.description.value) }
+                    jsonPath("$.id") { value(mealInfo.id.toLongValue()) }
+                    jsonPath("$.name") { value(mealInfo.name.toStringValue()) }
+                    jsonPath("$.description") { value(mealInfo.description.toStringValue()) }
                     jsonPath("$.price") { value(mealInfo.price.toBigDecimalValue().setScale(1)) }
-                    jsonPath("$.version") { value(mealInfo.version.value) }
+                    jsonPath("$.version") { value(mealInfo.version.toLongValue()) }
                     jsonPath("$._links.self.href") { value(url) }
                     jsonPath("$._links.remove.href") { value(url) }
                 }

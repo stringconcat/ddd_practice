@@ -46,10 +46,10 @@ class SendOrderToKitchenAfterConfirmationRuleTest {
         val event = ShopOrderConfirmedDomainEvent(order.id)
         rule.handle(event)
 
-        useCase.request.id shouldBe order.id.value
+        useCase.request.id shouldBe order.id.toLongValue()
         useCase.request.items shouldContainExactly listOf(
             CreateOrderRequest.OrderItemData(
-                meal.name.value,
+                meal.name.toStringValue(),
                 count.toIntValue()
             )
         )
@@ -140,10 +140,10 @@ class SendOrderToKitchenAfterConfirmationRuleTest {
             rule.handle(event)
         }
 
-        useCase.request.id shouldBe order.id.value
+        useCase.request.id shouldBe order.id.toLongValue()
         useCase.request.items shouldContainExactly listOf(
             CreateOrderRequest.OrderItemData(
-                meal.name.value,
+                meal.name.toStringValue(),
                 count.toIntValue()
             )
         )

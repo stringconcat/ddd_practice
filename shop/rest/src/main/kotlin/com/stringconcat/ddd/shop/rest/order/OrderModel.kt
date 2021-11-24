@@ -21,19 +21,19 @@ data class OrderModel(
 data class OrderItemModel(val mealId: Long, val count: Int)
 
 fun OrderDetails.toOrderModel(): OrderModel {
-    val result = OrderModel(id = this.id.value,
+    val result = OrderModel(id = this.id.toLongValue(),
         totalPrice = this.total.toStringValue(),
         address = this.address.toModel(),
         items = this.items.toModel(),
-        version = this.version.value
+        version = this.version.toLongValue()
     ).add(linkTo(methodOn(GetOrderByIdEndpoint::class.java)
-        .execute(this.id.value)).withSelfRel())
+        .execute(this.id.toLongValue())).withSelfRel())
 
     if (this.readyForConfirmOrCancel) {
         result.add(linkTo(methodOn(CancelOrderEndpoint::class.java)
-            .execute(this.id.value)).withRel("cancel"))
+            .execute(this.id.toLongValue())).withRel("cancel"))
             .add(linkTo(methodOn(ConfirmOrderEndpoint::class.java)
-                .execute(this.id.value)).withRel("confirm"))
+                .execute(this.id.toLongValue())).withRel("confirm"))
     }
     return result
 }
@@ -41,7 +41,7 @@ fun OrderDetails.toOrderModel(): OrderModel {
 fun OrderDetails.toOrderModelEntity(): ResponseEntity<OrderModel> = ResponseEntity.ok(this.toOrderModel())
 
 fun List<OrderItemDetails>.toModel() =
-    this.map { OrderItemModel(mealId = it.mealId.value, count = it.count.toIntValue()) }
+    this.map { OrderItemModel(mealId = it.mealId.toLongValue(), count = it.count.toIntValue()) }
 
 fun Address.toModel() = AddressModel(
     street = this.streetToStringValue(),

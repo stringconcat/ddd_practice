@@ -10,6 +10,6 @@ internal class InMemoryIncrementaMealIdGeneratorTest {
         val generator = InMemoryIncrementalMealIdGenerator()
         val mealId1 = generator.generate()
         val mealId2 = generator.generate()
-        mealId1.value shouldBe mealId2.value - 1
+        mealId1.toLongValue() shouldBe mealId2.toLongValue() - 1
     }
 }

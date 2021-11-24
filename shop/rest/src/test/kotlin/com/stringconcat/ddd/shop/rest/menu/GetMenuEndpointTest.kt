@@ -43,18 +43,18 @@ class GetMenuEndpointTest {
 
                     jsonPath("$._embedded.meals.length()") { value(1) }
                     jsonPath("$._embedded.meals") { isNotEmpty() }
-                    jsonPath("$._embedded.meals[0].id") { value(meal.id.value) }
-                    jsonPath("$._embedded.meals[0].name") { value(meal.name.value) }
-                    jsonPath("$._embedded.meals[0].description") { value(meal.description.value) }
+                    jsonPath("$._embedded.meals[0].id") { value(meal.id.toLongValue()) }
+                    jsonPath("$._embedded.meals[0].name") { value(meal.name.toStringValue()) }
+                    jsonPath("$._embedded.meals[0].description") { value(meal.description.toStringValue()) }
                     jsonPath("$._embedded.meals[0].price") { value(meal.price.toBigDecimalValue().setScale(1)) }
-                    jsonPath("$._embedded.meals[0].version") { value(meal.version.value) }
+                    jsonPath("$._embedded.meals[0].version") { value(meal.version.toLongValue()) }
 
                     jsonPath("$._embedded.meals[0]._links.self.href") {
-                        value(API_V1_MENU_GET_BY_ID.withId(meal.id.value).withHost())
+                        value(API_V1_MENU_GET_BY_ID.withId(meal.id.toLongValue()).withHost())
                     }
 
                     jsonPath("$._embedded.meals[0]._links.remove.href") {
-                        value(API_V1_MENU_DELETE_BY_ID.withId(meal.id.value).withHost())
+                        value(API_V1_MENU_DELETE_BY_ID.withId(meal.id.toLongValue()).withHost())
                     }
                 }
             }

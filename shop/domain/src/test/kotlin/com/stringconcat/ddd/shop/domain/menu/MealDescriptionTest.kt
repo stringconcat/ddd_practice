@@ -18,7 +18,7 @@ internal class MealDescriptionTest {
 
         result.shouldBeInstanceOf<Either.Right<MealDescription>>()
         val description = result.shouldBeRight()
-        description.value shouldBe value
+        description.toStringValue() shouldBe value
     }
 
     @ParameterizedTest

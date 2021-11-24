@@ -17,7 +17,7 @@ class CrmClient(baseUrl: URL) : OrderExporter {
         .rootUri(baseUrl.toString()).build()
 
     override fun exportOrder(id: ShopOrderId, customerId: CustomerId, totalPrice: Price) {
-        val request = Request(id = id.value,
+        val request = Request(id = id.toLongValue(),
             customerId = customerId.value,
             totalPrice = totalPrice.toBigDecimalValue())
 
@@ -27,8 +27,8 @@ class CrmClient(baseUrl: URL) : OrderExporter {
         }
 
         when (body.result) {
-            Result.SUCCESS -> logger.info("Order ${id.value} exported successfully")
-            Result.ALREADY_EXISTS -> logger.warn("Order ${id.value} is already exists in CRM")
+            Result.SUCCESS -> logger.info("Order ${id.toLongValue()} exported successfully")
+            Result.ALREADY_EXISTS -> logger.warn("Order ${id.toLongValue()} is already exists in CRM")
         }
     }
 

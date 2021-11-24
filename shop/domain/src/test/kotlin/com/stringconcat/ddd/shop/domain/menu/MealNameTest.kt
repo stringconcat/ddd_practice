@@ -15,7 +15,7 @@ internal class MealNameTest {
         val result = MealName.from(value)
 
         val name = result.shouldBeRight()
-        name.value shouldBe value
+        name.toStringValue() shouldBe value
     }
 
     @ParameterizedTest
