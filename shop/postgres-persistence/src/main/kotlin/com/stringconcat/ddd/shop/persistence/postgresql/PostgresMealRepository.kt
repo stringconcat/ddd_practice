@@ -38,7 +38,7 @@ class PostgresMealRepository(
             "id" to meal.id.value,
             "name" to meal.name.value,
             "description" to meal.description.value,
-            "price" to meal.price.value,
+            "price" to meal.price.toBigDecimalValue(),
             "removed" to meal.removed,
             "previousVersion" to meal.version.previous().value,
             "currentVersion" to meal.version.value)
@@ -62,7 +62,7 @@ class PostgresMealRepository(
             "id" to meal.id.value,
             "name" to meal.name.value,
             "description" to meal.description.value,
-            "price" to meal.price.value,
+            "price" to meal.price.toBigDecimalValue(),
             "removed" to meal.removed,
             "version" to meal.version.value)
 

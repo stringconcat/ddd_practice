@@ -79,7 +79,7 @@ fun Meal.checkExistsInDatabase(jdbcTemplate: NamedParameterJdbcTemplate) {
         "name" to this.name.value,
         "description" to this.description.value,
         "removed" to this.removed,
-        "price" to this.price.value,
+        "price" to this.price.toBigDecimalValue(),
         "version" to this.version.value)
 
     val exists = jdbcTemplate.queryForObject("""

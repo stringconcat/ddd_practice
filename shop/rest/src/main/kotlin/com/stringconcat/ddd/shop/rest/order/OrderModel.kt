@@ -22,7 +22,7 @@ data class OrderItemModel(val mealId: Long, val count: Int)
 
 fun OrderDetails.toOrderModel(): OrderModel {
     val result = OrderModel(id = this.id.value,
-        totalPrice = this.total.value.toString(),
+        totalPrice = this.total.toStringValue(),
         address = this.address.toModel(),
         items = this.items.toModel(),
         version = this.version.value

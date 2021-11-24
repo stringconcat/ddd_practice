@@ -19,7 +19,7 @@ class CrmClient(baseUrl: URL) : OrderExporter {
     override fun exportOrder(id: ShopOrderId, customerId: CustomerId, totalPrice: Price) {
         val request = Request(id = id.value,
             customerId = customerId.value,
-            totalPrice = totalPrice.value)
+            totalPrice = totalPrice.toBigDecimalValue())
 
         val response = restTemplate.postForEntity("/orders", request, Response::class.java)
         val body = checkNotNull(response.body) {

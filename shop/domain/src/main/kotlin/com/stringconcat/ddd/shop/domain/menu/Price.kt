@@ -9,7 +9,7 @@ import com.stringconcat.ddd.common.types.error.BusinessError
 import java.math.BigDecimal
 
 data class Price internal constructor(
-    val value: BigDecimal
+    private val value: BigDecimal
 ) : ValueObject {
 
     companion object {
@@ -36,6 +36,10 @@ data class Price internal constructor(
 
     fun multiple(multiplicator: Count): Price =
         Price(this.value.multiply(BigDecimal(multiplicator.value)))
+
+    fun toBigDecimalValue() = value
+
+    fun toStringValue() = value.toPlainString()
 }
 
 sealed class CreatePriceError : BusinessError {

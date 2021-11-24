@@ -82,7 +82,7 @@ internal class AddMealToMenuEndpointTest {
                         AddMealToMenuRestRequest(
                             name = name.value,
                             description = description.value,
-                            price = price.value
+                            price = price.toBigDecimalValue()
                         )
                     )
             }.andExpect {
@@ -118,7 +118,7 @@ internal class AddMealToMenuEndpointTest {
                         AddMealToMenuRestRequest(
                             name = name.value,
                             description = description.value,
-                            price = price.value
+                            price = price.toBigDecimalValue()
                         )
                     )
             }.andExpect {

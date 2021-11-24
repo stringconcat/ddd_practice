@@ -20,7 +20,7 @@ data class MealModel(
         fun from(mealInfo: MealInfo): MealModel =
             MealModel(id = mealInfo.id.value,
                 name = mealInfo.name.value,
-                price = mealInfo.price.value,
+                price = mealInfo.price.toBigDecimalValue(),
                 description = mealInfo.description.value,
                 version = mealInfo.version.value)
 

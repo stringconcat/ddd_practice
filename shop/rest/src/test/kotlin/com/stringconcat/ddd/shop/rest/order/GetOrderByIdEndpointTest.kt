@@ -71,7 +71,7 @@ internal class GetOrderByIdEndpointTest {
                     jsonPath("$.id") { value(details.id.value) }
                     jsonPath("$.address.street") { value(details.address.street) }
                     jsonPath("$.address.building") { value(details.address.building) }
-                    jsonPath("$.totalPrice") { value(details.total.value) }
+                    jsonPath("$.totalPrice") { value(details.total.toBigDecimalValue()) }
                     jsonPath("$.items.length()") { value(1) }
                     jsonPath("$.items[0].mealId") { value(itemDetails.mealId.value) }
                     jsonPath("$.items[0].count") { value(itemDetails.count.value) }
@@ -107,7 +107,7 @@ internal class GetOrderByIdEndpointTest {
                     jsonPath("$.id") { value(details.id.value) }
                     jsonPath("$.address.street") { value(details.address.street) }
                     jsonPath("$.address.building") { value(details.address.building) }
-                    jsonPath("$.totalPrice") { value(details.total.value) }
+                    jsonPath("$.totalPrice") { value(details.total.toBigDecimalValue()) }
                     jsonPath("$.items.length()") { value(1) }
                     jsonPath("$.items[0].mealId") { value(itemDetails.mealId.value) }
                     jsonPath("$.items[0].count") { value(itemDetails.count.value) }

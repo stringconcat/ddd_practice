@@ -82,7 +82,7 @@ internal class GetOrdersEndpointTest {
 
                     jsonPath("$._embedded.orders.length()") { value(limit) }
                     jsonPath("$._embedded.orders[0].id") { value(single.id.value) }
-                    jsonPath("$._embedded.orders[0].totalPrice") { value(single.total.value.toString()) }
+                    jsonPath("$._embedded.orders[0].totalPrice") { value(single.total.toStringValue()) }
                     jsonPath("$._embedded.orders[0].version") { value(single.version.value) }
                     jsonPath("$._embedded.orders[0].address.street") { value(single.address.street) }
                     jsonPath("$._embedded.orders[0].address.building") { value(single.address.building) }
@@ -125,7 +125,7 @@ internal class GetOrdersEndpointTest {
 
                     jsonPath("$._embedded.orders.length()") { value(limit) }
                     jsonPath("$._embedded.orders[0].id") { value(first.id.value) }
-                    jsonPath("$._embedded.orders[0].totalPrice") { value(first.total.value.toString()) }
+                    jsonPath("$._embedded.orders[0].totalPrice") { value(first.total.toStringValue()) }
                     jsonPath("$._embedded.orders[0].version") { value(first.version.value) }
                     jsonPath("$._embedded.orders[0].address.street") { value(first.address.street) }
                     jsonPath("$._embedded.orders[0].address.building") { value(first.address.building) }

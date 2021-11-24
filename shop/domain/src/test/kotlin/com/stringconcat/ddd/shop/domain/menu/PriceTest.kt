@@ -19,7 +19,7 @@ internal class PriceTest {
         val result = Price.from(input)
 
         val price = result.shouldBeRight()
-        price.value shouldBe input.setScale(2)
+        price.toBigDecimalValue() shouldBe input.setScale(2)
     }
 
     @Test
@@ -28,7 +28,7 @@ internal class PriceTest {
         val result = Price.from(value)
 
         val price = result.shouldBeRight()
-        price.value shouldBe BigDecimal("1.40")
+        price.toBigDecimalValue() shouldBe BigDecimal("1.40")
     }
 
     @Test
@@ -54,7 +54,7 @@ internal class PriceTest {
         val price2 = price(BigDecimal("1.45"))
 
         val result = price1.add(price2)
-        result.value shouldBe BigDecimal("2.89")
+        result.toBigDecimalValue() shouldBe BigDecimal("2.89")
     }
 
     @Test
@@ -62,6 +62,13 @@ internal class PriceTest {
         val price = price(BigDecimal("1.5"))
         val count = count(3)
         val result = price.multiple(count)
-        result.value shouldBe BigDecimal("4.50")
+        result.toBigDecimalValue() shouldBe BigDecimal("4.50")
+    }
+
+    @Test
+    fun `format as string`() {
+        val priceStr = "111111122222222222"
+        val price = price(BigDecimal(priceStr))
+        price.toStringValue() shouldBe "$priceStr.00"
     }
 }

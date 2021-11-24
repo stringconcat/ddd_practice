@@ -7,6 +7,6 @@ import java.net.URL
 
 class SimplePaymentUrlProvider(private val currentUrl: URL) : PaymentUrlProvider {
     override fun provideUrl(orderId: ShopOrderId, price: Price): URL {
-        return URL("$currentUrl/payment?orderId=${orderId.value}&price=${price.value}")
+        return URL("$currentUrl/payment?orderId=${orderId.value}&price=${price.toBigDecimalValue()}")
     }
 }

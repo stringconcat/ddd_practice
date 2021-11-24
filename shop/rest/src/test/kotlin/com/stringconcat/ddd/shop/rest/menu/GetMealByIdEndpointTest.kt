@@ -66,7 +66,7 @@ class GetMealByIdEndpointTest {
                     jsonPath("$.id") { value(mealInfo.id.value) }
                     jsonPath("$.name") { value(mealInfo.name.value) }
                     jsonPath("$.description") { value(mealInfo.description.value) }
-                    jsonPath("$.price") { value(mealInfo.price.value.setScale(1)) }
+                    jsonPath("$.price") { value(mealInfo.price.toBigDecimalValue().setScale(1)) }
                     jsonPath("$.version") { value(mealInfo.version.value) }
                     jsonPath("$._links.self.href") { value(url) }
                     jsonPath("$._links.remove.href") { value(url) }

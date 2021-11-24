@@ -1,6 +1,7 @@
 package com.stringconcat.ddd.shop.domain
 
 import arrow.core.Either
+import arrow.core.getOrElse
 import com.stringconcat.ddd.common.types.base.Version
 import com.stringconcat.ddd.common.types.count
 import com.stringconcat.ddd.common.types.common.Address
@@ -52,9 +53,7 @@ fun mealDescription(description: String = faker.food().ingredient()): MealDescri
 }
 
 fun price(value: BigDecimal = BigDecimal(Random.nextInt(1, 500000))): Price {
-    val result = Price.from(value.setScale(2))
-    check(result is Either.Right<Price>)
-    return result.value
+    return Price.from(value.setScale(2)).getOrElse { error("price must be right") }
 }
 
 fun version() = Version.new()
