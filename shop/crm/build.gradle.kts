@@ -26,10 +26,8 @@ dependencies {
     // jackson
     implementation(Libs.jackson_kotlin)
 
-    // test
-    testImplementation(Libs.spring_boot_starter_test) {
-        exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
-    }
+    //
+    implementation(Libs.resilience4j_circuitbreaker)
 
     testImplementation(Libs.kotest_junit)
     testImplementation(Libs.kotest_arrow)
@@ -47,4 +45,6 @@ dependencies {
     testFixturesImplementation(testFixtures(project(":shop:usecase")))
     testFixturesImplementation(Libs.arrow)
     testFixturesImplementation(Libs.kotest_junit)
+    testFixturesImplementation(Libs.wiremock)
+    testFixturesImplementation(Libs.pact)
 }

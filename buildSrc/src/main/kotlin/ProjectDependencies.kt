@@ -18,6 +18,7 @@ object LibVers {
     const val testcontainers = "1.16.2"
     const val pact = "4.3.1"
     const val wiremock = "2.31.0"
+    const val resilience4j_circuitbreaker = "1.7.1"
 }
 
 object Libs {
@@ -71,6 +72,10 @@ object Libs {
     // Database
     const val postgresql = "org.postgresql:postgresql:${LibVers.postgresql}"
     const val liquibase = ("org.liquibase:liquibase-core:${LibVers.liquibase}")
+
+    // resilience4j
+    const val resilience4j_circuitbreaker = "io.github.resilience4j:resilience4j-circuitbreaker:" +
+            LibVers.resilience4j_circuitbreaker
 }
 
 object PluginVers {

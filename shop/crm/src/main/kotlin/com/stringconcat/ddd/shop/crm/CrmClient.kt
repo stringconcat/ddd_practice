@@ -4,32 +4,49 @@ import com.stringconcat.ddd.shop.domain.cart.CustomerId
 import com.stringconcat.ddd.shop.domain.menu.Price
 import com.stringconcat.ddd.shop.domain.order.ShopOrderId
 import com.stringconcat.ddd.shop.usecase.order.providers.OrderExporter
+import io.github.resilience4j.circuitbreaker.CircuitBreaker
+import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig
+import java.io.IOException
 import java.math.BigDecimal
-import java.net.URL
+import java.net.SocketException
+import java.util.concurrent.TimeoutException
 import org.slf4j.LoggerFactory
 import org.springframework.boot.web.client.RestTemplateBuilder
-import org.springframework.http.HttpStatus
 import org.springframework.http.client.ClientHttpResponse
+import org.springframework.web.client.ResourceAccessException
 import org.springframework.web.client.ResponseErrorHandler
 
-class CrmClient(baseUrl: URL) : OrderExporter {
+class CrmClient(settings: CrmClientSettings) : OrderExporter {
 
     private val logger = LoggerFactory.getLogger(CrmClient::class.java)
 
     private val restTemplate = RestTemplateBuilder()
-        .rootUri(baseUrl.toString())
+        .rootUri(settings.baseUrl.toString())
         .errorHandler(EmptyErrorHandler())
+        .setConnectTimeout(settings.connectTimeout)
+        .setReadTimeout(settings.readTimeout)
         .build()
+
+    private val circuitBreakerConfig = CircuitBreakerConfig.custom()
+        .failureRateThreshold(settings.failureRate)
+        .slowCallDurationThreshold(settings.slowCallDuration)
+        .slowCallRateThreshold(settings.slowCallRate)
+        .recordExceptions(
+            IOException::class.java,
+            TimeoutException::class.java,
+            SocketException::class.java,
+            ResourceAccessException::class.java)
+        .build()
+
+    private val circuitBreaker = CircuitBreaker.of("CrmClientCircuitBreaker", circuitBreakerConfig)
 
     override fun exportOrder(id: ShopOrderId, customerId: CustomerId, totalPrice: Price) {
         val request = Request(id = id.toLongValue(),
             customerId = customerId.value,
             totalPrice = totalPrice.toBigDecimalValue())
 
-        val response = restTemplate.postForEntity("/orders", request, Response::class.java)
-
-        check(response.statusCode == HttpStatus.OK) {
-            "Status code should be ${HttpStatus.OK}, but now it's ${response.statusCode}. Entity: $response"
+        val response = circuitBreaker.executeSupplier {
+            restTemplate.postForEntity("/orders", request, Response::class.java)
         }
 
         val body = checkNotNull(response.body) {

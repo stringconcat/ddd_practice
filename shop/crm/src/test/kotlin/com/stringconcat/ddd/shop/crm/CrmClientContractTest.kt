@@ -7,7 +7,6 @@ import au.com.dius.pact.consumer.junit5.PactConsumerTestExt
 import au.com.dius.pact.consumer.junit5.PactTestFor
 import au.com.dius.pact.core.model.PactSpecVersion
 import au.com.dius.pact.core.model.annotations.Pact
-import au.com.dius.pact.core.support.toUrl
 import com.stringconcat.ddd.shop.domain.order
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -53,14 +52,14 @@ internal class CrmClientContractTest {
     @Test
     @PactTestFor(pactMethod = "contract - export order when it doesn't exist in crm", pactVersion = PactSpecVersion.V3)
     fun `export order when it doesn't exist in crm`(mockServer: MockServer) {
-        val client = CrmClient(mockServer.getUrl().toUrl()!!)
+        val client = mockServer.buildCrmClient()
         client.exportOrder(order.id, order.forCustomer, order.totalPrice())
     }
 
     @Test
     @PactTestFor(pactMethod = "contract - export order when it exists in crm", pactVersion = PactSpecVersion.V3)
     fun `export order when it exists in crm`(mockServer: MockServer) {
-        val client = CrmClient(mockServer.getUrl().toUrl()!!)
+        val client = mockServer.buildCrmClient()
         client.exportOrder(order.id, order.forCustomer, order.totalPrice())
     }
 }
