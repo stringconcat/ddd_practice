@@ -1,5 +1,4 @@
 object LibVers {
-
     const val spring_boot = "2.5.6"
     const val swagger = "3.0.0"
     const val junit = "5.7.1"
@@ -18,6 +17,7 @@ object LibVers {
     const val faker = "1.0.2"
     const val testcontainers = "1.16.2"
     const val pact = "4.3.1"
+    const val wiremock = "2.31.0"
 }
 
 object Libs {
@@ -61,6 +61,7 @@ object Libs {
     const val arch_unit = "com.tngtech.archunit:archunit-junit5:${LibVers.arch_unit}"
     const val faker = "com.github.javafaker:javafaker:${LibVers.faker}"
     const val testcontainers = "org.testcontainers:postgresql:${LibVers.testcontainers}"
+    const val wiremock = "com.github.tomakehurst:wiremock-jre8:${LibVers.wiremock}"
 
     // Telnet deps
     const val testng = "org.testng:testng:${LibVers.testng}"

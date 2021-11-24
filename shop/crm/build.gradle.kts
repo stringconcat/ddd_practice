@@ -36,6 +36,7 @@ dependencies {
     testImplementation(Libs.junit_engine)
     testImplementation(Libs.junit_params)
     testImplementation(Libs.pact)
+    testImplementation(Libs.wiremock)
 
     testImplementation(testFixtures(project(":common:types")))
     testImplementation(testFixtures(project(":shop:domain")))

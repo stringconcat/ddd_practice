@@ -8,13 +8,18 @@ import java.math.BigDecimal
 import java.net.URL
 import org.slf4j.LoggerFactory
 import org.springframework.boot.web.client.RestTemplateBuilder
+import org.springframework.http.HttpStatus
+import org.springframework.http.client.ClientHttpResponse
+import org.springframework.web.client.ResponseErrorHandler
 
 class CrmClient(baseUrl: URL) : OrderExporter {
 
     private val logger = LoggerFactory.getLogger(CrmClient::class.java)
 
     private val restTemplate = RestTemplateBuilder()
-        .rootUri(baseUrl.toString()).build()
+        .rootUri(baseUrl.toString())
+        .errorHandler(EmptyErrorHandler())
+        .build()
 
     override fun exportOrder(id: ShopOrderId, customerId: CustomerId, totalPrice: Price) {
         val request = Request(id = id.toLongValue(),
@@ -22,8 +27,13 @@ class CrmClient(baseUrl: URL) : OrderExporter {
             totalPrice = totalPrice.toBigDecimalValue())
 
         val response = restTemplate.postForEntity("/orders", request, Response::class.java)
+
+        check(response.statusCode == HttpStatus.OK) {
+            "Status code should be ${HttpStatus.OK}, but now it's ${response.statusCode}. Entity: $response"
+        }
+
         val body = checkNotNull(response.body) {
-            "CRM returned an empty body"
+            "CRM returned an empty body. Entity: $response"
         }
 
         when (body.result) {
@@ -35,4 +45,12 @@ class CrmClient(baseUrl: URL) : OrderExporter {
     data class Request(val id: Long, val customerId: String, val totalPrice: BigDecimal)
     data class Response(val result: Result)
     enum class Result { SUCCESS, ALREADY_EXISTS }
+}
+
+class EmptyErrorHandler : ResponseErrorHandler {
+    override fun hasError(response: ClientHttpResponse) = false
+
+    override fun handleError(response: ClientHttpResponse) {
+        // nothing to do
+    }
 }
