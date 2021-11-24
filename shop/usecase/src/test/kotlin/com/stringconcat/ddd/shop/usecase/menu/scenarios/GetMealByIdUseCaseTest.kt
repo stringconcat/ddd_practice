@@ -2,7 +2,7 @@ package com.stringconcat.ddd.shop.usecase.menu.scenarios
 
 import com.stringconcat.ddd.shop.domain.meal
 import com.stringconcat.ddd.shop.domain.mealId
-import com.stringconcat.ddd.shop.usecase.TestMealExtractor
+import com.stringconcat.ddd.shop.usecase.MockMealExtractor
 import com.stringconcat.ddd.shop.usecase.menu.GetMealByIdUseCaseError
 import com.stringconcat.ddd.shop.usecase.menu.dto.MealInfo
 import com.stringconcat.ddd.shop.usecase.removedMeal
@@ -15,28 +15,32 @@ internal class GetMealByIdUseCaseTest {
 
     @Test
     fun `meal not found`() {
-        val mealExtractor = TestMealExtractor()
+        val mealExtractor = MockMealExtractor()
         val useCase = GetMealByIdUseCase(mealExtractor)
-        val result = useCase.execute(mealId())
+
+        val mealId = mealId()
+        val result = useCase.execute(mealId)
+
         result shouldBeLeft GetMealByIdUseCaseError.MealNotFound
+        mealExtractor.verifyInvokedGetById(mealId)
     }
 
     @Test
     fun `meal removed`() {
         val meal = removedMeal()
-        val mealExtractor = TestMealExtractor()
-        mealExtractor[meal.id] = meal
+        val mealExtractor = MockMealExtractor(meal)
         val useCase = GetMealByIdUseCase(mealExtractor)
 
         val result = useCase.execute(meal.id)
+
         result shouldBeLeft GetMealByIdUseCaseError.MealNotFound
+        mealExtractor.verifyInvokedGetById(meal.id)
     }
 
     @Test
     fun `meal extracted successfully`() {
         val meal = meal()
-        val mealExtractor = TestMealExtractor()
-        mealExtractor[meal.id] = meal
+        val mealExtractor = MockMealExtractor(meal)
         val useCase = GetMealByIdUseCase(mealExtractor)
 
         val result = useCase.execute(meal.id)
@@ -49,5 +53,6 @@ internal class GetMealByIdUseCaseTest {
             price = meal.price,
             version = meal.version
         )
+        mealExtractor.verifyInvokedGetById(meal.id)
     }
 }

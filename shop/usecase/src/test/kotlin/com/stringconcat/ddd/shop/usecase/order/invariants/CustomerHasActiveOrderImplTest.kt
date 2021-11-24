@@ -1,7 +1,7 @@
 package com.stringconcat.ddd.shop.usecase.order.invariants
 
 import com.stringconcat.ddd.shop.domain.customerId
-import com.stringconcat.ddd.shop.usecase.TestShopOrderExtractor
+import com.stringconcat.ddd.shop.usecase.MockShopOrderExtractor
 import com.stringconcat.ddd.shop.usecase.activeOrder
 import com.stringconcat.ddd.shop.usecase.nonActiveOrder
 import io.kotest.matchers.booleans.shouldBeFalse
@@ -14,35 +14,38 @@ internal class CustomerHasActiveOrderImplTest {
     fun `active order exists`() {
 
         val activeOrder = activeOrder()
-        val extractor = TestShopOrderExtractor().apply {
-            this[activeOrder.id] = activeOrder
-        }
+        val extractor = MockShopOrderExtractor(activeOrder)
         val rule = CustomerHasActiveOrderImpl(extractor)
 
         val hasActiveOrder = rule.check(activeOrder.forCustomer)
+
         hasActiveOrder.shouldBeTrue()
+        extractor.verifyInvokedGetLastOrder(activeOrder.forCustomer)
     }
 
     @Test
     fun `order exists but not active`() {
 
         val activeOrder = nonActiveOrder()
-        val extractor = TestShopOrderExtractor().apply {
-            this[activeOrder.id] = activeOrder
-        }
+        val extractor = MockShopOrderExtractor(activeOrder)
         val rule = CustomerHasActiveOrderImpl(extractor)
 
         val hasActiveOrder = rule.check(activeOrder.forCustomer)
+
         hasActiveOrder.shouldBeFalse()
+        extractor.verifyInvokedGetLastOrder(activeOrder.forCustomer)
     }
 
     @Test
     fun `order doesn't exists`() {
 
-        val extractor = TestShopOrderExtractor()
+        val extractor = MockShopOrderExtractor()
         val rule = CustomerHasActiveOrderImpl(extractor)
 
-        val hasActiveOrder = rule.check(customerId())
+        val customerId = customerId()
+        val hasActiveOrder = rule.check(customerId)
+
         hasActiveOrder.shouldBeFalse()
+        extractor.verifyInvokedGetLastOrder(customerId)
     }
 }

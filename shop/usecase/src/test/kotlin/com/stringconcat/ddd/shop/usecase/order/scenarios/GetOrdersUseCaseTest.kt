@@ -2,7 +2,7 @@ package com.stringconcat.ddd.shop.usecase.order.scenarios
 
 import com.stringconcat.ddd.shop.domain.order
 import com.stringconcat.ddd.shop.domain.order.ShopOrderId
-import com.stringconcat.ddd.shop.usecase.TestShopOrderExtractor
+import com.stringconcat.ddd.shop.usecase.MockShopOrderExtractor
 import com.stringconcat.ddd.shop.usecase.order.GetOrdersUseCaseError
 import com.stringconcat.ddd.shop.usecase.order.dto.toDetails
 import io.kotest.assertions.arrow.core.shouldBeLeft
@@ -18,11 +18,13 @@ internal class GetOrdersUseCaseTest {
         val orderId = ShopOrderId(0)
         val limit = 10
 
-        val extractor = TestShopOrderExtractor()
+        val extractor = MockShopOrderExtractor()
         val useCase = GetOrdersUseCase(extractor) { limit }
         val result = useCase.execute(orderId, limit)
         val list = result.shouldBeRight()
+
         list.shouldBeEmpty()
+        extractor.verifyInvokedGetAll()
     }
 
     @Test
@@ -32,14 +34,13 @@ internal class GetOrdersUseCaseTest {
         val limit = 10
 
         val order = order(id = orderId)
-        val extractor = TestShopOrderExtractor().apply {
-            this[order.id] = order
-        }
+        val extractor = MockShopOrderExtractor(order)
 
         val useCase = GetOrdersUseCase(extractor) { limit }
         val result = useCase.execute(orderId, limit)
         val list = result.shouldBeRight()
 
+        extractor.verifyInvokedGetAll()
         list shouldContainExactly listOf(
            order.toDetails()
         )
@@ -50,9 +51,11 @@ internal class GetOrdersUseCaseTest {
         val orderId = ShopOrderId(0)
         val limit = 10
 
-        val extractor = TestShopOrderExtractor()
+        val extractor = MockShopOrderExtractor()
         val useCase = GetOrdersUseCase(extractor) { limit }
         val result = useCase.execute(orderId, limit + 1)
+
         result shouldBeLeft GetOrdersUseCaseError.LimitExceed(maxSize = 10)
+        extractor.verifyEmpty()
     }
 }

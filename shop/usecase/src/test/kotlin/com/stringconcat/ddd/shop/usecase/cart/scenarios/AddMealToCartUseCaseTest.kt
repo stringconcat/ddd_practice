@@ -1,24 +1,17 @@
 package com.stringconcat.ddd.shop.usecase.cart.scenarios
 
-import com.stringconcat.ddd.common.types.count
 import com.stringconcat.ddd.shop.domain.cart
 import com.stringconcat.ddd.shop.domain.cart.CartIdGenerator
 import com.stringconcat.ddd.shop.domain.cart.CustomerId
 import com.stringconcat.ddd.shop.domain.cartId
 import com.stringconcat.ddd.shop.domain.customerId
 import com.stringconcat.ddd.shop.domain.meal
-import com.stringconcat.ddd.shop.usecase.TestCartExtractor
-import com.stringconcat.ddd.shop.usecase.TestCartPersister
-import com.stringconcat.ddd.shop.usecase.TestMealExtractor
+import com.stringconcat.ddd.shop.usecase.MockCartExtractor
+import com.stringconcat.ddd.shop.usecase.MockCartPersister
+import com.stringconcat.ddd.shop.usecase.MockMealExtractor
 import com.stringconcat.ddd.shop.usecase.cart.AddMealToCartUseCaseError
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
-import io.kotest.matchers.maps.shouldBeEmpty
-import io.kotest.matchers.maps.shouldContainExactly
-import io.kotest.matchers.maps.shouldContainKey
-import io.kotest.matchers.nulls.shouldNotBeNull
-import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.shouldBeSameInstanceAs
 import java.util.UUID
 import org.junit.jupiter.api.Test
 
@@ -28,11 +21,9 @@ internal class AddMealToCartUseCaseTest {
     fun `cart doesn't exist - successfully added`() {
 
         val meal = meal()
-        val cartPersister = TestCartPersister()
-        val cartExtractor = TestCartExtractor()
-        val mealExtractor = TestMealExtractor().apply {
-            this[meal.id] = meal
-        }
+        val cartPersister = MockCartPersister()
+        val cartExtractor = MockCartExtractor()
+        val mealExtractor = MockMealExtractor(meal)
 
         val useCase = AddMealToCartUseCase(
             mealExtractor = mealExtractor,
@@ -43,14 +34,10 @@ internal class AddMealToCartUseCaseTest {
 
         val customerId = customerId()
         val result = useCase.execute(customerId, meal.id)
-        result.shouldBeRight()
-        cartPersister shouldContainKey customerId
-        val cart = cartPersister[customerId]
 
-        cart.shouldNotBeNull()
-        cart.id shouldBe TestCartIdGenerator.id
-        cart.forCustomer shouldBe customerId
-        cart.meals() shouldContainExactly mapOf(meal.id to count(1))
+        result.shouldBeRight()
+        mealExtractor.verifyInvokedGetById(meal.id)
+        cartPersister.verifyInvoked(TestCartIdGenerator.id, customerId, meal.id)
     }
 
     @Test
@@ -60,13 +47,9 @@ internal class AddMealToCartUseCaseTest {
         val customerId = customerId()
         val existingCart = cart(customerId = customerId)
 
-        val cartPersister = TestCartPersister()
-        val mealExtractor = TestMealExtractor().apply {
-            this[meal.id] = meal
-        }
-        val cartExtractor = TestCartExtractor().apply {
-            this[customerId] = existingCart
-        }
+        val cartPersister = MockCartPersister()
+        val mealExtractor = MockMealExtractor(meal)
+        val cartExtractor = MockCartExtractor(existingCart)
 
         val useCase = AddMealToCartUseCase(
             mealExtractor = mealExtractor,
@@ -77,21 +60,19 @@ internal class AddMealToCartUseCaseTest {
 
         val result = useCase.execute(customerId, meal.id)
         result.shouldBeRight()
-        cartPersister shouldContainKey customerId
-        val cart = cartPersister[customerId]
 
-        cart.shouldNotBeNull()
-        cart shouldBeSameInstanceAs existingCart
-        cart.meals() shouldContainExactly mapOf(meal.id to count(1))
+        mealExtractor.verifyInvokedGetById(meal.id)
+        cartPersister.verifyInvoked(existingCart, meal.id)
+        cartExtractor.verifyInvoked(existingCart.forCustomer)
     }
 
     @Test
     fun `meal not found`() {
 
         val meal = meal()
-        val cartPersister = TestCartPersister()
-        val cartExtractor = TestCartExtractor()
-        val mealExtractor = TestMealExtractor()
+        val cartPersister = MockCartPersister()
+        val cartExtractor = MockCartExtractor()
+        val mealExtractor = MockMealExtractor()
 
         val useCase = AddMealToCartUseCase(
             mealExtractor = mealExtractor,
@@ -101,8 +82,11 @@ internal class AddMealToCartUseCaseTest {
         )
 
         val result = useCase.execute(CustomerId(UUID.randomUUID().toString()), meal.id)
+
+        mealExtractor.verifyInvokedGetById(meal.id)
+        cartPersister.verifyEmpty()
+        cartExtractor.verifyEmpty()
         result shouldBeLeft AddMealToCartUseCaseError.MealNotFound
-        cartPersister.shouldBeEmpty()
     }
 
     object TestCartIdGenerator : CartIdGenerator {

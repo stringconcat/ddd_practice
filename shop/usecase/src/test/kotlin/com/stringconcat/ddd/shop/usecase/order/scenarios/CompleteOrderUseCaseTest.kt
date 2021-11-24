@@ -1,16 +1,13 @@
 package com.stringconcat.ddd.shop.usecase.order.scenarios
 
-import com.stringconcat.ddd.shop.domain.order.ShopOrderCompletedDomainEvent
 import com.stringconcat.ddd.shop.domain.orderId
-import com.stringconcat.ddd.shop.usecase.TestShopOrderExtractor
-import com.stringconcat.ddd.shop.usecase.TestShopOrderPersister
+import com.stringconcat.ddd.shop.usecase.MockShopOrderExtractor
+import com.stringconcat.ddd.shop.usecase.MockShopOrderPersister
 import com.stringconcat.ddd.shop.usecase.order.CompleteOrderUseCaseError
 import com.stringconcat.ddd.shop.usecase.orderNotReadyForComplete
 import com.stringconcat.ddd.shop.usecase.orderReadyForComplete
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
-import io.kotest.matchers.collections.shouldContainExactly
-import io.kotest.matchers.nulls.shouldNotBeNull
 import org.junit.jupiter.api.Test
 
 internal class CompleteOrderUseCaseTest {
@@ -19,42 +16,46 @@ internal class CompleteOrderUseCaseTest {
     fun `successfully completed`() {
 
         val order = orderReadyForComplete()
-        val extractor = TestShopOrderExtractor().apply {
-            this[order.id] = order
-        }
-        val persister = TestShopOrderPersister()
+        val extractor = MockShopOrderExtractor(order)
+        val persister = MockShopOrderPersister()
 
         val useCase = CompleteOrderUseCase(extractor, persister)
         val result = useCase.execute(orderId = order.id)
 
         result.shouldBeRight()
 
-        val shopOrder = persister[order.id]
-        shopOrder.shouldNotBeNull()
-        shopOrder.popEvents() shouldContainExactly listOf(ShopOrderCompletedDomainEvent(order.id))
+        persister.verifyInvoked(order)
+        persister.verifyEventsAfterCompletion(order.id)
+        extractor.verifyInvokedGetById(order.id)
     }
 
     @Test
     fun `invalid state`() {
 
         val order = orderNotReadyForComplete()
-        val extractor = TestShopOrderExtractor().apply {
-            this[order.id] = order
-        }
-        val persister = TestShopOrderPersister()
+        val extractor = MockShopOrderExtractor(order)
+        val persister = MockShopOrderPersister()
 
         val useCase = CompleteOrderUseCase(extractor, persister)
         val result = useCase.execute(orderId = order.id)
+
+        persister.verifyEmpty()
+        extractor.verifyInvokedGetById(order.id)
         result shouldBeLeft CompleteOrderUseCaseError.InvalidOrderState
     }
 
     @Test
     fun `order not found`() {
-        val extractor = TestShopOrderExtractor()
-        val persister = TestShopOrderPersister()
+        val extractor = MockShopOrderExtractor()
+        val persister = MockShopOrderPersister()
 
         val useCase = CompleteOrderUseCase(extractor, persister)
-        val result = useCase.execute(orderId = orderId())
+
+        val orderId = orderId()
+        val result = useCase.execute(orderId = orderId)
+
+        persister.verifyEmpty()
+        extractor.verifyInvokedGetById(orderId)
         result shouldBeLeft CompleteOrderUseCaseError.OrderNotFound
     }
 }
