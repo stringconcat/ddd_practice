@@ -124,7 +124,8 @@ internal class GetOrdersEndpointTest {
                         value(API_V1_ORDER_GET_WITH_PAGINATION.withStartId(0).withLimit(limit).withHost())
                     }
                     jsonPath("$._links.next.href") {
-                        value(API_V1_ORDER_GET_WITH_PAGINATION.withStartId(second.id.toLongValue()).withLimit(limit).withHost())
+                        value(API_V1_ORDER_GET_WITH_PAGINATION
+                            .withStartId(second.id.toLongValue()).withLimit(limit).withHost())
                     }
 
                     jsonPath("$._embedded.orders.length()") { value(limit) }
