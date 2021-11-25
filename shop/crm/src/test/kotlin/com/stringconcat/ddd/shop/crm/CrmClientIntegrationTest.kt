@@ -8,6 +8,7 @@ import com.github.tomakehurst.wiremock.client.WireMock.stubFor
 import com.github.tomakehurst.wiremock.http.Fault
 import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo
 import com.github.tomakehurst.wiremock.junit5.WireMockTest
+import com.google.common.net.HttpHeaders
 import com.stringconcat.ddd.shop.domain.customerId
 import com.stringconcat.ddd.shop.domain.orderId
 import com.stringconcat.ddd.shop.domain.price
@@ -24,8 +25,15 @@ class CrmClientIntegrationTest {
     @ParameterizedTest
     @ValueSource(ints = [201, 404, 400, 500])
     fun `exception when http status is not 200`(status: Int, wmRuntimeInfo: WireMockRuntimeInfo) {
-        stubFor(post("/orders")
-            .willReturn(status(status))) // включить сюда валидное тело ответа
+        stubFor(
+            post("/orders")
+                .willReturn(
+                    status(status).withBody("""{"result": "SUCCESS" }""").withHeader(
+                        HttpHeaders.CONTENT_TYPE,
+                        MediaType.APPLICATION_JSON_VALUE
+                    )
+                )
+        )
 
         val crmClient = wmRuntimeInfo.buildCrmClient()
 
