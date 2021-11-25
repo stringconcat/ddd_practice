@@ -12,6 +12,7 @@ import java.net.SocketException
 import java.util.concurrent.TimeoutException
 import org.slf4j.LoggerFactory
 import org.springframework.boot.web.client.RestTemplateBuilder
+import org.springframework.http.HttpStatus
 import org.springframework.http.client.ClientHttpResponse
 import org.springframework.web.client.ResourceAccessException
 import org.springframework.web.client.ResponseErrorHandler
@@ -48,7 +49,11 @@ class CrmClient(settings: CrmClientSettings) : OrderExporter {
         val response = circuitBreaker.executeSupplier {
             restTemplate.postForEntity("/orders", request, Response::class.java)
         }
-        // добавить проверку на код ответа всегда 200
+
+        check(response.statusCode == HttpStatus.OK) {
+            "CRM returned error code. Entity: $response"
+        }
+
         val body = checkNotNull(response.body) {
             "CRM returned an empty body. Entity: $response"
         }
