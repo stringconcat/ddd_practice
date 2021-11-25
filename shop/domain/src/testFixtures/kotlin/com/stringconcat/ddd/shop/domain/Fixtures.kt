@@ -44,7 +44,7 @@ fun price(value: BigDecimal = BigDecimal(Random.nextInt(1, 500000))) =
 
 fun version() = Version.new()
 
-fun mealId(id: Long = faker.number().randomNumber().absoluteValue) = MealId(id)
+fun mealId(id: Long = faker.number().randomNumber(10, true).absoluteValue) = MealId(id)
 
 fun meal(id: MealId = mealId(), removed: Boolean = false): Meal {
 
