@@ -30,7 +30,7 @@ class GlobalErrorHandlerTest {
                 status { isInternalServerError() }
                 content {
                     contentType(MediaType.APPLICATION_PROBLEM_JSON)
-                    jsonPath("$.type") { value("internal_error".toServerUrl()) }
+                    jsonPath("$.type") { value("/internal_error".toServerUrl()) }
                     jsonPath("$.status") { value(HttpStatus.INTERNAL_SERVER_ERROR.value()) }
                     jsonPath("$.errorId") { value(matchesRegex(UUID_PATTERN)) }
                     jsonPath("$.title") { value(containsString("Internal error")) }
@@ -45,7 +45,7 @@ class GlobalErrorHandlerTest {
                 status { isConflict() }
                 content {
                     contentType(MediaType.APPLICATION_PROBLEM_JSON)
-                    jsonPath("$.type") { value("conflict".toServerUrl()) }
+                    jsonPath("$.type") { value("/conflict".toServerUrl()) }
                     jsonPath("$.status") { value(HttpStatus.CONFLICT.value()) }
                     jsonPath("$.errorId") { value(matchesRegex(UUID_PATTERN)) }
                     jsonPath("$.title") { value(containsString("Conflict")) }

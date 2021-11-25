@@ -29,4 +29,4 @@ private fun String.extractCustomerId(): CustomerId {
     return CustomerId(customerString)
 }
 
-fun String.toServerUrl() = "http://localhost/$this"
+fun String.toServerUrl() = "http://localhost$this"
