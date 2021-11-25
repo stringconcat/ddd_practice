@@ -48,7 +48,7 @@ class CrmClient(settings: CrmClientSettings) : OrderExporter {
         val response = circuitBreaker.executeSupplier {
             restTemplate.postForEntity("/orders", request, Response::class.java)
         }
-
+        // добавить проверку на код ответа всегда 200
         val body = checkNotNull(response.body) {
             "CRM returned an empty body. Entity: $response"
         }

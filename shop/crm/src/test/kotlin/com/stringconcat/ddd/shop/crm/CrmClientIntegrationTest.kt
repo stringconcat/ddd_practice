@@ -24,7 +24,8 @@ class CrmClientIntegrationTest {
     @ParameterizedTest
     @ValueSource(ints = [201, 404, 400, 500])
     fun `exception when http status is not 200`(status: Int, wmRuntimeInfo: WireMockRuntimeInfo) {
-        stubFor(post("/orders").willReturn(status(status)))
+        stubFor(post("/orders")
+            .willReturn(status(status))) // включить сюда валидное тело ответа
 
         val crmClient = wmRuntimeInfo.buildCrmClient()
 
@@ -46,7 +47,7 @@ class CrmClientIntegrationTest {
 
     @Test
     fun `circuit breaker enables after failures`(wmRuntimeInfo: WireMockRuntimeInfo) {
-        val crmClient = wmRuntimeInfo.buildCrmClient()
+        val crmClient = wmRuntimeInfo.buildCrmClient() // причесать
 
         stubFor(post("/orders")
             .willReturn(okForContentType(MediaType.APPLICATION_JSON_VALUE, """{"result": "SUCCESS" }""")))
@@ -69,4 +70,5 @@ class CrmClientIntegrationTest {
             crmClient.exportOrder(id = orderId(), customerId = customerId(), totalPrice = price())
         }
     }
+    // проверить долгие запорсы
 }
