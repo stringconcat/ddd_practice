@@ -2,6 +2,7 @@ package com.stringconcat.dev.course.app
 
 import com.stringconcat.ddd.shop.domain.cart.CustomerId
 import com.stringconcat.ddd.shop.domain.meal
+import com.stringconcat.ddd.shop.domain.menu.Meal
 import com.stringconcat.ddd.shop.usecase.menu.access.MealPersister
 import io.kotest.matchers.nulls.shouldNotBeNull
 
@@ -9,8 +10,7 @@ const val TEST_TELNET_PORT = 22121
 
 fun telnetClient() = TestTelnetClient("localhost", TEST_TELNET_PORT)
 
-fun prepareCart(client: TestTelnetClient, mealRepository: MealPersister): CustomerId {
-    val meal = meal()
+fun prepareCart(client: TestTelnetClient, mealRepository: MealPersister, meal: Meal = meal()): CustomerId {
     mealRepository.save(meal)
 
     client.writeCommand("add ${meal.id.toLongValue()}")

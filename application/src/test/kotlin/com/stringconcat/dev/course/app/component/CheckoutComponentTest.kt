@@ -4,6 +4,7 @@ import com.stringconcat.ddd.shop.persistence.menu.InMemoryMealRepository
 import com.stringconcat.ddd.shop.usecase.MockOrderExporter
 import com.stringconcat.ddd.shop.usecase.cart.access.CartExtractor
 import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderExtractor
+import com.stringconcat.dev.course.app.ShopComponentTestConfiguration
 import com.stringconcat.dev.course.app.TEST_TELNET_PORT
 import com.stringconcat.dev.course.app.prepareCart
 import com.stringconcat.dev.course.app.telnetClient
