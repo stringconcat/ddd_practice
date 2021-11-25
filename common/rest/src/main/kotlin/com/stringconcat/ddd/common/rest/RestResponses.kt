@@ -22,7 +22,7 @@ class CursorPagedModel<T> internal constructor(list: List<T>, val count: Int) :
     }
 }
 
-val baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString()
+private val baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString()
 
 fun restBusinessError(title: String, code: String) =
     ResponseEntity

@@ -34,6 +34,7 @@ dependencies {
     implementation(Libs.spring_boot_starter_web)
     implementation(Libs.spring_boot_starter_thymeleaf)
     implementation(Libs.spring_boot_starter_logging)
+    implementation(Libs.spring_boot_started_hateoas)
 
     // swagger
     implementation(Libs.swagger)
@@ -70,6 +71,7 @@ dependencies {
     testFixturesImplementation(testFixtures(project(":shop:domain")))
     testFixturesImplementation(testFixtures(project(":shop:usecase")))
     testFixturesImplementation(project(":shop:in-memory-persistence"))
+    testFixturesImplementation(project(":shop:postgres-persistence"))
     testFixturesImplementation(project(":common:events"))
     testFixturesImplementation(Libs.arrow)
     testFixturesImplementation(Libs.kotest_junit)
@@ -77,4 +79,5 @@ dependencies {
     testFixturesImplementation(Libs.spring_boot_starter_test) {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
+    testFixturesImplementation(Libs.spring_boot_starter_web)
 }
