@@ -1,4 +1,4 @@
-package com.stringconcat.dev.course.app.component
+package com.stringconcat.dev.course.app
 
 import com.stringconcat.ddd.common.events.DomainEventPublisher
 import com.stringconcat.ddd.shop.persistence.cart.InMemoryCartRepository

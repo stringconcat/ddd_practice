@@ -1,6 +1,7 @@
 package com.stringconcat.dev.course.app.component
 
 import com.stringconcat.ddd.shop.persistence.menu.InMemoryMealRepository
+import com.stringconcat.dev.course.app.ShopComponentTestConfiguration
 import com.stringconcat.dev.course.app.TEST_TELNET_PORT
 import com.stringconcat.dev.course.app.prepareCart
 import com.stringconcat.dev.course.app.telnetClient

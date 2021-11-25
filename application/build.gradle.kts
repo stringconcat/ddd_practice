@@ -69,7 +69,12 @@ dependencies {
     testFixturesImplementation(testFixtures(project(":common:types")))
     testFixturesImplementation(testFixtures(project(":shop:domain")))
     testFixturesImplementation(testFixtures(project(":shop:usecase")))
+    testFixturesImplementation(project(":shop:in-memory-persistence"))
+    testFixturesImplementation(project(":common:events"))
     testFixturesImplementation(Libs.arrow)
     testFixturesImplementation(Libs.kotest_junit)
     testFixturesImplementation(Libs.commons_net)
+    testFixturesImplementation(Libs.spring_boot_starter_test) {
+        exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+    }
 }
