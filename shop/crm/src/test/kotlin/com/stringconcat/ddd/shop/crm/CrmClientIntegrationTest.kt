@@ -85,7 +85,7 @@ class CrmClientIntegrationTest {
 
         stubFor(
             post("/orders")
-                .willReturn(ok("").withFixedDelay(500))
+                .willReturn(ok(SUCCESS_BODY).withFixedDelay(500))
         )
 
         repeat(SLOW_REQUEST_COUNT) {
