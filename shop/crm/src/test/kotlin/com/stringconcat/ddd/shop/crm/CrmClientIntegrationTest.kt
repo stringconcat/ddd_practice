@@ -9,9 +9,6 @@ import com.github.tomakehurst.wiremock.http.Fault
 import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo
 import com.github.tomakehurst.wiremock.junit5.WireMockTest
 import com.google.common.net.HttpHeaders
-import com.stringconcat.ddd.shop.domain.customerId
-import com.stringconcat.ddd.shop.domain.orderId
-import com.stringconcat.ddd.shop.domain.price
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException
 import io.kotest.assertions.throwables.shouldThrow
 import org.junit.jupiter.api.Test
@@ -28,7 +25,7 @@ class CrmClientIntegrationTest {
         stubFor(
             post("/orders")
                 .willReturn(
-                    status(status).withBody("""{"result": "SUCCESS" }""").withHeader(
+                    status(status).withBody(SUCCESS_BODY).withHeader(
                         HttpHeaders.CONTENT_TYPE,
                         MediaType.APPLICATION_JSON_VALUE
                     )
@@ -37,9 +34,7 @@ class CrmClientIntegrationTest {
 
         val crmClient = wmRuntimeInfo.buildCrmClient()
 
-        shouldThrow<IllegalStateException> {
-            crmClient.exportOrder(id = orderId(), customerId = customerId(), totalPrice = price())
-        }
+        shouldThrow<IllegalStateException> { exportOrders(crmClient) }
     }
 
     @Test
@@ -48,35 +43,58 @@ class CrmClientIntegrationTest {
 
         val crmClient = wmRuntimeInfo.buildCrmClient()
 
-        shouldThrow<IllegalStateException> {
-            crmClient.exportOrder(id = orderId(), customerId = customerId(), totalPrice = price())
-        }
+        shouldThrow<IllegalStateException> { exportOrders(crmClient) }
     }
 
     @Test
     fun `circuit breaker enables after failures`(wmRuntimeInfo: WireMockRuntimeInfo) {
-        val crmClient = wmRuntimeInfo.buildCrmClient() // причесать
+        val crmClient = wmRuntimeInfo.buildCrmClient()
 
-        stubFor(post("/orders")
-            .willReturn(okForContentType(MediaType.APPLICATION_JSON_VALUE, """{"result": "SUCCESS" }""")))
+        stubFor(
+            post("/orders")
+                .willReturn(okForContentType(MediaType.APPLICATION_JSON_VALUE, SUCCESS_BODY))
+        )
 
-        repeat(100) {
-            crmClient.exportOrder(id = orderId(), customerId = customerId(), totalPrice = price())
-        }
+        repeat(CORRECT_REQUEST_COUNT) { exportOrders(crmClient) }
 
-        stubFor(post("/orders")
-            .willReturn(ok("").withFault(Fault.CONNECTION_RESET_BY_PEER)))
+        stubFor(
+            post("/orders")
+                .willReturn(ok("").withFault(Fault.CONNECTION_RESET_BY_PEER))
+        )
 
-        repeat(10) {
+        repeat(FAILURE_REQUEST_COUNT) {
             try {
-                crmClient.exportOrder(id = orderId(), customerId = customerId(), totalPrice = price())
+                exportOrders(crmClient)
             } catch (ignored: Exception) {
             }
         }
 
-        shouldThrow<CallNotPermittedException> {
-            crmClient.exportOrder(id = orderId(), customerId = customerId(), totalPrice = price())
-        }
+        shouldThrow<CallNotPermittedException> { exportOrders(crmClient) }
     }
-    // проверить долгие запорсы
+
+    @Test
+    fun `circuit breaker enables after slow call`(wmRuntimeInfo: WireMockRuntimeInfo) {
+        val crmClient = wmRuntimeInfo.buildCrmClient()
+
+        stubFor(
+            post("/orders")
+                .willReturn(okForContentType(MediaType.APPLICATION_JSON_VALUE, SUCCESS_BODY))
+        )
+
+        repeat(CORRECT_REQUEST_COUNT) { exportOrders(crmClient) }
+
+        stubFor(
+            post("/orders")
+                .willReturn(ok("").withFixedDelay(500))
+        )
+
+        repeat(SLOW_REQUEST_COUNT) {
+            try {
+                exportOrders(crmClient)
+            } catch (ignored: Exception) {
+            }
+        }
+
+        shouldThrow<CallNotPermittedException> { exportOrders(crmClient) }
+    }
 }
