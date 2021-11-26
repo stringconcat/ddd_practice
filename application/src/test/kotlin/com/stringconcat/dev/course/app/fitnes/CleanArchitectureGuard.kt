@@ -17,6 +17,7 @@ class CleanArchitectureGuard {
             .adapter("persistence", "com.stringconcat.ddd.shop.persistence..")
             .adapter("telnet", "com.stringconcat.ddd.shop.telnet..")
             .adapter("rest", "com.stringconcat.ddd.shop.rest..")
+            .adapter("crm", "com.stringconcat.ddd.shop.crm..")
 
     @ArchTest
     val `onion architecture should be followed for kitchen` =

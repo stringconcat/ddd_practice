@@ -1,6 +1,6 @@
 package com.stringconcat.dev.course.app.configuration
 
-import com.stringconcat.dev.course.app.configuration.shop.ShopPaymentConfiguration
+import com.stringconcat.dev.course.app.configuration.shop.ShopIntegrationConfiguration
 import com.stringconcat.dev.course.app.configuration.shop.ShopPersistenceConfiguration
 import com.stringconcat.dev.course.app.configuration.shop.ShopRestConfiguration
 import com.stringconcat.dev.course.app.configuration.shop.ShopTelnetConfiguration
@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Import
 
 @Configuration
 @Import(
-    ShopPaymentConfiguration::class,
+    ShopIntegrationConfiguration::class,
     ShopTelnetConfiguration::class,
     ShopRestConfiguration::class,
     ShopUseCaseConfiguration::class,

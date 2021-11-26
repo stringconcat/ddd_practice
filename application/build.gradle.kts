@@ -23,6 +23,7 @@ dependencies {
     implementation(project(":shop:postgres-persistence"))
     implementation(project(":shop:telnet"))
     implementation(project(":shop:payment"))
+    implementation(project(":shop:crm"))
     implementation(project(":shop:rest"))
 
     // kotlin
@@ -35,6 +36,7 @@ dependencies {
     implementation(Libs.spring_boot_starter_thymeleaf)
     implementation(Libs.spring_boot_starter_logging)
     implementation(Libs.spring_boot_started_hateoas)
+    implementation(Libs.spring_boot_starter_jdbc)
 
     // swagger
     implementation(Libs.swagger)
@@ -51,6 +53,9 @@ dependencies {
 
     // logging
     implementation(Libs.slf4j_api)
+
+    // databse
+    implementation(Libs.postgresql)
 
     // test
     testImplementation(Libs.kotest_junit)
@@ -70,6 +75,7 @@ dependencies {
     testFixturesImplementation(testFixtures(project(":common:types")))
     testFixturesImplementation(testFixtures(project(":shop:domain")))
     testFixturesImplementation(testFixtures(project(":shop:usecase")))
+    testFixturesImplementation(testFixtures(project(":shop:payment")))
     testFixturesImplementation(project(":shop:in-memory-persistence"))
     testFixturesImplementation(project(":shop:postgres-persistence"))
     testFixturesImplementation(project(":common:events"))

@@ -13,5 +13,5 @@ class KitchenRestConfiguration {
     fun cookOrderEndpoint(cookOrder: CookOrder) = CookOrderEndpoint(cookOrder)
 
     @Bean
-    fun getOrderByIdEndpoint(getOrderById: GetOrderById) = GetOrderByIdEndpoint(getOrderById)
+    fun kitchenGetOrderByIdEndpoint(getOrderById: GetOrderById) = GetOrderByIdEndpoint(getOrderById)
 }

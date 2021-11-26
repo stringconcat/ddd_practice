@@ -13,10 +13,10 @@ import org.springframework.context.annotation.Configuration
 class KitchenUseCaseConfiguration {
 
     @Bean
-    fun getOrderById(kitchenOrderExtractor: KitchenOrderExtractor) = GetOrderByIdUseCase(kitchenOrderExtractor)
+    fun kitchenGetOrderById(kitchenOrderExtractor: KitchenOrderExtractor) = GetOrderByIdUseCase(kitchenOrderExtractor)
 
     @Bean
-    fun getOrdersUseCase(kitchenOrderExtractor: KitchenOrderExtractor) = GetOrdersUseCase(kitchenOrderExtractor)
+    fun kitchenGetOrdersUseCase(kitchenOrderExtractor: KitchenOrderExtractor) = GetOrdersUseCase(kitchenOrderExtractor)
 
     @Bean
     fun cookOrderUseCase(
