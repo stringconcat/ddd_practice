@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  postgres:
+    restart: always
+    image: postgres:14.1
+    environment:
+      - POSTGRES_PASSWORD=restaurant
+      - POSTGRES_USER=restaurant
+      - POSTGRES_DB=restaurant
+    volumes:
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - '5432:5432'
+
+  restaurant:
+    restart: always
+    image: restaurant/mainapp:latest
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/restaurant
+      - SPRING_DATASOURCE_USERNAME=restaurant
+      - SPRING_DATASOURCE_PASSWORD=restaurant
+    depends_on:
+      - postgres
+    ports:
+      - '2121:2121'
+      - '8080:8080'
