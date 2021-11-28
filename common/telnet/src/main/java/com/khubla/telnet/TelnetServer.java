@@ -6,6 +6,7 @@
  */
 package com.khubla.telnet;
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -22,97 +23,105 @@ import com.khubla.telnet.shell.Shell;
 import com.khubla.telnet.shell.ShellFactory;
 
 public class TelnetServer implements Runnable {
-   /**
-    * logger
-    */
-   private static final Logger logger = LoggerFactory.getLogger(TelnetServer.class);
-   /**
-    * thread pool size
-    */
-   private final int threads;
-   /**
-    * port
-    */
-   private final int port;
-   /**
-    * Shell Factory
-    */
-   private final ShellFactory shellFactory;
-   /**
-    * run flag
-    */
-   private final AtomicBoolean running = new AtomicBoolean(true);
+    /**
+     * logger
+     */
+    private static final Logger logger = LoggerFactory.getLogger(TelnetServer.class);
+    /**
+     * thread pool size
+     */
+    private final int threads;
+    /**
+     * port
+     */
+    private final int port;
+    /**
+     * Shell Factory
+     */
+    private final ShellFactory shellFactory;
+    /**
+     * run flag
+     */
+    private final AtomicBoolean running = new AtomicBoolean(true);
 
-   public TelnetServer(int port, int threads, ShellFactory shellFactory) {
-      this.port = port;
-      this.threads = threads;
-      this.shellFactory = shellFactory;
-   }
+    ServerSocket serverSocket = null;
 
-   @Override
-   public void run() {
-      ServerSocket serverSocket = null;
-      try {
-         /*
-          * thread pool
-          */
-         final ExecutorService executorService = new ThreadPoolExecutor(threads, threads, 1, TimeUnit.MINUTES, new ArrayBlockingQueue<Runnable>(threads, true),
-               new ThreadPoolExecutor.CallerRunsPolicy());
-         /*
-          * listener
-          */
-         serverSocket = new ServerSocket(port);
-         Socket clientSocket = null;
-         System.out.println("Telnet server listening on port: " + port);
-         logger.info("Telnet server listening on port: " + port);
-         while (running.get()) {
-            try {
-               /*
-                * accept connection
-                */
-               clientSocket = serverSocket.accept();
-               /*
-                * show
-                */
-               logger.info("Accepted connection from: " + clientSocket.getInetAddress().toString());
-               /*
-                * NVT
-                */
-               final NVT nvt = new NVT(clientSocket);
-               nvt.setNvtSpy(shellFactory.getNVTSpy());
-               /*
-                * create shell
-                */
-               final Shell shell = shellFactory.createShell(nvt);
-               /*
-                * submit to pool
-                */
-               executorService.submit(shell);
-            } catch (final Exception e) {
-               clientSocket.close();
-               logger.error(e.getMessage(), e);
+    public TelnetServer(int port, int threads, ShellFactory shellFactory) {
+        this.port = port;
+        this.threads = threads;
+        this.shellFactory = shellFactory;
+    }
+
+    @Override
+    public void run() {
+        try {
+            /*
+             * thread pool
+             */
+            final ExecutorService executorService = new ThreadPoolExecutor(threads, threads, 1, TimeUnit.MINUTES, new ArrayBlockingQueue<Runnable>(threads, true),
+                    new ThreadPoolExecutor.CallerRunsPolicy());
+            /*
+             * listener
+             */
+            serverSocket = new ServerSocket(port);
+            Socket clientSocket = null;
+            System.out.println("Telnet server listening on port: " + port);
+            logger.info("Telnet server listening on port: " + port);
+            while (running.get()) {
+                try {
+                    /*
+                     * accept connection
+                     */
+                    clientSocket = serverSocket.accept();
+                    /*
+                     * show
+                     */
+                    logger.info("Accepted connection from: " + clientSocket.getInetAddress().toString());
+                    /*
+                     * NVT
+                     */
+                    final NVT nvt = new NVT(clientSocket);
+                    nvt.setNvtSpy(shellFactory.getNVTSpy());
+                    /*
+                     * create shell
+                     */
+                    final Shell shell = shellFactory.createShell(nvt);
+                    /*
+                     * submit to pool
+                     */
+                    executorService.submit(shell);
+                } catch (final Exception e) {
+                    clientSocket.close();
+                    logger.error(e.getMessage(), e);
+                }
             }
-         }
-      } catch (final Exception e) {
-         logger.error(e.getMessage(), e);
-      } finally {
-         if (null != serverSocket) {
-            try {
-               serverSocket.close();
-            } catch (final Exception e) {
-               logger.error(e.getMessage(), e);
+        } catch (final Exception e) {
+            logger.error(e.getMessage(), e);
+        } finally {
+            if (null != serverSocket) {
+                try {
+                    serverSocket.close();
+                } catch (final Exception e) {
+                    logger.error(e.getMessage(), e);
+                }
+                serverSocket = null;
             }
-            serverSocket = null;
-         }
-      }
-   }
+        }
+    }
 
-   public void shutdown() {
-      running.set(false);
-   }
+    public void shutdown() {
+        running.set(false);
+        if (serverSocket != null) {
+            try {
+                serverSocket.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 
-   public void start() {
-      final Thread thread = new Thread(this);
-      thread.start();
-   }
+    public void start() {
+        final Thread thread = new Thread(this);
+        thread.start();
+    }
 }
