@@ -25,4 +25,4 @@ class IndexEndpoint {
                 ).withRel("orders")))
 }
 
-data class IndexModel(val title: String = "Restaurant administration panel") : RepresentationModel<IndexModel>()
+data class IndexModel(val title: String = "Restaurant administration panel22") : RepresentationModel<IndexModel>()

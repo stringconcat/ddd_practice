@@ -55,9 +55,10 @@ subprojects {
     configure<info.solidsoft.gradle.pitest.PitestPluginExtension> {
         junit5PluginVersion.set("0.15")
         targetClasses.set(listOf("com.stringconcat.*"))
+        threads.set(4)
         failWhenNoMutations.set(false)
         timestampedReports.set(false)
-
+        outputFormats.set(listOf("HTML"))
     }
 
     tasks {
