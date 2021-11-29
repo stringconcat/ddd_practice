@@ -9,8 +9,27 @@ services:
       - POSTGRES_DB=restaurant
     volumes:
       - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres:/data/postgres
     ports:
       - '5432:5432'
+
+  pgadmin:
+    restart: always
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=restaurant@stringconcat.com
+      - PGADMIN_DEFAULT_PASSWORD=restaurant
+    depends_on:
+      - postgres
+    entrypoint:
+      - "/bin/sh"
+      - "-c"
+      - "/bin/echo '*:5432:restaurant:restaurant:restaurant' > /tmp/pgpassfile && chmod 600 /tmp/pgpassfile && /entrypoint.sh"
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+      - ./docker/servers.json:/pgadmin4/servers.json
+    ports:
+      - "15432:80"
 
   restaurant:
     restart: always
@@ -24,3 +43,18 @@ services:
     ports:
       - '2121:2121'
       - '8080:8080'
+
+  portainer:
+    restart: always
+    image: portainer/portainer
+    ports:
+      - '9000:9000'
+    command: -H unix:///var/run/docker.sock --no-auth
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+volumes:
+  portainer_data:
+  postgres:
+  pgadmin:
