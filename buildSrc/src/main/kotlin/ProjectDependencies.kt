@@ -19,6 +19,7 @@ object LibVers {
     const val pact = "4.3.1"
     const val wiremock = "2.31.0"
     const val resilience4j_circuitbreaker = "1.7.1"
+    const val resilience4j_bulkhead = "1.7.1"
 }
 
 object Libs {
@@ -76,6 +77,9 @@ object Libs {
     // resilience4j
     const val resilience4j_circuitbreaker = "io.github.resilience4j:resilience4j-circuitbreaker:" +
             LibVers.resilience4j_circuitbreaker
+    const val resilience4j_bulkhead = "io.github.resilience4j:resilience4j-bulkhead:" +
+            LibVers.resilience4j_bulkhead
+
 }
 
 object PluginVers {

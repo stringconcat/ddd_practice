@@ -28,6 +28,7 @@ dependencies {
 
     //
     implementation(Libs.resilience4j_circuitbreaker)
+    implementation(Libs.resilience4j_bulkhead)
 
     testImplementation(Libs.kotest_junit)
     testImplementation(Libs.kotest_arrow)

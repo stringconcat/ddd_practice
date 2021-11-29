@@ -9,12 +9,14 @@ import com.github.tomakehurst.wiremock.http.Fault
 import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo
 import com.github.tomakehurst.wiremock.junit5.WireMockTest
 import com.google.common.net.HttpHeaders
+import io.github.resilience4j.bulkhead.BulkheadFullException
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException
 import io.kotest.assertions.throwables.shouldThrow
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 import org.springframework.http.MediaType
+import java.util.concurrent.CountDownLatch
 
 @WireMockTest
 class CrmClientIntegrationTest {
@@ -96,5 +98,32 @@ class CrmClientIntegrationTest {
         }
 
         shouldThrow<CallNotPermittedException> { exportOrders(crmClient) }
+    }
+
+    @Test
+    fun `bulkhead enables after unlimited execution`(wmRuntimeInfo: WireMockRuntimeInfo) {
+        val crmClient = wmRuntimeInfo.buildCrmClient()
+
+        stubFor(
+            post("/orders")
+                .willReturn(okForContentType(MediaType.APPLICATION_JSON_VALUE, SUCCESS_BODY))
+        )
+
+        val cdl = CountDownLatch(THREAD_COUNT)
+        repeat(THREAD_COUNT) {
+            try {
+                Worker(crmClient, cdl).start()
+            } catch (ignored: Exception) {
+            }
+        }
+
+        shouldThrow<BulkheadFullException> { exportOrders(crmClient) }
+    }
+
+    internal class Worker(val crmClient: CrmClient, val latch: CountDownLatch) : Thread() {
+        override fun run() {
+            exportOrders(crmClient)
+            latch.countDown()
+        }
     }
 }
