@@ -9,10 +9,10 @@ import com.github.tomakehurst.wiremock.http.Fault
 import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo
 import com.github.tomakehurst.wiremock.junit5.WireMockTest
 import com.google.common.net.HttpHeaders
-import io.github.resilience4j.bulkhead.BulkheadFullException
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException
 import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.matchers.sequences.shouldBeEmpty
+import io.kotest.matchers.collections.shouldNotBeEmpty
+import io.kotest.matchers.sequences.shouldNotBeEmpty
 import java.time.Duration
 import java.util.concurrent.CyclicBarrier
 import org.junit.jupiter.api.Test
@@ -106,7 +106,7 @@ class CrmClientIntegrationTest {
     fun `bulkhead enables after unlimited execution`(wmRuntimeInfo: WireMockRuntimeInfo) {
         val crmClient = wmRuntimeInfo
             .buildCrmClient(maxConcurrentCalls = THREAD_COUNT / 2,
-                maxWaitDuration = Duration.ofMillis(1))
+                maxWaitDuration = Duration.ofMillis(0))
 
         stubFor(
             post("/orders")
@@ -114,11 +114,14 @@ class CrmClientIntegrationTest {
         )
         val barrier = CyclicBarrier(THREAD_COUNT)
 
-        val workers = sequence<Worker> {
-            Worker(crmClient, barrier).start()
-        }.take(THREAD_COUNT)
+        val workers = List(THREAD_COUNT) {
+            Worker(crmClient, barrier)
+        }
 
-        workers.filter { it.bulkheadExceptionHasBeenThrown }.shouldBeEmpty()
+        workers.forEach { it.start() }
+        workers.forEach { it.join() }
+
+        workers.filter { it.bulkheadExceptionHasBeenThrown }.shouldNotBeEmpty()
     }
 
     internal class Worker(
@@ -133,7 +136,7 @@ class CrmClientIntegrationTest {
             cyclicBarrier.await()
             try {
                 exportOrders(crmClient)
-            } catch (ignored: BulkheadFullException) {
+            } catch (ignored: Exception) {
                 bulkheadExceptionHasBeenThrown = true
             }
         }

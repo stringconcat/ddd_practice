@@ -13,7 +13,7 @@ const val SUCCESS_BODY = """{"result": "SUCCESS" }"""
 const val CORRECT_REQUEST_COUNT = 100
 const val FAILURE_REQUEST_COUNT = 10
 const val SLOW_REQUEST_COUNT = 10
-const val THREAD_COUNT = 20
+const val THREAD_COUNT = 30
 const val MAX_WAIT_DURATION = 200L
 
 fun WireMockRuntimeInfo.buildCrmClient(
