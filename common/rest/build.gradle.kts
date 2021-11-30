@@ -1,3 +1,4 @@
+project.base.archivesName.set("common-rest")
 dependencies {
     // kotlin
     implementation(Libs.kotlin_jdk8)
