@@ -25,6 +25,9 @@ fun WireMockRuntimeInfo.buildCrmClient(
         maxConcurrentCalls = maxConcurrentCalls,
         maxWaitDuration = maxWaitDuration)
 
+fun WireMockRuntimeInfo.buildDisabledCrmClient() =
+    CrmClient(baseUrl = this.httpBaseUrl.toUrl()!!, enabled = false)
+
 fun MockServer.buildCrmClient() =
     CrmClient(this.getUrl().toUrl()!!)
 

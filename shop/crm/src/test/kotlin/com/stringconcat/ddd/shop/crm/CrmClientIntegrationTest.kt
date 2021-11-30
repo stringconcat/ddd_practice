@@ -12,13 +12,12 @@ import com.google.common.net.HttpHeaders
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.collections.shouldNotBeEmpty
-import io.kotest.matchers.sequences.shouldNotBeEmpty
-import java.time.Duration
-import java.util.concurrent.CyclicBarrier
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 import org.springframework.http.MediaType
+import java.time.Duration
+import java.util.concurrent.CyclicBarrier
 
 @WireMockTest
 class CrmClientIntegrationTest {
@@ -105,8 +104,10 @@ class CrmClientIntegrationTest {
     @Test
     fun `bulkhead enables after unlimited execution`(wmRuntimeInfo: WireMockRuntimeInfo) {
         val crmClient = wmRuntimeInfo
-            .buildCrmClient(maxConcurrentCalls = THREAD_COUNT / 2,
-                maxWaitDuration = Duration.ofMillis(0))
+            .buildCrmClient(
+                maxConcurrentCalls = THREAD_COUNT / 2,
+                maxWaitDuration = Duration.ofMillis(0)
+            )
 
         stubFor(
             post("/orders")
@@ -122,6 +123,13 @@ class CrmClientIntegrationTest {
         workers.forEach { it.join() }
 
         workers.filter { it.bulkheadExceptionHasBeenThrown }.shouldNotBeEmpty()
+    }
+
+    @Test
+    fun `client shutdown after disabling`(wmRuntimeInfo: WireMockRuntimeInfo) {
+        val crmClient = wmRuntimeInfo.buildDisabledCrmClient()
+
+        shouldThrow<IllegalStateException> { exportOrders(crmClient) }
     }
 
     internal class Worker(
