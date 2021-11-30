@@ -12,11 +12,13 @@ import com.google.common.net.HttpHeaders
 import io.github.resilience4j.bulkhead.BulkheadFullException
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.sequences.shouldBeEmpty
+import java.time.Duration
+import java.util.concurrent.CyclicBarrier
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 import org.springframework.http.MediaType
-import java.util.concurrent.CountDownLatch
 
 @WireMockTest
 class CrmClientIntegrationTest {
@@ -102,28 +104,38 @@ class CrmClientIntegrationTest {
 
     @Test
     fun `bulkhead enables after unlimited execution`(wmRuntimeInfo: WireMockRuntimeInfo) {
-        val crmClient = wmRuntimeInfo.buildCrmClient()
+        val crmClient = wmRuntimeInfo
+            .buildCrmClient(maxConcurrentCalls = THREAD_COUNT / 2,
+                maxWaitDuration = Duration.ofMillis(1))
 
         stubFor(
             post("/orders")
                 .willReturn(okForContentType(MediaType.APPLICATION_JSON_VALUE, SUCCESS_BODY))
         )
+        val barrier = CyclicBarrier(THREAD_COUNT)
 
-        val cdl = CountDownLatch(THREAD_COUNT)
-        repeat(THREAD_COUNT) {
-            try {
-                Worker(crmClient, cdl).start()
-            } catch (ignored: Exception) {
-            }
-        }
+        val workers = sequence<Worker> {
+            Worker(crmClient, barrier).start()
+        }.take(THREAD_COUNT)
 
-        shouldThrow<BulkheadFullException> { exportOrders(crmClient) }
+        workers.filter { it.bulkheadExceptionHasBeenThrown }.shouldBeEmpty()
     }
 
-    internal class Worker(val crmClient: CrmClient, val latch: CountDownLatch) : Thread() {
+    internal class Worker(
+        private val crmClient: CrmClient,
+        private val cyclicBarrier: CyclicBarrier,
+    ) : Thread() {
+
+        var bulkheadExceptionHasBeenThrown = false
+            private set
+
         override fun run() {
-            exportOrders(crmClient)
-            latch.countDown()
+            cyclicBarrier.await()
+            try {
+                exportOrders(crmClient)
+            } catch (ignored: BulkheadFullException) {
+                bulkheadExceptionHasBeenThrown = true
+            }
         }
     }
 }

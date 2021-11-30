@@ -67,7 +67,7 @@ class CrmClient(
 
     override fun exportOrder(id: ShopOrderId, customerId: CustomerId, totalPrice: Price) {
         if (!enabled()) {
-            error("Disabled!")
+            error("CRM Client is currently disabled")
         }
 
         val request = Request(
