@@ -20,10 +20,13 @@ object LibVers {
     const val wiremock = "2.31.0"
     const val resilience4j_circuitbreaker = "1.7.1"
     const val resilience4j_bulkhead = "1.7.1"
+    const val kbdd = "1.1.1"
+    const val koin = "2.0.1"
+    const val rest_assured = "4.4.0"
+    const val corounit = "1.1.1"
 }
 
 object Libs {
-
     // Kotlin
     const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Global.kotlin_version}"
     const val kotlin_jdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Global.kotlin_version}"
@@ -32,6 +35,7 @@ object Libs {
 
     // Jackson
     const val jackson_kotlin = "com.fasterxml.jackson.module:jackson-module-kotlin:${LibVers.jackson}"
+    const val jackson_databind = "com.fasterxml.jackson.core:jackson-databind:${LibVers.jackson}"
 
     // Spring
     const val spring_boot_starter_web = "org.springframework.boot:spring-boot-starter-web:${LibVers.spring_boot}"
@@ -64,6 +68,13 @@ object Libs {
     const val faker = "com.github.javafaker:javafaker:${LibVers.faker}"
     const val testcontainers = "org.testcontainers:postgresql:${LibVers.testcontainers}"
     const val wiremock = "com.github.tomakehurst:wiremock-jre8:${LibVers.wiremock}"
+    const val kbdd = "ru.fix:kbdd:${LibVers.kbdd}"
+    const val koin = "org.koin:koin-core:${LibVers.koin}"
+    const val rest_assured = "io.rest-assured:rest-assured:${LibVers.rest_assured}"
+    const val rest_assured_kotlin = "io.rest-assured:kotlin-extensions:${LibVers.rest_assured}"
+
+    const val jfix_corounit_engine = "ru.fix:corounit-engine:${LibVers.corounit}"
+    const val jfix_corounit_allure = "ru.fix:corounit-allure:${LibVers.corounit}"
 
     // Telnet deps
     const val testng = "org.testng:testng:${LibVers.testng}"
@@ -92,6 +103,9 @@ object PluginVers {
     const val update_dependencies = "0.36.0"
     const val owasp_dependencies = "6.1.0"
     const val pitest = "1.7.0"
+    const val allure = "2.9.6"
+    const val allure_cli = "2.15.0"
+    const val allure_java = "2.15.0"
 }
 
 object Plugins {
@@ -105,4 +119,5 @@ object Plugins {
     const val owasp_dependencies = "org.owasp.dependencycheck"
     const val pitest = "info.solidsoft.pitest"
     const val javaTestFixtures = "java-test-fixtures"
+    const val allure = "io.qameta.allure"
 }
