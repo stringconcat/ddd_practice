@@ -3,18 +3,6 @@ plugins {
 }
 
 allure {
-//
-//    reporting {
-//        baseDir = File("$buildDir/reports")
-//    }
-//
-//    report {
-//        // There might be several tasks producing the report, so the property
-//        // configures a base directory for all the reports
-//        // Each task creates its own subfolder there
-//        reportDir.set(project.reporting.baseDirectory.dir("allure-report"))
-//    }
-
     adapter {
         version.set(PluginVers.allure_cli)
         allureJavaVersion.set(PluginVers.allure_java)
@@ -24,6 +12,12 @@ allure {
                 enabled.set(false)
             }
         }
+    }
+}
+
+configurations {
+    all {
+        exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
     }
 }
 
