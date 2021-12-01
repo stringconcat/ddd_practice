@@ -51,4 +51,8 @@ dependencies {
 
     testFixturesImplementation(Libs.arrow)
     testFixturesImplementation(Libs.faker)
+
+    testFixturesImplementation(testFixtures(project(":application")))
+    testFixturesImplementation(Libs.kbdd)
+    testFixturesImplementation(Libs.commons_net)
 }
