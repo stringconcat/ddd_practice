@@ -72,7 +72,7 @@ class CrmClient(
 
         val request = Request(
             id = id.toLongValue(),
-            customerId = customerId.value,
+            customerId = customerId.toStringValue(),
             totalPrice = totalPrice.toBigDecimalValue()
         )
 

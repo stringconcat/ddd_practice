@@ -16,6 +16,6 @@ class CustomerIdTest {
 
         customerId1 shouldBe customerId2
         customerId1 shouldNotBeSameInstanceAs customerId2
-        customerId1.value shouldBe customerId2.value
+        customerId1.toStringValue() shouldBe customerId2.toStringValue()
     }
 }

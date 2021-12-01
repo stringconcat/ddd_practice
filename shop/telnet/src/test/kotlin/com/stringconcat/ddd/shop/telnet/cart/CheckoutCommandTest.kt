@@ -38,7 +38,7 @@ class CheckoutCommandTest {
         val result = command.execute(
             line = "checkout $street $building",
             sessionParameters = emptyMap(),
-            sessionId = UUID.fromString(customerId.value)
+            sessionId = UUID.fromString(customerId.toStringValue())
         )
 
         checkout.request.forCustomer shouldBe customerId
@@ -74,7 +74,7 @@ class CheckoutCommandTest {
         val result = command.execute(
             line = "checkout $street $building",
             sessionParameters = emptyMap(),
-            sessionId = UUID.fromString(customerId.value)
+            sessionId = UUID.fromString(customerId.toStringValue())
         )
 
         result shouldBe response.message

@@ -27,7 +27,7 @@ internal class GetLastOrderStateCommandTest {
         val result = command.execute(
             line = "",
             sessionParameters = emptyMap(),
-            sessionId = UUID.fromString(customerId.value)
+            sessionId = UUID.fromString(customerId.toStringValue())
         )
 
         result shouldBe state.label()
@@ -45,7 +45,7 @@ internal class GetLastOrderStateCommandTest {
         val result = command.execute(
             line = "",
             sessionParameters = emptyMap(),
-            sessionId = UUID.fromString(customerId.value)
+            sessionId = UUID.fromString(customerId.toStringValue())
         )
 
         result shouldBe GetLastOrderStateUseCaseError.OrderNotFound.message

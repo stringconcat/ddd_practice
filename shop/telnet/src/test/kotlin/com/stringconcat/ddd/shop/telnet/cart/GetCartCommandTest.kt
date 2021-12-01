@@ -30,7 +30,7 @@ internal class GetCartCommandTest {
         val result = command.execute(
             line = "",
             sessionParameters = emptyMap(),
-            sessionId = UUID.fromString(customerId.value)
+            sessionId = UUID.fromString(customerId.toStringValue())
         )
 
         result shouldBe "Cart for customer [bbb7054f-af8e-47da-b32d-5fa0fec0fcf9] \n" +
@@ -54,7 +54,7 @@ internal class GetCartCommandTest {
         val result = command.execute(
             line = "",
             sessionParameters = emptyMap(),
-            sessionId = UUID.fromString(customerId.value)
+            sessionId = UUID.fromString(customerId.toStringValue())
         )
 
         result shouldBe "Cart not found"

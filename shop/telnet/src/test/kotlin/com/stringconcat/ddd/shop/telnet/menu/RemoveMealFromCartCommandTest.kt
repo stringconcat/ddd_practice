@@ -28,7 +28,7 @@ class RemoveMealFromCartCommandTest {
         val result = command.execute(
             line = "remove ${mealId.toLongValue()}",
             sessionParameters = emptyMap(),
-            sessionId = UUID.fromString(customerId.value)
+            sessionId = UUID.fromString(customerId.toStringValue())
         )
 
         result shouldBe "OK"
@@ -47,7 +47,7 @@ class RemoveMealFromCartCommandTest {
         val result = command.execute(
             line = "remove ${mealId.toLongValue()}",
             sessionParameters = emptyMap(),
-            sessionId = UUID.fromString(customerId.value)
+            sessionId = UUID.fromString(customerId.toStringValue())
         )
 
         result shouldBe "Cart not found"

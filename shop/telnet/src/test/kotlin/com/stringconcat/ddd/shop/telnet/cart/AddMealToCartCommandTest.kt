@@ -28,7 +28,7 @@ class AddMealToCartCommandTest {
         val result = command.execute(
             line = "add ${mealId.toLongValue()}",
             sessionParameters = emptyMap(),
-            sessionId = UUID.fromString(customerId.value)
+            sessionId = UUID.fromString(customerId.toStringValue())
         )
 
         result shouldBe "OK"
@@ -48,7 +48,7 @@ class AddMealToCartCommandTest {
         val result = command.execute(
             line = "add ${mealId.toLongValue()}",
             sessionParameters = emptyMap(),
-            sessionId = UUID.fromString(customerId.value)
+            sessionId = UUID.fromString(customerId.toStringValue())
         )
 
         result shouldBe "Meal not found"

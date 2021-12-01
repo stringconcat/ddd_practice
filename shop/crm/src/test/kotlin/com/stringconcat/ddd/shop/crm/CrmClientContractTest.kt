@@ -27,7 +27,7 @@ internal class CrmClientContractTest {
             .headers(headers)
             .body(newJsonObject {
                 numberType("id", order.id.toLongValue())
-                stringType("customerId", order.forCustomer.value)
+                stringType("customerId", order.forCustomer.toStringValue())
                 decimalType("totalPrice", order.totalPrice().toBigDecimalValue())
             })
             .willRespondWith()

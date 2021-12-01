@@ -15,7 +15,7 @@ class GetCartCommand(private val useCase: GetCart) : ApplicationTelnetCommand() 
         )
             .fold(ifLeft = { it.message },
                 ifRight = { ci ->
-                    "Cart for customer [${ci.forCustomer.value}] \n" +
+                    "Cart for customer [${ci.forCustomer.toStringValue()}] \n" +
                             AsciiTable.getTable(
                                 AsciiTable.FANCY_ASCII, ci.items, listOf(
                                     Column().header("Meal id").with { item ->
