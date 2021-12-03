@@ -4,6 +4,7 @@ import com.stringconcat.ddd.e2e.steps.CartSteps
 import com.stringconcat.ddd.e2e.steps.MenuSteps
 import com.stringconcat.ddd.e2e.steps.OrderSteps
 import com.stringconcat.ddd.e2e.steps.StartSteps
+import com.stringconcat.dev.course.app.TestTelnetClient
 import io.qameta.allure.Epic
 import io.qameta.allure.Feature
 import io.qameta.allure.Story
@@ -30,5 +31,7 @@ class OrderAndCookCase : KoinComponent {
         Cart.`Create an order`()
         val orderId = 0L //ToDo откуда берется orderId?
         Order.`Confirm order`(orderId)
+        val telnet = TestTelnetClient("localhost",2121)
+        telnet.readMessage()
     }
 }
