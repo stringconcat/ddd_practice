@@ -60,6 +60,7 @@ subprojects {
         failWhenNoMutations.set(false)
         timestampedReports.set(false)
         outputFormats.set(listOf("HTML"))
+        avoidCallsTo.set(setOf("kotlin.jvm.internal"))
     }
 
     tasks {
