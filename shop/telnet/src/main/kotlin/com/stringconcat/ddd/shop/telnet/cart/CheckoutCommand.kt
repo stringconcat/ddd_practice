@@ -23,17 +23,21 @@ class CheckoutCommand(private val useCase: Checkout) : ApplicationTelnetCommand(
             return "Invalid arguments"
         }
 
-       return Address.from(street = split[1], building = split[2].toInt())
+        return Address.from(street = split[1], building = split[2].toInt())
             .map { address -> CheckoutRequest(CustomerId(sessionId.toString()), address) }
             .flatMap { request -> useCase.execute(request) }
             .fold(
-                ifRight = { "Please follow this URL for payment ${it.paymentURL}" },
+                ifRight = {
+                    "Order #${it.orderId.toLongValue()} has been created. " +
+                            "Please follow this URL for payment ${it.paymentURL}"
+                },
                 ifLeft = { err ->
                     when (err) {
                         is CreateAddressError -> "Please provide correct address"
                         is CheckoutUseCaseError -> err.message
                         else -> "something went wrong"
-                } }
+                    }
+                }
             )
     }
 

@@ -45,7 +45,7 @@ class CheckoutCommandTest {
         checkout.request.deliveryTo.streetToStringValue() shouldBe street
         checkout.request.deliveryTo.buildingToIntValue() shouldBe building
 
-        result shouldBe "Please follow this URL for payment $url"
+        result shouldBe "Order #${orderId.toLongValue()} has been created. Please follow this URL for payment $url"
     }
 
     @Test
