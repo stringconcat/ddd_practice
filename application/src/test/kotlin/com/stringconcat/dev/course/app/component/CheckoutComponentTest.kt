@@ -10,6 +10,7 @@ import com.stringconcat.dev.course.app.prepareCart
 import com.stringconcat.dev.course.app.telnetClient
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -47,9 +48,16 @@ class CheckoutComponentTest {
         val customerId = prepareCart(client, mealRepository)
         client.writeCommand("checkout street 2")
 
-        client.readMessage() shouldContain "Please follow this URL"
+        val message = client.readMessage()
+        message shouldContain "Please follow this URL"
+
+        val orderIdRes = Regex("#(\\d+)").find(message)
+        orderIdRes.shouldNotBeNull()
+        val createdOrderId = orderIdRes.groupValues[1].toLong()
+
         val order = orderExtractor.getLastOrder(customerId)
         order.shouldNotBeNull()
+        order.id.toLongValue() shouldBe createdOrderId
 
         orderExporter.verifyInvoked(
             id = order.id,
