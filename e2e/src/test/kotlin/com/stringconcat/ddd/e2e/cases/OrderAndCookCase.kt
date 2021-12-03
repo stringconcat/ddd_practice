@@ -24,14 +24,14 @@ class OrderAndCookCase : KoinComponent {
     @Test
     @Story("Test story")
     suspend fun `simple test`() {
-        //ToDo м.б. стоит возвращать и передавать link как параметр
+        // ToDo м.б. стоит возвращать и передавать link как параметр
         Start.`Get start links`()
         val mealId = Menu.`Add a new meal`()
         Cart.`Add meal to cart`(mealId)
         Cart.`Create an order`()
-        val orderId = 0L //ToDo откуда берется orderId?
+        val orderId = 0L // ToDo откуда берется orderId?
         Order.`Confirm order`(orderId)
-        val telnet = TestTelnetClient("localhost",2121)
+        val telnet = TestTelnetClient("localhost", 2121)
         telnet.readMessage()
     }
 }

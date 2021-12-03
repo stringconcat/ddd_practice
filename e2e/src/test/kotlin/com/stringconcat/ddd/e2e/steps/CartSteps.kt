@@ -7,6 +7,7 @@ import org.koin.core.KoinComponent
 class CartSteps : KoinComponent {
 
     @Step
+    @Suppress("UnusedPrivateMember")
     suspend fun `Add meal to cart`(mealId: MealId) {
 //        val client = telnetClient()
 //        client.writeCommand("add ${mealId.value}")
