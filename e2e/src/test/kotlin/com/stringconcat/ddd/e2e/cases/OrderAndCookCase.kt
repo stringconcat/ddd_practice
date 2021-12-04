@@ -1,5 +1,7 @@
 package com.stringconcat.ddd.e2e.cases
 
+import com.stringconcat.ddd.e2e.MENU
+import com.stringconcat.ddd.e2e.TEST_TELNET_PORT
 import com.stringconcat.ddd.e2e.steps.CartSteps
 import com.stringconcat.ddd.e2e.steps.MenuSteps
 import com.stringconcat.ddd.e2e.steps.OrderSteps
@@ -24,14 +26,12 @@ class OrderAndCookCase : KoinComponent {
     @Test
     @Story("Test story")
     suspend fun `simple test`() {
-        // ToDo м.б. стоит возвращать и передавать link как параметр
-        Start.`Get start links`()
-        val mealId = Menu.`Add a new meal`()
-        Cart.`Add meal to cart`(mealId)
-        Cart.`Create an order`()
-        val orderId = 0L // ToDo откуда берется orderId?
-        Order.`Confirm order`(orderId)
-        val telnet = TestTelnetClient("localhost", 2121)
-        telnet.readMessage()
+        val urls = Start.`Get start links`()
+        val mealId = Menu.`Add a new meal`(urls[MENU]!!)
+        val telnet = TestTelnetClient("localhost", TEST_TELNET_PORT)
+        Cart.`Add meal to cart`(telnet, mealId)
+        val orderId = Cart.`Create an order`(telnet)
+
+    //    Order.`Confirm order`(orderId)
     }
 }
