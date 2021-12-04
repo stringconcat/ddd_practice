@@ -28,7 +28,20 @@ dependencies {
     testImplementation(Libs.kotest_junit)
     testImplementation(Libs.junit_engine)
     testImplementation(Libs.junit_params)
+    testImplementation(Libs.pact_provider)
     testImplementation(Libs.spring_boot_starter_test) {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
+}
+
+tasks.register<Copy>("copyPacts") {
+    val srcDir = "${rootProject.buildDir}/pacts"
+    val destDir = "${project.buildDir}/pacts"
+    from(layout.buildDirectory.dir(srcDir))
+    include("*.json")
+    into(layout.buildDirectory.dir(destDir))
+}
+
+tasks.getByName("test") {
+    dependsOn("copyPacts")
 }

@@ -79,7 +79,8 @@ object Libs {
     // Telnet deps
     const val testng = "org.testng:testng:${LibVers.testng}"
     const val commons_net = "commons-net:commons-net:${LibVers.commons_net}"
-    const val pact = "au.com.dius.pact.consumer:junit5:${LibVers.pact}"
+    const val pact_consumer = "au.com.dius.pact.consumer:junit5:${LibVers.pact}"
+    const val pact_provider = "au.com.dius.pact.provider:junit5:${LibVers.pact}"
 
     // Database
     const val postgresql = "org.postgresql:postgresql:${LibVers.postgresql}"

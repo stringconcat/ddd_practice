@@ -34,7 +34,7 @@ dependencies {
     testImplementation(Libs.kotest_arrow)
     testImplementation(Libs.junit_engine)
     testImplementation(Libs.junit_params)
-    testImplementation(Libs.pact)
+    testImplementation(Libs.pact_consumer)
     testImplementation(Libs.wiremock)
 
     testImplementation(testFixtures(project(":common:types")))
@@ -47,5 +47,5 @@ dependencies {
     testFixturesImplementation(Libs.arrow)
     testFixturesImplementation(Libs.kotest_junit)
     testFixturesImplementation(Libs.wiremock)
-    testFixturesImplementation(Libs.pact)
+    testFixturesImplementation(Libs.pact_consumer)
 }

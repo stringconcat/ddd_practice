@@ -1,6 +1,7 @@
 package com.stringconcat.ddd.shop.crm
 
 import au.com.dius.pact.consumer.MockServer
+import au.com.dius.pact.consumer.dsl.LambdaDsl.newJsonBody
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider
 import au.com.dius.pact.consumer.dsl.newJsonObject
 import au.com.dius.pact.consumer.junit5.PactConsumerTestExt
@@ -32,9 +33,9 @@ internal class CrmClientContractTest {
             })
             .willRespondWith()
             .status(200)
-            .body(newJsonObject {
-                stringType("result", "SUCCESS")
-            }).toPact()
+            .body(newJsonBody {
+                it.stringValue("result", "SUCCESS")
+            }.build()).toPact()
 
     @Pact(consumer = "CrmClient", provider = "CrmService")
     fun `contract - export order when it exists in crm`(builder: PactDslWithProvider) =
@@ -45,9 +46,9 @@ internal class CrmClientContractTest {
             .headers(headers)
             .willRespondWith()
             .status(200)
-            .body(newJsonObject {
-                stringType("result", "ALREADY_EXISTS")
-            }).toPact()
+            .body(newJsonBody {
+                it.stringValue("result", "ALREADY_EXISTS")
+            }.build()).toPact()
 
     @Test
     @PactTestFor(pactMethod = "contract - export order when it doesn't exist in crm", pactVersion = PactSpecVersion.V3)
