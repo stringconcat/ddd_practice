@@ -31,7 +31,6 @@ class OrderAndCookCase : KoinComponent {
         val telnet = TestTelnetClient("localhost", TEST_TELNET_PORT)
         Cart.`Add meal to cart`(telnet, mealId)
         val orderId = Cart.`Create an order`(telnet)
-
-    //    Order.`Confirm order`(orderId)
+        Order.`Confirm order`(orderId)
     }
 }

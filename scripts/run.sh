@@ -5,6 +5,7 @@ rootDir="$currentDir/../"
 
 (cd "$rootDir" && exec ./scripts/build.sh)
 (cd "$rootDir" && exec ./application/buildImage.sh)
+(cd "$rootDir" && exec ./tests/mock-server/buildImage.sh)
 (cd "$rootDir" && exec docker-compose up -d)
 
 echo 'Portainer GUI is available at http://localhost:9000/#/dashboard'
