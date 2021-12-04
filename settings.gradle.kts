@@ -23,4 +23,5 @@ include(":delivery") // should be empty
 include("common:rest")
 findProject(":common:rest")?.name = "rest"
 
-include(":e2e")
+include(":tests:e2e")
+include(":tests:mock-server")

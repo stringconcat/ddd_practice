@@ -44,6 +44,12 @@ services:
       - '2121:2121'
       - '8080:8080'
 
+  mock-server:
+    restart: always
+    image: restaurant/mock-server:latest
+    ports:
+      - '8091:8091'
+
   portainer:
     restart: always
     image: portainer/portainer
