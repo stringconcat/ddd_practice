@@ -1,6 +1,9 @@
 package com.stringconcat.ddd.e2e
 
+import com.stringconcat.ddd.e2e.steps.CartSteps
 import com.stringconcat.ddd.e2e.steps.MenuSteps
+import com.stringconcat.ddd.e2e.steps.OrderSteps
+import com.stringconcat.ddd.e2e.steps.StartSteps
 import kotlin.coroutines.CoroutineContext
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
@@ -18,7 +21,10 @@ object CorounitConfig : CorounitPlugin {
         startKoin {
             printLogger()
             modules(module {
+                single { StartSteps() }
                 single { MenuSteps() }
+                single { CartSteps() }
+                single { OrderSteps() }
                 single { settings }
             })
         }
