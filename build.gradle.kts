@@ -146,6 +146,8 @@ subprojects {
                 showStandardStreams = true
                 exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
             }
+
+            systemProperties["pact.rootDir"] = "${rootProject.buildDir}/pacts"
         }
     }
 }
