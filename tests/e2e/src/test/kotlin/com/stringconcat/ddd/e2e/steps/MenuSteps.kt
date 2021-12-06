@@ -1,6 +1,7 @@
 package com.stringconcat.ddd.e2e.steps
 
 import com.stringconcat.ddd.e2e.MealId
+import com.stringconcat.ddd.e2e.Url
 import com.stringconcat.ddd.e2e.mealDescription
 import com.stringconcat.ddd.e2e.mealName
 import com.stringconcat.ddd.e2e.price
@@ -20,19 +21,19 @@ import ru.fix.kbdd.rest.Rest.statusCode
 class MenuSteps : KoinComponent {
 
     @Step
-    suspend fun `Add a new meal`(url: String): MealId {
+    suspend fun `Add a new meal`(url: Url): MealId {
         Rest.request {
             body(json {
                 "name" % mealName()
                 "description" % mealDescription()
                 "price" % price()
             })
-            post(url)
+            post(url.value)
         }
         statusCode().isEquals(201)
 
         val location = headers()[HttpHeaders.LOCATION]
-        location.isMatches("$url/\\d+")
+        location.isMatches("${url.value}/\\d+")
 
         val id = Regex("\\d+\$").find(location.asString())!!.value
 
