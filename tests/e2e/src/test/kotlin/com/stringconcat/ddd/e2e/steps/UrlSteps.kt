@@ -8,8 +8,8 @@ import com.stringconcat.ddd.e2e.ORDERS
 import com.stringconcat.ddd.e2e.OrderId
 import com.stringconcat.ddd.e2e.Url
 import io.kotest.matchers.shouldBe
-import io.qameta.allure.Step
 import org.koin.core.KoinComponent
+import ru.fix.corounit.allure.Step
 import ru.fix.kbdd.asserts.asString
 import ru.fix.kbdd.asserts.get
 import ru.fix.kbdd.asserts.isEquals
@@ -17,10 +17,10 @@ import ru.fix.kbdd.rest.Rest
 import ru.fix.kbdd.rest.Rest.bodyJson
 import ru.fix.kbdd.rest.Rest.statusCode
 
-class UrlSteps : KoinComponent {
+open class UrlSteps : KoinComponent {
 
     @Step
-    suspend fun `Get start links`(): Map<String, Url> {
+    open suspend fun `Get start links`(): Map<String, Url> {
         Rest.request {
             baseUri(BASE_URL)
             get("/")
@@ -37,7 +37,7 @@ class UrlSteps : KoinComponent {
     }
 
     @Step
-    suspend fun `Get order by id link`(orders: Url, id: OrderId): Url {
+    open suspend fun `Get order by id link`(orders: Url, id: OrderId): Url {
         Rest.request {
             get(orders.value)
         }

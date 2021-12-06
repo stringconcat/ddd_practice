@@ -6,9 +6,9 @@ import com.stringconcat.ddd.e2e.mealDescription
 import com.stringconcat.ddd.e2e.mealName
 import com.stringconcat.ddd.e2e.price
 import io.kotest.matchers.shouldBe
-import io.qameta.allure.Step
 import org.apache.http.HttpHeaders
 import org.koin.core.KoinComponent
+import ru.fix.corounit.allure.Step
 import ru.fix.kbdd.asserts.asString
 import ru.fix.kbdd.asserts.get
 import ru.fix.kbdd.asserts.isEquals
@@ -18,10 +18,10 @@ import ru.fix.kbdd.rest.Rest.headers
 import ru.fix.kbdd.rest.Rest.json
 import ru.fix.kbdd.rest.Rest.statusCode
 
-class MenuSteps : KoinComponent {
+open class MenuSteps : KoinComponent {
 
     @Step
-    suspend fun `Add a new meal`(url: Url): MealId {
+    open suspend fun `Add a new meal`(url: Url): MealId {
         Rest.request {
             body(json {
                 "name" % mealName()

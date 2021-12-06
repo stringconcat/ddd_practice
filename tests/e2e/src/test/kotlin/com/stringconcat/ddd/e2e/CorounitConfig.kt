@@ -7,6 +7,7 @@ import com.stringconcat.ddd.e2e.steps.UrlSteps
 import kotlin.coroutines.CoroutineContext
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
+import ru.fix.corounit.allure.createStepClassInstance
 import ru.fix.corounit.engine.CorounitPlugin
 import ru.fix.kbdd.rest.Rest
 
@@ -21,10 +22,10 @@ object CorounitConfig : CorounitPlugin {
         startKoin {
             printLogger()
             modules(module {
-                single { UrlSteps() }
-                single { MenuSteps() }
-                single { CartSteps() }
-                single { OrderSteps() }
+                single { createStepClassInstance(UrlSteps::class) }
+                single { createStepClassInstance(MenuSteps::class) }
+                single { createStepClassInstance(CartSteps::class) }
+                single { createStepClassInstance(OrderSteps::class) }
                 single { settings }
             })
         }
