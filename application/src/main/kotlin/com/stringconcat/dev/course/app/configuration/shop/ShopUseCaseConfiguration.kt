@@ -174,7 +174,7 @@ class ShopUseCaseConfiguration(
 
     @Bean
     fun getOrders(shopOrderExtractor: ShopOrderExtractor) =
-        GetOrdersUseCase(orderExtractor = shopOrderExtractor) { limit }
+        GetOrdersUseCase(orderExtractor = shopOrderExtractor) { limit + 1 }
 
     @Bean
     fun getOrderById(shopOrderExtractor: ShopOrderExtractor) =

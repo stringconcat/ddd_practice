@@ -25,7 +25,6 @@ open class CartSteps : KoinComponent {
         client.writeCommand("checkout street 123")
 
         val response = client.telnetResponse().asString()
-        println(response)
         response shouldContain "has been created"
         response shouldContain "Please follow this URL"
 
@@ -37,7 +36,6 @@ open class CartSteps : KoinComponent {
         val url = Regex("http:.+$").find(response)!!.value
 
         url.isEmpty() shouldBe false
-        println(url)
 
         return Pair(OrderId(id.toLong()), Url(url))
     }

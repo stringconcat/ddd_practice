@@ -14,8 +14,14 @@ const val TEST_TELNET_PORT = 2121
 
 const val MENU = "menu"
 const val ORDERS = "orders"
+const val KITCHEN = "kitchen"
 const val LINKS = "_links"
 const val HREF = "href"
+const val SELF = "self"
+const val CONFIRM = "confirm"
+const val COOK = "cook"
+const val EMBEDDED = "_embedded"
+const val START_ID_PARAM = "startId="
 
 val faker = Faker()
 

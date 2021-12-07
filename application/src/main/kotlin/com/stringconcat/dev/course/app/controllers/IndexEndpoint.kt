@@ -18,11 +18,23 @@ class IndexEndpoint {
             IndexModel()
                 .add(linkTo(methodOn(IndexEndpoint::class.java).execute()).withSelfRel())
                 .add(linkTo(methodOn(GetMenuEndpoint::class.java).execute()).withRel("menu"))
-                .add(linkTo(methodOn(GetOrdersEndpoint::class.java)
-                    .execute(
-                        startId = 0,
-                        limit = 10)
-                ).withRel("orders")))
+                .add(
+                    linkTo(
+                        methodOn(GetOrdersEndpoint::class.java)
+                            .execute(
+                                startId = 0,
+                                limit = 10
+                            )
+                    ).withRel("orders")
+                )
+                .add(
+                    linkTo(
+                        methodOn(com.stringconcat.ddd.kitchen.rest.order.GetOrdersEndpoint::class.java)
+                            .execute()
+                    )
+                        .withRel("kitchen")
+                )
+        )
 }
 
 data class IndexModel(val title: String = "Restaurant administration panel22") : RepresentationModel<IndexModel>()

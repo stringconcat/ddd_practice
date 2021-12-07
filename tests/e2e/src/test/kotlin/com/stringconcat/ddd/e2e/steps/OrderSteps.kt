@@ -21,6 +21,14 @@ open class OrderSteps : KoinComponent {
         Rest.request {
             put(url.value)
         }
-        Rest.statusCode().isEquals(201)
+        Rest.statusCode().isEquals(204)
+    }
+
+    @Step
+    open suspend fun `Cook order`(url: Url) {
+        Rest.request {
+            put(url.value)
+        }
+        Rest.statusCode().isEquals(204)
     }
 }

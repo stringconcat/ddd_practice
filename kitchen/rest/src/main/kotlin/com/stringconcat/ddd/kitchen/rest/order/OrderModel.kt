@@ -18,7 +18,7 @@ data class OrderModel(
 data class OrderItemModel(val meal: String, val count: Int)
 
 fun OrderDetails.toOrderModel(): OrderModel {
-    return OrderModel(
+    val result = OrderModel(
         id = id.toLongValue(),
         cooked = cooked,
         meals = meals.toModel()
@@ -28,6 +28,14 @@ fun OrderDetails.toOrderModel(): OrderModel {
                 .execute(this.id.toLongValue())
         ).withSelfRel()
     )
+    if (!this.cooked) {
+        result.add(
+            linkTo(
+                methodOn(CookOrderEndpoint::class.java).execute(this.id.toLongValue())
+            ).withRel("cook")
+        )
+    }
+    return result
 }
 
 fun List<OrderItem>.toModel() =
