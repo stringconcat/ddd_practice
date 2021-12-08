@@ -110,7 +110,7 @@ subprojects {
             violationRules {
 
                 rule {
-                    excludes = listOf("application", "telnet", "mock-server")
+                    excludes = listOf("application", "telnet", "mock-server", "rest")
                     limit {
                         minimum = BigDecimal("0.9")
                     }

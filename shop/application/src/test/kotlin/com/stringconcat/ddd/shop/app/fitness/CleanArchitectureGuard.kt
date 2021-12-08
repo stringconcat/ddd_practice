@@ -1,11 +1,13 @@
 package com.stringconcat.ddd.shop.app.fitness
 
+import com.tngtech.archunit.core.importer.ImportOption.DoNotIncludeTests
 import com.tngtech.archunit.junit.AnalyzeClasses
 import com.tngtech.archunit.junit.ArchTest
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition
 import com.tngtech.archunit.library.Architectures
 
-@AnalyzeClasses(packages = ["com.stringconcat.ddd"])
+@AnalyzeClasses(packages = ["com.stringconcat.ddd"],
+    importOptions = [DoNotIncludeTests::class, DoNotIncludeInfrastructure::class])
 class CleanArchitectureGuard {
 
     @ArchTest
@@ -29,6 +31,7 @@ class CleanArchitectureGuard {
         .onlyDependOnClassesThat()
         .resideInAnyPackage(
             "com.stringconcat.ddd.common..",
+            "com.stringconcat.ddd.shop.domain..",
             "kotlin..",
             "java..",
             "org.jetbrains.annotations..",

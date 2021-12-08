@@ -1,15 +1,13 @@
-package com.stringconcat.ddd.shop.app.component
+package com.stringconcat.ddd.common.rest
 
-import com.stringconcat.ddd.shop.app.ShopComponentTestConfiguration
-import com.stringconcat.ddd.shop.app.TEST_TELNET_PORT
-import com.stringconcat.ddd.shop.app.UUID_PATTERN
-import com.stringconcat.ddd.shop.app.toServerUrl
 import org.hamcrest.core.StringContains.containsString
 import org.hamcrest.core.StringRegularExpression.matchesRegex
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -17,11 +15,16 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
 import org.springframework.test.web.servlet.put
+import org.springframework.web.servlet.config.annotation.EnableWebMvc
 
-@SpringBootTest(classes = [ShopComponentTestConfiguration::class],
-    properties = ["telnet.port=$TEST_TELNET_PORT"])
+@SpringBootTest(classes = [GlobalErrorHandlerTest.TestConfiguration::class],
+    properties = ["spring.mvc.throw-exception-if-no-handler-found=true"])
 @AutoConfigureMockMvc
 class GlobalErrorHandlerTest {
+
+    companion object {
+        const val UUID_PATTERN = "\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}"
+    }
 
     @Autowired
     private lateinit var mockMvc: MockMvc
@@ -37,21 +40,6 @@ class GlobalErrorHandlerTest {
                     jsonPath("$.status") { value(HttpStatus.INTERNAL_SERVER_ERROR.value()) }
                     jsonPath("$.errorId") { value(matchesRegex(UUID_PATTERN)) }
                     jsonPath("$.title") { value(containsString("Internal error")) }
-                }
-            }
-    }
-
-    @Test
-    fun `storage conflict state exception must be converted to HTTP 409`() {
-        mockMvc.get("/storageConflict")
-            .andExpect {
-                status { isConflict() }
-                content {
-                    contentType(MediaType.APPLICATION_PROBLEM_JSON)
-                    jsonPath("$.type") { value("/conflict".toServerUrl()) }
-                    jsonPath("$.status") { value(HttpStatus.CONFLICT.value()) }
-                    jsonPath("$.errorId") { value(matchesRegex(UUID_PATTERN)) }
-                    jsonPath("$.title") { value(containsString("Conflict")) }
                 }
             }
     }
@@ -132,4 +120,17 @@ class GlobalErrorHandlerTest {
                 }
             }
     }
+
+    @Configuration
+    @EnableWebMvc
+    class TestConfiguration {
+
+        @Bean
+        fun globalErrorHandler() = GlobalErrorHandler()
+
+        @Bean
+        fun errorController() = ErrorController()
+    }
 }
+
+fun String.toServerUrl() = "http://localhost$this"

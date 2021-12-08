@@ -1,4 +1,9 @@
 project.base.archivesName.set("common-rest")
+
+plugins {
+    id(Plugins.spring_kotlin) version PluginVers.spring_kotlin
+}
+
 dependencies {
     // kotlin
     implementation(Libs.kotlin_jdk8)
@@ -7,4 +12,19 @@ dependencies {
     // spring
     implementation(Libs.spring_boot_starter_web)
     implementation(Libs.spring_boot_started_hateoas)
+
+    // jackson
+    implementation(Libs.jackson_kotlin)
+
+    // tests
+
+    testImplementation(Libs.spring_boot_starter_test) {
+        exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+    }
+    testImplementation(Libs.spring_boot_starter_web)
+
+    testFixturesImplementation(Libs.spring_boot_starter_test) {
+        exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+    }
+    testFixturesImplementation(Libs.spring_boot_starter_web)
 }

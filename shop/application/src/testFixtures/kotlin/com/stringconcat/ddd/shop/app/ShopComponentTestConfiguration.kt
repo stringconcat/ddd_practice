@@ -56,4 +56,7 @@ class ShopComponentTestConfiguration {
 
     @Bean
     fun shopOrderIdGenerator() = InMemoryIncrementalShopOrderIdGenerator()
+
+    @Bean
+    fun errorController() = ErrorController()
 }

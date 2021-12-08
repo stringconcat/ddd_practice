@@ -1,4 +1,4 @@
-package com.stringconcat.dev.course.app
+package com.stringconcat.ddd.common.rest
 
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -11,9 +11,6 @@ class ErrorController {
 
     @GetMapping("illegalState")
     fun illegalState(): Nothing = throw IllegalStateException("OOoops!")
-
-//    @GetMapping("storageConflict")
-//    fun storageConflict(): Nothing = throw StorageConflictException("OOoops!")
 
     @RequestMapping(method = [RequestMethod.POST, RequestMethod.PATCH], path = ["jsonDto"])
     fun jsonData(@RequestBody dto: JsonDto) = dto
