@@ -13,6 +13,7 @@ include(":shop:telnet")
 include(":shop:payment")
 include(":shop:rest")
 include(":shop:crm")
+include(":shop:application")
 
 include(":kitchen:domain")
 include(":kitchen:usecase")

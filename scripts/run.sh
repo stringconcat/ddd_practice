@@ -5,6 +5,7 @@ rootDir="$currentDir/../"
 
 (cd "$rootDir" && exec ./scripts/build.sh)
 (cd "$rootDir" && exec ./application/buildImage.sh)
+(cd "$rootDir" && exec ./shop/application/buildImage.sh)
 (cd "$rootDir" && exec ./tests/mock-server/buildImage.sh)
 (cd "$rootDir" && exec docker-compose up -d)
 
