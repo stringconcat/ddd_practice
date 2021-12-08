@@ -1,6 +1,5 @@
 rootProject.name = "ddd_practice"
 
-include(":application")
 include(":common:types")
 include(":common:telnet")
 include(":common:events")
@@ -19,6 +18,7 @@ include(":kitchen:domain")
 include(":kitchen:usecase")
 include(":kitchen:persistence")
 include(":kitchen:rest")
+include(":kitchen:application")
 
 include(":delivery") // should be empty
 include("common:rest")

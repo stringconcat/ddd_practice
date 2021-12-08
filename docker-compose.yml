@@ -31,9 +31,15 @@ services:
     ports:
       - "15432:80"
 
-  restaurant:
+  kitchen:
     restart: always
-    image: restaurant/mainapp:latest
+    image: restaurant/kitchen:latest
+    ports:
+      - '8080:8080'
+
+  shop:
+    restart: always
+    image: restaurant/shop:latest
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/restaurant
       - SPRING_DATASOURCE_USERNAME=restaurant
@@ -42,7 +48,7 @@ services:
       - postgres
     ports:
       - '2121:2121'
-      - '8080:8080'
+      - '8081:8081'
 
   mock-server:
     restart: always
