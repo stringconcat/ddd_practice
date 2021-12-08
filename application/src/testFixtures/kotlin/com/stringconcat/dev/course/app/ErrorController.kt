@@ -2,6 +2,9 @@ package com.stringconcat.dev.course.app
 
 import com.stringconcat.ddd.shop.persistence.postgresql.StorageConflictException
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -12,4 +15,9 @@ class ErrorController {
 
     @GetMapping("storageConflict")
     fun storageConflict(): Nothing = throw StorageConflictException("OOoops!")
+
+    @RequestMapping(method = [RequestMethod.POST, RequestMethod.PATCH], path = ["jsonDto"])
+    fun jsonData(@RequestBody dto: JsonDto) = dto
+
+    data class JsonDto(val field: String)
 }
