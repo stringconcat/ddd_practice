@@ -5,7 +5,7 @@ import java.io.OutputStreamWriter
 import java.io.Writer
 import org.apache.commons.net.telnet.TelnetClient
 
-class TestTelnetClient(hostname: String, port: Int) : TelnetClient() {
+open class TestTelnetClient(hostname: String, port: Int) : TelnetClient() {
 
     private val writer: Writer
 

@@ -25,21 +25,46 @@ const val START_ID_PARAM = "startId="
 
 val faker = Faker()
 
-suspend fun TestTelnetClient.telnetResponse() =
-    AlluredKPath(
-        parentStep = AllureStep.fromCurrentCoroutineContext(),
-        node = this.readMessage(),
-        mode = KPath.Mode.IMMEDIATE_ASSERT,
-        path = "telnet response"
-    )
+class E2eTestTelnetClient(
+    private val host: String,
+    private val port: Int,
+) : TestTelnetClient(host, port) {
 
-suspend fun TestTelnetClient.checkSuccess() {
-    AlluredKPath(
-        parentStep = AllureStep.fromCurrentCoroutineContext(),
-        node = this.readMessage(),
-        mode = KPath.Mode.IMMEDIATE_ASSERT,
-        path = "telnet response"
-    ).isEquals(TestTelnetClient.OK_RESPONSE)
+    suspend fun telnetResponse(): AlluredKPath {
+        val step = AllureStep.fromCurrentCoroutineContext()
+        val message = this.readMessage()
+        step.attachment("Telnet response", message)
+
+        return AlluredKPath(
+            parentStep = step,
+            node = message,
+            mode = KPath.Mode.IMMEDIATE_ASSERT,
+            path = "telnet response"
+        )
+    }
+
+    suspend fun writeCommandAndLog(command: String) {
+        val step = AllureStep.fromCurrentCoroutineContext()
+        step.attachment("Telnet request", command)
+        writeCommand(command)
+    }
+
+    suspend fun checkSuccess() {
+        val step = AllureStep.fromCurrentCoroutineContext()
+        val message = this.readMessage()
+        step.attachment("Telnet response", message)
+
+        AlluredKPath(
+            parentStep = step,
+            node = message,
+            mode = KPath.Mode.IMMEDIATE_ASSERT,
+            path = "Telnet response"
+        ).isEquals(OK_RESPONSE)
+    }
+
+    override fun toString(): String {
+        return "E2eTestTelnetClient(host='$host', port=$port)"
+    }
 }
 
 fun mealName() = "${faker.food().dish()} [${Random.nextInt()}]"
