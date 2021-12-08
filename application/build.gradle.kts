@@ -8,7 +8,6 @@ dependencies {
 
     // project
     implementation(project(":common:types"))
-    implementation(project(":common:telnet"))
     implementation(project(":common:events"))
     implementation(project(":common:rest"))
 
@@ -16,15 +15,6 @@ dependencies {
     implementation(project(":kitchen:usecase"))
     implementation(project(":kitchen:persistence"))
     implementation(project(":kitchen:rest"))
-
-    implementation(project(":shop:domain"))
-    implementation(project(":shop:usecase"))
-    implementation(project(":shop:in-memory-persistence"))
-    implementation(project(":shop:postgres-persistence"))
-    implementation(project(":shop:telnet"))
-    implementation(project(":shop:payment"))
-    implementation(project(":shop:crm"))
-    implementation(project(":shop:rest"))
 
     // kotlin
     implementation(Libs.kotlin_jdk8)
@@ -48,14 +38,8 @@ dependencies {
     // arrow
     implementation(Libs.arrow)
 
-    // table
-    implementation(Libs.ascii_table)
-
     // logging
     implementation(Libs.slf4j_api)
-
-    // databse
-    implementation(Libs.postgresql)
 
     // test
     testImplementation(Libs.kotest_junit)
@@ -69,15 +53,7 @@ dependencies {
     testImplementation(Libs.commons_net)
 
     testImplementation(testFixtures(project(":common:types")))
-    testImplementation(testFixtures(project(":shop:domain")))
-    testImplementation(testFixtures(project(":shop:usecase")))
-
     testFixturesImplementation(testFixtures(project(":common:types")))
-    testFixturesImplementation(testFixtures(project(":shop:domain")))
-    testFixturesImplementation(testFixtures(project(":shop:usecase")))
-    testFixturesImplementation(testFixtures(project(":shop:payment")))
-    testFixturesImplementation(project(":shop:in-memory-persistence"))
-    testFixturesImplementation(project(":shop:postgres-persistence"))
     testFixturesImplementation(project(":common:events"))
     testFixturesImplementation(Libs.arrow)
     testFixturesImplementation(Libs.kotest_junit)

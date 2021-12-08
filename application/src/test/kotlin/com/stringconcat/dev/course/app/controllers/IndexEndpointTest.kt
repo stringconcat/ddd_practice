@@ -1,8 +1,6 @@
 package com.stringconcat.dev.course.app.controllers
 
-import com.stringconcat.ddd.shop.rest.API_V1_MENU_GET_ALL
-import com.stringconcat.ddd.shop.rest.API_V1_ORDER_GET_ALL
-import com.stringconcat.dev.course.app.toServerUrl
+import com.stringconcat.ddd.kitchen.rest.API_V1_ORDERS
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -28,10 +26,7 @@ internal class IndexEndpointTest {
                 content {
                     contentType("application/hal+json")
                     jsonPath("$._links.self.href") { value(url) }
-                    jsonPath("$._links.menu.href") { value(API_V1_MENU_GET_ALL.toServerUrl()) }
-                    jsonPath("$._links.orders.href") {
-                        value("$API_V1_ORDER_GET_ALL?startId=0&limit=10".toServerUrl())
-                    }
+                    jsonPath("$._links.kitchen.href") { value(API_V1_ORDERS.toServerUrl()) }
                 }
             }
     }
@@ -42,3 +37,5 @@ internal class IndexEndpointTest {
         fun indexEndpoint() = IndexEndpoint()
     }
 }
+
+fun String.toServerUrl() = "http://localhost$this"

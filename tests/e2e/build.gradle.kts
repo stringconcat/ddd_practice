@@ -43,10 +43,10 @@ dependencies {
     testImplementation(Libs.jfix_corounit_engine)
     testImplementation(Libs.koin)
     testImplementation(Libs.commons_net)
-    testImplementation(testFixtures(project(":application")))
+    testImplementation(testFixtures(project(":shop:application")))
 
     testFixturesImplementation(Libs.faker)
-    testFixturesImplementation(testFixtures(project(":application")))
+    testFixturesImplementation(testFixtures(project(":shop:application")))
     testFixturesImplementation(Libs.kbdd)
     testFixturesImplementation(Libs.commons_net)
 }

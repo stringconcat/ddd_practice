@@ -1,13 +1,13 @@
 package com.stringconcat.ddd.e2e
 
 import com.github.javafaker.Faker
-import com.stringconcat.dev.course.app.TestTelnetClient
+import com.stringconcat.ddd.shop.app.TestTelnetClient
+import java.math.BigDecimal
+import kotlin.random.Random
 import ru.fix.corounit.allure.AllureStep
 import ru.fix.kbdd.asserts.AlluredKPath
 import ru.fix.kbdd.asserts.KPath
 import ru.fix.kbdd.asserts.isEquals
-import java.math.BigDecimal
-import kotlin.random.Random
 
 const val BASE_URL = "http://localhost:8080"
 const val TEST_TELNET_PORT = 2121

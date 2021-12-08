@@ -1,6 +1,5 @@
 package com.stringconcat.dev.course.app.controllers
 
-import com.stringconcat.ddd.shop.persistence.postgresql.StorageConflictException
 import java.net.URI
 import java.util.UUID
 import org.slf4j.LoggerFactory
@@ -30,14 +29,14 @@ class GlobalErrorHandler {
             title = "Internal error",
             code = "internal_error")
 
-    @ExceptionHandler(value = [StorageConflictException::class])
-    fun handleStorageConflict(ex: StorageConflictException) =
-        logErrorAndBuildResponse(
-            throwable = ex,
-            status = HttpStatus.CONFLICT,
-            title = "Conflict",
-            code = "conflict"
-        )
+//    @ExceptionHandler(value = [StorageConflictException::class])
+//    fun handleStorageConflict(ex: StorageConflictException) =
+//        logErrorAndBuildResponse(
+//            throwable = ex,
+//            status = HttpStatus.CONFLICT,
+//            title = "Conflict",
+//            code = "conflict"
+//        )
 
     @ExceptionHandler(value = [NoHandlerFoundException::class])
     fun handleNotFound() =
