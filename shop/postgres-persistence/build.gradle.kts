@@ -27,7 +27,7 @@ dependencies {
     testImplementation(Libs.kotest_arrow)
     testImplementation(Libs.junit_engine)
     testImplementation(Libs.junit_params)
-    testImplementation(Libs.testcontainers)
+    testImplementation(Libs.testcontainers_postgresql)
 
     // test
     testImplementation(Libs.spring_boot_starter_test) {
@@ -40,7 +40,7 @@ dependencies {
     testFixturesImplementation(testFixtures(project(":common:types")))
     testFixturesImplementation(testFixtures(project(":common:events")))
     testFixturesImplementation(testFixtures(project(":shop:domain")))
-    testFixturesImplementation(Libs.testcontainers)
+    testFixturesImplementation(Libs.testcontainers_postgresql)
     testFixturesImplementation(Libs.spring_boot_starter_jdbc)
     testFixturesImplementation(Libs.arrow)
     testFixturesImplementation(Libs.kotest_junit)

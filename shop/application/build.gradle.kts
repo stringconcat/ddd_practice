@@ -65,6 +65,7 @@ dependencies {
     }
     testImplementation(Libs.arch_unit)
     testImplementation(Libs.commons_net)
+    testImplementation(Libs.testcontainers_rabbit)
 
     testImplementation(testFixtures(project(":common:types")))
     testImplementation(testFixtures(project(":shop:domain")))
