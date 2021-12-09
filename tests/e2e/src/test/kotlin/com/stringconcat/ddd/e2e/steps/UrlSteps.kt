@@ -5,7 +5,6 @@ import com.stringconcat.ddd.e2e.CONFIRM
 import com.stringconcat.ddd.e2e.COOK
 import com.stringconcat.ddd.e2e.EMBEDDED
 import com.stringconcat.ddd.e2e.HREF
-import com.stringconcat.ddd.e2e.KITCHEN
 import com.stringconcat.ddd.e2e.LINKS
 import com.stringconcat.ddd.e2e.MENU
 import com.stringconcat.ddd.e2e.ORDERS
@@ -39,14 +38,14 @@ open class UrlSteps : KoinComponent {
 
         val menu = bodyJson()[LINKS][MENU][HREF].asString()
         val orders = bodyJson()[LINKS][ORDERS][HREF].asString()
-        val kitchen = bodyJson()[LINKS][KITCHEN][HREF].asString()
+        // val kitchen = bodyJson()[LINKS][KITCHEN][HREF].asString()
 
         menu.isNotEmpty() shouldBe true
         orders.isNotEmpty() shouldBe true
         orders shouldContain START_ID_PARAM
-        kitchen.isNotEmpty() shouldBe true
+        // kitchen.isNotEmpty() shouldBe true
 
-        return mapOf(MENU to Url(menu), ORDERS to Url(orders), KITCHEN to Url(kitchen))
+        return mapOf(MENU to Url(menu), ORDERS to Url(orders))
     }
 
     @Step

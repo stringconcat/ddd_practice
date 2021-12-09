@@ -13,7 +13,8 @@ import org.springframework.context.annotation.Import
 @Import(
     KitchenContextConfiguration::class,
     SwaggerConfiguration::class,
-    MvcConfiguration::class
+    MvcConfiguration::class,
+    MessagingConfiguration::class
 )
 @EnableAutoConfiguration
 class ApplicationConfiguration {
