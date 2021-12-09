@@ -34,6 +34,7 @@ dependencies {
     implementation(Libs.spring_boot_starter_logging)
     implementation(Libs.spring_boot_started_hateoas)
     implementation(Libs.spring_boot_starter_jdbc)
+    implementation(Libs.spring_boot_starter_amqp)
 
     // swagger
     implementation(Libs.swagger)

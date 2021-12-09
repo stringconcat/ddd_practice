@@ -1,6 +1,7 @@
 package com.stringconcat.ddd.shop.app.configuration
 
 import com.stringconcat.ddd.shop.app.event.EventPublisherImpl
+import com.stringconcat.ddd.shop.app.event.IntegrationMessagePublisher
 import com.stringconcat.ddd.shop.app.listeners.SendOrderToKitchenAfterConfirmationRule
 import com.stringconcat.ddd.shop.usecase.menu.access.MealExtractor
 import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderExtractor
@@ -14,12 +15,14 @@ class ContextsIntegration {
     fun shopOrderConfirmedListener(
         shopOrderExtractor: ShopOrderExtractor,
         mealExtractor: MealExtractor,
-        domainEventPublisher: EventPublisherImpl
+        domainEventPublisher: EventPublisherImpl,
+        integrationMessagePublisher: IntegrationMessagePublisher
     ): SendOrderToKitchenAfterConfirmationRule {
 
         val listener = SendOrderToKitchenAfterConfirmationRule(
             shopOrderExtractor = shopOrderExtractor,
-            mealExtractor = mealExtractor
+            mealExtractor = mealExtractor,
+            integrationMessagePublisher
         )
 
         domainEventPublisher.registerListener(listener)

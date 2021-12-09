@@ -1,10 +1,13 @@
 package com.stringconcat.ddd.shop.app
 
+import com.stringconcat.ddd.shop.app.event.IntegrationMessagePublisher
 import com.stringconcat.ddd.shop.domain.cart.CustomerId
 import com.stringconcat.ddd.shop.domain.meal
 import com.stringconcat.ddd.shop.domain.menu.Meal
 import com.stringconcat.ddd.shop.usecase.menu.access.MealPersister
+import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.shouldBe
 
 const val TEST_TELNET_PORT = 22121
 const val UUID_PATTERN = "\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}"
@@ -30,3 +33,21 @@ private fun String.extractCustomerId(): CustomerId {
 }
 
 fun String.toServerUrl() = "http://localhost$this"
+
+class MockIntegrationPublisher : IntegrationMessagePublisher {
+
+    lateinit var message: Any
+
+    override fun send(message: Any) {
+        this.message = message
+    }
+
+    fun verifyZeroInteraction() {
+        ::message.isInitialized.shouldBeFalse()
+    }
+
+    fun verifyInvoked(message: Any) {
+        this.message shouldBe message
+    }
+
+}

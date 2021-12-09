@@ -15,9 +15,10 @@ import org.springframework.context.annotation.Import
     PersistenceConfiguration::class,
     RestConfiguration::class,
     UseCaseConfiguration::class,
-    ContextsIntegration ::class,
+    ContextsIntegration::class,
     TelnetConfiguration::class,
-    MvcConfiguration::class
+    MvcConfiguration::class,
+    MessagingConfiguration::class
 )
 @EnableAutoConfiguration
 class ApplicationConfiguration {

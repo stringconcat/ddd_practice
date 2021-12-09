@@ -50,6 +50,9 @@ object Libs {
     const val spring_boot_started_hateoas =
         "org.springframework.boot:spring-boot-starter-hateoas:${LibVers.spring_boot}"
 
+    const val spring_boot_starter_amqp =
+        "org.springframework.boot:spring-boot-starter-amqp:${LibVers.spring_boot}"
+
     const val swagger = "io.springfox:springfox-boot-starter:${LibVers.swagger}"
     const val swagger_ui = "io.springfox:springfox-swagger-ui:${LibVers.swagger}"
 

@@ -1,14 +1,15 @@
 package com.stringconcat.ddd.shop.app.listeners
 
 import com.stringconcat.ddd.common.events.DomainEventListener
+import com.stringconcat.ddd.shop.app.event.IntegrationMessagePublisher
 import com.stringconcat.ddd.shop.domain.order.ShopOrderConfirmedDomainEvent
 import com.stringconcat.ddd.shop.usecase.menu.access.MealExtractor
 import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderExtractor
 
-@Suppress("UnusedPrivateMember")
 class SendOrderToKitchenAfterConfirmationRule(
     private val shopOrderExtractor: ShopOrderExtractor,
-    private val mealExtractor: MealExtractor
+    private val mealExtractor: MealExtractor,
+    private val integrationMessagePublisher: IntegrationMessagePublisher,
 ) : DomainEventListener<ShopOrderConfirmedDomainEvent> {
 
     override fun eventType() = ShopOrderConfirmedDomainEvent::class
@@ -19,20 +20,21 @@ class SendOrderToKitchenAfterConfirmationRule(
             "Shop order #${event.orderId} not found"
         }
 
-//        val itemData = order.orderItems.map {
-//            val meal = mealExtractor.getById(it.mealId)
-//            checkNotNull(meal) {
-//                "Meal #${it.mealId} not found"
-//            }
-//
-//            CreateOrderRequest.OrderItemData(
-//                mealName = meal.name.toStringValue(),
-//                count = it.count.toIntValue()
-//            )
-//        }
-//        val request = CreateOrderRequest(id = order.id.toLongValue(), items = itemData)
-//        createOrder.execute(request).mapLeft {
-//            error("Cannot create order #${order.id} for kitchen: $it")
-//        }
+        val itemData = order.orderItems.map {
+            val meal = mealExtractor.getById(it.mealId)
+            checkNotNull(meal) {
+                "Meal #${it.mealId} not found"
+            }
+            OrderMessageItem(
+                mealName = meal.name.toStringValue(),
+                count = it.count.toIntValue()
+            )
+        }
+        val message = OrderConfirmedMessage(id = order.id.toLongValue(), items = itemData)
+        integrationMessagePublisher.send(message)
     }
 }
+
+data class OrderConfirmedMessage(val id: Long, val items: List<OrderMessageItem>)
+
+data class OrderMessageItem(val mealName: String, val count: Int)

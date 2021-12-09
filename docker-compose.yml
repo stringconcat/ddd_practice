@@ -31,6 +31,16 @@ services:
     ports:
       - "15432:80"
 
+  rabbitmq:
+      restart: always
+      image: rabbitmq:3.9.11
+      environment:
+        - RABBITMQ_DEFAULT_USER=rabbitmq
+        - RABBITMQ_DEFAULT_PASS=rabbitmq
+      ports:
+        - "5672:5672"
+
+
   kitchen:
     restart: always
     image: restaurant/kitchen:latest
