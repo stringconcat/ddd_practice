@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import ru.fix.corounit.allure.invoke
+import ru.fix.corounit.allure.repeatUntilSuccess
 
 @Epic("Deliver an order")
 class OrderAndCookCase : KoinComponent {
@@ -50,9 +51,11 @@ class OrderAndCookCase : KoinComponent {
         }
 
         "Cook an order" {
-            val orderKitchenByIdUrl = Url.`Get kitchen order by id link`(urls[KITCHEN]!!, orderInfo.first)
-            val cookUrl = Url.`Get cook order link`(orderKitchenByIdUrl)
-            Order.`Cook order`(cookUrl)
+            repeatUntilSuccess {
+                val orderKitchenByIdUrl = Url.`Get kitchen order by id link`(urls[KITCHEN]!!, orderInfo.first)
+                val cookUrl = Url.`Get cook order link`(orderKitchenByIdUrl)
+                Order.`Cook order`(cookUrl)
+            }
         }
     }
 }

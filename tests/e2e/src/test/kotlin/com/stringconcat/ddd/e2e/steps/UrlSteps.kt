@@ -1,10 +1,12 @@
 package com.stringconcat.ddd.e2e.steps
 
-import com.stringconcat.ddd.e2e.BASE_URL
+import com.stringconcat.ddd.e2e.SHOP_BASE_URL
 import com.stringconcat.ddd.e2e.CONFIRM
 import com.stringconcat.ddd.e2e.COOK
 import com.stringconcat.ddd.e2e.EMBEDDED
 import com.stringconcat.ddd.e2e.HREF
+import com.stringconcat.ddd.e2e.KITCHEN
+import com.stringconcat.ddd.e2e.KITCHEN_BASE_URL
 import com.stringconcat.ddd.e2e.LINKS
 import com.stringconcat.ddd.e2e.MENU
 import com.stringconcat.ddd.e2e.ORDERS
@@ -31,21 +33,28 @@ open class UrlSteps : KoinComponent {
     @Step
     open suspend fun `Get start links`(): Map<String, Url> {
         Rest.request {
-            baseUri(BASE_URL)
+            baseUri(SHOP_BASE_URL)
             get("/")
         }
         statusCode().isEquals(200)
 
         val menu = bodyJson()[LINKS][MENU][HREF].asString()
         val orders = bodyJson()[LINKS][ORDERS][HREF].asString()
-        // val kitchen = bodyJson()[LINKS][KITCHEN][HREF].asString()
+
+        Rest.request {
+            baseUri(KITCHEN_BASE_URL)
+            get("/")
+        }
+        statusCode().isEquals(200)
+
+        val kitchen = bodyJson()[LINKS][KITCHEN][HREF].asString()
 
         menu.isNotEmpty() shouldBe true
         orders.isNotEmpty() shouldBe true
         orders shouldContain START_ID_PARAM
-        // kitchen.isNotEmpty() shouldBe true
+        kitchen.isNotEmpty() shouldBe true
 
-        return mapOf(MENU to Url(menu), ORDERS to Url(orders))
+        return mapOf(MENU to Url(menu), ORDERS to Url(orders), KITCHEN to Url(kitchen))
     }
 
     @Step

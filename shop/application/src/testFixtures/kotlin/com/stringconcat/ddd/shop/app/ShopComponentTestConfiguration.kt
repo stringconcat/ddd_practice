@@ -30,7 +30,7 @@ import org.springframework.context.annotation.Import
 class ShopComponentTestConfiguration {
 
     @Bean
-    fun simplePaymentProvider() = SimplePaymentUrlProvider(URL("http://localhost:8080"))
+    fun simplePaymentProvider() = SimplePaymentUrlProvider(URL("http://localhost:8081"))
 
     @Bean
     fun eventPublisher() = EventPublisherImpl()

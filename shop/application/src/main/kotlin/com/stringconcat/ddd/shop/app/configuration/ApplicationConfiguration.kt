@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Import
     UseCaseConfiguration::class,
     ContextsIntegration::class,
     TelnetConfiguration::class,
+    TelnetServerConfiguration::class,
     MvcConfiguration::class,
     MessagingConfiguration::class
 )

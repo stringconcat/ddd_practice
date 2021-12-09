@@ -13,7 +13,7 @@ class IntegrationConfiguration(
     @Value("\${crm.url}") val url: URL,
 ) {
     @Bean
-    fun paymentUrlProvider() = SimplePaymentUrlProvider(URL("http://localhost:8080"))
+    fun paymentUrlProvider() = SimplePaymentUrlProvider(URL("http://localhost:8081"))
 
     @Bean
     @Suppress("MagicNumber") // уберем чуть позже
