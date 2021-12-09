@@ -97,7 +97,10 @@ class RabbitMessagePublisherTest {
 
         fun verifyInvoked(message: String) {
             runBlocking {
-                eventually(5000) {
+                eventually({
+                    duration = 5000
+                    initialDelay = 1000
+                }) {
                     this.message shouldBe message
                 }
             }

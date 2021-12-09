@@ -27,6 +27,7 @@ dependencies {
 
     implementation(Libs.spring_boot_starter_logging)
     implementation(Libs.spring_boot_started_hateoas)
+    implementation(Libs.spring_boot_starter_amqp)
 
     // swagger
     implementation(Libs.swagger)
@@ -51,10 +52,15 @@ dependencies {
     }
     testImplementation(Libs.arch_unit)
     testImplementation(Libs.commons_net)
+    testImplementation(Libs.testcontainers_rabbit)
+    testImplementation(Libs.spring_rabbit_test)
 
     testImplementation(testFixtures(project(":common:types")))
     testFixturesImplementation(testFixtures(project(":common:types")))
     testFixturesImplementation(project(":common:events"))
+    testFixturesImplementation(project(":kitchen:domain"))
+    testFixturesImplementation(project(":kitchen:usecase"))
+
     testFixturesImplementation(Libs.arrow)
     testFixturesImplementation(Libs.kotest_junit)
     testFixturesImplementation(Libs.commons_net)
@@ -62,4 +68,8 @@ dependencies {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
     testFixturesImplementation(Libs.spring_boot_starter_web)
+    testFixturesImplementation(Libs.testcontainers_rabbit)
+    testFixturesImplementation(Libs.spring_rabbit_test)
+    testFixturesImplementation(Libs.spring_boot_starter_amqp)
+
 }
