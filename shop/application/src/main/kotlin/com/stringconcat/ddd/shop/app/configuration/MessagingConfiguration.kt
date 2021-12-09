@@ -11,7 +11,7 @@ class MessagingConfiguration {
 
     @Bean
     fun mainQueue(): Queue {
-        return Queue("main")
+        return Queue("confirmed")
     }
 
     @Bean

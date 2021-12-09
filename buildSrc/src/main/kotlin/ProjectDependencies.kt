@@ -24,6 +24,7 @@ object LibVers {
     const val koin = "2.0.1"
     const val rest_assured = "4.4.0"
     const val corounit = "1.1.1"
+    const val spring_rabbit_test = "2.4.0"
 }
 
 object Libs {
@@ -76,6 +77,7 @@ object Libs {
     const val koin = "org.koin:koin-core:${LibVers.koin}"
     const val rest_assured = "io.rest-assured:rest-assured:${LibVers.rest_assured}"
     const val rest_assured_kotlin = "io.rest-assured:kotlin-extensions:${LibVers.rest_assured}"
+    const val spring_rabbit_test = "org.springframework.amqp:spring-rabbit-test:${LibVers.spring_rabbit_test}"
 
     const val jfix_corounit_engine = "ru.fix:corounit-engine:${LibVers.corounit}"
     const val jfix_corounit_allure = "ru.fix:corounit-allure:${LibVers.corounit}"

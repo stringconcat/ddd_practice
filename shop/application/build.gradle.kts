@@ -66,6 +66,7 @@ dependencies {
     testImplementation(Libs.arch_unit)
     testImplementation(Libs.commons_net)
     testImplementation(Libs.testcontainers_rabbit)
+    testImplementation(Libs.spring_rabbit_test)
 
     testImplementation(testFixtures(project(":common:types")))
     testImplementation(testFixtures(project(":shop:domain")))
@@ -85,4 +86,6 @@ dependencies {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
     testFixturesImplementation(Libs.spring_boot_starter_web)
+    testFixturesImplementation(Libs.spring_boot_starter_amqp)
+
 }
