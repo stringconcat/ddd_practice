@@ -1,6 +1,7 @@
 package com.stringconcat.ddd.e2e
 
 import com.stringconcat.ddd.e2e.steps.CartSteps
+import com.stringconcat.ddd.e2e.steps.CrmSteps
 import com.stringconcat.ddd.e2e.steps.MenuSteps
 import com.stringconcat.ddd.e2e.steps.OrderSteps
 import com.stringconcat.ddd.e2e.steps.UrlSteps
@@ -26,6 +27,7 @@ object CorounitConfig : CorounitPlugin {
                 single { createStepClassInstance(MenuSteps::class) }
                 single { createStepClassInstance(CartSteps::class) }
                 single { createStepClassInstance(OrderSteps::class) }
+                single { createStepClassInstance(CrmSteps::class) }
                 single { settings }
             })
         }

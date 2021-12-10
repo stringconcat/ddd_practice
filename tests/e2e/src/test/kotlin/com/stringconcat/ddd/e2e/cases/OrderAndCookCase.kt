@@ -9,6 +9,7 @@ import com.stringconcat.ddd.e2e.OrderId
 import com.stringconcat.ddd.e2e.TEST_TELNET_PORT
 import com.stringconcat.ddd.e2e.Url
 import com.stringconcat.ddd.e2e.steps.CartSteps
+import com.stringconcat.ddd.e2e.steps.CrmSteps
 import com.stringconcat.ddd.e2e.steps.MenuSteps
 import com.stringconcat.ddd.e2e.steps.OrderSteps
 import com.stringconcat.ddd.e2e.steps.UrlSteps
@@ -27,6 +28,8 @@ class OrderAndCookCase : KoinComponent {
     val Menu by inject<MenuSteps>()
     val Cart by inject<CartSteps>()
     val Order by inject<OrderSteps>()
+
+    val Crm by inject<CrmSteps>()
 
     @Test
     @Story("Cook an order")
@@ -56,6 +59,10 @@ class OrderAndCookCase : KoinComponent {
                 val cookUrl = Url.`Get cook order link`(orderKitchenByIdUrl)
                 Order.`Cook order`(cookUrl)
             }
+        }
+
+        "Check crm after" {
+            Crm.`Check crm after`(orderInfo.first)
         }
     }
 }
