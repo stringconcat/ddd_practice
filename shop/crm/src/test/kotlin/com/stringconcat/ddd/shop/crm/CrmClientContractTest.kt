@@ -44,6 +44,11 @@ internal class CrmClientContractTest {
             .method("POST")
             .path("/orders")
             .headers(headers)
+            .body(newJsonObject {
+                numberType("id", order.id.toLongValue())
+                stringType("customerId", order.forCustomer.toStringValue())
+                decimalType("totalPrice", order.totalPrice().toBigDecimalValue())
+            })
             .willRespondWith()
             .status(200)
             .body(newJsonBody {
