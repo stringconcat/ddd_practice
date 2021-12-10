@@ -22,6 +22,7 @@ dependencies {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
     testImplementation(Libs.spring_boot_starter_web)
+    testImplementation(Libs.spring_boot_started_hateoas)
 
     testFixturesImplementation(Libs.spring_boot_starter_test) {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")

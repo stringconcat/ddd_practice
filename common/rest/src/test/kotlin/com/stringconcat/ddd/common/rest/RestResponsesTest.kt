@@ -1,6 +1,5 @@
 package com.stringconcat.ddd.common.rest
 
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -11,10 +10,10 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
+import org.springframework.web.servlet.config.annotation.EnableWebMvc
 
 @SpringBootTest(classes = [RestResponsesTest.TestConfiguration::class])
 @AutoConfigureMockMvc
-@Disabled
 internal class RestResponsesTest {
 
     @Autowired
@@ -27,15 +26,17 @@ internal class RestResponsesTest {
                 status { isUnprocessableEntity() }
                 content {
                     contentType(MediaType.APPLICATION_PROBLEM_JSON)
-                    status { isBadRequest() }
+                    status { isUnprocessableEntity() }
                     content {
                         jsonPath("$.status") { value(HttpStatus.UNPROCESSABLE_ENTITY.value()) }
+                        // add more checks
                     }
                 }
             }
     }
 
     @Configuration
+    @EnableWebMvc
     class TestConfiguration {
         @Bean
         fun restResponseController() = RestResponseController()
