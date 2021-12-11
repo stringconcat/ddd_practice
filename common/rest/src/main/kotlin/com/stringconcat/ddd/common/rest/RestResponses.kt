@@ -24,7 +24,7 @@ class CursorPagedModel<T> internal constructor(list: List<T>, val count: Int) :
 
 private val baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString()
 
-fun restBusinessError(title: String, code: String) =
+fun restBusinessError(title: String, code: String): ResponseEntity<Problem> =
     ResponseEntity
         .unprocessableEntity()
         .contentType(MediaType.APPLICATION_PROBLEM_JSON)
@@ -34,7 +34,7 @@ fun restBusinessError(title: String, code: String) =
                 .withTitle(title)
         )
 
-fun resourceNotFound() =
+fun resourceNotFound(): ResponseEntity<Problem> =
     ResponseEntity
         .status(HttpStatus.NOT_FOUND)
         .contentType(MediaType.APPLICATION_PROBLEM_JSON)
@@ -44,7 +44,7 @@ fun resourceNotFound() =
                 .withTitle("Resource not found")
         )
 
-fun Nel<ValidationError>.toInvalidParamsBadRequest() =
+fun Nel<ValidationError>.toInvalidParamsBadRequest(): ResponseEntity<Problem> =
     ResponseEntity
         .badRequest()
         .contentType(MediaType.APPLICATION_PROBLEM_JSON)

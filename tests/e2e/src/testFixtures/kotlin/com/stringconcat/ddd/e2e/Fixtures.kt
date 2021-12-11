@@ -23,6 +23,7 @@ const val SELF = "self"
 const val CONFIRM = "confirm"
 const val COOK = "cook"
 const val EMBEDDED = "_embedded"
+const val ID = "id"
 const val START_ID_PARAM = "startId="
 
 val faker = Faker()

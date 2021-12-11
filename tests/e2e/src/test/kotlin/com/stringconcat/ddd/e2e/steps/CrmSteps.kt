@@ -1,9 +1,11 @@
 package com.stringconcat.ddd.e2e.steps
 
 import com.stringconcat.ddd.e2e.CRM_BASE_URL
+import com.stringconcat.ddd.e2e.ID
 import com.stringconcat.ddd.e2e.OrderId
 import org.koin.core.KoinComponent
 import ru.fix.corounit.allure.Step
+import ru.fix.kbdd.asserts.get
 import ru.fix.kbdd.asserts.isEquals
 import ru.fix.kbdd.rest.Rest
 
@@ -16,6 +18,6 @@ open class CrmSteps : KoinComponent {
             get("/order")
         }
         Rest.statusCode().isEquals(200)
-        Rest.bodyString().isEquals(orderId.value)
+        Rest.bodyJson()[ID].isEquals(orderId.value)
     }
 }
