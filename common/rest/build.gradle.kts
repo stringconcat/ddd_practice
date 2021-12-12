@@ -29,4 +29,5 @@ dependencies {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
     testFixturesImplementation(Libs.spring_boot_starter_web)
+    testFixturesImplementation(Libs.arrow)
 }

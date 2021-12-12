@@ -77,6 +77,21 @@ internal class RestResponsesTest {
     }
 
     @Test
+    fun `build invalid params error response`() {
+        mockMvc.get(INVALID_PARAMS_URL)
+            .andExpect {
+                status { HttpStatus.BAD_REQUEST }
+                content {
+                    contentType(MediaType.APPLICATION_PROBLEM_JSON)
+                    content {
+                        jsonPath("$.status") { value(HttpStatus.BAD_REQUEST.value()) }
+                        // ну и так далее
+                    }
+                }
+            }
+    }
+
+    @Test
     fun `build invalid params error`() {
         val error = ValidationError("error")
         val errors = nonEmptyListOf(error)
