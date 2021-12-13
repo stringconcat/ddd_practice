@@ -5,6 +5,12 @@ import java.net.URI
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
+const val BUSINESS_ERROR_URL = "/businessError"
+const val NOT_FOUND_URL = "/notFound"
+const val CREATED_URL = "/created"
+const val NO_CONTENT_URL = "/noContent"
+const val INVALID_PARAMS_URL = "/bad_request"
+
 @RestController
 class RestResponseController {
 

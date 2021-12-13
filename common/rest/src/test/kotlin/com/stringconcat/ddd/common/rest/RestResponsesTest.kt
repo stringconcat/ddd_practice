@@ -1,7 +1,5 @@
 package com.stringconcat.ddd.common.rest
 
-import arrow.core.nonEmptyListOf
-import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -14,7 +12,6 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 import org.springframework.web.servlet.config.annotation.EnableWebMvc
-import java.net.URI
 
 @SpringBootTest(classes = [RestResponsesTest.TestConfiguration::class])
 @AutoConfigureMockMvc
@@ -64,7 +61,7 @@ internal class RestResponsesTest {
                 header {
                     string(HttpHeaders.LOCATION, LOCATION_URL)
                 }
-                redirectedUrl(LOCATION_URL)
+                jsonPath("$") { doesNotExist() }
             }
     }
 
@@ -73,6 +70,7 @@ internal class RestResponsesTest {
         mockMvc.get(NO_CONTENT_URL)
             .andExpect {
                 status { HttpStatus.NO_CONTENT }
+                jsonPath("$") { doesNotExist() }
             }
     }
 
@@ -85,27 +83,11 @@ internal class RestResponsesTest {
                     contentType(MediaType.APPLICATION_PROBLEM_JSON)
                     content {
                         jsonPath("$.status") { value(HttpStatus.BAD_REQUEST.value()) }
-                        // ну и так далее
+                        jsonPath("$.title") { value(INVALID_PARAMS_TITLE) }
+                        jsonPath("$.type") { value(BASE_URI.plus(INVALID_PARAMS_TYPE)) }
                     }
                 }
             }
-    }
-
-    @Test
-    fun `build invalid params error`() {
-        val error = ValidationError("error")
-        val errors = nonEmptyListOf(error)
-        val response = errors.toInvalidParamsBadRequest()
-        response.statusCode.shouldBe(HttpStatus.BAD_REQUEST)
-        val type = response.headers["content-type"]
-
-        type!!.size shouldBe 1
-        type[0] shouldBe MediaType.APPLICATION_PROBLEM_JSON.toString()
-
-        val body = response.body!!
-        body.status shouldBe HttpStatus.BAD_REQUEST
-        body.title shouldBe INVALID_PARAMS_TITLE
-        body.type shouldBe URI(BASE_URI.plus(INVALID_PARAMS_URL))
     }
 
     @Configuration
