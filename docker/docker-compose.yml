@@ -1,0 +1,95 @@
+version: "3.9"
+services:
+  postgres:
+    restart: always
+    image: postgres:14.1
+    environment:
+      - POSTGRES_PASSWORD=restaurant
+      - POSTGRES_USER=restaurant
+      - POSTGRES_DB=restaurant
+    volumes:
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres:/data/postgres
+    ports:
+      - ${POSTGRES_PORT}:5432
+
+  pgadmin:
+    restart: always
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=restaurant@stringconcat.com
+      - PGADMIN_DEFAULT_PASSWORD=restaurant
+    depends_on:
+      - postgres
+    entrypoint:
+      - "/bin/sh"
+      - "-c"
+      - "/bin/echo '*:5432:restaurant:restaurant:restaurant' > /tmp/pgpassfile && chmod 600 /tmp/pgpassfile && /entrypoint.sh"
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+      - ./docker/servers.json:/pgadmin4/servers.json
+    ports:
+      - ${PGADMIN_PORT}:80
+    profiles:
+      - debug
+
+  rabbitmq:
+    restart: always
+    image: rabbitmq:3.9.11
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    ports:
+      - ${RABBITMQ_PORT}:5672
+      - ${RABBITMQ_ADMIN_PORT}:15672
+
+
+  kitchen:
+    restart: always
+    image: restaurant/kitchen:latest
+    ports:
+      - ${KITCHEN_PORT}:${KITCHEN_PORT}
+    environment:
+      - SERVER_PORT=${KITCHEN_PORT}
+    depends_on:
+      - rabbitmq
+
+  shop:
+    restart: always
+    image: restaurant/shop:latest
+    environment:
+      - SERVER_PORT=${SHOP_PORT}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/restaurant
+      - SPRING_DATASOURCE_USERNAME=restaurant
+      - SPRING_DATASOURCE_PASSWORD=restaurant
+    depends_on:
+      - postgres
+      - rabbitmq
+    ports:
+      - ${SHOP_TELNET_PORT}:2121
+      - ${SHOP_PORT}:${SHOP_PORT}
+
+  mock-server:
+    restart: always
+    image: restaurant/mock-server:latest
+    environment:
+      - SERVER_PORT=${MOCK_PORT}
+    ports:
+      - ${MOCK_PORT}:${MOCK_PORT}
+
+  portainer:
+    restart: always
+    image: portainer/portainer
+    ports:
+      - ${PORTAINER_PORT}:9000
+    command: -H unix:///var/run/docker.sock --no-auth
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    profiles:
+      - debug
+
+volumes:
+  portainer_data:
+  postgres:
+  pgadmin:

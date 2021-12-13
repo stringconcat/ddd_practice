@@ -34,6 +34,7 @@ dependencies {
     testImplementation(Libs.kotest_arrow)
     testImplementation(Libs.junit_engine)
     testImplementation(Libs.junit_params)
+    testImplementation(Libs.testcontainers_core)
 
     testImplementation(Libs.kbdd)
     testImplementation(Libs.rest_assured)

@@ -72,6 +72,7 @@ object Libs {
     const val faker = "com.github.javafaker:javafaker:${LibVers.faker}"
     const val testcontainers_postgresql = "org.testcontainers:postgresql:${LibVers.testcontainers}"
     const val testcontainers_rabbit = "org.testcontainers:rabbitmq:${LibVers.testcontainers}"
+    const val testcontainers_core = "org.testcontainers:testcontainers:${LibVers.testcontainers}"
     const val wiremock = "com.github.tomakehurst:wiremock-jre8:${LibVers.wiremock}"
     const val kbdd = "ru.fix:kbdd:${LibVers.kbdd}"
     const val koin = "org.koin:koin-core:${LibVers.koin}"

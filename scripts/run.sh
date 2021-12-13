@@ -7,8 +7,13 @@ rootDir="$currentDir/../"
 (cd "$rootDir" && exec ./shop/application/buildImage.sh)
 (cd "$rootDir" && exec ./kitchen/application/buildImage.sh)
 (cd "$rootDir" && exec ./tests/mock-server/buildImage.sh)
-(cd "$rootDir" && exec docker-compose up -d --remove-orphans)
+(cd "$rootDir" && exec docker-compose -f ./docker/docker-compose.yml --env-file \
+./docker/env/debug.env --project-name=ddd_debug --profile debug up -d --remove-orphans)
 
-echo 'Portainer GUI is available at http://localhost:9000/#/dashboard'
-echo 'pgadmin is available at http://localhost:15432/ Login: restaurant@stringconcat.com:restaurant Database password is restaurant'
-python -mwebbrowser http://localhost:9000/#/dashboard || true
+portainerPort=$(cd "$rootDir" && cat ./docker/env/debug.env | grep "PORTAINER_PORT" | cut -d'=' -f2)
+
+printf 'List of available ports\n'
+(cd "$rootDir" && exec cat ./docker/env/debug.env)
+printf "\nPortainer GUI is available at http://localhost:$portainerPort/#/dashboard\n"
+printf 'Pgadmin Login: restaurant@stringconcat.com:restaurant\nDatabase password is restaurant'
+python -mwebbrowser http://localhost:$portainerPort/#/dashboard || true
