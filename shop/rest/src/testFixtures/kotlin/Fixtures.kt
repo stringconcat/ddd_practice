@@ -27,7 +27,7 @@ import com.stringconcat.ddd.shop.usecase.order.dto.OrderDetails
 import com.stringconcat.ddd.shop.usecase.order.dto.toDetails
 import io.kotest.matchers.shouldBe
 
-const val APPLICATION_HAL_JSON = "application/hal+json"
+const val APPLICATION_HAL_FORMS_JSON = "application/prs.hal-forms+json"
 const val API_V1_TYPE_BASE_URL = "http://localhost"
 
 fun errorTypeUrl(suffix: String) = "$API_V1_TYPE_BASE_URL/$suffix"

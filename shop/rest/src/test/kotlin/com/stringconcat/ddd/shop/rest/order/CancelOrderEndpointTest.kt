@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.hateoas.config.EnableHypermediaSupport
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.context.ContextConfiguration
@@ -88,6 +89,7 @@ internal class CancelOrderEndpointTest {
     }
 
     @Configuration
+    @EnableHypermediaSupport(type = [EnableHypermediaSupport.HypermediaType.HAL_FORMS])
     class TestConfiguration {
 
         @Bean

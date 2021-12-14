@@ -5,8 +5,10 @@ import com.stringconcat.ddd.shop.usecase.order.dto.OrderDetails
 import com.stringconcat.ddd.shop.usecase.order.dto.OrderItemDetails
 import org.springframework.hateoas.RepresentationModel
 import org.springframework.hateoas.server.core.Relation
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.afford
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn
+import org.springframework.http.HttpMethod
 import org.springframework.http.ResponseEntity
 
 @Relation(collectionRelation = "orders")
@@ -31,9 +33,13 @@ fun OrderDetails.toOrderModel(): OrderModel {
 
     if (this.readyForConfirmOrCancel) {
         result.add(linkTo(methodOn(CancelOrderEndpoint::class.java)
-            .execute(this.id.toLongValue())).withRel("cancel"))
+            .execute(this.id.toLongValue())).withRel("cancel")
+            .andAffordance(afford(methodOn(CancelOrderEndpoint::class.java)
+                .execute(this.id.toLongValue()))))
             .add(linkTo(methodOn(ConfirmOrderEndpoint::class.java)
-                .execute(this.id.toLongValue())).withRel("confirm"))
+                .execute(this.id.toLongValue())).withRel("confirm")
+                .andAffordance(afford(methodOn(ConfirmOrderEndpoint::class.java)
+                    .execute(this.id.toLongValue()))))
     }
     return result
 }
@@ -46,4 +52,5 @@ fun List<OrderItemDetails>.toModel() =
 fun Address.toModel() = AddressModel(
     street = this.streetToStringValue(),
     building = this.buildingToIntValue())
+
 data class AddressModel(val street: String, val building: Int)

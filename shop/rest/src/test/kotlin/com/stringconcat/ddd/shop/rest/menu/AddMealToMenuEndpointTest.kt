@@ -9,22 +9,22 @@ import com.stringconcat.ddd.shop.domain.mealDescription
 import com.stringconcat.ddd.shop.domain.mealId
 import com.stringconcat.ddd.shop.domain.mealName
 import com.stringconcat.ddd.shop.domain.price
-import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenu
-import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenuUseCaseError
 import com.stringconcat.ddd.shop.rest.API_V1_MENU_ADD_TO_MENU
 import com.stringconcat.ddd.shop.rest.API_V1_MENU_GET_BY_ID
+import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenu
+import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenuUseCaseError
+import errorTypeUrl
 import java.math.BigDecimal
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
-import errorTypeUrl
-import org.springframework.http.HttpStatus
 import withHost
 import withId
 

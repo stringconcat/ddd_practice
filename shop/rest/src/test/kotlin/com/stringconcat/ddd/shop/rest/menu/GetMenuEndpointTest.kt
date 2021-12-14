@@ -1,6 +1,6 @@
 package com.stringconcat.ddd.shop.rest.menu
 
-import APPLICATION_HAL_JSON
+import APPLICATION_HAL_FORMS_JSON
 import MockGetMenu
 import com.stringconcat.ddd.shop.rest.API_V1_MENU_DELETE_BY_ID
 import com.stringconcat.ddd.shop.rest.API_V1_MENU_GET_ALL
@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.hateoas.config.EnableHypermediaSupport
+import org.springframework.hateoas.config.EnableHypermediaSupport.HypermediaType
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
@@ -37,7 +39,7 @@ class GetMenuEndpointTest {
             .andExpect {
                 status { isOk() }
                 content {
-                    contentType(APPLICATION_HAL_JSON)
+                    contentType(APPLICATION_HAL_FORMS_JSON)
 
                     jsonPath("$._links.self.href") { value(url) }
 
@@ -56,11 +58,13 @@ class GetMenuEndpointTest {
                     jsonPath("$._embedded.meals[0]._links.remove.href") {
                         value(API_V1_MENU_DELETE_BY_ID.withId(meal.id.toLongValue()).withHost())
                     }
+                    jsonPath("$._embedded.meals[0]._templates") { exists() }
                 }
             }
     }
 
     @Configuration
+    @EnableHypermediaSupport(type = [HypermediaType.HAL_FORMS])
     class TestConfiguration {
 
         @Bean

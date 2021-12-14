@@ -25,6 +25,7 @@ object LibVers {
     const val rest_assured = "4.4.0"
     const val corounit = "1.1.1"
     const val spring_rabbit_test = "2.4.0"
+    const val hal_explorer = "1.0.1"
 }
 
 object Libs {
@@ -92,6 +93,9 @@ object Libs {
     // Database
     const val postgresql = "org.postgresql:postgresql:${LibVers.postgresql}"
     const val liquibase = ("org.liquibase:liquibase-core:${LibVers.liquibase}")
+
+    // REST
+    const val hal_explorer = "org.webjars:hal-explorer:${LibVers.hal_explorer}"
 
     // resilience4j
     const val resilience4j_circuitbreaker = "io.github.resilience4j:resilience4j-circuitbreaker:" +

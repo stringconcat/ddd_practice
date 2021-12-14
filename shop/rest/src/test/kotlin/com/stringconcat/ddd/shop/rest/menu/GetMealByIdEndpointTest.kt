@@ -1,6 +1,6 @@
 package com.stringconcat.ddd.shop.rest.menu
 
-import APPLICATION_HAL_JSON
+import APPLICATION_HAL_FORMS_JSON
 import MockGetMealById
 import arrow.core.left
 import arrow.core.right
@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.hateoas.config.EnableHypermediaSupport
+import org.springframework.hateoas.config.EnableHypermediaSupport.HypermediaType
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.context.ContextConfiguration
@@ -61,7 +63,7 @@ class GetMealByIdEndpointTest {
             .andExpect {
                 status { isOk() }
                 content {
-                    contentType(APPLICATION_HAL_JSON)
+                    contentType(APPLICATION_HAL_FORMS_JSON)
 
                     jsonPath("$.id") { value(mealInfo.id.toLongValue()) }
                     jsonPath("$.name") { value(mealInfo.name.toStringValue()) }
@@ -77,6 +79,7 @@ class GetMealByIdEndpointTest {
     }
 
     @Configuration
+    @EnableHypermediaSupport(type = [HypermediaType.HAL_FORMS])
     class TestConfiguration {
 
         @Bean

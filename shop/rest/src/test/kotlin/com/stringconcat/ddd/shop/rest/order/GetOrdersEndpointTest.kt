@@ -1,6 +1,6 @@
 package com.stringconcat.ddd.shop.rest.order
 
-import APPLICATION_HAL_JSON
+import APPLICATION_HAL_FORMS_JSON
 import MockGetOrders
 import arrow.core.left
 import arrow.core.right
@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.hateoas.config.EnableHypermediaSupport
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
@@ -70,7 +71,7 @@ internal class GetOrdersEndpointTest {
             .andExpect {
                 status { isOk() }
                 content {
-                    contentType(APPLICATION_HAL_JSON)
+                    contentType(APPLICATION_HAL_FORMS_JSON)
                     jsonPath("$.count") { value(limit) }
                     jsonPath("$._links.self.href") { value(url) }
                     jsonPath("$._links.first.href") {
@@ -115,7 +116,7 @@ internal class GetOrdersEndpointTest {
             .andExpect {
                 status { isOk() }
                 content {
-                    contentType(APPLICATION_HAL_JSON)
+                    contentType(APPLICATION_HAL_FORMS_JSON)
                     jsonPath("$.count") { value(limit) }
                     jsonPath("$._links.self.href") {
                         value(url)
@@ -148,6 +149,7 @@ internal class GetOrdersEndpointTest {
     }
 
     @Configuration
+    @EnableHypermediaSupport(type = [EnableHypermediaSupport.HypermediaType.HAL_FORMS])
     class TestConfiguration {
 
         @Bean
