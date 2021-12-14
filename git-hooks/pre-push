@@ -8,7 +8,7 @@ if [ "$DIFFS_COUNT" -ne 0 ]; then
 fi
 
 # build
-./scripts/build.sh
+./scripts/buildWithE2e.sh
 
 # store the last exit code in a variable
 RESULT=$?
