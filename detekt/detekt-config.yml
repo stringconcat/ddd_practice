@@ -13,6 +13,10 @@ complexity:
 formatting:
   FinalNewline:
     active: false
+  Indentation:
+    active: false
+  ImportOrdering:
+    active: false
 
 performance:
   SpreadOperator:

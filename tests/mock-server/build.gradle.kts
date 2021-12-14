@@ -14,10 +14,6 @@ dependencies {
     // spring
     implementation(Libs.spring_boot_starter_web)
 
-    // swagger
-    implementation(Libs.swagger)
-    implementation(Libs.swagger_ui)
-
     // jackson
     implementation(Libs.jackson_kotlin)
 

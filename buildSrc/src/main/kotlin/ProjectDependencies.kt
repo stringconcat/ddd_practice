@@ -1,9 +1,9 @@
 object LibVers {
-    const val spring_boot = "2.5.6"
+    const val spring_boot = "2.6.1"
     const val swagger = "3.0.0"
     const val junit = "5.7.1"
-    const val kotest = "5.0.0.M3"
-    const val kotest_arrow = "1.1.1"
+    const val kotest = "5.0.2"
+    const val kotest_arrow = "1.2.0"
     const val jackson = "2.13.0"
     const val arrow = "1.0.1"
     const val telnet = "1.1"
@@ -16,7 +16,7 @@ object LibVers {
     const val arch_unit = "0.22.0"
     const val faker = "1.0.2"
     const val testcontainers = "1.16.2"
-    const val pact = "4.3.1"
+    const val pact = "4.3.2"
     const val wiremock = "2.31.0"
     const val resilience4j_circuitbreaker = "1.7.1"
     const val resilience4j_bulkhead = "1.7.1"
@@ -104,7 +104,7 @@ object Libs {
 object PluginVers {
     const val kotlin = Global.kotlin_version
     const val spring_boot = LibVers.spring_boot
-    const val detekt = "1.18.1"
+    const val detekt = "1.19.0"
     const val detekt_formatting = detekt
     const val spring_dependency_management = "1.0.11.RELEASE"
     const val spring_kotlin = Global.kotlin_version

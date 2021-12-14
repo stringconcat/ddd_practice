@@ -23,11 +23,9 @@ data class MealModel(
                 price = mealInfo.price.toBigDecimalValue(),
                 description = mealInfo.description.toStringValue(),
                 version = mealInfo.version.toLongValue())
-
                 .add(linkTo(methodOn(GetMealByIdEndpoint::class.java)
                     .execute(mealInfo.id.toLongValue()))
                     .withSelfRel())
-
                 .add(linkTo(methodOn(RemoveMealFromMenuEndpoint::class.java)
                     .execute(mealInfo.id.toLongValue()))
                     .withRel("remove"))

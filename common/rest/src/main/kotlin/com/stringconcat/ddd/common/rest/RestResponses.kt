@@ -3,7 +3,6 @@ package com.stringconcat.ddd.common.rest
 import arrow.core.Nel
 import java.net.URI
 import org.springframework.hateoas.CollectionModel
-import org.springframework.hateoas.Link
 import org.springframework.hateoas.mediatype.problem.Problem
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -16,7 +15,7 @@ data class ValidationError(val message: Message)
 
 @Suppress("DEPRECATION") // пока не придумали как проще организовать, в будущем переделаем
 class CursorPagedModel<T> internal constructor(list: List<T>, val count: Int) :
-    CollectionModel<T>(list, emptyList<Link>()) {
+    CollectionModel<T>(list) {
     companion object {
         fun <T> from(list: List<T>) = CursorPagedModel(list, list.size)
     }
