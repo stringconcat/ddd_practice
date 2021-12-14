@@ -6,7 +6,7 @@ import com.stringconcat.ddd.e2e.MENU
 import com.stringconcat.ddd.e2e.MealId
 import com.stringconcat.ddd.e2e.ORDERS
 import com.stringconcat.ddd.e2e.OrderId
-import com.stringconcat.ddd.e2e.TEST_TELNET_PORT
+import com.stringconcat.ddd.e2e.Settings
 import com.stringconcat.ddd.e2e.Url
 import com.stringconcat.ddd.e2e.steps.CartSteps
 import com.stringconcat.ddd.e2e.steps.CrmSteps
@@ -28,6 +28,7 @@ class OrderAndCookCase : KoinComponent {
     val Menu by inject<MenuSteps>()
     val Cart by inject<CartSteps>()
     val Order by inject<OrderSteps>()
+    val Settings by inject<Settings>()
 
     val Crm by inject<CrmSteps>()
 
@@ -36,7 +37,7 @@ class OrderAndCookCase : KoinComponent {
     suspend fun `cook an order test`() {
 
         val urls = Url.`Get start links`()
-        val telnet = E2eTestTelnetClient("localhost", TEST_TELNET_PORT)
+        val telnet = E2eTestTelnetClient("localhost", Settings.shopTelnetPort)
 
         var mealId = MealId(0)
         "Prepare menu" {

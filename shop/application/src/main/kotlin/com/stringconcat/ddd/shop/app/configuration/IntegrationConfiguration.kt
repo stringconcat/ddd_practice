@@ -11,9 +11,10 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class IntegrationConfiguration(
     @Value("\${crm.url}") val url: URL,
+    @Value("\${server.port}") val port: Int
 ) {
     @Bean
-    fun paymentUrlProvider() = SimplePaymentUrlProvider(URL("http://localhost:8081"))
+    fun paymentUrlProvider() = SimplePaymentUrlProvider(URL("http://localhost:$port"))
 
     @Bean
     @Suppress("MagicNumber") // уберем чуть позже

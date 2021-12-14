@@ -9,11 +9,6 @@ import ru.fix.kbdd.asserts.AlluredKPath
 import ru.fix.kbdd.asserts.KPath
 import ru.fix.kbdd.asserts.isEquals
 
-const val SHOP_BASE_URL = "http://localhost:8081"
-const val KITCHEN_BASE_URL = "http://localhost:8080"
-const val CRM_BASE_URL = "http://localhost:8091"
-const val TEST_TELNET_PORT = 2121
-
 const val MENU = "menu"
 const val ORDERS = "orders"
 const val KITCHEN = "kitchen"

@@ -51,3 +51,8 @@ dependencies {
     testFixturesImplementation(Libs.kbdd)
     testFixturesImplementation(Libs.commons_net)
 }
+
+tasks.withType<Test> {
+    systemProperty("dockerComposeFile", "${project.rootProject.rootDir}/docker/docker-compose.yml")
+    systemProperty("envFile", "${project.rootProject.rootDir}/docker/env/e2e.env")
+}

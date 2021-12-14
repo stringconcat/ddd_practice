@@ -8,6 +8,8 @@ import com.stringconcat.ddd.e2e.steps.UrlSteps
 import kotlin.coroutines.CoroutineContext
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
+import org.testcontainers.containers.DockerComposeContainer
+import org.testcontainers.containers.wait.strategy.Wait
 import ru.fix.corounit.allure.createStepClassInstance
 import ru.fix.corounit.engine.CorounitPlugin
 import ru.fix.kbdd.rest.Rest
@@ -18,8 +20,18 @@ object CorounitConfig : CorounitPlugin {
         Rest.threadPoolSize = 10
     }
 
+    lateinit var dockerComposeContainer: DockerComposeContainer<Nothing>
+
     override suspend fun beforeAllTestClasses(globalContext: CoroutineContext): CoroutineContext {
         val settings = Settings()
+
+        dockerComposeContainer = DockerComposeContainer<Nothing>(settings.dockerCompose).apply {
+            waitingFor("shop", Wait.forLogMessage(".*Started ShopApplicationKt in.*", 1))
+            waitingFor("kitchen", Wait.forLogMessage(".*Started KitchenApplicationKt in.*", 1))
+            withEnv(settings.dockerComposeEnv)
+            start()
+        }
+
         startKoin {
             printLogger()
             modules(module {
@@ -36,6 +48,7 @@ object CorounitConfig : CorounitPlugin {
     }
 
     override suspend fun afterAllTestClasses(globalContext: CoroutineContext) {
+        dockerComposeContainer.stop()
         super.afterAllTestClasses(globalContext)
     }
 }

@@ -8,7 +8,7 @@ services:
       - POSTGRES_USER=restaurant
       - POSTGRES_DB=restaurant
     volumes:
-      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - postgres:/data/postgres
     ports:
       - ${POSTGRES_PORT}:5432
@@ -62,6 +62,7 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/restaurant
       - SPRING_DATASOURCE_USERNAME=restaurant
       - SPRING_DATASOURCE_PASSWORD=restaurant
+      - CRM_URL=http://mock-server:${MOCK_PORT}
     depends_on:
       - postgres
       - rabbitmq

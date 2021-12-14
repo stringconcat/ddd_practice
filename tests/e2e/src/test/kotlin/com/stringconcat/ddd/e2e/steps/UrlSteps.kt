@@ -1,22 +1,22 @@
 package com.stringconcat.ddd.e2e.steps
 
-import com.stringconcat.ddd.e2e.SHOP_BASE_URL
 import com.stringconcat.ddd.e2e.CONFIRM
 import com.stringconcat.ddd.e2e.COOK
 import com.stringconcat.ddd.e2e.EMBEDDED
 import com.stringconcat.ddd.e2e.HREF
 import com.stringconcat.ddd.e2e.KITCHEN
-import com.stringconcat.ddd.e2e.KITCHEN_BASE_URL
 import com.stringconcat.ddd.e2e.LINKS
 import com.stringconcat.ddd.e2e.MENU
 import com.stringconcat.ddd.e2e.ORDERS
 import com.stringconcat.ddd.e2e.OrderId
 import com.stringconcat.ddd.e2e.SELF
 import com.stringconcat.ddd.e2e.START_ID_PARAM
+import com.stringconcat.ddd.e2e.Settings
 import com.stringconcat.ddd.e2e.Url
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import org.koin.core.KoinComponent
+import org.koin.core.inject
 import ru.fix.corounit.allure.Step
 import ru.fix.kbdd.asserts.asString
 import ru.fix.kbdd.asserts.filter
@@ -30,10 +30,12 @@ import ru.fix.kbdd.rest.Rest.statusCode
 
 open class UrlSteps : KoinComponent {
 
+    val Settings by inject<Settings>()
+
     @Step
     open suspend fun `Get start links`(): Map<String, Url> {
         Rest.request {
-            baseUri(SHOP_BASE_URL)
+            baseUri(Settings.shopBaseUrl)
             get("/")
         }
         statusCode().isEquals(200)
@@ -42,7 +44,7 @@ open class UrlSteps : KoinComponent {
         val orders = bodyJson()[LINKS][ORDERS][HREF].asString()
 
         Rest.request {
-            baseUri(KITCHEN_BASE_URL)
+            baseUri(Settings.kitchenBaseUrl)
             get("/")
         }
         statusCode().isEquals(200)
