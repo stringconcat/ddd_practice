@@ -8,7 +8,6 @@ import org.springframework.hateoas.server.core.Relation
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.afford
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn
-import org.springframework.http.HttpMethod
 import org.springframework.http.ResponseEntity
 
 @Relation(collectionRelation = "orders")
