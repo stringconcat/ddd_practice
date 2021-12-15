@@ -7,4 +7,4 @@ rootDir="$currentDir/../"
 (cd "$rootDir" && exec ./shop/application/buildImage.sh)
 (cd "$rootDir" && exec ./kitchen/application/buildImage.sh)
 (cd "$rootDir" && exec ./tests/mock-server/buildImage.sh)
-(cd "$rootDir" && exec ./gradlew -p tests/performance gatlingRun)
+(cd "$rootDir" && exec ./gradlew -p tests/performance clean gatlingRun)
