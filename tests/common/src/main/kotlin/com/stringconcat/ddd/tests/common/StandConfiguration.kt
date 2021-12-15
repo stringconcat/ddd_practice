@@ -27,13 +27,17 @@ class StandConfiguration {
 
     init {
         val dockerComposeProperty = requireNotNull(System.getProperty(DOCKER_COMPOSE_FILE_PROPERTY)) {
-            "Property dockerComposeFile is null"
+            "Property $DOCKER_COMPOSE_FILE_PROPERTY is null"
         }
         dockerCompose = File(dockerComposeProperty)
 
         val envProperty = requireNotNull(System.getProperty(ENV_FILE_PROPERTY)) {
-            "Property envFile is null"
+            "Property $ENV_FILE_PROPERTY is null"
         }
+
+        startDocker = requireNotNull(System.getProperty(START_DOCKER_PROPERTY)) {
+            "Property $START_DOCKER_PROPERTY is null"
+        }.toBoolean()
 
         val env = File(envProperty)
         val props = Properties()
@@ -43,7 +47,6 @@ class StandConfiguration {
         kitchenBaseUrl = HOST_TEMPLATE + props.property(KITCHEN_PORT_PROPERTY)
         crmBaseUrl = HOST_TEMPLATE + props.property(CRM_PORT_PROPERTY)
         shopTelnetPort = props.property(SHOP_TELNET_PORT_PROPERTY).toInt()
-        startDocker = props.property(START_DOCKER_PROPERTY).toBoolean()
         dockerComposeEnv = props.entries.associate { it.key.toString() to it.value.toString() }
     }
 
