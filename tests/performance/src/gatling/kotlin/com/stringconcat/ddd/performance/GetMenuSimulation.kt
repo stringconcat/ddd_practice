@@ -2,7 +2,7 @@ package com.stringconcat.ddd.performance
 
 import com.github.javafaker.Faker
 import com.stringconcat.ddd.tests.common.StandConfiguration
-import io.gatling.javaapi.core.CoreDsl.arrayFeeder
+import com.stringconcat.ddd.tests.common.StandContainer
 import io.gatling.javaapi.core.CoreDsl.constantUsersPerSec
 import io.gatling.javaapi.core.CoreDsl.global
 import io.gatling.javaapi.core.CoreDsl.scenario
@@ -12,23 +12,19 @@ import io.restassured.RestAssured
 import io.restassured.http.ContentType
 import java.math.BigDecimal
 import java.net.URL
-import org.testcontainers.containers.DockerComposeContainer
-import org.testcontainers.containers.wait.strategy.Wait
+import java.util.UUID
 
 @Suppress("MagicNumber")
 class GetMenuSimulation : Simulation() {
 
     private val settings = StandConfiguration()
     private val simulationSettings = Settings()
+    private val standContainer = StandContainer(settings)
     private val menuUrl: URL
 
-    lateinit var dockerComposeContainer: DockerComposeContainer<Nothing>
-
     init {
-        println("\nStand settings:\n$settings\n")
         println("Simulation settings:\n$simulationSettings\n")
-
-        startDocker()
+        standContainer.start()
         menuUrl = menuUrl()
 
         val httpProtocol = http
@@ -45,32 +41,17 @@ class GetMenuSimulation : Simulation() {
             .assertions(global().responseTime().percentile4().lte(100))
     }
 
-    private fun startDocker() {
-        if (settings.startDocker) {
-            dockerComposeContainer = DockerComposeContainer<Nothing>(settings.dockerCompose).apply {
-                waitingFor("shop",
-                    Wait.forLogMessage(".*Started ShopApplicationKt in.*", 1))
-                waitingFor("kitchen",
-                    Wait.forLogMessage(".*Started KitchenApplicationKt in.*", 1))
-                withEnv(settings.dockerComposeEnv)
-                start()
-            }
-        }
-    }
-
     override fun before() {
         val faker = Faker()
         repeat(simulationSettings.menuSize) {
-            createMeal(name = "${faker.food().dish()}_$it",
+            createMeal(name = "${faker.food().dish()}_${UUID.randomUUID()}",
                 description = faker.food().ingredient(),
                 price = BigDecimal.TEN)
         }
     }
 
     override fun after() {
-        if (settings.startDocker) {
-            dockerComposeContainer.stop()
-        }
+        standContainer.stop()
     }
 
     private fun menuUrl() =

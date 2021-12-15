@@ -6,11 +6,10 @@ import com.stringconcat.ddd.e2e.steps.MenuSteps
 import com.stringconcat.ddd.e2e.steps.OrderSteps
 import com.stringconcat.ddd.e2e.steps.UrlSteps
 import com.stringconcat.ddd.tests.common.StandConfiguration
+import com.stringconcat.ddd.tests.common.StandContainer
 import kotlin.coroutines.CoroutineContext
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
-import org.testcontainers.containers.DockerComposeContainer
-import org.testcontainers.containers.wait.strategy.Wait
 import ru.fix.corounit.allure.createStepClassInstance
 import ru.fix.corounit.engine.CorounitPlugin
 import ru.fix.kbdd.rest.Rest
@@ -22,18 +21,10 @@ object CorounitConfig : CorounitPlugin {
     }
 
     private val settings = StandConfiguration()
-    lateinit var dockerComposeContainer: DockerComposeContainer<Nothing>
+    private val standContainer = StandContainer(settings)
 
     override suspend fun beforeAllTestClasses(globalContext: CoroutineContext): CoroutineContext {
-        if (settings.startDocker) {
-            dockerComposeContainer = DockerComposeContainer<Nothing>(settings.dockerCompose).apply {
-                waitingFor("shop", Wait.forLogMessage(".*Started ShopApplicationKt in.*", 1))
-                waitingFor("kitchen", Wait.forLogMessage(".*Started KitchenApplicationKt in.*", 1))
-                withEnv(settings.dockerComposeEnv)
-                start()
-            }
-        }
-
+        standContainer.start()
         startKoin {
             printLogger()
             modules(module {
@@ -50,9 +41,7 @@ object CorounitConfig : CorounitPlugin {
     }
 
     override suspend fun afterAllTestClasses(globalContext: CoroutineContext) {
-        if (settings.startDocker) {
-            dockerComposeContainer.stop()
-        }
+        standContainer.stop()
         super.afterAllTestClasses(globalContext)
     }
 }
