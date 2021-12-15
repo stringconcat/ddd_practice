@@ -85,6 +85,6 @@ class PostgresMealRepository(
     }
 
     override fun getAll(): List<Meal> {
-        return jdbcTemplate.query("SELECT * FROM shop.meal", MealRowMapper())
+        return jdbcTemplate.query("SELECT * FROM shop.meal WHERE NOT removed", MealRowMapper())
     }
 }

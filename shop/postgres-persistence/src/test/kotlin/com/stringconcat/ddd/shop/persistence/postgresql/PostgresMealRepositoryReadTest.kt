@@ -89,4 +89,15 @@ class PostgresMealRepositoryReadTest {
         result.shouldHaveSize(1)
         result[0].checkEquals(meal)
     }
+
+    @Test
+    fun `get all - table is not empty but only removed`() {
+        val meal = newMeal()
+        meal.removeMealFromMenu()
+        val repository = PostgresMealRepository(dataSource, MockEventPublisher())
+        repository.save(meal)
+
+        val result = repository.getAll()
+        result.shouldBeEmpty()
+    }
 }
