@@ -1,15 +1,15 @@
-package com.stringconcat.ddd.e2e
+package com.stringconcat.ddd.tests.common
 
 import java.io.File
 import java.io.FileInputStream
 import java.util.Properties
-import org.koin.core.KoinComponent
 
-class Settings : KoinComponent {
+class StandConfiguration {
 
     companion object {
         const val DOCKER_COMPOSE_FILE_PROPERTY = "dockerComposeFile"
         const val ENV_FILE_PROPERTY = "envFile"
+        const val START_DOCKER_PROPERTY = "startDocker"
         const val HOST_TEMPLATE = "http://localhost:"
         const val SHOP_PORT_PROPERTY = "SHOP_PORT"
         const val SHOP_TELNET_PORT_PROPERTY = "SHOP_TELNET_PORT"
@@ -23,6 +23,7 @@ class Settings : KoinComponent {
     val crmBaseUrl: String
     val dockerCompose: File
     val dockerComposeEnv: Map<String, String>
+    val startDocker: Boolean
 
     init {
         val dockerComposeProperty = requireNotNull(System.getProperty(DOCKER_COMPOSE_FILE_PROPERTY)) {
@@ -42,7 +43,7 @@ class Settings : KoinComponent {
         kitchenBaseUrl = HOST_TEMPLATE + props.property(KITCHEN_PORT_PROPERTY)
         crmBaseUrl = HOST_TEMPLATE + props.property(CRM_PORT_PROPERTY)
         shopTelnetPort = props.property(SHOP_TELNET_PORT_PROPERTY).toInt()
-
+        startDocker = props.property(START_DOCKER_PROPERTY).toBoolean()
         dockerComposeEnv = props.entries.associate { it.key.toString() to it.value.toString() }
     }
 

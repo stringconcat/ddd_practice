@@ -5,6 +5,7 @@ import com.stringconcat.ddd.e2e.steps.CrmSteps
 import com.stringconcat.ddd.e2e.steps.MenuSteps
 import com.stringconcat.ddd.e2e.steps.OrderSteps
 import com.stringconcat.ddd.e2e.steps.UrlSteps
+import com.stringconcat.ddd.tests.common.StandConfiguration
 import kotlin.coroutines.CoroutineContext
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
@@ -20,16 +21,17 @@ object CorounitConfig : CorounitPlugin {
         Rest.threadPoolSize = 10
     }
 
+    private val settings = StandConfiguration()
     lateinit var dockerComposeContainer: DockerComposeContainer<Nothing>
 
     override suspend fun beforeAllTestClasses(globalContext: CoroutineContext): CoroutineContext {
-        val settings = Settings()
-
-        dockerComposeContainer = DockerComposeContainer<Nothing>(settings.dockerCompose).apply {
-            waitingFor("shop", Wait.forLogMessage(".*Started ShopApplicationKt in.*", 1))
-            waitingFor("kitchen", Wait.forLogMessage(".*Started KitchenApplicationKt in.*", 1))
-            withEnv(settings.dockerComposeEnv)
-            start()
+        if (settings.startDocker) {
+            dockerComposeContainer = DockerComposeContainer<Nothing>(settings.dockerCompose).apply {
+                waitingFor("shop", Wait.forLogMessage(".*Started ShopApplicationKt in.*", 1))
+                waitingFor("kitchen", Wait.forLogMessage(".*Started KitchenApplicationKt in.*", 1))
+                withEnv(settings.dockerComposeEnv)
+                start()
+            }
         }
 
         startKoin {
@@ -48,7 +50,9 @@ object CorounitConfig : CorounitPlugin {
     }
 
     override suspend fun afterAllTestClasses(globalContext: CoroutineContext) {
-        dockerComposeContainer.stop()
+        if (settings.startDocker) {
+            dockerComposeContainer.stop()
+        }
         super.afterAllTestClasses(globalContext)
     }
 }

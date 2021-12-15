@@ -25,4 +25,6 @@ include("common:rest")
 findProject(":common:rest")?.name = "rest"
 
 include(":tests:e2e")
+include(":tests:performance")
 include(":tests:mock-server")
+include(":tests:common")

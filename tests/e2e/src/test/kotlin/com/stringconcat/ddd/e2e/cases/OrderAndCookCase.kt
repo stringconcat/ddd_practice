@@ -6,13 +6,13 @@ import com.stringconcat.ddd.e2e.MENU
 import com.stringconcat.ddd.e2e.MealId
 import com.stringconcat.ddd.e2e.ORDERS
 import com.stringconcat.ddd.e2e.OrderId
-import com.stringconcat.ddd.e2e.Settings
 import com.stringconcat.ddd.e2e.Url
 import com.stringconcat.ddd.e2e.steps.CartSteps
 import com.stringconcat.ddd.e2e.steps.CrmSteps
 import com.stringconcat.ddd.e2e.steps.MenuSteps
 import com.stringconcat.ddd.e2e.steps.OrderSteps
 import com.stringconcat.ddd.e2e.steps.UrlSteps
+import com.stringconcat.ddd.tests.common.StandConfiguration
 import io.qameta.allure.Epic
 import io.qameta.allure.Story
 import org.junit.jupiter.api.Test
@@ -28,7 +28,7 @@ class OrderAndCookCase : KoinComponent {
     val Menu by inject<MenuSteps>()
     val Cart by inject<CartSteps>()
     val Order by inject<OrderSteps>()
-    val Settings by inject<Settings>()
+    val Settings by inject<StandConfiguration>()
 
     val Crm by inject<CrmSteps>()
 

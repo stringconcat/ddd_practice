@@ -4,6 +4,6 @@ currentDir=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
 rootDir="$currentDir/../"
 
 (cd "$rootDir" && exec docker-compose -f ./docker/docker-compose.yml --env-file \
-        ./docker/env/debug.env --project-name=ddd_debug --profile debug down -v)
+        ./docker/env/local.env --project-name=ddd_local --profile local down -v)
 (cd "$rootDir" && exec docker-compose -f ./docker/docker-compose.yml --env-file \
-        ./docker/env/debug.env --project-name=ddd_debug --profile debug rm -f)
+        ./docker/env/local.env --project-name=ddd_local --profile local rm -f)

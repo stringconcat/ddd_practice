@@ -11,8 +11,8 @@ import com.stringconcat.ddd.e2e.ORDERS
 import com.stringconcat.ddd.e2e.OrderId
 import com.stringconcat.ddd.e2e.SELF
 import com.stringconcat.ddd.e2e.START_ID_PARAM
-import com.stringconcat.ddd.e2e.Settings
 import com.stringconcat.ddd.e2e.Url
+import com.stringconcat.ddd.tests.common.StandConfiguration
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import org.koin.core.KoinComponent
@@ -30,7 +30,7 @@ import ru.fix.kbdd.rest.Rest.statusCode
 
 open class UrlSteps : KoinComponent {
 
-    val Settings by inject<Settings>()
+    val Settings by inject<StandConfiguration>()
 
     @Step
     open suspend fun `Get start links`(): Map<String, Url> {

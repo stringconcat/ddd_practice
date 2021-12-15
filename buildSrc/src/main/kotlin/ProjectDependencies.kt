@@ -118,6 +118,7 @@ object PluginVers {
     const val allure = "2.9.6"
     const val allure_cli = "2.15.0"
     const val allure_java = "2.15.0"
+    const val gatling = "3.7.2"
 }
 
 object Plugins {
@@ -132,4 +133,5 @@ object Plugins {
     const val pitest = "info.solidsoft.pitest"
     const val javaTestFixtures = "java-test-fixtures"
     const val allure = "io.qameta.allure"
+    const val gatling = "io.gatling.gradle"
 }
