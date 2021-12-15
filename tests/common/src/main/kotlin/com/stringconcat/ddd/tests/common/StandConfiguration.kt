@@ -52,4 +52,14 @@ class StandConfiguration {
 
     private fun Properties.property(name: String) =
         requireNotNull(getProperty(name)) { "Property $name must not be null" }
+
+    override fun toString(): String {
+        return "StandConfiguration(shopBaseUrl='$shopBaseUrl', \n" +
+                "shopTelnetPort=$shopTelnetPort, \n" +
+                "kitchenBaseUrl='$kitchenBaseUrl', \n" +
+                "crmBaseUrl='$crmBaseUrl', \n" +
+                "dockerCompose=$dockerCompose, \n" +
+                "dockerComposeEnv=$dockerComposeEnv, \n" +
+                "startDocker=$startDocker)"
+    }
 }

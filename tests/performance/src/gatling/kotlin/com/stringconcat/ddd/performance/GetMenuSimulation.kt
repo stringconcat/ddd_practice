@@ -1,21 +1,68 @@
 package com.stringconcat.ddd.performance
 
+import com.github.javafaker.Faker
+import com.stringconcat.ddd.tests.common.StandConfiguration
 import io.gatling.javaapi.core.CoreDsl.constantUsersPerSec
+import io.gatling.javaapi.core.CoreDsl.global
 import io.gatling.javaapi.core.CoreDsl.scenario
 import io.gatling.javaapi.core.Simulation
 import io.gatling.javaapi.http.HttpDsl.http
+import io.restassured.RestAssured
+import io.restassured.http.ContentType
+import java.math.BigDecimal
+import java.net.URL
 
 class GetMenuSimulation : Simulation() {
 
-    private val httpProtocol = http
-        .baseUrl("http://localhost:18081")
+    private val settings = StandConfiguration()
+    private val simulationSettings = Settings()
+    private val menuUrl = menuUrl()
 
-    private val scn = scenario("Get menu") // A scenario is a chain of requests and pauses
+    private val httpProtocol = http
+        .baseUrl(settings.shopBaseUrl)
+
+    private val scn = scenario("Get menu")
         .exec(http("Get menu request")
-            .get("/"))
+            .get(menuUrl.toString()))
 
     init {
-        setUp(scn.injectOpen(constantUsersPerSec(20.0)
-            .during(15)).protocols(httpProtocol))
+        setUp(scn.injectOpen(constantUsersPerSec(simulationSettings.usersPerSec)
+            .during(simulationSettings.duration.inWholeSeconds))
+            .protocols(httpProtocol))
+            .assertions(global().successfulRequests().percent().`is`(100.0))
+            .assertions(global().responseTime().percentile4().lte(100))
+    }
+
+    override fun before() {
+        println("\nStand settings:\n$settings\n")
+        println("Simulation settings:\n$simulationSettings\n")
+
+        val faker = Faker()
+        repeat(simulationSettings.menuSize) {
+            createMeal(name = "${faker.food().dish()}_$it",
+                description = faker.food().ingredient(),
+                price = BigDecimal.TEN)
+        }
+    }
+
+    override fun after() {
+        if (settings.startDocker) {
+
+        }
+    }
+
+    private fun menuUrl() =
+        URL(RestAssured.get(settings.shopBaseUrl)
+            .jsonPath()
+            .getString("_links.menu.href"))
+
+    @Suppress("MagicNumber")
+    private fun createMeal(name: String, description: String, price: BigDecimal) {
+        RestAssured.given()
+            .body("""{ "name": "$name", "description": "$description", "price":"$price"}""")
+            .contentType(ContentType.JSON)
+            .post(menuUrl)
+            .then()
+            .statusCode(201)
     }
 }
