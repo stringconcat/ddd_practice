@@ -40,7 +40,7 @@ subprojects {
     }
 
     detekt {
-        config = files("$parentProjectDir/detekt/detekt-config.yml")
+        config = files("$parentProjectDir/tools/detekt/detekt-config.yml")
         buildUponDefaultConfig = true
         input = files("src/main/kotlin", "src/test/kotlin", "src/test/gatling")
 

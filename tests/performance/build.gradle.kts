@@ -26,11 +26,11 @@ gatling {
     val menuSizeProperty = "menuSize"
 
     val dockerComposeFile = System.getProperty(dockerComposeFileProperty,
-        "${project.rootProject.rootDir}/docker/docker-compose.yml")
+        "${project.rootProject.rootDir}/tools/docker/docker-compose.yml")
     systemProperties[dockerComposeFileProperty] = dockerComposeFile
 
     val envFile = System.getProperty(envFileProperty,
-        "${project.rootProject.rootDir}/docker/env/performance.env")
+        "${project.rootProject.rootDir}/tools/docker/env/performance.env")
     systemProperties[envFileProperty] = envFile
 
     val startDocker = System.getProperty(startDockerProperty, "true")

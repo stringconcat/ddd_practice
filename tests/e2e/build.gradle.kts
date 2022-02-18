@@ -59,11 +59,11 @@ tasks.withType<Test> {
     val startDockerProperty = "startDocker"
 
     val dockerComposeFile = System.getProperty(dockerComposeFileProperty,
-        "${project.rootProject.rootDir}/docker/docker-compose.yml")
+        "${project.rootProject.rootDir}/tools/docker/docker-compose.yml")
     systemProperty(dockerComposeFileProperty, dockerComposeFile)
 
     val envFile = System.getProperty(envFileProperty,
-        "${project.rootProject.rootDir}/docker/env/e2e.env")
+        "${project.rootProject.rootDir}/tools/docker/env/e2e.env")
     systemProperty(envFileProperty, envFile)
 
     val startDocker = System.getProperty(startDockerProperty, "true")
