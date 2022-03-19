@@ -212,7 +212,7 @@ class MockCustomerHasActiveOrder(val hasActive: Boolean) : CustomerHasActiveOrde
 
     lateinit var forCustomer: CustomerId
 
-    override fun check(forCustomer: CustomerId): Boolean {
+    override fun invoke(forCustomer: CustomerId): Boolean {
         this.forCustomer = forCustomer
         return hasActive
     }

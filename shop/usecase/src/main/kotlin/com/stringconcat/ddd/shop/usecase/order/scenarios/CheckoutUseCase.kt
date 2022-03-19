@@ -6,7 +6,7 @@ import arrow.core.rightIfNotNull
 import com.stringconcat.ddd.shop.domain.order.CheckoutError
 import com.stringconcat.ddd.shop.domain.order.ShopOrder
 import com.stringconcat.ddd.shop.domain.order.ShopOrderIdGenerator
-import com.stringconcat.ddd.shop.domain.order.MealPriceProvider
+import com.stringconcat.ddd.shop.domain.order.GetMealPrice
 import com.stringconcat.ddd.shop.domain.order.CustomerHasActiveOrder
 import com.stringconcat.ddd.shop.usecase.cart.access.CartExtractor
 import com.stringconcat.ddd.shop.usecase.order.Checkout
@@ -20,7 +20,7 @@ class CheckoutUseCase(
     private val idGenerator: ShopOrderIdGenerator,
     private val cartExtractor: CartExtractor,
     private val activeOrder: CustomerHasActiveOrder,
-    private val priceProvider: MealPriceProvider,
+    private val getMealPrice: GetMealPrice,
     private val paymentUrlProvider: PaymentUrlProvider,
     private val shopOrderPersister: ShopOrderPersister
 ) : Checkout {
@@ -34,7 +34,7 @@ class CheckoutUseCase(
                 ShopOrder.checkout(
                     idGenerator = idGenerator,
                     customerHasActiveOrder = activeOrder,
-                    priceProvider = priceProvider,
+                    getMealPrice = getMealPrice,
                     address = request.deliveryTo,
                     cart = cart
                 ).mapLeft { err -> err.toError() }

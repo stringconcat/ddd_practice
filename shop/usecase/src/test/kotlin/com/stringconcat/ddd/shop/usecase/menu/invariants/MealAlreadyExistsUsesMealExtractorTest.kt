@@ -8,15 +8,15 @@ import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import org.junit.jupiter.api.Test
 
-internal class MealAlreadyExistsImplTest {
+internal class MealAlreadyExistsUsesMealExtractorTest {
 
     @Test
     fun `meal already exists`() {
         val meal = meal()
         val extractor = MockMealExtractor(meal)
-        val rule = MealAlreadyExistsImpl(extractor)
+        val rule = MealAlreadyExistsUsesMealExtractor(extractor)
 
-        val result = rule.check(meal.name)
+        val result = rule(meal.name)
 
         result.shouldBeTrue()
         extractor.verifyInvokedGetByName(meal.name)
@@ -26,9 +26,9 @@ internal class MealAlreadyExistsImplTest {
     fun `meal already exists but removed`() {
         val meal = removedMeal()
         val extractor = MockMealExtractor(meal)
-        val rule = MealAlreadyExistsImpl(extractor)
+        val rule = MealAlreadyExistsUsesMealExtractor(extractor)
 
-        val result = rule.check(meal.name)
+        val result = rule(meal.name)
 
         result.shouldBeFalse()
         extractor.verifyInvokedGetByName(meal.name)
@@ -37,10 +37,10 @@ internal class MealAlreadyExistsImplTest {
     @Test
     fun `meal already exists doesn't exist`() {
         val extractor = MockMealExtractor()
-        val rule = MealAlreadyExistsImpl(extractor)
+        val rule = MealAlreadyExistsUsesMealExtractor(extractor)
 
         val mealName = mealName()
-        val result = rule.check(mealName)
+        val result = rule(mealName)
 
         result.shouldBeFalse()
         extractor.verifyInvokedGetByName(mealName)

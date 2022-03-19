@@ -17,7 +17,7 @@ internal class CustomerHasActiveOrderImplTest {
         val extractor = MockShopOrderExtractor(activeOrder)
         val rule = CustomerHasActiveOrderImpl(extractor)
 
-        val hasActiveOrder = rule.check(activeOrder.forCustomer)
+        val hasActiveOrder = rule(activeOrder.forCustomer)
 
         hasActiveOrder.shouldBeTrue()
         extractor.verifyInvokedGetLastOrder(activeOrder.forCustomer)
@@ -30,7 +30,7 @@ internal class CustomerHasActiveOrderImplTest {
         val extractor = MockShopOrderExtractor(activeOrder)
         val rule = CustomerHasActiveOrderImpl(extractor)
 
-        val hasActiveOrder = rule.check(activeOrder.forCustomer)
+        val hasActiveOrder = rule(activeOrder.forCustomer)
 
         hasActiveOrder.shouldBeFalse()
         extractor.verifyInvokedGetLastOrder(activeOrder.forCustomer)
@@ -40,10 +40,10 @@ internal class CustomerHasActiveOrderImplTest {
     fun `order doesn't exists`() {
 
         val extractor = MockShopOrderExtractor()
-        val rule = CustomerHasActiveOrderImpl(extractor)
+        val customerhasActiveOrder = CustomerHasActiveOrderImpl(extractor)
 
         val customerId = customerId()
-        val hasActiveOrder = rule.check(customerId)
+        val hasActiveOrder = customerhasActiveOrder(customerId)
 
         hasActiveOrder.shouldBeFalse()
         extractor.verifyInvokedGetLastOrder(customerId)

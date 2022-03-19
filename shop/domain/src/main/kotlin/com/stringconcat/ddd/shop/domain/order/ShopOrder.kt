@@ -34,7 +34,7 @@ class ShopOrder internal constructor(
             idGenerator: ShopOrderIdGenerator,
             customerHasActiveOrder: CustomerHasActiveOrder,
             address: Address,
-            priceProvider: MealPriceProvider,
+            getMealPrice: GetMealPrice,
         ): Either<CheckoutError, ShopOrder> {
 
             if (customerHasActiveOrder(cart.forCustomer)) {
@@ -48,7 +48,7 @@ class ShopOrder internal constructor(
                 val items = meals.map {
                     val mealId = it.key
                     val count = it.value
-                    val price = priceProvider.getPrice(mealId)
+                    val price = getMealPrice(mealId)
                     OrderItem(mealId, price, count)
                 }.toSet()
 

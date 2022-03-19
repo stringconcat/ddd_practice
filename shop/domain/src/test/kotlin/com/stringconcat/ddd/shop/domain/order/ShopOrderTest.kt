@@ -36,14 +36,14 @@ class ShopOrderTest {
         val count = count()
         val price = price()
         val address = address()
-        val mealPriceProvider = TestMealPriceProvider.apply { this[mealId] = price }
+        val getMealPrice = HashMapStoragePriceProvider.apply { this[mealId] = price }
         val cart = cart(mapOf(mealId to count))
 
         val result = ShopOrder.checkout(
             cart = cart,
             idGenerator = idGenerator,
             customerHasActiveOrder = { false },
-            priceProvider = mealPriceProvider,
+            getMealPrice = getMealPrice,
             address = address
         )
 
@@ -64,14 +64,14 @@ class ShopOrderTest {
         val count = count()
         val price = price()
         val address = address()
-        val mealPriceProvider = TestMealPriceProvider.apply { this[mealId] = price }
+        val mealPriceOnlyForSpecificMeal = HashMapStoragePriceProvider.apply { this[mealId] = price }
         val cart = cart(mapOf(mealId to count))
 
         val result = ShopOrder.checkout(
             cart = cart,
             idGenerator = idGenerator,
             customerHasActiveOrder = { true },
-            priceProvider = mealPriceProvider,
+            getMealPrice = mealPriceOnlyForSpecificMeal,
             address = address
         )
 
@@ -85,7 +85,7 @@ class ShopOrderTest {
             cart = cart,
             idGenerator = idGenerator,
             customerHasActiveOrder = { false },
-            priceProvider = TestMealPriceProvider,
+            getMealPrice = { price() },
             address = address()
         )
         result shouldBeLeft CheckoutError.EmptyCart
@@ -227,8 +227,8 @@ class ShopOrderTest {
         order.totalPrice() shouldBe price(BigDecimal("367.38"))
     }
 
-    object TestMealPriceProvider : MealPriceProvider, HashMap<MealId, Price>() {
-        override fun getPrice(forMealId: MealId): Price {
+    object HashMapStoragePriceProvider : GetMealPrice, HashMap<MealId, Price>() {
+        override fun invoke(forMealId: MealId): Price {
             return requireNotNull(this[forMealId]) {
                 "MealId #$forMealId not found"
             }

@@ -7,9 +7,7 @@ import com.stringconcat.ddd.shop.domain.cart
 import com.stringconcat.ddd.shop.domain.cart.CustomerId
 import com.stringconcat.ddd.shop.domain.customerId
 import com.stringconcat.ddd.shop.domain.meal
-import com.stringconcat.ddd.shop.domain.menu.MealId
 import com.stringconcat.ddd.shop.domain.menu.Price
-import com.stringconcat.ddd.shop.domain.order.MealPriceProvider
 import com.stringconcat.ddd.shop.domain.order.ShopOrderId
 import com.stringconcat.ddd.shop.domain.order.ShopOrderIdGenerator
 import com.stringconcat.ddd.shop.domain.orderId
@@ -43,11 +41,13 @@ internal class CheckoutUseCaseTest {
         val activeOrderRule = MockCustomerHasActiveOrder(false)
         val orderPersister = MockShopOrderPersister()
 
+        val price = price()
+
         val useCase = CheckoutUseCase(
             idGenerator = TestShopOrderIdGenerator,
             cartExtractor = cartExtractor,
             activeOrder = activeOrderRule,
-            priceProvider = TestMealPriceProvider,
+            getMealPrice = { price },
             paymentUrlProvider = TestPaymentUrlProvider,
             shopOrderPersister = orderPersister
         )
@@ -61,7 +61,7 @@ internal class CheckoutUseCaseTest {
         cartExtractor.verifyInvoked(cart.forCustomer)
         orderPersister.verifyInvoked(
             orderId, address, customerId,
-            meal.id, count, TestMealPriceProvider.price
+            meal.id, count, price
         )
         result.shouldBeRight().should {
             it.orderId shouldBe orderId
@@ -81,7 +81,7 @@ internal class CheckoutUseCaseTest {
             idGenerator = TestShopOrderIdGenerator,
             cartExtractor = cartExtractor,
             activeOrder = activeOrderRule,
-            priceProvider = TestMealPriceProvider,
+            getMealPrice = { price() },
             paymentUrlProvider = TestPaymentUrlProvider,
             shopOrderPersister = orderPersister
         )
@@ -110,7 +110,7 @@ internal class CheckoutUseCaseTest {
             idGenerator = TestShopOrderIdGenerator,
             cartExtractor = cartExtractor,
             activeOrder = activeOrderRule,
-            priceProvider = TestMealPriceProvider,
+            getMealPrice = { price() },
             paymentUrlProvider = TestPaymentUrlProvider,
             shopOrderPersister = orderPersister
         )
@@ -136,7 +136,7 @@ internal class CheckoutUseCaseTest {
             idGenerator = TestShopOrderIdGenerator,
             cartExtractor = cartExtractor,
             activeOrder = activeOrderRule,
-            priceProvider = TestMealPriceProvider,
+            getMealPrice = { price() },
             paymentUrlProvider = TestPaymentUrlProvider,
             shopOrderPersister = orderPersister
         )
@@ -165,11 +165,6 @@ internal class CheckoutUseCaseTest {
     object TestShopOrderIdGenerator : ShopOrderIdGenerator {
         val id = orderId()
         override fun generate() = id
-    }
-
-    object TestMealPriceProvider : MealPriceProvider {
-        val price = price()
-        override fun getPrice(forMealId: MealId) = price
     }
 
     object TestPaymentUrlProvider : PaymentUrlProvider {

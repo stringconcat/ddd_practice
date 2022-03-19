@@ -7,7 +7,7 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 
-class MealPriceProviderImplTest {
+class GetMealPriceImplTest {
 
     @Test
     fun `price has been provided`() {
@@ -15,8 +15,8 @@ class MealPriceProviderImplTest {
 
         val extractor = MockMealExtractor(meal)
 
-        val provider = MealPriceProviderImpl(extractor)
-        val result = provider.getPrice(meal.id)
+        val getMealPrice = GetMealPriceUsingExtractor(extractor)
+        val result = getMealPrice(meal.id)
 
         extractor.verifyInvokedGetById(meal.id)
         result shouldBe meal.price
@@ -25,12 +25,12 @@ class MealPriceProviderImplTest {
     @Test
     fun `meal not found`() {
         val extractor = MockMealExtractor()
-        val provider = MealPriceProviderImpl(extractor)
+        val getMealPrice = GetMealPriceUsingExtractor(extractor)
 
         val mealId = mealId()
 
         shouldThrow<IllegalStateException> {
-            provider.getPrice(mealId)
+            getMealPrice(mealId)
         }
         extractor.verifyInvokedGetById(mealId)
     }

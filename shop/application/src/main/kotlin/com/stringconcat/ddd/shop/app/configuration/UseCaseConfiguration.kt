@@ -5,7 +5,7 @@ import com.stringconcat.ddd.shop.domain.cart.CartIdGenerator
 import com.stringconcat.ddd.shop.domain.menu.MealAlreadyExists
 import com.stringconcat.ddd.shop.domain.menu.MealIdGenerator
 import com.stringconcat.ddd.shop.domain.order.CustomerHasActiveOrder
-import com.stringconcat.ddd.shop.domain.order.MealPriceProvider
+import com.stringconcat.ddd.shop.domain.order.GetMealPrice
 import com.stringconcat.ddd.shop.domain.order.ShopOrderIdGenerator
 import com.stringconcat.ddd.shop.usecase.cart.access.CartExtractor
 import com.stringconcat.ddd.shop.usecase.cart.access.CartPersister
@@ -16,7 +16,7 @@ import com.stringconcat.ddd.shop.usecase.cart.scenarios.GetCartUseCase
 import com.stringconcat.ddd.shop.usecase.cart.scenarios.RemoveMealFromCartUseCase
 import com.stringconcat.ddd.shop.usecase.menu.access.MealExtractor
 import com.stringconcat.ddd.shop.usecase.menu.access.MealPersister
-import com.stringconcat.ddd.shop.usecase.menu.invariants.MealAlreadyExistsImpl
+import com.stringconcat.ddd.shop.usecase.menu.invariants.MealAlreadyExistsUsesMealExtractor
 import com.stringconcat.ddd.shop.usecase.menu.scenarios.AddMealToMenuUseCase
 import com.stringconcat.ddd.shop.usecase.menu.scenarios.GetMealByIdUseCase
 import com.stringconcat.ddd.shop.usecase.menu.scenarios.GetMenuUseCase
@@ -24,7 +24,7 @@ import com.stringconcat.ddd.shop.usecase.menu.scenarios.RemoveMealFromMenuUseCas
 import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderExtractor
 import com.stringconcat.ddd.shop.usecase.order.access.ShopOrderPersister
 import com.stringconcat.ddd.shop.usecase.order.invariants.CustomerHasActiveOrderImpl
-import com.stringconcat.ddd.shop.usecase.order.providers.MealPriceProviderImpl
+import com.stringconcat.ddd.shop.usecase.order.providers.GetMealPriceUsingExtractor
 import com.stringconcat.ddd.shop.usecase.order.providers.OrderExporter
 import com.stringconcat.ddd.shop.usecase.order.providers.PaymentUrlProvider
 import com.stringconcat.ddd.shop.usecase.order.rules.ExportOrderAfterCheckoutRule
@@ -147,14 +147,14 @@ class UseCaseConfiguration(
         idGenerator: ShopOrderIdGenerator,
         cartExtractor: CartExtractor,
         activeOrder: CustomerHasActiveOrder,
-        priceProvider: MealPriceProvider,
+        getMealPrice: GetMealPrice,
         paymentUrlProvider: PaymentUrlProvider,
         shopOrderPersister: ShopOrderPersister,
     ) = CheckoutUseCase(
         idGenerator = idGenerator,
         cartExtractor = cartExtractor,
         activeOrder = activeOrder,
-        priceProvider = priceProvider,
+        getMealPrice = getMealPrice,
         paymentUrlProvider = paymentUrlProvider,
         shopOrderPersister = shopOrderPersister
     )
@@ -184,14 +184,14 @@ class UseCaseConfiguration(
     fun getMenuUseCase(mealExtractor: MealExtractor) = GetMenuUseCase(mealExtractor)
 
     @Bean
-    fun mealPriceProvider(mealExtractor: MealExtractor) = MealPriceProviderImpl(mealExtractor)
+    fun mealPriceProvider(mealExtractor: MealExtractor) = GetMealPriceUsingExtractor(mealExtractor)
 
     @Bean
     fun shopHasActiveOrderRule(shopOrderExtractor: ShopOrderExtractor) =
         CustomerHasActiveOrderImpl(shopOrderExtractor)
 
     @Bean
-    fun mealAlreadyExistsRule(mealExtractor: MealExtractor) = MealAlreadyExistsImpl(mealExtractor)
+    fun mealAlreadyExistsRule(mealExtractor: MealExtractor) = MealAlreadyExistsUsesMealExtractor(mealExtractor)
 
     @Bean
     fun exportOrderAfterCheckoutRule(
