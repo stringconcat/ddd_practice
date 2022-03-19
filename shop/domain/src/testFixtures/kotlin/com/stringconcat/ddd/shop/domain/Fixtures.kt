@@ -104,9 +104,3 @@ fun order(
         version = version()
     )
 }
-
-class TestCustomerHasActiveOrder(val hasActive: Boolean) : CustomerHasActiveOrder {
-    override fun check(forCustomer: CustomerId): Boolean {
-        return hasActive
-    }
-}

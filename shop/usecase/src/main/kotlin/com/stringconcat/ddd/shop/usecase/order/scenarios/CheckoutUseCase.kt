@@ -33,7 +33,7 @@ class CheckoutUseCase(
             .flatMap { cart ->
                 ShopOrder.checkout(
                     idGenerator = idGenerator,
-                    activeOrder = activeOrder,
+                    customerHasActiveOrder = activeOrder,
                     priceProvider = priceProvider,
                     address = request.deliveryTo,
                     cart = cart

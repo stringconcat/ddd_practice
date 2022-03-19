@@ -8,7 +8,7 @@ class CustomerHasActiveOrderImpl(
     private val shopOrderExtractor: ShopOrderExtractor
 ) : CustomerHasActiveOrder {
 
-    override fun check(forCustomer: CustomerId): Boolean {
+    override fun invoke(forCustomer: CustomerId): Boolean {
         val lastOrder = shopOrderExtractor.getLastOrder(forCustomer)
         return lastOrder != null && lastOrder.isActive()
     }

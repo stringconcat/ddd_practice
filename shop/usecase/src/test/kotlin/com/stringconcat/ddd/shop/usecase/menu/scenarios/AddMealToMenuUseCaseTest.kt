@@ -3,9 +3,7 @@ package com.stringconcat.ddd.shop.usecase.menu.scenarios
 import com.stringconcat.ddd.shop.domain.mealDescription
 import com.stringconcat.ddd.shop.domain.mealId
 import com.stringconcat.ddd.shop.domain.mealName
-import com.stringconcat.ddd.shop.domain.menu.MealAlreadyExists
 import com.stringconcat.ddd.shop.domain.menu.MealIdGenerator
-import com.stringconcat.ddd.shop.domain.menu.MealName
 import com.stringconcat.ddd.shop.domain.price
 import com.stringconcat.ddd.shop.usecase.MockMealPersister
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenuUseCaseError
@@ -29,7 +27,7 @@ internal class AddMealToMenuUseCaseTest {
         val result = AddMealToMenuUseCase(
             mealPersister = persister,
             idGenerator = TestMealIdGenerator,
-            mealExists = MealNotExist
+            mealExists = { false }
         ).execute(
             name = name,
             description = description,
@@ -57,7 +55,7 @@ internal class AddMealToMenuUseCaseTest {
         val result = AddMealToMenuUseCase(
             mealPersister = persister,
             idGenerator = TestMealIdGenerator,
-            mealExists = MealExist
+            mealExists = { true }
         ).execute(
             name = name,
             description = description,
@@ -71,13 +69,5 @@ internal class AddMealToMenuUseCaseTest {
     object TestMealIdGenerator : MealIdGenerator {
         val id = mealId()
         override fun generate() = id
-    }
-
-    object MealExist : MealAlreadyExists {
-        override fun check(name: MealName) = true
-    }
-
-    object MealNotExist : MealAlreadyExists {
-        override fun check(name: MealName) = false
     }
 }

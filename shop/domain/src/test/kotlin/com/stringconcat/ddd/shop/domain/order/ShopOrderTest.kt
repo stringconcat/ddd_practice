@@ -1,7 +1,6 @@
 package com.stringconcat.ddd.shop.domain.order
 
 import com.stringconcat.ddd.common.types.count
-import com.stringconcat.ddd.shop.domain.TestCustomerHasActiveOrder
 import com.stringconcat.ddd.shop.domain.address
 import com.stringconcat.ddd.shop.domain.cart
 import com.stringconcat.ddd.shop.domain.mealId
@@ -18,10 +17,10 @@ import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
-import java.math.BigDecimal
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
+import java.math.BigDecimal
 
 class ShopOrderTest {
 
@@ -30,8 +29,6 @@ class ShopOrderTest {
     private val idGenerator = object : ShopOrderIdGenerator {
         override fun generate() = id
     }
-
-    private val activeOrderRule = TestCustomerHasActiveOrder(false)
 
     @Test
     fun `checkout - success`() {
@@ -45,7 +42,7 @@ class ShopOrderTest {
         val result = ShopOrder.checkout(
             cart = cart,
             idGenerator = idGenerator,
-            activeOrder = activeOrderRule,
+            customerHasActiveOrder = { false },
             priceProvider = mealPriceProvider,
             address = address
         )
@@ -70,12 +67,10 @@ class ShopOrderTest {
         val mealPriceProvider = TestMealPriceProvider.apply { this[mealId] = price }
         val cart = cart(mapOf(mealId to count))
 
-        val activeOrderRule = TestCustomerHasActiveOrder(true)
-
         val result = ShopOrder.checkout(
             cart = cart,
             idGenerator = idGenerator,
-            activeOrder = activeOrderRule,
+            customerHasActiveOrder = { true },
             priceProvider = mealPriceProvider,
             address = address
         )
@@ -89,7 +84,7 @@ class ShopOrderTest {
         val result = ShopOrder.checkout(
             cart = cart,
             idGenerator = idGenerator,
-            activeOrder = activeOrderRule,
+            customerHasActiveOrder = { false },
             priceProvider = TestMealPriceProvider,
             address = address()
         )

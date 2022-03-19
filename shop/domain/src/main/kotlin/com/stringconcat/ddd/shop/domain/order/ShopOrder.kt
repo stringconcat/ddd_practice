@@ -32,12 +32,12 @@ class ShopOrder internal constructor(
         fun checkout(
             cart: Cart,
             idGenerator: ShopOrderIdGenerator,
-            activeOrder: CustomerHasActiveOrder,
+            customerHasActiveOrder: CustomerHasActiveOrder,
             address: Address,
             priceProvider: MealPriceProvider,
         ): Either<CheckoutError, ShopOrder> {
 
-            if (activeOrder.check(cart.forCustomer)) {
+            if (customerHasActiveOrder(cart.forCustomer)) {
                 return CheckoutError.AlreadyHasActiveOrder.left()
             }
 

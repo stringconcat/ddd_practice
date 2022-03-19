@@ -28,12 +28,8 @@ fun newMeal(mealId: MealId = mealId(), mealName: MealName = mealName()): Meal {
         override fun generate() = mealId
     }
 
-    val rule = object : MealAlreadyExists {
-        override fun check(name: MealName) = false
-    }
-
     val result = Meal.addMealToMenu(idGenerator = generator,
-        mealExists = rule,
+        mealExists = { false },
         name = name,
         description = description,
         price = price)

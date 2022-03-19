@@ -25,9 +25,7 @@ class Meal internal constructor(
         }
     }
 
-    fun visible(): Boolean {
-        return !removed
-    }
+    fun visible() = !removed
 
     companion object {
 
@@ -38,7 +36,7 @@ class Meal internal constructor(
             description: MealDescription,
             price: Price,
         ): Either<AlreadyExistsWithSameNameError, Meal> =
-            if (mealExists.check(name)) {
+            if (mealExists(name)) {
                 AlreadyExistsWithSameNameError.left()
             } else {
                 val id = idGenerator.generate()

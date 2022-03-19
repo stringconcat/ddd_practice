@@ -26,11 +26,10 @@ internal class MealTest {
         val price = price()
         val name = mealName()
         val description = mealDescription()
-        val mealExistsRule = MealDoesntExist
 
         val result = Meal.addMealToMenu(
-            idGenerator,
-            mealExists = mealExistsRule,
+            idGenerator = idGenerator,
+            mealExists = { false },
             name = name,
             description = description,
             price = price
@@ -50,8 +49,8 @@ internal class MealTest {
     fun `add meal to menu - already exists with the same name`() {
 
         val result = Meal.addMealToMenu(
-            idGenerator,
-            mealExists = MealExists,
+            idGenerator = idGenerator,
+            mealExists = { true },
             name = mealName(),
             description = mealDescription(),
             price = price()
@@ -78,13 +77,5 @@ internal class MealTest {
         meal.removed shouldBe true
         meal.visible() shouldBe false
         meal.popEvents().shouldBeEmpty()
-    }
-
-    private object MealExists : MealAlreadyExists {
-        override fun check(name: MealName) = true
-    }
-
-    private object MealDoesntExist : MealAlreadyExists {
-        override fun check(name: MealName) = false
     }
 }
