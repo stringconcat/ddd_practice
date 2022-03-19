@@ -34,30 +34,15 @@ class Cart internal constructor(
 
     fun meals(): Map<MealId, Count> = HashMap(meals)
 
-    fun addMeal(
-        meal: Meal
-    ) {
+    fun addMeal(meal: Meal) {
         val mealId = meal.id
-        val count = meals[mealId]
+        val countOfCurrentlyMealsInCart = meals[mealId]
 
-        return if (count == null) {
+        return if (countOfCurrentlyMealsInCart == null) {
             createNewMeal(mealId)
         } else {
-            updateExistingMeal(mealId, count)
+            updateExistingMeal(mealId, countOfCurrentlyMealsInCart)
         }
-    }
-
-    private fun updateExistingMeal(
-        mealId: MealId,
-        count: Count
-    ) {
-        count.increment()
-            .map {
-                meals[mealId] = it
-                addEvent(MealAddedToCartDomainEvent(id, mealId))
-            }.mapLeft {
-                error("Limit reached") // в примере не будем это обрабатывать
-            }
     }
 
     private fun createNewMeal(
@@ -65,6 +50,19 @@ class Cart internal constructor(
     ) {
         meals[mealId] = Count.one()
         addEvent(MealAddedToCartDomainEvent(id, mealId))
+    }
+
+    private fun updateExistingMeal(
+        mealId: MealId,
+        count: Count
+    ) {
+        count.increment()
+            .map { incrementedCount ->
+                meals[mealId] = incrementedCount
+                addEvent(MealAddedToCartDomainEvent(id, mealId))
+            }.mapLeft {
+                error("You have too much the same meals in you cart") // в примере не будем это обрабатывать
+            }
     }
 
     fun removeMeals(mealId: MealId) {
