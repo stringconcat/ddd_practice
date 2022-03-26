@@ -42,6 +42,9 @@ dependencies {
     // logging
     implementation(Libs.slf4j_api)
 
+    // REST
+    implementation(Libs.hal_explorer)
+
     // test
     testImplementation(Libs.kotest_junit)
     testImplementation(Libs.kotest_arrow)

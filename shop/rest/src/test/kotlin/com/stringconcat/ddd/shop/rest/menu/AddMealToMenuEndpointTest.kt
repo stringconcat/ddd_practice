@@ -14,7 +14,6 @@ import com.stringconcat.ddd.shop.rest.API_V1_MENU_GET_BY_ID
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenu
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenuUseCaseError
 import errorTypeUrl
-import java.math.BigDecimal
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -27,6 +26,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
 import withHost
 import withId
+import java.math.BigDecimal
 
 @WebMvcTest
 @ContextConfiguration(classes = [AddMealToMenuEndpointTest.TestConfiguration::class])

@@ -32,7 +32,6 @@ dependencies {
     implementation(Libs.spring_boot_starter_web)
     implementation(Libs.spring_boot_starter_thymeleaf)
     implementation(Libs.spring_boot_starter_logging)
-    implementation(Libs.spring_boot_started_hateoas)
     implementation(Libs.spring_boot_starter_jdbc)
     implementation(Libs.spring_boot_starter_amqp)
 
@@ -54,9 +53,6 @@ dependencies {
 
     // database
     implementation(Libs.postgresql)
-
-    // REST
-    implementation(Libs.hal_explorer)
 
     // test
     testImplementation(Libs.kotest_junit)

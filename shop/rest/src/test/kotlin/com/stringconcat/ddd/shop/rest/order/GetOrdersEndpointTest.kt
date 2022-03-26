@@ -1,6 +1,5 @@
 package com.stringconcat.ddd.shop.rest.order
 
-import APPLICATION_HAL_FORMS_JSON
 import MockGetOrders
 import arrow.core.left
 import arrow.core.right
@@ -15,9 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.hateoas.config.EnableHypermediaSupport
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
+import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 import withHost
@@ -71,30 +70,22 @@ internal class GetOrdersEndpointTest {
             .andExpect {
                 status { isOk() }
                 content {
-                    contentType(APPLICATION_HAL_FORMS_JSON)
+                    contentType(APPLICATION_JSON)
                     jsonPath("$.count") { value(limit) }
-                    jsonPath("$._links.self.href") { value(url) }
-                    jsonPath("$._links.first.href") {
-                        value(API_V1_ORDER_GET_WITH_PAGINATION.withStartId(0).withLimit(limit).withHost())
-                    }
-                    jsonPath("$._links.next.href") {
-                        doesNotExist()
-                    }
 
-                    jsonPath("$._embedded.orders.length()") { value(limit) }
-                    jsonPath("$._embedded.orders[0].id") { value(single.id.toLongValue()) }
-                    jsonPath("$._embedded.orders[0].totalPrice") { value(single.total.toStringValue()) }
-                    jsonPath("$._embedded.orders[0].version") { value(single.version.toLongValue()) }
-                    jsonPath("$._embedded.orders[0].address.street") {
+                    jsonPath("$.list.length()") { value(limit) }
+                    jsonPath("$.list[0].id") { value(single.id.toLongValue()) }
+                    jsonPath("$.list[0].totalPrice") { value(single.total.toStringValue()) }
+                    jsonPath("$.list[0].version") { value(single.version.toLongValue()) }
+                    jsonPath("$.list[0].address.street") {
                         value(single.address.streetToStringValue())
                     }
-                    jsonPath("$._embedded.orders[0].address.building") {
+                    jsonPath("$.list[0].address.building") {
                         value(single.address.buildingToIntValue())
                     }
-                    jsonPath("$._embedded.orders[0].items.length()") { value(1) }
-                    jsonPath("$._embedded.orders[0].items[0].mealId") { value(firstItem.mealId.toLongValue()) }
-                    jsonPath("$._embedded.orders[0].items[0].count") { value(firstItem.count.toIntValue()) }
-                    jsonPath("$._embedded.orders[0]._links.self.href") { exists() }
+                    jsonPath("$.list[0].items.length()") { value(1) }
+                    jsonPath("$.list[0].items[0].mealId") { value(firstItem.mealId.toLongValue()) }
+                    jsonPath("$.list[0].items[0].count") { value(firstItem.count.toIntValue()) }
                 }
             }
         getOrders.verifyInvoked(single.id, limit + 1)
@@ -116,40 +107,28 @@ internal class GetOrdersEndpointTest {
             .andExpect {
                 status { isOk() }
                 content {
-                    contentType(APPLICATION_HAL_FORMS_JSON)
+                    contentType(APPLICATION_JSON)
                     jsonPath("$.count") { value(limit) }
-                    jsonPath("$._links.self.href") {
-                        value(url)
-                    }
-                    jsonPath("$._links.first.href") {
-                        value(API_V1_ORDER_GET_WITH_PAGINATION.withStartId(0).withLimit(limit).withHost())
-                    }
-                    jsonPath("$._links.next.href") {
-                        value(API_V1_ORDER_GET_WITH_PAGINATION
-                            .withStartId(second.id.toLongValue()).withLimit(limit).withHost())
-                    }
 
-                    jsonPath("$._embedded.orders.length()") { value(limit) }
-                    jsonPath("$._embedded.orders[0].id") { value(first.id.toLongValue()) }
-                    jsonPath("$._embedded.orders[0].totalPrice") { value(first.total.toStringValue()) }
-                    jsonPath("$._embedded.orders[0].version") { value(first.version.toLongValue()) }
-                    jsonPath("$._embedded.orders[0].address.street") {
+                    jsonPath("$.list.length()") { value(limit) }
+                    jsonPath("$.list[0].id") { value(first.id.toLongValue()) }
+                    jsonPath("$.list[0].totalPrice") { value(first.total.toStringValue()) }
+                    jsonPath("$.list[0].version") { value(first.version.toLongValue()) }
+                    jsonPath("$.list[0].address.street") {
                         value(first.address.streetToStringValue())
                     }
-                    jsonPath("$._embedded.orders[0].address.building") {
+                    jsonPath("$.list[0].address.building") {
                         value(first.address.buildingToIntValue())
                     }
-                    jsonPath("$._embedded.orders[0].items.length()") { value(1) }
-                    jsonPath("$._embedded.orders[0].items[0].mealId") { value(firstItem.mealId.toLongValue()) }
-                    jsonPath("$._embedded.orders[0].items[0].count") { value(firstItem.count.toIntValue()) }
-                    jsonPath("$._embedded.orders[0]._links.self.href") { exists() }
+                    jsonPath("$.list[0].items.length()") { value(1) }
+                    jsonPath("$.list[0].items[0].mealId") { value(firstItem.mealId.toLongValue()) }
+                    jsonPath("$.list[0].items[0].count") { value(firstItem.count.toIntValue()) }
                 }
             }
         getOrders.verifyInvoked(first.id, limit + 1)
     }
 
     @Configuration
-    @EnableHypermediaSupport(type = [EnableHypermediaSupport.HypermediaType.HAL_FORMS])
     class TestConfiguration {
 
         @Bean

@@ -8,14 +8,15 @@ import com.stringconcat.ddd.shop.domain.menu.MealDescription
 import com.stringconcat.ddd.shop.domain.menu.MealName
 import com.stringconcat.ddd.shop.domain.menu.Price
 import com.stringconcat.ddd.shop.rest.API_V1_MENU_ADD_TO_MENU
+import com.stringconcat.ddd.shop.rest.API_V1_MENU_GET_BY_ID
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenu
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenuUseCaseError
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder
+import org.springframework.web.util.UriComponentsBuilder
 import java.math.BigDecimal
 
 @RestController
@@ -34,8 +35,10 @@ class AddMealToMenuEndpoint(val addMealToMenu: AddMealToMenu) {
             }, { addingMealToMenuResult ->
                 addingMealToMenuResult.fold(
                     { it.toRestError() },
-                    { created(linkTo(methodOn(GetMealByIdEndpoint::class.java)
-                        .execute(it.toLongValue())).toUri()) })
+                    { created(UriComponentsBuilder
+                            .fromHttpUrl(ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString()
+                                    .plus(API_V1_MENU_GET_BY_ID))
+                            .buildAndExpand(it.toLongValue()).toUri()) })
             })
     }
 }

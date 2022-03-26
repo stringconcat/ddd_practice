@@ -1,13 +1,10 @@
 package com.stringconcat.ddd.shop.rest.order
 
-import APPLICATION_HAL_FORMS_JSON
 import MockGetOrderById
 import arrow.core.left
 import arrow.core.right
 import com.stringconcat.ddd.shop.domain.order.OrderState
 import com.stringconcat.ddd.shop.domain.orderId
-import com.stringconcat.ddd.shop.rest.API_V1_ORDER_CANCEL_BY_ID
-import com.stringconcat.ddd.shop.rest.API_V1_ORDER_CONFIRM_BY_ID
 import com.stringconcat.ddd.shop.rest.API_V1_ORDER_GET_BY_ID
 import com.stringconcat.ddd.shop.usecase.order.GetOrderById
 import com.stringconcat.ddd.shop.usecase.order.GetOrderByIdUseCaseError
@@ -19,9 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.hateoas.config.EnableHypermediaSupport
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
+import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
@@ -68,7 +65,7 @@ internal class GetOrderByIdEndpointTest {
             .andExpect {
                 status { isOk() }
                 content {
-                    contentType(APPLICATION_HAL_FORMS_JSON)
+                    contentType(APPLICATION_JSON)
                     jsonPath("$.id") { value(details.id.toLongValue()) }
                     jsonPath("$.address.street") { value(details.address.streetToStringValue()) }
                     jsonPath("$.address.building") { value(details.address.buildingToIntValue()) }
@@ -77,15 +74,6 @@ internal class GetOrderByIdEndpointTest {
                     jsonPath("$.items[0].mealId") { value(itemDetails.mealId.toLongValue()) }
                     jsonPath("$.items[0].count") { value(itemDetails.count.toIntValue()) }
                     jsonPath("$.version") { value(details.version.toLongValue()) }
-                    jsonPath("$._links.self.href") {
-                        value(API_V1_ORDER_GET_BY_ID.withId(details.id.toLongValue()).withHost())
-                    }
-                    jsonPath("$._links.confirm.href") {
-                        value(API_V1_ORDER_CONFIRM_BY_ID.withId(details.id.toLongValue()).withHost())
-                    }
-                    jsonPath("$._links.cancel.href") {
-                        value(API_V1_ORDER_CANCEL_BY_ID.withId(details.id.toLongValue()).withHost())
-                    }
                 }
             }
         getOrderById.verifyInvoked(details.id)
@@ -104,7 +92,7 @@ internal class GetOrderByIdEndpointTest {
             .andExpect {
                 status { isOk() }
                 content {
-                    contentType(APPLICATION_HAL_FORMS_JSON)
+                    contentType(APPLICATION_JSON)
                     jsonPath("$.id") { value(details.id.toLongValue()) }
                     jsonPath("$.address.street") { value(details.address.streetToStringValue()) }
                     jsonPath("$.address.building") { value(details.address.buildingToIntValue()) }
@@ -113,17 +101,12 @@ internal class GetOrderByIdEndpointTest {
                     jsonPath("$.items[0].mealId") { value(itemDetails.mealId.toLongValue()) }
                     jsonPath("$.items[0].count") { value(itemDetails.count.toIntValue()) }
                     jsonPath("$.version") { value(details.version.toLongValue()) }
-                    jsonPath("$._links.self.href") { value(url) }
-                    jsonPath("$._links.confirm.href") { doesNotExist() }
-
-                    jsonPath("$._links.cancel.href") { doesNotExist() }
                 }
             }
         getOrderById.verifyInvoked(details.id)
     }
 
     @Configuration
-    @EnableHypermediaSupport(type = [EnableHypermediaSupport.HypermediaType.HAL_FORMS])
     class TestConfiguration {
 
         @Bean
