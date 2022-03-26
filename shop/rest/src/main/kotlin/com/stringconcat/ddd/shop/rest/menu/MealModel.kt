@@ -1,14 +1,15 @@
 package com.stringconcat.ddd.shop.rest.menu
 
 import com.stringconcat.ddd.shop.usecase.menu.dto.MealInfo
+import io.swagger.annotations.ApiModelProperty
 import java.math.BigDecimal
 
 data class MealModel(
-    val id: Long,
-    val name: String,
-    val description: String,
-    val price: BigDecimal,
-    val version: Long,
+    @ApiModelProperty(notes = "ID of the meal", name = "id") val id: Long,
+    @ApiModelProperty(notes = "Name of the meal", name = "name") val name: String,
+    @ApiModelProperty(notes = "Description of the meal", name = "description") val description: String,
+    @ApiModelProperty(notes = "Price of the meal", name = "price") val price: BigDecimal,
+    @ApiModelProperty(notes = "Version of the meal", name = "version") val version: Long,
 ) {
 
     companion object {
