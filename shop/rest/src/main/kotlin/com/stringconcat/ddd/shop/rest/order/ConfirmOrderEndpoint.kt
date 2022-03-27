@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RestController
 
-@Api(tags = ["Order"])
 @RestController
+@Api(tags = ["Order"])
 class ConfirmOrderEndpoint(private val confirmOrder: ConfirmOrder) {
 
     @ApiOperation("Confirm an order")

@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
-@Api(tags = ["Order"])
 @RestController
+@Api(tags = ["Order"])
 class GetOrdersEndpoint(private val getOrders: GetOrders) {
 
     @ApiOperation("Get orders")
     @GetMapping(path = [API_V1_ORDER_GET_ALL])
-    fun execute(@RequestParam("startId") startId: Long, @RequestParam("limit") limit: Int) =
+    fun execute(@RequestParam("startId") startId: Long, @RequestParam("limit") limit: Int): ResponseEntity<*> =
             getOrders.execute(ShopOrderId(startId), limit + 1)
                     .fold({ it.toRestError() },
                             {

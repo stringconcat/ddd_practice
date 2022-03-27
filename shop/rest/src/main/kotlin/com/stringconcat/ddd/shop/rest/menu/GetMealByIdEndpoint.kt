@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
 
-@Api(tags = ["Menu"])
 @RestController
+@Api(tags = ["Menu"])
 class GetMealByIdEndpoint(private val getMealById: GetMealById) {
 
     @ApiOperation("Get a meal by id")

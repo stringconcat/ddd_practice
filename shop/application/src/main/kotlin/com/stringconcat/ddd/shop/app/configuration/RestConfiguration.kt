@@ -18,6 +18,10 @@ import com.stringconcat.ddd.shop.usecase.order.GetOrderById
 import com.stringconcat.ddd.shop.usecase.order.GetOrders
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import springfox.documentation.builders.PathSelectors
+import springfox.documentation.builders.RequestHandlerSelectors
+import springfox.documentation.spi.DocumentationType
+import springfox.documentation.spring.web.plugins.Docket
 import springfox.documentation.swagger2.annotations.EnableSwagger2
 
 @Configuration
@@ -32,7 +36,7 @@ class RestConfiguration {
 
     @Bean
     fun removeMealFromMenuEndpoint(removeMealFromMenu: RemoveMealFromMenu) =
-        RemoveMealFromMenuEndpoint(removeMealFromMenu)
+            RemoveMealFromMenuEndpoint(removeMealFromMenu)
 
     @Bean
     fun getMealByIdEndpoint(getMealById: GetMealById) = GetMealByIdEndpoint(getMealById)
@@ -48,4 +52,11 @@ class RestConfiguration {
 
     @Bean
     fun cancelOrderEndpoint(cancelOrder: CancelOrder) = CancelOrderEndpoint(cancelOrder)
+
+    @Bean
+    fun swaggerAPI() = Docket(DocumentationType.SWAGGER_2)
+            .select()
+            .apis(RequestHandlerSelectors.basePackage("com.stringconcat.ddd.shop.rest"))
+            .paths(PathSelectors.any())
+            .build()
 }
