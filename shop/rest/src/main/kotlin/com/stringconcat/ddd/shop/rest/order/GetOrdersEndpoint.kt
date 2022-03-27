@@ -8,14 +8,18 @@ import com.stringconcat.ddd.shop.domain.order.ShopOrderId
 import com.stringconcat.ddd.shop.rest.API_V1_ORDER_GET_ALL
 import com.stringconcat.ddd.shop.usecase.order.GetOrders
 import com.stringconcat.ddd.shop.usecase.order.GetOrdersUseCaseError
+import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
+@Api(tags = ["Order"])
 @RestController
 class GetOrdersEndpoint(private val getOrders: GetOrders) {
 
+    @ApiOperation("Get orders")
     @GetMapping(path = [API_V1_ORDER_GET_ALL])
     fun execute(@RequestParam("startId") startId: Long, @RequestParam("limit") limit: Int) =
             getOrders.execute(ShopOrderId(startId), limit + 1)

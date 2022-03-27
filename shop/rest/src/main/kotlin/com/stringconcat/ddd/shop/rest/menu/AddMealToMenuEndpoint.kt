@@ -11,7 +11,9 @@ import com.stringconcat.ddd.shop.rest.API_V1_MENU_ADD_TO_MENU
 import com.stringconcat.ddd.shop.rest.API_V1_MENU_GET_BY_ID
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenu
 import com.stringconcat.ddd.shop.usecase.menu.AddMealToMenuUseCaseError
+import io.swagger.annotations.Api
 import io.swagger.annotations.ApiModelProperty
+import io.swagger.annotations.ApiOperation
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -21,8 +23,10 @@ import org.springframework.web.util.UriComponentsBuilder
 import java.math.BigDecimal
 
 @RestController
+@Api(tags = ["Menu"])
 class AddMealToMenuEndpoint(val addMealToMenu: AddMealToMenu) {
 
+    @ApiOperation("Add a meal to the menu")
     @PostMapping(path = [API_V1_MENU_ADD_TO_MENU])
     fun execute(@RequestBody request: AddMealToMenuRestRequest): ResponseEntity<*> {
         return MealName.validated(request.name)
@@ -51,7 +55,7 @@ fun AddMealToMenuUseCaseError.toRestError() =
     }
 
 data class AddMealToMenuRestRequest(
-    @ApiModelProperty(notes = "Name of the meal", name = "name", required = true) val name: String,
-    @ApiModelProperty(notes = "Description of the meal", name = "description", required = true) val description: String,
-    @ApiModelProperty(notes = "Price of the meal", name = "price", required = true) val price: BigDecimal,
+    @ApiModelProperty(notes = "Name of the meal", required = true) val name: String,
+    @ApiModelProperty(notes = "Description of the meal", required = true) val description: String,
+    @ApiModelProperty(notes = "Price of the meal", required = true) val price: BigDecimal,
 )

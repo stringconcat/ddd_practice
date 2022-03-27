@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 @Api(tags = ["Menu"])
 class GetMenuEndpoint(private val getMenu: GetMenu) {
 
-    @ApiOperation("Get menu")
+    @ApiOperation("Get the menu")
     @GetMapping(path = [API_V1_MENU_GET_ALL])
     fun execute(): ResponseEntity<Collection<MealModel>> {
         return ResponseEntity.ok(getMenu.execute().map { MealModel.from(it) })

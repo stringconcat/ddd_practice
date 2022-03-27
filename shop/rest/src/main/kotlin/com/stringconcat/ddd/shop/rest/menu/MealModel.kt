@@ -5,11 +5,11 @@ import io.swagger.annotations.ApiModelProperty
 import java.math.BigDecimal
 
 data class MealModel(
-    @ApiModelProperty(notes = "ID of the meal", name = "id") val id: Long,
-    @ApiModelProperty(notes = "Name of the meal", name = "name") val name: String,
-    @ApiModelProperty(notes = "Description of the meal", name = "description") val description: String,
-    @ApiModelProperty(notes = "Price of the meal", name = "price") val price: BigDecimal,
-    @ApiModelProperty(notes = "Version of the meal", name = "version") val version: Long,
+    @ApiModelProperty("ID of the meal") val id: Long,
+    @ApiModelProperty("Name of the meal") val name: String,
+    @ApiModelProperty("Description of the meal") val description: String,
+    @ApiModelProperty("Price of the meal") val price: BigDecimal,
+    @ApiModelProperty("Version of the meal") val version: Long,
 ) {
 
     companion object {

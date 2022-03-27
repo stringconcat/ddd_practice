@@ -7,13 +7,12 @@ import io.swagger.annotations.ApiModelProperty
 import org.springframework.http.ResponseEntity
 
 data class OrderModel(
-    @ApiModelProperty(notes = "ID of the order", name = "id") val id: Long,
-    @ApiModelProperty(notes = "Address of the order", name = "address") val address: AddressModel,
-    @ApiModelProperty(notes = "A list of orders item", name = "items") val items: List<OrderItemModel>,
-    @ApiModelProperty(notes = "Total price of the order", name = "totalPrice") val totalPrice: String,
-    @ApiModelProperty(notes = "Version of the order", name = "version") val version: Long,
-    @ApiModelProperty(notes = "Flag of readiness for order cancellation or confirmation",
-            name = "readyForConfirmOrCancel") val readyForConfirmOrCancel: Boolean
+    @ApiModelProperty("ID of the order") val id: Long,
+    @ApiModelProperty("Address of the order") val address: AddressModel,
+    @ApiModelProperty("A list of orders item") val items: List<OrderItemModel>,
+    @ApiModelProperty("Total price of the order") val totalPrice: String,
+    @ApiModelProperty("Version of the order") val version: Long,
+    @ApiModelProperty("Flag of readiness for order cancellation or confirmation") val readyForConfirmOrCancel: Boolean
 )
 
 data class OrderItemModel(val mealId: Long, val count: Int)
