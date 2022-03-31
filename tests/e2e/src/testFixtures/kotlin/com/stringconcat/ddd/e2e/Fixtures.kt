@@ -15,11 +15,14 @@ const val KITCHEN = "kitchen"
 const val LINKS = "_links"
 const val HREF = "href"
 const val SELF = "self"
-const val CONFIRM = "confirm"
+const val CONFIRM = "/confirm"
 const val COOK = "cook"
 const val EMBEDDED = "_embedded"
 const val ID = "id"
-const val START_ID_PARAM = "startId="
+
+const val MENU_URL = "http://localhost:28081/rest/shop/v1/menu"
+const val ORDERS_URL = "http://localhost:28081/rest/shop/v1/orders"
+const val KITCHEN_URL = "http://localhost:28080/rest/kitchen/v1/orders"
 
 val faker = Faker()
 

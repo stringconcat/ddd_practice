@@ -1,10 +1,14 @@
 package com.stringconcat.ddd.e2e.cases
 
 import com.stringconcat.ddd.e2e.E2eTestTelnetClient
+import com.stringconcat.ddd.e2e.CONFIRM
 import com.stringconcat.ddd.e2e.KITCHEN
+import com.stringconcat.ddd.e2e.KITCHEN_URL
 import com.stringconcat.ddd.e2e.MENU
+import com.stringconcat.ddd.e2e.MENU_URL
 import com.stringconcat.ddd.e2e.MealId
 import com.stringconcat.ddd.e2e.ORDERS
+import com.stringconcat.ddd.e2e.ORDERS_URL
 import com.stringconcat.ddd.e2e.OrderId
 import com.stringconcat.ddd.e2e.Url
 import com.stringconcat.ddd.e2e.steps.CartSteps
@@ -36,7 +40,7 @@ class OrderAndCookCase : KoinComponent {
     @Story("Cook an order")
     suspend fun `cook an order test`() {
 
-        val urls = Url.`Get start links`()
+        val urls = mapOf(MENU to Url(MENU_URL), ORDERS to Url(ORDERS_URL), KITCHEN to Url(KITCHEN_URL))
         val telnet = E2eTestTelnetClient("localhost", Settings.shopTelnetPort)
 
         var mealId = MealId(0)
@@ -49,8 +53,7 @@ class OrderAndCookCase : KoinComponent {
             Cart.`Add meal to cart`(telnet, mealId)
             orderInfo = Cart.`Create an order`(telnet)
             Order.`Pay for the order`(orderInfo.second)
-            val orderShopByIdUrl = Url.`Get shop order by id link`(urls[ORDERS]!!, orderInfo.first)
-            val confirmUrl = Url.`Get confirm order link`(orderShopByIdUrl)
+            val confirmUrl = Url(ORDERS_URL.plus("/").plus(orderInfo.first.value).plus(CONFIRM))
             Order.`Confirm order`(confirmUrl)
         }
 
