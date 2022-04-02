@@ -54,10 +54,7 @@ class GetMenuSimulation : Simulation() {
         standContainer.stop()
     }
 
-    private fun menuUrl() =
-        URL(RestAssured.get(settings.shopBaseUrl)
-            .jsonPath()
-            .getString("_links.menu.href"))
+    private fun menuUrl() = URL("${settings.shopBaseUrl}/rest/shop/v1/menu")
 
     private fun createMeal(name: String, description: String, price: BigDecimal) {
         RestAssured.given()
