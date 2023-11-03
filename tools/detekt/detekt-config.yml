@@ -1,6 +1,8 @@
 style:
   NewLineAtEndOfFile:
     active: false
+  ExplicitItLambdaParameter:
+    active: false
 
 
 complexity:
@@ -17,6 +19,18 @@ formatting:
     active: false
   ImportOrdering:
     active: false
+  Wrapping:
+    active: false
+  ArgumentListWrapping:
+    active: false
+  NoEmptyFirstLineInMethodBlock:
+    active: false
+
+
+naming:
+  VariableNaming:
+    active: false
+
 
 performance:
   SpreadOperator:

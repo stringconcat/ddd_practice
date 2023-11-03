@@ -9,7 +9,7 @@ import com.stringconcat.ddd.e2e.OrderId
 import com.stringconcat.ddd.e2e.SELF
 import com.stringconcat.ddd.e2e.Url
 import io.kotest.matchers.shouldBe
-import org.koin.core.KoinComponent
+import org.koin.core.component.KoinComponent
 import ru.fix.corounit.allure.Step
 import ru.fix.kbdd.asserts.asString
 import ru.fix.kbdd.asserts.filter

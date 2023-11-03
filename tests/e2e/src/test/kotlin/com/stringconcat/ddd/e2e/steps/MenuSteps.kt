@@ -7,7 +7,7 @@ import com.stringconcat.ddd.e2e.mealName
 import com.stringconcat.ddd.e2e.price
 import io.kotest.matchers.shouldBe
 import org.apache.http.HttpHeaders
-import org.koin.core.KoinComponent
+import org.koin.core.component.KoinComponent
 import ru.fix.corounit.allure.Step
 import ru.fix.kbdd.asserts.asString
 import ru.fix.kbdd.asserts.get

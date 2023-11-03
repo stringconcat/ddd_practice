@@ -3,8 +3,8 @@ package com.stringconcat.ddd.e2e.steps
 import com.stringconcat.ddd.e2e.ID
 import com.stringconcat.ddd.e2e.OrderId
 import com.stringconcat.ddd.tests.common.StandConfiguration
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import ru.fix.corounit.allure.Step
 import ru.fix.kbdd.asserts.get
 import ru.fix.kbdd.asserts.isEquals

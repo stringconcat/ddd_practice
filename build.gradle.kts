@@ -34,7 +34,6 @@ subprojects {
     }
 
     repositories {
-        jcenter()
         mavenCentral()
         mavenLocal()
     }
@@ -42,7 +41,7 @@ subprojects {
     detekt {
         config = files("$parentProjectDir/tools/detekt/detekt-config.yml")
         buildUponDefaultConfig = true
-        input = files("src/main/kotlin", "src/test/kotlin", "src/test/gatling")
+        source = files("src/main/kotlin", "src/test/kotlin", "src/test/gatling")
 
         reports {
             html.enabled = true
@@ -123,15 +122,15 @@ subprojects {
 
         withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
             kotlinOptions {
-                jvmTarget = "1.8"
-                jvmTarget = JavaVersion.VERSION_11.toString()
+                jvmTarget = JavaVersion.VERSION_17.toString()
                 allWarningsAsErrors = failOnWarning
-                freeCompilerArgs = listOf("-Xjvm-default=enable")
+                freeCompilerArgs = listOf("-Xjvm-default=all-compatibility")
             }
         }
 
         withType<JavaCompile> {
             options.compilerArgs.add("-Xlint:all")
+            targetCompatibility = JavaVersion.VERSION_17.toString()
         }
 
         withType<Test> {
