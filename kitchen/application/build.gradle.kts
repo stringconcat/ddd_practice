@@ -76,3 +76,7 @@ dependencies {
     testFixturesImplementation(Libs.spring_boot_starter_amqp)
 
 }
+
+tasks.build {
+    dependsOn("bootJar")
+}

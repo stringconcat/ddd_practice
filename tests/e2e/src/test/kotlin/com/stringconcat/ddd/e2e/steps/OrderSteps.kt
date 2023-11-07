@@ -1,7 +1,7 @@
 package com.stringconcat.ddd.e2e.steps
 
 import com.stringconcat.ddd.e2e.Url
-import org.koin.core.KoinComponent
+import org.koin.core.component.KoinComponent
 import ru.fix.corounit.allure.Step
 import ru.fix.kbdd.asserts.isEquals
 import ru.fix.kbdd.rest.Rest

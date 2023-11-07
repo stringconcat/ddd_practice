@@ -1,3 +1,5 @@
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+
 project.base.archivesName.set("shop-application")
 
 plugins {
@@ -87,4 +89,8 @@ dependencies {
     testFixturesImplementation(Libs.spring_boot_starter_web)
     testFixturesImplementation(Libs.spring_boot_starter_amqp)
 
+}
+
+tasks.build {
+    dependsOn("bootJar")
 }

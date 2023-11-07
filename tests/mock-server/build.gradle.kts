@@ -30,6 +30,10 @@ dependencies {
     }
 }
 
+tasks.build {
+    dependsOn("bootJar")
+}
+
 tasks.register<Copy>("copyPacts") {
     val srcDir = "${rootProject.buildDir}/pacts"
     val destDir = "${project.buildDir}/pacts"
