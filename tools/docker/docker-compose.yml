@@ -80,7 +80,7 @@ services:
 
   portainer:
     restart: always
-    image: portainer/portainer
+    image: portainer/portainer:1.25.0
     ports:
       - ${PORTAINER_PORT}:9000
     command: -H unix:///var/run/docker.sock --no-auth
