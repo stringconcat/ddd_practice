@@ -45,6 +45,16 @@
 останавливать кластер на рабочей машине разработчка 
 без необходимости занимать стенды. 
 
+docker-compose -v
+
+Docker Compose version v2.23.3
+Версия докер компоузера должна быть свежей иначе на ubuntu 18, например, не взлетит
+https://github.com/mishin/ddd_practice
+
+И будет писать “Define and run multi-container applications with Docker.”
+
+Ну и памяти на сервере не менее 16Gb
+
 ## Тесты
 Пирамида тестов, реализованая в проекте
 * Юнит-тесты
